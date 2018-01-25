@@ -372,9 +372,48 @@ public class EditFile
     }
     
     //***********save all changes that happens on the file*************
-    public void writeBack()
+    public File writeBack()
     {
-    	
+    		File file = file = new File(currentFile.getName());
+    		if(getMyFileExtension().equals("xlsx"))
+    		{
+    			
+    		}
+    		else if(getMyFileExtension().equals("xls"))
+    		{
+    			
+    		}
+    		else
+    		{
+	    		try 
+	    		{
+				BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file.getName()));
+				String fileString = "";
+				for(int i = 0; i< fileArray.size(); i++)
+				{
+					for(int j = 0; j < fileArray.get(i).size(); j++)
+					{
+						if(j == (fileArray.get(i).size())-1)
+						{
+							fileString+=fileArray.get(i).get(j)+"\n";
+						}
+						else
+						{
+							fileString+=fileArray.get(i).get(j)+	splitExpression;
+						}
+						
+					}
+				}
+				bufferedWriter.write(fileString);
+				bufferedWriter.close();
+	    		} 
+	    		catch (IOException e) 
+	    		{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+			}
+    		}
+    		return file;
     }
     
     public String getSplitExpression()
