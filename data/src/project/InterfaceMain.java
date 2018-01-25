@@ -637,7 +637,7 @@ public class InterfaceMain
         mainFrame.repaint();
     }
     
-    //show the dialog when user click the replace check box to replace the missing data with other characters
+    //show the replace dialog when user click the replace check box to replace the missing data with other characters
     public int showReplaceDialog()
     {
         JTextField missingCh = new JTextField();
