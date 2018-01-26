@@ -239,8 +239,8 @@ public class InterfaceMain
                 {
                 		//editFile.writeBack();
                 		refreshGUI(editFile.getSplitExpression());
-                		editFile.setMissingCh(""); //clear missing data and replace data
-                		editFile.setReplaceCh("");
+                		//rename function JOPtionPane
+                		
                 }
             }
         });
@@ -469,6 +469,8 @@ public class InterfaceMain
         selectedChoicesRow.removeAll(selectedChoicesRow);
         selectedChoicesColumn.removeAll(selectedChoicesColumn);
         replaceCheckBox.setSelected(false);
+        editFile.setMissingCh(""); //clear missing data and replace data
+		editFile.setReplaceCh("");
     }
     
     public void saveAsFile()
