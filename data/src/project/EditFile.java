@@ -5,6 +5,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.spi.FileTypeDetector;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -21,6 +24,8 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.tika.Tika;
+import org.apache.tika.mime.MimeTypes;
 import org.apache.poi.hssf.usermodel.*;
 
 public class EditFile 
@@ -52,6 +57,10 @@ public class EditFile
         {
             if(extenssion.equals("xlsx"))
             {
+            	FileTypeDetector detector = new TikaFileTypeDetector();
+                // Analyse the file - first based on file name for efficiency.
+                // If cannot determine based on name and then analyse content
+                String contentType = detector.probeContentType(currentFile.toPath());
                 error = editXLSXfile(gui);
             }
             else if(extenssion.equals("xls"))
@@ -67,7 +76,9 @@ public class EditFile
             }
             else if(extenssion.equals(""))
             {
-            		String message = "This file doesn't have an extenssion. Do you want to try to open it as an xlsx or xls file?";
+            		FileTypeDetector detector = new TikaFileTypeDetector();
+                String contentType = detector.probeContentType(currentFile.toPath());
+            		/*String message = "This file doesn't have an extenssion. Do you want to try to open it as an xlsx or xls file?";
             		int option = JOptionPane.showConfirmDialog(null, message, "Error", JOptionPane.OK_CANCEL_OPTION);
             		if(option  == 0)
             		{
@@ -77,14 +88,14 @@ public class EditFile
             				error = editXLSfile(gui);
             				if(error)
             				{
-            					 JOptionPane.showConfirmDialog(null, "Can't open the file!\nPlease click \"Open \" or \"Locate\" to edit the file", 
+            					 */JOptionPane.showConfirmDialog(null, "Can't open the file!\nPlease click \"Open \" or \"Locate\" to edit the file", 
                                          "Error", 
                                          JOptionPane.CLOSED_OPTION);
-            				}
+            				/*}
             				else
             				{
             					int result = JOptionPane.showConfirmDialog(null,
-                						"The file is open as an xlsx file, do you want to add the extenssion \"xls\" to it?", 
+                						"The file can open as an xlsx file, do you want to add the extenssion \"xls\" to it?", 
                 						"Change the extenssion", JOptionPane.OK_CANCEL_OPTION);
                 				if(result == 0)
                 				{
@@ -95,7 +106,7 @@ public class EditFile
             			else
             			{
             				int result = JOptionPane.showConfirmDialog(null,
-            						"The file is open as an xlsx file, do you want to add the extenssion \"xlsx\" to it?", 
+            						"The file can open as an xlsx file, do you want to add the extenssion \"xlsx\" to it?", 
             						"Change the extenssion", JOptionPane.OK_CANCEL_OPTION);
             				if(result == 0)
             				{
@@ -106,10 +117,15 @@ public class EditFile
             		else
             		{
             			error = true;
-            		}
+            		}*/
             }
             else
             {
+            	FileTypeDetector detector = new TikaFileTypeDetector();
+                // Analyse the file - first based on file name for efficiency.
+                // If cannot determine based on name and then analyse content
+                String contentType = detector.probeContentType(currentFile.toPath());
+                System.out.println("File is of type - " + contentType);
                 error = separateFile(expression);
             }
         } 
@@ -496,6 +512,37 @@ public class EditFile
         		extenssion = fileName.substring(index + 1);
         }
         return extenssion;
+    }    
+}
+
+class TikaFileTypeDetector extends FileTypeDetector {
+    private final Tika tika = new Tika();
+    public TikaFileTypeDetector() {
+        super();
+    }
+    
+    @Override
+    public String probeContentType(Path path) throws IOException 
+    {
+        // Try to detect based on the file name only for efficiency
+        /*String fileNameDetect = tika.detect(path.toString());
+        if(!fileNameDetect.equals(MimeTypes.OCTET_STREAM)) 
+        {
+            return fileNameDetect;
+        }*/
+        
+        // Then check the file content if necessary
+        String fileContentDetect = tika.detect(path.toFile());
+        if(!fileContentDetect.equals(MimeTypes.OCTET_STREAM)) 
+        {
+            return fileContentDetect;
+        }
+        
+        // Specification says to return null if we could not 
+        // conclusively determine the file type
+        return null;
     }
     
 }
+
+
