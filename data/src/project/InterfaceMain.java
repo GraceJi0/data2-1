@@ -301,7 +301,9 @@ public class InterfaceMain
 				}
 				catch (IOException e) 
 				{
-					
+					JOptionPane.showConfirmDialog(null,
+		    				"Can't open PGDSpider!", 
+		                    "Error", JOptionPane.CLOSED_OPTION);
 				}
 			}
 		});
@@ -486,6 +488,7 @@ public class InterfaceMain
         selectedChoicesRow.removeAll(selectedChoicesRow);
         selectedChoicesColumn.removeAll(selectedChoicesColumn);
         replaceCheckBox.setSelected(false);
+        replaceSpaceInHeaders.setSelected(false);
         editFile.setMissingCh(""); //clear missing data and replace data
 		editFile.setReplaceCh("");
     }
@@ -661,7 +664,7 @@ public class InterfaceMain
     {
         JTextField missingCh = new JTextField();
         JTextField replaceCh = new JTextField();
-        Object[] message = {"(Only one data in a cell)\nReplace missing Value(no comma, space, semicolon)    ",
+        Object[] message = {"\nReplace missing data\n(no comma, space, semicolon)    ",
         		missingCh, " with ", replaceCh,"   "};
         int option = JOptionPane.showConfirmDialog(null, message, "Replace", JOptionPane.OK_CANCEL_OPTION);
         if(option == 0)
@@ -693,16 +696,11 @@ public class InterfaceMain
     {
         JTextField selectedHeaderRows = new JTextField();
         selectedHeaderRows.setText("1");
-        /*JComboBox<String> headerRows  = new JComboBox<String>(choices2);
-        JScrollBar headerRowsScroll = new JScrollBar(JScrollBar.HORIZONTAL);
-        headerRowsScroll.add(selectedHeaderRows);
-        JTextArea replaceCh = new JTextArea();*/
-        //Object[] message = {"Select the header position:\n", headerRowsScroll, "\n", headerRows};
-        Object[] message = {"Replace spaces in header at row", selectedHeaderRows, "\nwith underscores"};
+        Object[] message = {"Replace spaces in header at row", selectedHeaderRows, "(row number, no space)","\nwith underscores"};
         int option = JOptionPane.showConfirmDialog(null, message, "Headers", JOptionPane.OK_CANCEL_OPTION);
         if(option == 0)
         {
-        		editFile.replaceSpaceInHeader(selectedHeaderRows.getText());
+        		editFile.replaceSpaceInHeader(selectedHeaderRows.getText().trim());
         }
         else
         {

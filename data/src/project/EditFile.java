@@ -61,6 +61,8 @@ public class EditFile
     				&& replaceSpace == false)
         {
             	fileArray.removeAll(fileArray);
+            	rowNum =0;
+            	columnNum = 0;
 	        try 
 	        {
 	            if(extenssion.equals("xlsx"))
@@ -474,7 +476,7 @@ public class EditFile
     public void replaceSpaceInHeader(String headerIndex)
     {
     		replaceSpace = true;
-    		int headerPosition = Integer.parseInt(headerIndex);
+    		int headerPosition = Integer.parseInt(headerIndex)-1;
     		for(int i = 0; i < fileArray.get(headerPosition).size(); i++)
     		{
     			String currentHeader = fileArray.get(headerPosition).get(i);
@@ -483,10 +485,11 @@ public class EditFile
     				if(currentHeader.charAt(j) == ' ')
     				{
     					fileArray.get(headerPosition).set(i, 
-    							currentHeader.substring(0, 4)+"_"+currentHeader.substring(0,5));
+    							currentHeader.substring(0, j)+"_"+currentHeader.substring(j+1,currentHeader.length()));
     				}
     			}
     		}
+    		System.out.println(fileArray.get(headerPosition).toString());
     }
     
     public String getSplitExpression()
