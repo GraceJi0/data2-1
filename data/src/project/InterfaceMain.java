@@ -259,7 +259,7 @@ public class InterfaceMain
                 {
                 		//editFile.writeBack();
                 		refreshGUI(editFile.getSplitExpression());
-                		//rename function JOPtionPane
+                		//if(rename != null) 
                 		
                 }
             }
@@ -295,6 +295,7 @@ public class InterfaceMain
 			{
 				try 
 				{
+					//String command = "java -Xmx1024m -Xms512m -jar /Users/dinghanji/Downloads/PGDSpider_2.1.1.3/PGDSpider2-cli.jar";
 					String command = "java -Xmx1024m -Xms512m -jar /Users/dinghanji/Downloads/PGDSpider_2.1.1.3/PGDSpider2.jar";
 					Runtime.getRuntime().exec(command);
 				}
@@ -695,15 +696,17 @@ public class InterfaceMain
     public int showReplaceSpaceInHeaderDialog()
     {
         JTextField selectedHeaderRows = new JTextField();
-        JComboBox<String> headerRows  = new JComboBox<String>(choices2);
+        selectedHeaderRows.setText("1");
+        /*JComboBox<String> headerRows  = new JComboBox<String>(choices2);
         JScrollBar headerRowsScroll = new JScrollBar(JScrollBar.HORIZONTAL);
         headerRowsScroll.add(selectedHeaderRows);
-        JTextArea replaceCh = new JTextArea();
-        Object[] message = {"Select the header position:\n", headerRowsScroll, "\n", headerRows};
+        JTextArea replaceCh = new JTextArea();*/
+        //Object[] message = {"Select the header position:\n", headerRowsScroll, "\n", headerRows};
+        Object[] message = {"Replace spaces in header at row", selectedHeaderRows, "\nwith underscores"};
         int option = JOptionPane.showConfirmDialog(null, message, "Headers", JOptionPane.OK_CANCEL_OPTION);
         if(option == 0)
         {
-        		
+        		editFile.replaceSpaceInHeader(selectedHeaderRows.getText());
         }
         else
         {
