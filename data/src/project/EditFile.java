@@ -414,9 +414,14 @@ public class EditFile
     }
     
     //***********save all changes that happens on the file*************
-    public File writeBack()
+    public File writeBack(String rename)
     {
-    		File file = file = new File(currentFile.getName());
+    		String newFileName = currentFile.getName();
+    		if(rename != null)
+    		{
+    			newFileName += "."+rename;
+    		}
+    		File file = new File(newFileName);
     		if(getMyFileExtension().equals("xlsx"))
     		{
     			
@@ -539,23 +544,13 @@ class TikaFileTypeDetector extends FileTypeDetector {
     
     @Override
     public String probeContentType(Path path) throws IOException 
-    {
-        // Try to detect based on the file name only for efficiency
-        /*String fileNameDetect = tika.detect(path.toString());
-        if(!fileNameDetect.equals(MimeTypes.OCTET_STREAM)) 
-        {
-            return fileNameDetect;
-        }*/
-        
-        // Then check the file content if necessary
+    {   
         String fileContentDetect = tika.detect(path.toFile());
         if(!fileContentDetect.equals(MimeTypes.OCTET_STREAM)) 
         {
             return fileContentDetect;
         }
-        
-        // Specification says to return null if we could not 
-        // conclusively determine the file type
+       
         return null;
     }
     
