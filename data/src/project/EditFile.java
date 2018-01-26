@@ -67,7 +67,7 @@ public class EditFile
             }
             else if(extenssion.equals(""))
             {
-            		String message = "This file doesn't have an extenssion. Do you want to try to open it as an xlsx file?";
+            		String message = "This file doesn't have an extenssion. Do you want to try to open it as an xlsx or xls file?";
             		int option = JOptionPane.showConfirmDialog(null, message, "Error", JOptionPane.OK_CANCEL_OPTION);
             		if(option  == 0)
             		{
@@ -80,6 +80,16 @@ public class EditFile
             					 JOptionPane.showConfirmDialog(null, "Can't open the file!\nPlease click \"Open \" or \"Locate\" to edit the file", 
                                          "Error", 
                                          JOptionPane.CLOSED_OPTION);
+            				}
+            				else
+            				{
+            					int result = JOptionPane.showConfirmDialog(null,
+                						"The file is open as an xlsx file, do you want to add the extenssion \"xls\" to it?", 
+                						"Change the extenssion", JOptionPane.OK_CANCEL_OPTION);
+                				if(result == 0)
+                				{
+                					//rename
+                				}
             				}
             			}
             			else
