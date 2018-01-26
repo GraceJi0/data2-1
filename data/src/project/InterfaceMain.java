@@ -5,7 +5,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -29,8 +28,10 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.Border;
@@ -45,6 +46,7 @@ public class InterfaceMain
     private File currentFile;
     
     private JCheckBox replaceCheckBox;
+    private JCheckBox replaceSpaceInHeaders;
     
     private List<String> selectedChoicesRow;
     private List<String> selectedChoicesColumn;
@@ -131,12 +133,13 @@ public class InterfaceMain
         //********************set components in checkbox panel(edit file operations)*******************
         //JCheckBox test1 = new JCheckBox("Remove header");
         replaceCheckBox = new JCheckBox("Replace Missing Data");
+        replaceSpaceInHeaders = new JCheckBox("Edit headers ");
         replaceCheckBox.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
                 if(e.getStateChange() == ItemEvent.SELECTED) 
                 {
-                		int option = showReplaceDialog();
+                		int option = showReplaceDataDialog();
                 		if(option != 0)
                 		{
                 			replaceCheckBox.setSelected(false);
@@ -146,6 +149,23 @@ public class InterfaceMain
                 	{
                 		editFile.setMissingCh(null);
                 		editFile.setReplaceCh(null);
+                	};
+            }
+        });
+        replaceSpaceInHeaders.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if(e.getStateChange() == ItemEvent.SELECTED) 
+                {
+                		int option = showReplaceSpaceInHeaderDialog();
+                		if(option != 0)
+                		{
+                			
+                		}
+                }
+                else
+                	{
+                		
                 	};
             }
         });
@@ -289,8 +309,8 @@ public class InterfaceMain
         JPanel checkboxPanel = new JPanel();
         checkboxPanel.setLayout(new GridLayout(4, 1));
         checkboxPanel.setBorder(BorderFactory.createTitledBorder("test"));
-        //checkboxPanel.add(test1);
         checkboxPanel.add(replaceCheckBox);
+        checkboxPanel.add(replaceSpaceInHeaders);
         
         columnControlPanel = new JPanel();
         columnControlPanel.setLayout(new BorderLayout());
@@ -441,7 +461,7 @@ public class InterfaceMain
             @Override
             public void actionPerformed(ActionEvent e) 
             {
-                showReplaceDialog();
+                
             }
         });
     }
@@ -640,7 +660,7 @@ public class InterfaceMain
     }
     
     //show the replace dialog when user click the replace check box to replace the missing data with other characters
-    public int showReplaceDialog()
+    public int showReplaceDataDialog()
     {
         JTextField missingCh = new JTextField();
         JTextField replaceCh = new JTextField();
@@ -668,6 +688,26 @@ public class InterfaceMain
         else
         {
         		replaceCheckBox.setSelected(false);
+        }
+        return option;
+    }
+    
+    public int showReplaceSpaceInHeaderDialog()
+    {
+        JTextField selectedHeaderRows = new JTextField();
+        JComboBox<String> headerRows  = new JComboBox<String>(choices2);
+        JScrollBar headerRowsScroll = new JScrollBar(JScrollBar.HORIZONTAL);
+        headerRowsScroll.add(selectedHeaderRows);
+        JTextArea replaceCh = new JTextArea();
+        Object[] message = {"Select the header position:\n", headerRowsScroll, "\n", headerRows};
+        int option = JOptionPane.showConfirmDialog(null, message, "Headers", JOptionPane.OK_CANCEL_OPTION);
+        if(option == 0)
+        {
+        		
+        }
+        else
+        {
+        		replaceSpaceInHeaders.setSelected(false);
         }
         return option;
     }
