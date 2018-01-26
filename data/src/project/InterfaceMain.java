@@ -246,8 +246,8 @@ public class InterfaceMain
         clearBtn.setPreferredSize(new Dimension(160, 40));
         JButton saveAsBtn = new JButton("Save as");
         saveAsBtn.setPreferredSize(new Dimension(160, 40));
-        JButton convertBtn = new JButton("Convert");
-        convertBtn.setPreferredSize(new Dimension(160, 40));
+        JButton fastConvertBtn = new JButton("Fast convert");
+        fastConvertBtn.setPreferredSize(new Dimension(160, 40));
         JButton closeBtn = new JButton("Close");
         closeBtn.setPreferredSize(new Dimension(160, 40));
         
@@ -289,7 +289,7 @@ public class InterfaceMain
                mainFrame.dispose();
             }
         });
-        convertBtn.addActionListener(new ActionListener()
+        fastConvertBtn.addActionListener(new ActionListener()
         {
 			public void actionPerformed(ActionEvent ae) 
 			{
@@ -309,19 +309,19 @@ public class InterfaceMain
         //*****************set left side panel(check box, select row, select column)*****************
         JPanel checkboxPanel = new JPanel();
         checkboxPanel.setLayout(new GridLayout(4, 1));
-        checkboxPanel.setBorder(BorderFactory.createTitledBorder("test"));
+        checkboxPanel.setBorder(BorderFactory.createTitledBorder("Select"));
         checkboxPanel.add(replaceCheckBox);
         checkboxPanel.add(replaceSpaceInHeaders);
         
         columnControlPanel = new JPanel();
         columnControlPanel.setLayout(new BorderLayout());
-        columnControlPanel.setBorder(BorderFactory.createTitledBorder("Select Columns"));
+        columnControlPanel.setBorder(BorderFactory.createTitledBorder("Remove Columns"));
         columnControlPanel.add(columnOperationPanel, BorderLayout.SOUTH);
         columnControlPanel.add(columnPanel,BorderLayout.CENTER);
         
         rowControlPanel = new JPanel();
         rowControlPanel.setLayout(new BorderLayout());
-        rowControlPanel.setBorder(BorderFactory.createTitledBorder("Select Rows"));
+        rowControlPanel.setBorder(BorderFactory.createTitledBorder("Remove Rows"));
         rowControlPanel.add(rowOperationPanel, BorderLayout.SOUTH);
         rowControlPanel.add(rowPanel, BorderLayout.CENTER);
         
@@ -342,7 +342,7 @@ public class InterfaceMain
         bottomPanel.add(saveBtn);
         bottomPanel.add(saveAsBtn);
         bottomPanel.add(clearBtn);
-        bottomPanel.add(convertBtn);
+        bottomPanel.add(fastConvertBtn);
         bottomPanel.add(closeBtn);
         
         //********************set text panel(file name,file, buttons)***************
@@ -373,10 +373,7 @@ public class InterfaceMain
         JMenu helpMenu = new JMenu("Help");
         
         //**********create menu items**********
-        JMenuItem openMenuItem = new JMenuItem("Open");
-        openMenuItem.setActionCommand("Open");
-        JMenuItem saveMenuItem = new JMenuItem("Save");
-        saveMenuItem.setActionCommand("Save");
+        JMenuItem convertMenuItem = new JMenuItem("Convert");
         /*JMenuItem cutMenuItem = new JMenuItem("Cut");
          cutMenuItem.setActionCommand("Cut");*/
         JMenuItem replaceMenuItem = new JMenuItem("Replace");
@@ -387,8 +384,7 @@ public class InterfaceMain
         JMenuItem splitByLineMenuItem = new JMenuItem("Line");
         
         //**********add menu items to menus**********
-        fileMenu.add(openMenuItem);
-        fileMenu.add(saveMenuItem);
+        fileMenu.add(convertMenuItem);
         // fileMenu.addSeparator();
         //editMenu.add(cutMenuItem);
         editMenu.add(replaceMenuItem);
