@@ -72,6 +72,7 @@ public class InterfaceMain
     private JPanel leftPanel;
     private JPanel columnControlPanel;
     private JPanel rowControlPanel;
+    private File logChanges;
     
     
     public InterfaceMain(File currentFile, JPanel gui) 
@@ -385,6 +386,7 @@ public class InterfaceMain
         JMenuItem splitBySemicolonMenuitem = new JMenuItem("Semicolon");
         JMenuItem splitByLineMenuItem = new JMenuItem("Line");
         
+        
         //**********add menu items to menus**********
         fileMenu.add(convertMenuItem);
         // fileMenu.addSeparator();
@@ -463,6 +465,24 @@ public class InterfaceMain
                 
             }
         });
+        
+        convertMenuItem.addActionListener(new MenuItemListener()
+		        {
+			@Override
+			public void actionPerformed(ActionEvent e) 
+			{
+				try 
+				{
+					//String command = "java -Xmx1024m -Xms512m -jar /Users/dinghanji/Downloads/PGDSpider_2.1.1.3/PGDSpider2-cli.jar";
+					String command = "java -Xmx1024m -Xms512m -jar /Users/dinghanji/Downloads/PGDSpider_2.1.1.3/PGDSpider2.jar";
+					Runtime.getRuntime().exec(command);
+				}
+				catch (IOException e2) 
+				{
+					JOptionPane.showConfirmDialog(null,"Can't open PGDSpider!", "Error", JOptionPane.CLOSED_OPTION);
+				}
+			}
+		});
     }
     
     public JFrame getMainFrame() 

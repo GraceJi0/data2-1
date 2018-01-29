@@ -2,12 +2,16 @@ package project;
 
 import java.awt.event.*;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -15,6 +19,8 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.event.*;
 import javax.swing.filechooser.FileSystemView;
 import javax.swing.tree.*;
+
+import java.util.Date;
 import java.util.List;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.ZipEntry;
@@ -266,6 +272,7 @@ public class InterfaceDirectories
                                             {
                 public void actionPerformed(ActionEvent ae) 
                 {
+                		writeToLogFile();
                     deleteDrectoriesAndFiles();
                     showChildren(currentNode);
                     //gui.revalidate();
@@ -582,5 +589,31 @@ public class InterfaceDirectories
         String fileName = currentFile.getName();
         int index = fileName.lastIndexOf('.');
         return fileName.substring(index + 1);
+    }
+    
+    public void writeToLogFile()
+    {
+	    	if(currentFile.getParentFile().getParentFile().getName().equals("coop_ex") ||
+					currentFile.getParentFile().getParentFile().getName().equals("noncoop_ex"))
+		{
+			if(currentFile.getParentFile().getParentFile().getParentFile().isDirectory())
+			{
+				File logDelete = new File(currentFile.getParentFile().getParentFile().getParentFile().getAbsolutePath()+"/logDelete.txt");
+				try 
+				{
+					BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(logDelete,true));
+					DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+					Date date = new Date();
+					String logMessage = dateFormat.format(date)+"\tDelete file: "+currentFile.getName()
+								+"\nPath:"+currentFile.getPath()+"\n\n";
+					bufferedWriter.write(logMessage);
+					bufferedWriter.close();
+				} 
+				catch (IOException e) 
+				{	
+					e.printStackTrace();
+				}
+			}
+		}
     }
 }
