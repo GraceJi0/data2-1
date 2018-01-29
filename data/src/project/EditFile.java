@@ -532,6 +532,7 @@ public class EditFile
     			System.out.println(move.toString());
     			for(int i = 0; i< move.size(); i++)
     			{
+    				//fileArray.get(i).set(columnNum, move.get(i));
     				fileArray.get(i).add(move.get(i));
     			}
     		}
