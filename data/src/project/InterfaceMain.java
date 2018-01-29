@@ -183,9 +183,19 @@ public class InterfaceMain
             {
                 if(e.getStateChange() == ItemEvent.SELECTED) 
                 {
-                		int option = showMoveCloumnDialog();
-                		if(option != 0)
+                		if(selectedChoicesColumn.isEmpty())
                 		{
+	                		int option = showMoveCloumnDialog();
+	                		if(option != 0)
+	                		{
+	                			moveColumn.setSelected(false);
+	                		}
+                		}
+                		else
+                		{
+                			JOptionPane.showConfirmDialog(null,
+                					"This function can't be used with the \"select column\" function below.", 
+                					"Error", JOptionPane.CLOSED_OPTION);
                 			moveColumn.setSelected(false);
                 		}
                 };
