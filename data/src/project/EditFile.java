@@ -475,7 +475,7 @@ public class EditFile
     		boolean error = false;
     		replaceSpace = true;
     		int headerPosition = Integer.parseInt(headerIndex)-1;
-    		if((fileArray.get(headerPosition)!= null)&&(headerPosition<rowNum))
+    		if((headerPosition<rowNum)&&(fileArray.get(headerPosition)!= null))
     		{
 	    		for(int i = 0; i < fileArray.get(headerPosition).size(); i++)
 	    		{
