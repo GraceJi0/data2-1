@@ -32,6 +32,7 @@ public class InterfaceDirectories
     private JScrollPane metaDataScroll;
     private String resultFile;
     private JTextArea metaDataTextArea;
+    private JTextArea readmeTextArea;
     private Desktop desktop;
     
     /** Provides nice icons and names for files. */
@@ -167,9 +168,10 @@ public class InterfaceDirectories
             fileName = new JLabel();
             fileDetailsValues.add(fileName);
             
-            //**********************set mete data panel********************
+            //**********************set mete data and README panel********************
             JPanel fileMetaDataPanel = new JPanel();
-            fileMetaDataPanel.setLayout(new BorderLayout(3,3));
+            fileMetaDataPanel.setLayout(new GridLayout(1,1));
+            JTabbedPane metaDataPane = new JTabbedPane();
             metaDataTextArea = new JTextArea("\n\n\n\n\n");
             metaDataTextArea.setEditable(false);
             metaDataTextArea.setLineWrap(true);
@@ -179,8 +181,25 @@ public class InterfaceDirectories
                                              JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
             Dimension dd = tableScroll.getPreferredSize();
             metaDataScroll.setPreferredSize(new Dimension((int)dd.getWidth(), (int)dd.getHeight()+50));
-            fileMetaDataPanel.add(metaDataScroll, BorderLayout.CENTER);
-            fileMetaDataPanel.add(new JLabel("Meta Data"), BorderLayout.NORTH);
+            
+            readmeTextArea = new JTextArea("");
+            readmeTextArea.setEditable(false);
+            readmeTextArea.setLineWrap(true);
+            readmeTextArea.setWrapStyleWord(true);
+            JScrollPane readmeScroll = new JScrollPane(readmeTextArea,
+                                             JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                                             JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+            readmeScroll.setPreferredSize(new Dimension((int)dd.getWidth(), (int)dd.getHeight()+50));
+            
+            metaDataPane.add("Meta Data", metaDataScroll);
+            metaDataPane.addTab("README", readmeScroll);
+            if(readmeTextArea.getText().equals(""))
+            {
+            		metaDataPane.getComponent(1).setEnabled(false);
+            		System.out.println("========");
+            		System.out.println(metaDataPane.getComponent(0).getName());
+            }
+            fileMetaDataPanel.add(metaDataPane);
             fileMetaDataPanel.setBorder(new EmptyBorder(20,0,0,0));
             
             //***********************set tools panel***********************
@@ -464,6 +483,7 @@ public class InterfaceDirectories
     {
         boolean found = false;
         resultFile = "";
+        String readmeFile = "";
         if (file.isDirectory()) 
         {
             File[] files = fileSystemView.getFiles(file, true); 
@@ -484,9 +504,25 @@ public class InterfaceDirectories
                     }
                     found = true;
                 }
+                else if(childName.contains("README"))
+                {
+                		readmeFile += child.getName()+"\n\n";
+	                try 
+	                {
+	                		readmeFile += readTheFile(child)+
+	                        "----------------------------------------------------------------------------\n";
+	                } 
+	                catch (FileNotFoundException e) 
+	                {
+	                    e.printStackTrace();
+	                }
+	                found = true;
+                }
             }
             metaDataTextArea.setText(resultFile);
-            metaDataTextArea.setCaretPosition(0); 
+            metaDataTextArea.setCaretPosition(0);
+            readmeTextArea.setText(readmeFile);
+            readmeTextArea.setCaretPosition(0);
         }
         return found;
     }
@@ -546,27 +582,6 @@ public class InterfaceDirectories
             e.printStackTrace();
         }
     }
-    
-    /*private void decompressGzipFile(String gzipFile, String newFile) {
-        try 
-        {
-            FileInputStream fis = new FileInputStream(gzipFile);
-            GZIPInputStream gis = new GZIPInputStream(fis);
-            FileOutputStream fos = new FileOutputStream(newFile);
-            byte[] buffer = new byte[100000];
-            int len;
-            while((len = gis.read(buffer)) != -1)
-            {
-                fos.write(buffer, 0, len);
-            }
-            fos.close();
-            gis.close();
-        } 
-        catch (IOException e) 
-        {
-            e.printStackTrace();
-        }
-    }*/
     
     public void deleteDrectoriesAndFiles()
     {
