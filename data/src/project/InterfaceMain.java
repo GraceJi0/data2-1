@@ -138,9 +138,9 @@ public class InterfaceMain
         
         //********************set components in checkbox panel(edit file operations)*******************
         //JCheckBox test1 = new JCheckBox("Remove header");
-        JCheckBox replaceCheckBox = new JCheckBox("Replace Missing Data");
-        JCheckBox replaceSpaceInHeaders = new JCheckBox("Edit headers ");
-        JCheckBox moveColumn = new JCheckBox("Move column");
+        replaceCheckBox = new JCheckBox("Replace Missing Data");
+        replaceSpaceInHeaders = new JCheckBox("Edit headers ");
+        moveColumn = new JCheckBox("Move column");
         replaceCheckBox.addItemListener(new ItemListener() 
         {
             @Override

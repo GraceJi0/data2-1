@@ -40,6 +40,7 @@ public class EditFile
     private String sheetName;
     private String rename;
     private boolean replaceSpace;
+    private boolean moveColumn;
     
     public EditFile(File file) 
     {
@@ -51,6 +52,7 @@ public class EditFile
         sheetName = null;
         rename = null;
         replaceSpace = false;
+        moveColumn = false;
     }
     
     public boolean editTheFile(String expression, JPanel gui)
@@ -58,7 +60,7 @@ public class EditFile
     		String extenssion = getMyFileExtension();
     		boolean error = false;
     		if(((missingCh == null && replaceCh == null) || (missingCh.equals("") && replaceCh.equals("")))
-    				&& replaceSpace == false)
+    				&& replaceSpace == false && moveColumn == false)
         {
             	fileArray.removeAll(fileArray);
             	rowNum =0;
@@ -159,6 +161,13 @@ public class EditFile
 	            e.printStackTrace();
 	        }
         }
+    		else
+    		{
+    			replaceSpace = false;
+    			moveColumn = false;
+    			missingCh.equals("");
+    			replaceCh.equals("");
+    		}
         return error;
     }
     
