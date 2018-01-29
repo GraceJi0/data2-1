@@ -444,9 +444,10 @@ public class EditFile
 				String fileString = "";
 				for(int i = 0; i< fileArray.size(); i++)
 				{
-					for(int j = 0; j < fileArray.get(i).size(); j++)
+					int length = fileArray.get(i).size();
+					for(int j = 0; j < length; j++)
 					{
-						if(j == (fileArray.get(i).size())-1)
+						if(j == (length-1))
 						{
 							fileString+=fileArray.get(i).get(j)+"\n";
 						}
@@ -454,7 +455,6 @@ public class EditFile
 						{
 							fileString+=fileArray.get(i).get(j)+	splitExpression;
 						}
-						
 					}
 				}
 				bufferedWriter.write(fileString);
@@ -462,7 +462,6 @@ public class EditFile
 	    		} 
 	    		catch (IOException e) 
 	    		{
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 			}
     		}
@@ -496,6 +495,13 @@ public class EditFile
     			error = true;
     			JOptionPane.showConfirmDialog(null,"This row is empty!", "Error", JOptionPane.CLOSED_OPTION); 
     		}
+    		return error;
+    }
+    
+    public boolean moveColumn(String columnIndex)
+    {
+    		boolean error = false;
+    		
     		return error;
     }
     
@@ -541,7 +547,7 @@ public class EditFile
     
     public String getSheetName()
     {
-    	 return sheetName;
+    		return sheetName;
     }
     
     public List<List<String>> getFileArray()
@@ -580,7 +586,8 @@ public class EditFile
 class TikaFileTypeDetector extends FileTypeDetector 
 {
     private final Tika tika = new Tika();
-    public TikaFileTypeDetector() {
+    public TikaFileTypeDetector() 
+    {
         super();
     }
     

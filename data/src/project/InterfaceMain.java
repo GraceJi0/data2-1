@@ -50,9 +50,6 @@ public class InterfaceMain
     private String fileName;
     private File currentFile;
     
-    private JCheckBox replaceCheckBox;
-    private JCheckBox replaceSpaceInHeaders;
-    
     private List<String> selectedChoicesRow;
     private List<String> selectedChoicesColumn;
     private int columnNum;
@@ -78,6 +75,9 @@ public class InterfaceMain
     private JPanel columnControlPanel;
     private JPanel rowControlPanel;
 
+    private JCheckBox replaceCheckBox;
+    private JCheckBox replaceSpaceInHeaders;
+    private JCheckBox moveColumn;
     
     
     public InterfaceMain(File currentFile, JPanel gui) 
@@ -138,11 +138,14 @@ public class InterfaceMain
         
         //********************set components in checkbox panel(edit file operations)*******************
         //JCheckBox test1 = new JCheckBox("Remove header");
-        replaceCheckBox = new JCheckBox("Replace Missing Data");
-        replaceSpaceInHeaders = new JCheckBox("Edit headers ");
-        replaceCheckBox.addItemListener(new ItemListener() {
+        JCheckBox replaceCheckBox = new JCheckBox("Replace Missing Data");
+        JCheckBox replaceSpaceInHeaders = new JCheckBox("Edit headers ");
+        JCheckBox moveColumn = new JCheckBox("Move column");
+        replaceCheckBox.addItemListener(new ItemListener() 
+        {
             @Override
-            public void itemStateChanged(ItemEvent e) {
+            public void itemStateChanged(ItemEvent e) 
+            {
                 if(e.getStateChange() == ItemEvent.SELECTED) 
                 {
                 		int option = showReplaceDataDialog();
@@ -158,15 +161,32 @@ public class InterfaceMain
                 	};
             }
         });
-        replaceSpaceInHeaders.addItemListener(new ItemListener() {
+        replaceSpaceInHeaders.addItemListener(new ItemListener() 
+        {
             @Override
-            public void itemStateChanged(ItemEvent e) {
+            public void itemStateChanged(ItemEvent e) 
+            {
                 if(e.getStateChange() == ItemEvent.SELECTED) 
                 {
                 		int option = showReplaceSpaceInHeaderDialog();
                 		if(option != 0)
                 		{
                 			replaceSpaceInHeaders.setSelected(false);
+                		}
+                };
+            }
+        });
+        moveColumn.addItemListener(new ItemListener() 
+        {
+            @Override
+            public void itemStateChanged(ItemEvent e) 
+            {
+                if(e.getStateChange() == ItemEvent.SELECTED) 
+                {
+                		int option = showMoveCloumnDialog();
+                		if(option != 0)
+                		{
+                			moveColumn.setSelected(false);
                 		}
                 };
             }
@@ -226,7 +246,7 @@ public class InterfaceMain
         rowOperationPanel.add(deleteRowButton);
         rowOperationPanel.add(rowCombo);
         deleteRowButton.addActionListener(new ActionListener()
-                                              {
+        {
             public void actionPerformed(ActionEvent ae) 
             {
                 //delete the selected row in table.
@@ -254,7 +274,7 @@ public class InterfaceMain
         closeBtn.setPreferredSize(new Dimension(160, 40));
         
         saveBtn.addActionListener(new ActionListener()
-                                      {
+        {
             public void actionPerformed(ActionEvent ae) 
             {
                 if(showConfirmBox("Do you want to save the changes?", "Save") == JOptionPane.YES_OPTION)
@@ -316,6 +336,7 @@ public class InterfaceMain
         checkboxPanel.setBorder(BorderFactory.createTitledBorder("Select"));
         checkboxPanel.add(replaceCheckBox);
         checkboxPanel.add(replaceSpaceInHeaders);
+        checkboxPanel.add(moveColumn);
         
         columnControlPanel = new JPanel();
         columnControlPanel.setLayout(new BorderLayout());
@@ -510,6 +531,7 @@ public class InterfaceMain
         selectedChoicesColumn.removeAll(selectedChoicesColumn);
         replaceCheckBox.setSelected(false);
         replaceSpaceInHeaders.setSelected(false);
+        moveColumn.setSelected(false);
         editFile.setMissingCh(""); //clear missing data and replace data
 		editFile.setReplaceCh("");
     }
@@ -703,12 +725,8 @@ public class InterfaceMain
 	        		JOptionPane.showConfirmDialog(null,
     				"Can't replace the missing data!\nPlease make sure it's not empty and there's no space, coma and semicolon.", 
                     "Error", JOptionPane.CLOSED_OPTION);
-	        		replaceCheckBox.setSelected(false);
+	        		option = -1;
 	        }
-        }
-        else
-        {
-        		replaceCheckBox.setSelected(false);
         }
         return option;
     }
@@ -721,14 +739,10 @@ public class InterfaceMain
         int option = JOptionPane.showConfirmDialog(null, message, "Headers", JOptionPane.OK_CANCEL_OPTION);
         if(option == 0)
         {
-        		if(editFile.replaceSpaceInHeader(selectedHeaderRows.getText().trim()))
+        		if(editFile.replaceSpaceInHeader(selectedHeaderRows.getText().trim())) //if there's an error
         		{
         			option = -1;
         		}
-        }
-        else
-        {
-        		replaceSpaceInHeaders.setSelected(false);
         }
         return option;
     }
@@ -752,6 +766,22 @@ public class InterfaceMain
     			valid = false;
     		}
     		return valid;
+    }
+    
+    public int showMoveCloumnDialog()
+    {
+    		JTextField selectedColumn = new JTextField();
+    		selectedColumn.setText("1");
+        Object[] message = {"Move column", selectedColumn, "(column number, no space)","\nto the end of the file"};
+        int option = JOptionPane.showConfirmDialog(null, message, "Move Cloumn", JOptionPane.OK_CANCEL_OPTION);
+        if(option == 0)
+        {
+        		if(editFile.moveColumn(selectedColumn.getText().trim())) //if there's an error
+        		{
+        			option = -1;
+        		}
+        }
+        return option;
     }
     
     public void writeToLogFile(String logMessage)
