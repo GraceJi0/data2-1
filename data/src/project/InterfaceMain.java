@@ -11,9 +11,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -748,6 +753,32 @@ public class InterfaceMain
     			valid = false;
     		}
     		return valid;
+    }
+    
+    public void writeToLogFile(String logMessage)
+    {
+	    	if(currentFile.getParentFile().getParentFile().getName().equals("coop_ex") ||
+					currentFile.getParentFile().getParentFile().getName().equals("noncoop_ex"))
+		{
+			if(currentFile.getParentFile().getParentFile().getParentFile().isDirectory())
+			{
+				File logDelete = new File(currentFile.getParentFile().getParentFile().getParentFile().getAbsolutePath()+"/logEditor.txt");
+				try 
+				{
+					BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(logDelete,true));
+					DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+					Date date = new Date();
+					String message = dateFormat.format(date)+"File name: "+currentFile.getName()
+								+"\nPath:"+currentFile.getPath()+"\n"+logMessage+"\n\n";
+					bufferedWriter.write(logMessage);
+					bufferedWriter.close();
+				} 
+				catch (IOException e) 
+				{	
+					e.printStackTrace();
+				}
+			}
+		}
     }
 }
 

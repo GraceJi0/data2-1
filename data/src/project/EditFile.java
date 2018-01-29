@@ -57,7 +57,7 @@ public class EditFile
     {
     		String extenssion = getMyFileExtension();
     		boolean error = false;
-    		if((missingCh == null && replaceCh == null) || (missingCh.equals("") && replaceCh.equals(""))
+    		if(((missingCh == null && replaceCh == null) || (missingCh.equals("") && replaceCh.equals("")))
     				&& replaceSpace == false)
         {
             	fileArray.removeAll(fileArray);
@@ -167,9 +167,6 @@ public class EditFile
     {
     		boolean error = false;
         BufferedReader br = new BufferedReader(new FileReader(currentFile));
-        //if((missingCh == null && replaceCh == null) || (missingCh.equals("") && replaceCh.equals("")))
-        //{
-        	//	fileArray.removeAll(fileArray);
 	        try
 	        {
 	            String line = br.readLine();
