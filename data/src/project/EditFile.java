@@ -165,8 +165,8 @@ public class EditFile
     		{
     			replaceSpace = false;
     			moveColumn = false;
-    			missingCh.equals("");
-    			replaceCh.equals("");
+    			missingCh="";
+    			replaceCh="";
     		}
         return error;
     }
@@ -510,7 +510,31 @@ public class EditFile
     public boolean moveColumn(String columnIndex)
     {
     		boolean error = false;
-    		
+    		moveColumn = true;
+    		ArrayList<String> move = new ArrayList<String>();
+    		int columnPosition = Integer.parseInt(columnIndex);
+    		if(columnPosition<=columnNum)
+    		{
+    			for(int i = 0;i<fileArray.size();i++)
+    			{
+    				for(int j = 1; j < fileArray.get(i).size(); j++)
+    				{
+    					if(j == columnPosition)
+    					{
+    						if(fileArray.get(i).get(j)!= null)
+    						{
+	    						move.add(fileArray.get(i).get(j));
+	    						fileArray.get(i).remove(j);
+    						}
+    					}
+    				}
+    			}
+    			System.out.println(move.toString());
+    			for(int i = 0; i< move.size(); i++)
+    			{
+    				fileArray.get(i).add(move.get(i));
+    			}
+    		}
     		return error;
     }
     
