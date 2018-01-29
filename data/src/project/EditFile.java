@@ -483,6 +483,7 @@ public class EditFile
     				{
     					fileArray.get(headerPosition).set(i, 
     							currentHeader.substring(0, j)+"_"+currentHeader.substring(j+1,currentHeader.length()));
+    					currentHeader = fileArray.get(headerPosition).get(i);
     				}
     			}
     		}
