@@ -470,24 +470,33 @@ public class EditFile
     }
     
     //*********replace spaces in headers with underscores***********
-    public void replaceSpaceInHeader(String headerIndex)
+    public boolean replaceSpaceInHeader(String headerIndex)
     {
+    		boolean error = false;
     		replaceSpace = true;
     		int headerPosition = Integer.parseInt(headerIndex)-1;
-    		for(int i = 0; i < fileArray.get(headerPosition).size(); i++)
+    		if((fileArray.get(headerPosition)!= null)&&(headerPosition<rowNum))
     		{
-    			String currentHeader = fileArray.get(headerPosition).get(i);
-    			for(int j = 0; j < currentHeader.length(); j++)
-    			{
-    				if(currentHeader.charAt(j) == ' ')
-    				{
-    					fileArray.get(headerPosition).set(i, 
-    							currentHeader.substring(0, j)+"_"+currentHeader.substring(j+1,currentHeader.length()));
-    					currentHeader = fileArray.get(headerPosition).get(i);
-    				}
-    			}
+	    		for(int i = 0; i < fileArray.get(headerPosition).size(); i++)
+	    		{
+	    			String currentHeader = fileArray.get(headerPosition).get(i);
+	    			for(int j = 0; j < currentHeader.length(); j++)
+	    			{
+	    				if(currentHeader.charAt(j) == ' ')
+	    				{
+	    					fileArray.get(headerPosition).set(i, 
+	    							currentHeader.substring(0, j)+"_"+currentHeader.substring(j+1,currentHeader.length()));
+	    					currentHeader = fileArray.get(headerPosition).get(i);
+	    				}
+	    			}
+	    		}
     		}
-    		System.out.println(fileArray.get(headerPosition).toString());
+    		else
+    		{
+    			error = true;
+    			JOptionPane.showConfirmDialog(null,"This row is empty!", "Error", JOptionPane.CLOSED_OPTION); 
+    		}
+    		return error;
     }
     
     public String getSplitExpression()

@@ -77,7 +77,7 @@ public class InterfaceMain
     private JPanel leftPanel;
     private JPanel columnControlPanel;
     private JPanel rowControlPanel;
-    private File logChanges;
+
     
     
     public InterfaceMain(File currentFile, JPanel gui) 
@@ -106,7 +106,7 @@ public class InterfaceMain
     public void setInterface() 
     {
         //**********************set main frame******************************
-    	mainFrame = new JFrame("Editor");
+    		mainFrame = new JFrame("Editor");
         //mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setPreferredSize(new Dimension(900, 700));
         mainFrame.setMinimumSize(new Dimension(900, 700));
@@ -166,13 +166,9 @@ public class InterfaceMain
                 		int option = showReplaceSpaceInHeaderDialog();
                 		if(option != 0)
                 		{
-                			
+                			replaceSpaceInHeaders.setSelected(false);
                 		}
-                }
-                else
-                	{
-                		
-                	};
+                };
             }
         });
         
@@ -725,7 +721,10 @@ public class InterfaceMain
         int option = JOptionPane.showConfirmDialog(null, message, "Headers", JOptionPane.OK_CANCEL_OPTION);
         if(option == 0)
         {
-        		editFile.replaceSpaceInHeader(selectedHeaderRows.getText().trim());
+        		if(editFile.replaceSpaceInHeader(selectedHeaderRows.getText().trim()))
+        		{
+        			option = -1;
+        		}
         }
         else
         {
@@ -770,7 +769,7 @@ public class InterfaceMain
 					Date date = new Date();
 					String message = dateFormat.format(date)+"File name: "+currentFile.getName()
 								+"\nPath:"+currentFile.getPath()+"\n"+logMessage+"\n\n";
-					bufferedWriter.write(logMessage);
+					bufferedWriter.write(message);
 					bufferedWriter.close();
 				} 
 				catch (IOException e) 
