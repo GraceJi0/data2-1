@@ -29,8 +29,6 @@ import java.awt.*;
 
 public class InterfaceDirectories 
 {
-    private JScrollPane metaDataScroll;
-    private String resultFile;
     private JTextArea metaDataTextArea;
     private JTextArea readmeTextArea;
     private Desktop desktop;
@@ -172,11 +170,11 @@ public class InterfaceDirectories
             JPanel fileMetaDataPanel = new JPanel();
             fileMetaDataPanel.setLayout(new GridLayout(1,1));
             JTabbedPane metaDataPane = new JTabbedPane();
-            metaDataTextArea = new JTextArea("\n\n\n\n\n");
+            metaDataTextArea = new JTextArea("");
             metaDataTextArea.setEditable(false);
             metaDataTextArea.setLineWrap(true);
             metaDataTextArea.setWrapStyleWord(true);
-            metaDataScroll = new JScrollPane(metaDataTextArea,
+            JScrollPane metaDataScroll = new JScrollPane(metaDataTextArea,
                                              JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                                              JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
             Dimension dd = tableScroll.getPreferredSize();
@@ -192,15 +190,13 @@ public class InterfaceDirectories
             readmeScroll.setPreferredSize(new Dimension((int)dd.getWidth(), (int)dd.getHeight()+50));
             
             metaDataPane.add("Meta Data", metaDataScroll);
-            metaDataPane.addTab("README", readmeScroll);
-            if(readmeTextArea.getText().equals(""))
+            if(!readmeTextArea.getText().equals(""))
             {
-            		metaDataPane.getComponent(1).setEnabled(false);
-            		System.out.println("========");
-            		System.out.println(metaDataPane.getComponent(0).getName());
+            	
             }
+            metaDataPane.addTab("README", readmeScroll);
             fileMetaDataPanel.add(metaDataPane);
-            fileMetaDataPanel.setBorder(new EmptyBorder(20,0,0,0));
+            fileMetaDataPanel.setBorder(new EmptyBorder(10,0,0,0));
             
             //***********************set tools panel***********************
             JPanel toolBar = new JPanel();
@@ -482,7 +478,7 @@ public class InterfaceDirectories
     public boolean findMetaData(File file)
     {
         boolean found = false;
-        resultFile = "";
+        String metaDataFile = "";
         String readmeFile = "";
         if (file.isDirectory()) 
         {
@@ -492,10 +488,10 @@ public class InterfaceDirectories
                 String childName = child.getName();
                 if (childName.contains("metaData")) 
                 {
-                    resultFile += child.getName()+"\n\n";
+                		metaDataFile += child.getName()+"\n\n";
                     try 
                     {
-                        resultFile += readTheFile(child)+
+                    		metaDataFile += readTheFile(child)+
                             "----------------------------------------------------------------------------\n";
                     } 
                     catch (FileNotFoundException e) 
@@ -519,7 +515,7 @@ public class InterfaceDirectories
 	                found = true;
                 }
             }
-            metaDataTextArea.setText(resultFile);
+            metaDataTextArea.setText(metaDataFile);
             metaDataTextArea.setCaretPosition(0);
             readmeTextArea.setText(readmeFile);
             readmeTextArea.setCaretPosition(0);
