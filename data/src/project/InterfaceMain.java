@@ -183,7 +183,7 @@ public class InterfaceMain
             {
                 if(e.getStateChange() == ItemEvent.SELECTED) 
                 {
-                		if(selectedChoicesColumn.isEmpty())
+                		if(selectedChoicesColumn.isEmpty() && selectedChoicesRow.isEmpty())
                 		{
 	                		int option = showMoveCloumnDialog();
 	                		if(option != 0)
@@ -194,7 +194,7 @@ public class InterfaceMain
                 		else
                 		{
                 			JOptionPane.showConfirmDialog(null,
-                					"This function can't be used with the \"select column\" function below.", 
+                					"This function can't be used with the \"remove column\" and \"remove row\" function below.", 
                 					"Error", JOptionPane.CLOSED_OPTION);
                 			moveColumn.setSelected(false);
                 		}

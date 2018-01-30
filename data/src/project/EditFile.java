@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.spi.FileTypeDetector;
 import java.util.ArrayList;
@@ -14,7 +13,6 @@ import java.util.List;
 import java.awt.Cursor;
 import java.io.*;
 
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -287,7 +285,8 @@ public class EditFile
     		return sheets;
     }
     
-    public void readTheXLSXSheet(XSSFSheet spreadsheet)
+    @SuppressWarnings("deprecation")
+	public void readTheXLSXSheet(XSSFSheet spreadsheet)
     {
     		DataFormatter dataFormatter = new DataFormatter();
     		Iterator < Row >  rowIterator = spreadsheet.iterator();
@@ -303,12 +302,17 @@ public class EditFile
         		while ( cellIterator.hasNext()) 
         		{
         			Cell cell = cellIterator.next();
-        			String cellValue = dataFormatter.formatCellValue(cell);
-        			if(!cellValue.equals("\\s+") && !cellValue.isEmpty())
+        			String cellValue = " ";
+        			if(!(dataFormatter.formatCellValue(cell)).isEmpty())
         			{
-        				index++;
-        				fileArray.get(rowNum-1).add(cellValue);
+        				cellValue = dataFormatter.formatCellValue(cell);
         			}
+        			//if(!cellValue.equals("\\s+") && !cellValue.isEmpty())
+        			//{
+        			index++;
+        			fileArray.get(rowNum-1).add(cellValue);
+        			//System.out.println(cellValue);
+        			//}
         		}
         		if(index > columnNum)
         		{

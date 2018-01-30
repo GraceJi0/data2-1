@@ -211,10 +211,6 @@ public class InterfaceDirectories
             readmeScroll.setPreferredSize(new Dimension((int)dd.getWidth(), (int)dd.getHeight()+50));
             
             metaDataPane.add("Meta Data", metaDataScroll);
-            if(!readmeTextArea.getText().equals(""))
-            {
-            	
-            }
             metaDataPane.addTab("README", readmeScroll);
             fileMetaDataPanel.add(metaDataPane);
             fileMetaDataPanel.setBorder(new EmptyBorder(10,0,0,0));
@@ -529,7 +525,7 @@ public class InterfaceDirectories
                     }
                     found = true;
                 }
-                else if(childName.contains("README"))
+                else if(childName.contains("README.txt") || childName.contains("readme.txt"))
                 {
                 		readmeFile += child.getName()+"\n\n";
 	                try 
