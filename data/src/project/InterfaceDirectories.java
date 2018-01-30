@@ -182,10 +182,11 @@ public class InterfaceDirectories
 				{
 					if(HyperlinkEvent.EventType.ACTIVATED.equals(e.getEventType()))
 					{
-						Desktop d = Desktop.getDesktop();
+						//Desktop d = Desktop.getDesktop();
 						try
 						{
-							d.browse(e.getURL().toURI());
+							desktop.browse(e.getURL().toURI());
+							//d.browse(e.getURL().toURI());
 						}
 						catch(Exception e1)
 						{
@@ -475,7 +476,7 @@ public class InterfaceDirectories
     public String readTheFile(File file) throws FileNotFoundException
     {
         BufferedReader br = new BufferedReader(new FileReader(file));
-        String theFile = "";
+        String theFile = "<br><br>";
         try
         {
             String line = br.readLine();
