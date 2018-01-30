@@ -525,7 +525,7 @@ public class InterfaceDirectories
                     }
                     found = true;
                 }
-                else if(childName.contains("README.txt") || childName.contains("readme.txt"))
+                else if(childName.contains("README.txt"))
                 {
                 		readmeFile += child.getName()+"\n\n";
 	                try 

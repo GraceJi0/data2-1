@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.spi.FileTypeDetector;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.awt.Cursor;
@@ -37,8 +38,7 @@ public class EditFile
     private String splitExpression;
     private String sheetName;
     private String rename;
-    private boolean replaceSpace;
-    private boolean moveColumn;
+    private boolean keepChangedFile;
     
     public EditFile(File file) 
     {
@@ -49,16 +49,17 @@ public class EditFile
         columnNum = 0;
         sheetName = null;
         rename = null;
-        replaceSpace = false;
-        moveColumn = false;
+        keepChangedFile = false;
     }
     
     public boolean editTheFile(String expression, JPanel gui)
     {
     		String extenssion = getMyFileExtension();
     		boolean error = false;
-    		if(((missingCh == null && replaceCh == null) || (missingCh.equals("") && replaceCh.equals("")))
-    				&& replaceSpace == false && moveColumn == false)
+    		//if(((missingCh == null && replaceCh == null) || (missingCh.equals("") && replaceCh.equals("")))
+    		//		&& replaceSpace == false && moveColumn == false)
+    			if(((missingCh == null && replaceCh == null) || (missingCh.equals("") && replaceCh.equals("")))
+        				&& keepChangedFile == false)
         {
             	fileArray.removeAll(fileArray);
             	rowNum =0;
@@ -161,8 +162,7 @@ public class EditFile
         }
     		else
     		{
-    			replaceSpace = false;
-    			moveColumn = false;
+    			keepChangedFile = false;
     			missingCh="";
     			replaceCh="";
     		}
@@ -485,7 +485,8 @@ public class EditFile
     public boolean replaceSpaceInHeader(String headerIndex)
     {
     		boolean error = false;
-    		replaceSpace = true;
+    		keepChangedFile = true;
+    		//replaceSpace = true;
     		int headerPosition = Integer.parseInt(headerIndex)-1;
     		if((headerPosition<rowNum)&&(fileArray.get(headerPosition)!= null))
     		{
@@ -514,7 +515,8 @@ public class EditFile
     public boolean moveColumn(String columnIndex)
     {
     		boolean error = false;
-    		moveColumn = true;
+    		//moveColumn = true;
+    		keepChangedFile = true;
     		ArrayList<String> move = new ArrayList<String>();
     		int columnPosition = Integer.parseInt(columnIndex);
     		if(columnPosition<=columnNum)
@@ -541,6 +543,47 @@ public class EditFile
     			}
     		}
     		return error;
+    }
+    
+    public boolean deleteRow(List<String> selectedChoicesRow)
+    {
+    		keepChangedFile = true;
+    		boolean error = false;
+    		int length = selectedChoicesRow.size();
+    		int[] rowIndex = new int[length];
+    		for(int j = 0; j < length;j++)
+    		{
+    			if(selectedChoicesRow.get(j)!= null &&!(selectedChoicesRow.get(j)).equals(""))
+    			{
+    				rowIndex[j] = (Integer.parseInt(selectedChoicesRow.get(j).substring(3)))-1;
+    				//System.out.println(selectedChoicesRow.get(j).substring(3));
+    			}
+    		}
+    		Arrays.sort(rowIndex);
+    		for(int p = 0 ; p < rowIndex.length;p++)
+    		{
+    			System.out.println(rowIndex[p]);
+    		}
+    		//System.out.println(rowIndex.toString());
+    		for(int k = length-1; k>=0; k--)
+    		{
+	    		for(int i = 0; i < fileArray.size(); i++)
+	    		{
+	    			if(rowIndex[k]==i)
+	    			{
+	    				fileArray.remove(i);
+	    			}
+	    		}
+    		}
+    		rowNum -= rowIndex.length;
+    		return error;
+    }
+    
+    public boolean deleteColumn(List<String> selectedChoicesColumn)
+    {
+    		boolean error = false;
+		
+		return error;
     }
     
     public String getSplitExpression()

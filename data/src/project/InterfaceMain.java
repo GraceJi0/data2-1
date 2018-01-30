@@ -289,6 +289,17 @@ public class InterfaceMain
             {
                 if(showConfirmBox("Do you want to save the changes?", "Save") == JOptionPane.YES_OPTION)
                 {
+                		if(!selectedChoicesRow.isEmpty())
+                		{
+                			if(editFile.deleteRow(selectedChoicesRow)) //if there's an error
+                			{
+                				
+                			}
+                		}
+                		else if(!selectedChoicesColumn.isEmpty())
+                		{
+                			editFile.deleteColumn(selectedChoicesColumn);
+                		}
                 		//editFile.writeBack();
                 		refreshGUI(editFile.getSplitExpression());
                 		//if(rename != null) 
