@@ -62,7 +62,10 @@ public class EditFile
     		{
     			for(int i = 0;i<fileArray.size();i++)
     			{
-    				fileArray.get(i).set(0, "row"+(i+1));
+    				if(!fileArray.get(i).isEmpty())
+    				{
+    					fileArray.get(i).set(0, "row"+(i+1));
+    				}
     			}
     			resetLabel = false;
     		}
@@ -541,7 +544,6 @@ public class EditFile
     					}
     				}
     			}
-    			System.out.println(move.toString());
     			for(int i = 0; i< move.size(); i++)
     			{
     				//fileArray.get(i).set(columnNum, move.get(i));
