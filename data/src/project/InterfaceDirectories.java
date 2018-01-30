@@ -29,8 +29,10 @@ import java.awt.*;
 
 public class InterfaceDirectories 
 {
-    private JTextArea metaDataTextArea;
-    private JTextArea readmeTextArea;
+    //private JTextArea metaDataTextArea;
+    //private JTextArea readmeTextArea;
+	private JEditorPane metaDataTextArea;
+    private JEditorPane readmeTextArea;
     private Desktop desktop;
     
     /** Provides nice icons and names for files. */
@@ -170,20 +172,46 @@ public class InterfaceDirectories
             JPanel fileMetaDataPanel = new JPanel();
             fileMetaDataPanel.setLayout(new GridLayout(1,1));
             JTabbedPane metaDataPane = new JTabbedPane();
-            metaDataTextArea = new JTextArea("");
+            
+            metaDataTextArea = new JEditorPane();
+            metaDataTextArea.setContentType("text/html");
             metaDataTextArea.setEditable(false);
-            metaDataTextArea.setLineWrap(true);
-            metaDataTextArea.setWrapStyleWord(true);
+            metaDataTextArea.setOpaque(false);
+            metaDataTextArea.addHyperlinkListener(new HyperlinkListener()
+            		{
+						@Override
+						public void hyperlinkUpdate(HyperlinkEvent e) 
+						{
+							if(HyperlinkEvent.EventType.ACTIVATED.equals(e.getEventType()))
+							{
+								Desktop d = Desktop.getDesktop();
+								try
+								{
+									d.browse(e.getURL().toURI());
+								}
+								catch(Exception e1)
+								{
+									e1.printStackTrace();
+								}
+							}
+							
+						}
+            			
+            		});
+            //metaDataTextArea = new JTextArea("");
+            //metaDataTextArea.setEditable(false);
+            //metaDataTextArea.setLineWrap(true);
+            //metaDataTextArea.setWrapStyleWord(true);
             JScrollPane metaDataScroll = new JScrollPane(metaDataTextArea,
                                              JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                                              JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
             Dimension dd = tableScroll.getPreferredSize();
             metaDataScroll.setPreferredSize(new Dimension((int)dd.getWidth(), (int)dd.getHeight()+50));
             
-            readmeTextArea = new JTextArea("");
+            readmeTextArea = new JEditorPane();
+            readmeTextArea.setContentType("text/html");
             readmeTextArea.setEditable(false);
-            readmeTextArea.setLineWrap(true);
-            readmeTextArea.setWrapStyleWord(true);
+            readmeTextArea.setOpaque(false);
             JScrollPane readmeScroll = new JScrollPane(readmeTextArea,
                                              JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                                              JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -461,7 +489,15 @@ public class InterfaceDirectories
             String line = br.readLine();
             while(line != null)
             {
-                theFile += line+"\n";
+            		if(line.contains("http://")) //check if there's a URL
+            		{
+            			int i = line.indexOf(':');
+            			String front = line.substring(0, i+1);
+            			String back = line.substring(i+1, line.length());
+            			back = "<a href='"+back+"'>"+back+"</a>";
+            			line = front+back+"<br>";
+            		}
+                theFile += line+"<br>";
                 line = br.readLine();
             }
             br.close();
