@@ -29,8 +29,6 @@ import java.awt.*;
 
 public class InterfaceDirectories 
 {
-    //private JTextArea metaDataTextArea;
-    //private JTextArea readmeTextArea;
 	private JEditorPane metaDataTextArea;
     private JEditorPane readmeTextArea;
     private Desktop desktop;
@@ -178,30 +176,25 @@ public class InterfaceDirectories
             metaDataTextArea.setEditable(false);
             metaDataTextArea.setOpaque(false);
             metaDataTextArea.addHyperlinkListener(new HyperlinkListener()
-            		{
-						@Override
-						public void hyperlinkUpdate(HyperlinkEvent e) 
+            {
+				@Override
+				public void hyperlinkUpdate(HyperlinkEvent e) 
+				{
+					if(HyperlinkEvent.EventType.ACTIVATED.equals(e.getEventType()))
+					{
+						Desktop d = Desktop.getDesktop();
+						try
 						{
-							if(HyperlinkEvent.EventType.ACTIVATED.equals(e.getEventType()))
-							{
-								Desktop d = Desktop.getDesktop();
-								try
-								{
-									d.browse(e.getURL().toURI());
-								}
-								catch(Exception e1)
-								{
-									e1.printStackTrace();
-								}
-							}
-							
+							d.browse(e.getURL().toURI());
 						}
+						catch(Exception e1)
+						{
+							e1.printStackTrace();
+						}
+					}			
+				}
             			
-            		});
-            //metaDataTextArea = new JTextArea("");
-            //metaDataTextArea.setEditable(false);
-            //metaDataTextArea.setLineWrap(true);
-            //metaDataTextArea.setWrapStyleWord(true);
+            	});
             JScrollPane metaDataScroll = new JScrollPane(metaDataTextArea,
                                              JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                                              JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
