@@ -192,8 +192,7 @@ public class InterfaceDirectories
 							e1.printStackTrace();
 						}
 					}			
-				}
-            			
+				}		
             	});
             JScrollPane metaDataScroll = new JScrollPane(metaDataTextArea,
                                              JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
