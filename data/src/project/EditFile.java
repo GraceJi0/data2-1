@@ -30,7 +30,7 @@ import org.apache.poi.hssf.usermodel.*;
 public class EditFile 
 {
     private File currentFile;
-    private List<List<String>> fileArray = new ArrayList<List<String>>(); 
+    private List<List<String>> fileArray;
     private int columnNum;
     private int rowNum;
     private String missingCh;
@@ -43,6 +43,7 @@ public class EditFile
     
     public EditFile(File file) 
     {
+    		fileArray = new ArrayList<List<String>>();
         currentFile = file;
         missingCh = null;
         replaceCh = null;
@@ -524,7 +525,6 @@ public class EditFile
     public boolean moveColumn(String columnIndex)
     {
     		boolean error = false;
-    		//moveColumn = true;
     		
     		ArrayList<String> move = new ArrayList<String>();
     		int columnPosition = Integer.parseInt(columnIndex);
@@ -546,7 +546,6 @@ public class EditFile
     			}
     			for(int i = 0; i< move.size(); i++)
     			{
-    				//fileArray.get(i).set(columnNum, move.get(i));
     				fileArray.get(i).add(move.get(i));
     			}
     			keepChangedFile = true;
