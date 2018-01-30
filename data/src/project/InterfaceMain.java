@@ -749,6 +749,11 @@ public class InterfaceMain
 	        		option = -1;
 	        }
         }
+        else
+        {
+        		editFile.setMissingCh("");
+        		editFile.setReplaceCh("");
+        }
         return option;
     }
     
@@ -764,6 +769,10 @@ public class InterfaceMain
         		{
         			option = -1;
         		}
+        }
+        else
+        {
+        		editFile.setKeepChangedFile(false);
         }
         return option;
     }
@@ -797,10 +806,15 @@ public class InterfaceMain
         int option = JOptionPane.showConfirmDialog(null, message, "Move Cloumn", JOptionPane.OK_CANCEL_OPTION);
         if(option == 0)
         {
+        		//if(Integer.parseInt(selectedColumn.getText())<=columnNum)
         		if(editFile.moveColumn(selectedColumn.getText().trim())) //if there's an error
         		{
         			option = -1;
         		}
+        }
+        else
+        {
+        		editFile.setKeepChangedFile(false);
         }
         return option;
     }

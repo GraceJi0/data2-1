@@ -39,6 +39,7 @@ public class EditFile
     private String sheetName;
     private String rename;
     private boolean keepChangedFile;
+    private boolean resetLabel;
     
     public EditFile(File file) 
     {
@@ -50,16 +51,22 @@ public class EditFile
         sheetName = null;
         rename = null;
         keepChangedFile = false;
+        resetLabel = false;
     }
     
     public boolean editTheFile(String expression, JPanel gui)
     {
     		String extenssion = getMyFileExtension();
     		boolean error = false;
-    		//if(((missingCh == null && replaceCh == null) || (missingCh.equals("") && replaceCh.equals("")))
-    		//		&& replaceSpace == false && moveColumn == false)
-    			if(((missingCh == null && replaceCh == null) || (missingCh.equals("") && replaceCh.equals("")))
-        				&& keepChangedFile == false)
+    		if(resetLabel==true)
+    		{
+    			for(int i = 0;i<fileArray.size();i++)
+    			{
+    				fileArray.get(i).set(0, "row"+(i+1));
+    			}
+    			resetLabel = false;
+    		}
+    		else if(((missingCh == null && replaceCh == null) || (missingCh.equals("") && replaceCh.equals("")))&& keepChangedFile == false)
         {
             	fileArray.removeAll(fileArray);
             	rowNum =0;
@@ -285,7 +292,6 @@ public class EditFile
     		return sheets;
     }
     
-    @SuppressWarnings("deprecation")
 	public void readTheXLSXSheet(XSSFSheet spreadsheet)
     {
     		DataFormatter dataFormatter = new DataFormatter();
@@ -485,7 +491,6 @@ public class EditFile
     public boolean replaceSpaceInHeader(String headerIndex)
     {
     		boolean error = false;
-    		keepChangedFile = true;
     		//replaceSpace = true;
     		int headerPosition = Integer.parseInt(headerIndex)-1;
     		if((headerPosition<rowNum)&&(fileArray.get(headerPosition)!= null))
@@ -503,6 +508,7 @@ public class EditFile
 	    				}
 	    			}
 	    		}
+	    		keepChangedFile = true;
     		}
     		else
     		{
@@ -516,7 +522,7 @@ public class EditFile
     {
     		boolean error = false;
     		//moveColumn = true;
-    		keepChangedFile = true;
+    		
     		ArrayList<String> move = new ArrayList<String>();
     		int columnPosition = Integer.parseInt(columnIndex);
     		if(columnPosition<=columnNum)
@@ -541,30 +547,30 @@ public class EditFile
     				//fileArray.get(i).set(columnNum, move.get(i));
     				fileArray.get(i).add(move.get(i));
     			}
+    			keepChangedFile = true;
     		}
+    		
     		return error;
     }
     
     public boolean deleteRow(List<String> selectedChoicesRow)
     {
-    		keepChangedFile = true;
+    		
     		boolean error = false;
     		int length = selectedChoicesRow.size();
     		int[] rowIndex = new int[length];
-    		for(int j = 0; j < length;j++)
+    		if(!selectedChoicesRow.isEmpty())
     		{
-    			if(selectedChoicesRow.get(j)!= null &&!(selectedChoicesRow.get(j)).equals(""))
-    			{
-    				rowIndex[j] = (Integer.parseInt(selectedChoicesRow.get(j).substring(3)))-1;
-    				//System.out.println(selectedChoicesRow.get(j).substring(3));
-    			}
+    			resetLabel = true;
+	    		for(int j = 0; j < length;j++)
+	    		{
+	    			if(selectedChoicesRow.get(j)!= null &&!(selectedChoicesRow.get(j)).equals(""))
+	    			{
+	    				rowIndex[j] = (Integer.parseInt(selectedChoicesRow.get(j).substring(3)))-1;
+	    			}
+	    		}
     		}
     		Arrays.sort(rowIndex);
-    		for(int p = 0 ; p < rowIndex.length;p++)
-    		{
-    			System.out.println(rowIndex[p]);
-    		}
-    		//System.out.println(rowIndex.toString());
     		for(int k = length-1; k>=0; k--)
     		{
 	    		for(int i = 0; i < fileArray.size(); i++)
@@ -661,7 +667,12 @@ public class EditFile
         		extenssion = fileName.substring(index + 1);
         }
         return extenssion;
-    }    
+    }
+    
+    public void setKeepChangedFile(boolean b)
+    {
+    		keepChangedFile = b;
+    }
 }
 
 class TikaFileTypeDetector extends FileTypeDetector 
