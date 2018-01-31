@@ -170,9 +170,8 @@ public class EditFile
 	        } 
 	        catch (IOException e) 
 	        {
-	            JOptionPane.showConfirmDialog(null, e.getMessage(), 
-	                                          "Can't open the file!\nPlease click \"Open \" or \"Locate\" to edit the file", 
-	                                          JOptionPane.CLOSED_OPTION);
+	            JOptionPane.showConfirmDialog(null, "Can't open the file!\nPlease click \"Open \" or \"Locate\" to edit the file", 
+	                                          "Error", JOptionPane.CLOSED_OPTION);
 	        }
         }
     		else
