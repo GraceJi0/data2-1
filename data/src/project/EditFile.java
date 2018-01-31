@@ -75,12 +75,11 @@ public class EditFile
     			}
     			resetLabel = false;
     		}
-    		else if(((missingCh == null && replaceCh == null) || (missingCh.equals("") && replaceCh.equals("")))&& keepChangedFile == false)
+    		else if(keepChangedFile == false)
         {
             	fileArray.removeAll(fileArray);
             	rowNum =0;
             	columnNum = 0;
-            //System.out.p
 	        try 
 	        {
 	            if(extenssion.equals("xlsx"))
@@ -177,8 +176,6 @@ public class EditFile
     		else
     		{
     			keepChangedFile = false;
-    			missingCh="";
-    			replaceCh="";
     		}
         return error;
     }
@@ -290,8 +287,8 @@ public class EditFile
     public boolean editXLSXfile(JPanel gui) throws IOException
     {   
 	    	Boolean error = false;
-	    	if((missingCh == null && replaceCh == null) || (missingCh.equals("") && replaceCh.equals("")))
-	    	{
+	    //if((missingCh == null && replaceCh == null) || (missingCh.equals("") && replaceCh.equals("")))
+	    	//{
 	        FileInputStream fip = new FileInputStream(currentFile);
 	        
 	        if(fip.available() > 0)
@@ -329,7 +326,7 @@ public class EditFile
 	                    "Error", JOptionPane.CLOSED_OPTION); 
 	        		error = true;
 	        }
-	    	}
+	    //	}
         return error;
     }
     
@@ -384,8 +381,8 @@ public class EditFile
     public boolean editXLSfile(JPanel gui)
     {
     		Boolean error = false;
-    		if((missingCh == null && replaceCh == null) || (missingCh.equals("") && replaceCh.equals("")))
-    		{
+    		//if((missingCh == null && replaceCh == null) || (missingCh.equals("") && replaceCh.equals("")))
+    		//{
 			try 
 			{
 				FileInputStream fip = new FileInputStream(currentFile);
@@ -426,7 +423,7 @@ public class EditFile
 	                    "Error", JOptionPane.CLOSED_OPTION); 
 	        		error = true;
 			}
-    		}
+    		//}
         return error;
     }
     
@@ -475,8 +472,8 @@ public class EditFile
     //*************find the missing data and replace them with new characters************
     public void replaceMissingData()
     {
-        if(missingCh != null && replaceCh != null && !missingCh.equals("") && !replaceCh.equals(""))
-        {
+        //if(missingCh != null && replaceCh != null && !missingCh.equals("") && !replaceCh.equals(""))
+        //{
         		for(int i = 0; i < fileArray.size(); i++)
         		{
         			for(int j = 0; j < fileArray.get(i).size(); j++)
@@ -490,7 +487,7 @@ public class EditFile
         		fileArrayToFileString(1);
         		//System.out.println("===\n"+fileString);
         		keepChangedFile = true;
-        }
+        //}
     }
     
     //***********save all changes that happens on the file*************
