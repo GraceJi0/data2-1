@@ -194,7 +194,6 @@ public class EditFile
 	        line.trim();
 	        String[] dataLine = line.split(expression);
 	        int start = 0;
-	        System.out.println(dataLine[0]);
 	        if(dataLine[0].contains("row"))
 	        {
 	        		start = 1;
@@ -493,6 +492,7 @@ public class EditFile
     {
     		//String newFileName = currentFile.getName();
     		String newFileName = currentFile.getAbsolutePath();
+    				///Users/dinghanji/Desktop/projectFile/coop_ex/Aphelocoma/00003932-S_File_4_mtDNA_partitions_for_RAxML.txt
     		//System.out.println(newFileName);
     		int reply = -1;
     		String message;
@@ -507,10 +507,11 @@ public class EditFile
     			reply = -1;
     		}
     		//File file = new File(currentFile.getParentFile().getAbsolutePath(),newFileName);
-    		File file = new File(newFileName);
+    		//File file = new File(newFileName);
+    		currentFile = new File(newFileName);
     		//System.out.println(currentFile.getParentFile().getAbsolutePath());
     		//currentFile.delete();
-    		currentFile.renameTo(file);
+    		//currentFile.renameTo(file);
     		if(getMyFileExtension().equals("xlsx"))
     		{
     			
@@ -523,11 +524,12 @@ public class EditFile
     		{
 	    		try 
 	    		{
-				BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file.getName()));
+	    			BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(currentFile.getName()));
+				//BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file.getName()));
 				if(!rowNumberExist)
 				{
 					message = "Do you want to add the row number into the file?";
-					reply = JOptionPane.showConfirmDialog(null, message, "Rename", JOptionPane.YES_NO_OPTION);
+					reply = JOptionPane.showConfirmDialog(null, message, "Add Row Number", JOptionPane.YES_NO_OPTION);
 					if(reply == JOptionPane.YES_OPTION)
 					{
 						fileArrayToFileString(ADD_ROW_NUMBER_OPTION);
@@ -545,7 +547,7 @@ public class EditFile
 				e.printStackTrace();
 			}
     		}
-    		return file;
+    		return currentFile;
     }
     
     /*public void deletefile()
