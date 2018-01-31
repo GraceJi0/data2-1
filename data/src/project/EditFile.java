@@ -194,6 +194,7 @@ public class EditFile
 	        line.trim();
 	        String[] dataLine = line.split(expression);
 	        int start = 0;
+	        System.out.println(dataLine[0]);
 	        if(dataLine[0].contains("row"))
 	        {
 	        		start = 1;
