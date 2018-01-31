@@ -844,6 +844,11 @@ public class InterfaceMain
 			}
 		}
     }
+    
+    public void fastConvertDialog()
+    {
+    	
+    }
 }
 
 class MenuItemListener implements ActionListener 
