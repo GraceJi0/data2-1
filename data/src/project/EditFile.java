@@ -29,6 +29,8 @@ import org.apache.poi.hssf.usermodel.*;
 
 public class EditFile 
 {
+	private static final int ADD_ROW_NUMBER_OPTION = 1;
+	private static final int DONT_ADD_ROW_NUMBER_OPTION = 0;
     private File currentFile;
     private String fileString;
     private List<List<String>> fileArray;
@@ -261,7 +263,7 @@ public class EditFile
 		for(int i = 0; i< fileArray.size(); i++)
 		{
 			int length = fileArray.get(i).size();
-			if(keepRowNumber == 1)
+			if(keepRowNumber == ADD_ROW_NUMBER_OPTION)
 			{
 				start = 0;
 			}
@@ -472,28 +474,25 @@ public class EditFile
     //*************find the missing data and replace them with new characters************
     public void replaceMissingData()
     {
-        //if(missingCh != null && replaceCh != null && !missingCh.equals("") && !replaceCh.equals(""))
-        //{
-        		for(int i = 0; i < fileArray.size(); i++)
+        	for(int i = 0; i < fileArray.size(); i++)
+        	{
+        		for(int j = 0; j < fileArray.get(i).size(); j++)
         		{
-        			for(int j = 0; j < fileArray.get(i).size(); j++)
+        			if ((fileArray.get(i).get(j)).equals(missingCh))
         			{
-        				if ((fileArray.get(i).get(j)).equals(missingCh))
-        				{
-        					fileArray.get(i).set(j, replaceCh);
-        				}
+        				fileArray.get(i).set(j, replaceCh);
         			}
         		}
-        		fileArrayToFileString(1);
-        		//System.out.println("===\n"+fileString);
-        		keepChangedFile = true;
-        //}
+        	}
+        	fileArrayToFileString(ADD_ROW_NUMBER_OPTION);
+        	keepChangedFile = true;
     }
     
     //***********save all changes that happens on the file*************
     public File writeBack(String rename)
     {
-    		String newFileName = currentFile.getName();
+    		//String newFileName = currentFile.getName();
+    		String newFileName = currentFile.getAbsolutePath();
     		//System.out.println(newFileName);
     		int reply = -1;
     		String message;
@@ -507,7 +506,8 @@ public class EditFile
     			}
     			reply = -1;
     		}
-    		File file = new File(currentFile.getParentFile().getAbsolutePath(),newFileName);
+    		//File file = new File(currentFile.getParentFile().getAbsolutePath(),newFileName);
+    		File file = new File(newFileName);
     		//System.out.println(currentFile.getParentFile().getAbsolutePath());
     		//currentFile.delete();
     		currentFile.renameTo(file);
@@ -530,19 +530,19 @@ public class EditFile
 					reply = JOptionPane.showConfirmDialog(null, message, "Rename", JOptionPane.YES_NO_OPTION);
 					if(reply == JOptionPane.YES_OPTION)
 					{
-						fileArrayToFileString(1);
+						fileArrayToFileString(ADD_ROW_NUMBER_OPTION);
 					}
 					else
 					{
-						fileArrayToFileString(0);
+						fileArrayToFileString(DONT_ADD_ROW_NUMBER_OPTION);
 					}
 				}
 				bufferedWriter.write(fileString);
 				bufferedWriter.close();
-	    		} 
-	    		catch (IOException e) 
+	    		}
+	    		catch (IOException e)
 	    		{
-					e.printStackTrace();
+				e.printStackTrace();
 			}
     		}
     		return file;
@@ -585,7 +585,7 @@ public class EditFile
 	    			}
 	    		}
 	    		keepChangedFile = true;
-	    		fileArrayToFileString(1);
+	    		fileArrayToFileString(ADD_ROW_NUMBER_OPTION);
     		}
     		else
     		{
@@ -617,7 +617,7 @@ public class EditFile
     				fileArray.get(i).add(move.get(i));
     			}
     			keepChangedFile = true;
-    			fileArrayToFileString(1);
+    			fileArrayToFileString(ADD_ROW_NUMBER_OPTION);
     }
     
     public boolean deleteRow(List<String> selectedChoicesRow)
@@ -648,7 +648,7 @@ public class EditFile
 		    		}
 	    		}
 	    		rowNum -= rowIndex.length;
-	    		fileArrayToFileString(1);
+	    		fileArrayToFileString(ADD_ROW_NUMBER_OPTION);
     		}
     		return error;
     }
