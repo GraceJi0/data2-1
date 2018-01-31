@@ -87,7 +87,8 @@ public class EditFile
 	            }
 	            else if(extenssion.equals("gff") || extenssion.equals("tped") || 
 	            		extenssion.equals("bayescan") || extenssion.equals("hmp") || 
-	            		extenssion.equals("pdf") || extenssion.equals("mts"))
+	            		extenssion.equals("pdf") || extenssion.equals("mts") || 
+	            		extenssion.equals("doc"))
 	            {
 	            		JOptionPane.showConfirmDialog(null,  "Can't open the file!\nPlease click \"Open \" or \"Locate\" to edit the file", 
 	            			"Error", JOptionPane.CLOSED_OPTION);
@@ -105,8 +106,7 @@ public class EditFile
 	                		int option = JOptionPane.showConfirmDialog(null, message, "Error", JOptionPane.OK_CANCEL_OPTION);
 	                		if(option == 0)
 	                		{
-		                		error = editXLSfile(gui);
-		                		if(!error)
+		                		if(!editXLSfile(gui)) //If no error
 		                		{
 		                			rename = "xls";
 		                		}
@@ -122,8 +122,7 @@ public class EditFile
 		            		int option = JOptionPane.showConfirmDialog(null, message, "Error", JOptionPane.OK_CANCEL_OPTION);
 		            		if(option == 0)
 		            		{
-		                		error = editXLSXfile(gui);
-		                		if(!error)
+		                		if(!editXLSXfile(gui)) // if no error
 		                		{
 		                			rename = "xlsx";
 		                		}
@@ -139,8 +138,7 @@ public class EditFile
 		            		int option = JOptionPane.showConfirmDialog(null, message, "Error", JOptionPane.OK_CANCEL_OPTION);
 		            		if(option == 0)
 		            		{
-		                		error = editXLSXfile(gui);
-		                		if(!error)
+		                		if(!editXLSXfile(gui))  //if no error
 		                		{
 		                			rename = "txt";
 		                		}
@@ -168,7 +166,6 @@ public class EditFile
 	            JOptionPane.showConfirmDialog(null, e.getMessage(), 
 	                                          "Can't open the file!\nPlease click \"Open \" or \"Locate\" to edit the file", 
 	                                          JOptionPane.CLOSED_OPTION);
-	            e.printStackTrace();
 	        }
         }
     		else
