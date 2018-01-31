@@ -259,15 +259,11 @@ public class EditFile
     public void fileArrayToFileString(int keepRowNumber)
     {
     		fileString = "";
-    		int start = -1;
+    		int start = 0;
 		for(int i = 0; i< fileArray.size(); i++)
 		{
 			int length = fileArray.get(i).size();
-			if(keepRowNumber == ADD_ROW_NUMBER_OPTION)
-			{
-				start = 0;
-			}
-			else
+			if(keepRowNumber == DONT_ADD_ROW_NUMBER_OPTION)
 			{
 				start = 1;
 			}
@@ -518,7 +514,6 @@ public class EditFile
 	    		try 
 	    		{
 	    			BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(currentFile.getAbsolutePath()));
-				//BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file.getName()));
 				if(!rowNumberExist)
 				{
 					message = "Do you want to add the row number into the file?";
@@ -543,27 +538,10 @@ public class EditFile
     		return currentFile;
     }
     
-    /*public void deletefile()
-    {
-        if(currentFile.isDirectory())
-        {
-            File[] contents = currentFile.listFiles();
-            if (contents != null) 
-            {
-                for (File f : contents) 
-                {
-                    f.delete();
-                }
-            }
-        }
-        currentFile.delete();
-    }*/
-    
     //*********replace spaces in headers with underscores***********
     public boolean replaceSpaceInHeader(int headerPosition)
     {
     		boolean error = false;
-    		//replaceSpace = true;
     		if((headerPosition<rowNum)&&(fileArray.get(headerPosition)!= null))
     		{
 	    		for(int i = 0; i < fileArray.get(headerPosition).size(); i++)
