@@ -5,16 +5,20 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -29,8 +33,10 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.Border;
@@ -43,8 +49,6 @@ public class InterfaceMain
     private JPanel controlPanel;
     private String fileName;
     private File currentFile;
-    
-    private JCheckBox replaceCheckBox;
     
     private List<String> selectedChoicesRow;
     private List<String> selectedChoicesColumn;
@@ -70,6 +74,10 @@ public class InterfaceMain
     private JPanel leftPanel;
     private JPanel columnControlPanel;
     private JPanel rowControlPanel;
+
+    private JCheckBox replaceCheckBox;
+    private JCheckBox replaceSpaceInHeaders;
+    private JCheckBox moveColumn;
     
     
     public InterfaceMain(File currentFile, JPanel gui) 
@@ -98,7 +106,7 @@ public class InterfaceMain
     public void setInterface() 
     {
         //**********************set main frame******************************
-    	mainFrame = new JFrame("Editor");
+    		mainFrame = new JFrame("Editor");
         //mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setPreferredSize(new Dimension(900, 700));
         mainFrame.setMinimumSize(new Dimension(900, 700));
@@ -131,12 +139,16 @@ public class InterfaceMain
         //********************set components in checkbox panel(edit file operations)*******************
         //JCheckBox test1 = new JCheckBox("Remove header");
         replaceCheckBox = new JCheckBox("Replace Missing Data");
-        replaceCheckBox.addItemListener(new ItemListener() {
+        replaceSpaceInHeaders = new JCheckBox("Edit headers ");
+        moveColumn = new JCheckBox("Move column");
+        replaceCheckBox.addItemListener(new ItemListener() 
+        {
             @Override
-            public void itemStateChanged(ItemEvent e) {
+            public void itemStateChanged(ItemEvent e) 
+            {
                 if(e.getStateChange() == ItemEvent.SELECTED) 
                 {
-                		int option = showReplaceDialog();
+                		int option = showReplaceDataDialog();
                 		if(option != 0)
                 		{
                 			replaceCheckBox.setSelected(false);
@@ -147,6 +159,46 @@ public class InterfaceMain
                 		editFile.setMissingCh(null);
                 		editFile.setReplaceCh(null);
                 	};
+            }
+        });
+        replaceSpaceInHeaders.addItemListener(new ItemListener() 
+        {
+            @Override
+            public void itemStateChanged(ItemEvent e) 
+            {
+                if(e.getStateChange() == ItemEvent.SELECTED) 
+                {
+                		int option = showReplaceSpaceInHeaderDialog();
+                		if(option != 0)
+                		{
+                			replaceSpaceInHeaders.setSelected(false);
+                		}
+                };
+            }
+        });
+        moveColumn.addItemListener(new ItemListener() 
+        {
+            @Override
+            public void itemStateChanged(ItemEvent e) 
+            {
+                if(e.getStateChange() == ItemEvent.SELECTED) 
+                {
+                		if(selectedChoicesColumn.isEmpty() && selectedChoicesRow.isEmpty())
+                		{
+	                		int option = showMoveCloumnDialog();
+	                		if(option != 0)
+	                		{
+	                			moveColumn.setSelected(false);
+	                		}
+                		}
+                		else
+                		{
+                			JOptionPane.showConfirmDialog(null,
+                					"This function can't be used with the \"remove column\" and \"remove row\" function below.", 
+                					"Error", JOptionPane.CLOSED_OPTION);
+                			moveColumn.setSelected(false);
+                		}
+                };
             }
         });
         
@@ -204,7 +256,7 @@ public class InterfaceMain
         rowOperationPanel.add(deleteRowButton);
         rowOperationPanel.add(rowCombo);
         deleteRowButton.addActionListener(new ActionListener()
-                                              {
+        {
             public void actionPerformed(ActionEvent ae) 
             {
                 //delete the selected row in table.
@@ -226,21 +278,32 @@ public class InterfaceMain
         clearBtn.setPreferredSize(new Dimension(160, 40));
         JButton saveAsBtn = new JButton("Save as");
         saveAsBtn.setPreferredSize(new Dimension(160, 40));
-        JButton convertBtn = new JButton("Convert");
-        convertBtn.setPreferredSize(new Dimension(160, 40));
+        JButton fastConvertBtn = new JButton("Fast convert");
+        fastConvertBtn.setPreferredSize(new Dimension(160, 40));
         JButton closeBtn = new JButton("Close");
         closeBtn.setPreferredSize(new Dimension(160, 40));
         
         saveBtn.addActionListener(new ActionListener()
-                                      {
+        {
             public void actionPerformed(ActionEvent ae) 
             {
                 if(showConfirmBox("Do you want to save the changes?", "Save") == JOptionPane.YES_OPTION)
                 {
+                		if(!selectedChoicesRow.isEmpty())
+                		{
+                			if(editFile.deleteRow(selectedChoicesRow)) //if there's an error
+                			{
+                				
+                			}
+                		}
+                		else if(!selectedChoicesColumn.isEmpty())
+                		{
+                			editFile.deleteColumn(selectedChoicesColumn);
+                		}
                 		//editFile.writeBack();
                 		refreshGUI(editFile.getSplitExpression());
-                		editFile.setMissingCh(""); //clear missing data and replace data
-                		editFile.setReplaceCh("");
+                		//if(rename != null) 
+                		
                 }
             }
         });
@@ -269,18 +332,21 @@ public class InterfaceMain
                mainFrame.dispose();
             }
         });
-        convertBtn.addActionListener(new ActionListener()
+        fastConvertBtn.addActionListener(new ActionListener()
         {
 			public void actionPerformed(ActionEvent ae) 
 			{
 				try 
 				{
+					//String command = "java -Xmx1024m -Xms512m -jar /Users/dinghanji/Downloads/PGDSpider_2.1.1.3/PGDSpider2-cli.jar";
 					String command = "java -Xmx1024m -Xms512m -jar /Users/dinghanji/Downloads/PGDSpider_2.1.1.3/PGDSpider2.jar";
 					Runtime.getRuntime().exec(command);
 				}
 				catch (IOException e) 
 				{
-					
+					JOptionPane.showConfirmDialog(null,
+		    				"Can't open PGDSpider!", 
+		                    "Error", JOptionPane.CLOSED_OPTION);
 				}
 			}
 		});
@@ -288,19 +354,20 @@ public class InterfaceMain
         //*****************set left side panel(check box, select row, select column)*****************
         JPanel checkboxPanel = new JPanel();
         checkboxPanel.setLayout(new GridLayout(4, 1));
-        checkboxPanel.setBorder(BorderFactory.createTitledBorder("test"));
-        //checkboxPanel.add(test1);
+        checkboxPanel.setBorder(BorderFactory.createTitledBorder("Select"));
         checkboxPanel.add(replaceCheckBox);
+        checkboxPanel.add(replaceSpaceInHeaders);
+        checkboxPanel.add(moveColumn);
         
         columnControlPanel = new JPanel();
         columnControlPanel.setLayout(new BorderLayout());
-        columnControlPanel.setBorder(BorderFactory.createTitledBorder("Select Columns"));
+        columnControlPanel.setBorder(BorderFactory.createTitledBorder("Remove Columns"));
         columnControlPanel.add(columnOperationPanel, BorderLayout.SOUTH);
         columnControlPanel.add(columnPanel,BorderLayout.CENTER);
         
         rowControlPanel = new JPanel();
         rowControlPanel.setLayout(new BorderLayout());
-        rowControlPanel.setBorder(BorderFactory.createTitledBorder("Select Rows"));
+        rowControlPanel.setBorder(BorderFactory.createTitledBorder("Remove Rows"));
         rowControlPanel.add(rowOperationPanel, BorderLayout.SOUTH);
         rowControlPanel.add(rowPanel, BorderLayout.CENTER);
         
@@ -321,7 +388,7 @@ public class InterfaceMain
         bottomPanel.add(saveBtn);
         bottomPanel.add(saveAsBtn);
         bottomPanel.add(clearBtn);
-        bottomPanel.add(convertBtn);
+        bottomPanel.add(fastConvertBtn);
         bottomPanel.add(closeBtn);
         
         //********************set text panel(file name,file, buttons)***************
@@ -352,10 +419,7 @@ public class InterfaceMain
         JMenu helpMenu = new JMenu("Help");
         
         //**********create menu items**********
-        JMenuItem openMenuItem = new JMenuItem("Open");
-        openMenuItem.setActionCommand("Open");
-        JMenuItem saveMenuItem = new JMenuItem("Save");
-        saveMenuItem.setActionCommand("Save");
+        JMenuItem convertMenuItem = new JMenuItem("Convert");
         /*JMenuItem cutMenuItem = new JMenuItem("Cut");
          cutMenuItem.setActionCommand("Cut");*/
         JMenuItem replaceMenuItem = new JMenuItem("Replace");
@@ -365,9 +429,9 @@ public class InterfaceMain
         JMenuItem splitBySemicolonMenuitem = new JMenuItem("Semicolon");
         JMenuItem splitByLineMenuItem = new JMenuItem("Line");
         
+        
         //**********add menu items to menus**********
-        fileMenu.add(openMenuItem);
-        fileMenu.add(saveMenuItem);
+        fileMenu.add(convertMenuItem);
         // fileMenu.addSeparator();
         //editMenu.add(cutMenuItem);
         editMenu.add(replaceMenuItem);
@@ -441,9 +505,27 @@ public class InterfaceMain
             @Override
             public void actionPerformed(ActionEvent e) 
             {
-                showReplaceDialog();
+                
             }
         });
+        
+        convertMenuItem.addActionListener(new MenuItemListener()
+		        {
+			@Override
+			public void actionPerformed(ActionEvent e) 
+			{
+				try 
+				{
+					//String command = "java -Xmx1024m -Xms512m -jar /Users/dinghanji/Downloads/PGDSpider_2.1.1.3/PGDSpider2-cli.jar";
+					String command = "java -Xmx1024m -Xms512m -jar /Users/dinghanji/Downloads/PGDSpider_2.1.1.3/PGDSpider2.jar";
+					Runtime.getRuntime().exec(command);
+				}
+				catch (IOException e2) 
+				{
+					JOptionPane.showConfirmDialog(null,"Can't open PGDSpider!", "Error", JOptionPane.CLOSED_OPTION);
+				}
+			}
+		});
     }
     
     public JFrame getMainFrame() 
@@ -469,6 +551,10 @@ public class InterfaceMain
         selectedChoicesRow.removeAll(selectedChoicesRow);
         selectedChoicesColumn.removeAll(selectedChoicesColumn);
         replaceCheckBox.setSelected(false);
+        replaceSpaceInHeaders.setSelected(false);
+        moveColumn.setSelected(false);
+        editFile.setMissingCh(""); //clear missing data and replace data
+		editFile.setReplaceCh("");
     }
     
     public void saveAsFile()
@@ -638,11 +724,11 @@ public class InterfaceMain
     }
     
     //show the replace dialog when user click the replace check box to replace the missing data with other characters
-    public int showReplaceDialog()
+    public int showReplaceDataDialog()
     {
         JTextField missingCh = new JTextField();
         JTextField replaceCh = new JTextField();
-        Object[] message = {"(Only one data in a cell)\nReplace missing Value(no comma, space, semicolon)    ",
+        Object[] message = {"\nReplace missing data\n(no comma, space, semicolon)    ",
         		missingCh, " with ", replaceCh,"   "};
         int option = JOptionPane.showConfirmDialog(null, message, "Replace", JOptionPane.OK_CANCEL_OPTION);
         if(option == 0)
@@ -660,12 +746,33 @@ public class InterfaceMain
 	        		JOptionPane.showConfirmDialog(null,
     				"Can't replace the missing data!\nPlease make sure it's not empty and there's no space, coma and semicolon.", 
                     "Error", JOptionPane.CLOSED_OPTION);
-	        		replaceCheckBox.setSelected(false);
+	        		option = -1;
 	        }
         }
         else
         {
-        		replaceCheckBox.setSelected(false);
+        		editFile.setMissingCh("");
+        		editFile.setReplaceCh("");
+        }
+        return option;
+    }
+    
+    public int showReplaceSpaceInHeaderDialog()
+    {
+        JTextField selectedHeaderRows = new JTextField();
+        selectedHeaderRows.setText("1");
+        Object[] message = {"Replace spaces in header at row", selectedHeaderRows, "(row number, no space)","\nwith underscores"};
+        int option = JOptionPane.showConfirmDialog(null, message, "Headers", JOptionPane.OK_CANCEL_OPTION);
+        if(option == 0)
+        {
+        		if(editFile.replaceSpaceInHeader(selectedHeaderRows.getText().trim())) //if there's an error
+        		{
+        			option = -1;
+        		}
+        }
+        else
+        {
+        		editFile.setKeepChangedFile(false);
         }
         return option;
     }
@@ -689,6 +796,58 @@ public class InterfaceMain
     			valid = false;
     		}
     		return valid;
+    }
+    
+    public int showMoveCloumnDialog()
+    {
+    		JTextField selectedColumn = new JTextField();
+    		selectedColumn.setText("1");
+        Object[] message = {"Move column", selectedColumn, "(column number, no space)","\nto the end of the file"};
+        int option = JOptionPane.showConfirmDialog(null, message, "Move Cloumn", JOptionPane.OK_CANCEL_OPTION);
+        if(option == 0)
+        {
+        		//if(Integer.parseInt(selectedColumn.getText())<=columnNum)
+        		if(editFile.moveColumn(selectedColumn.getText().trim())) //if there's an error
+        		{
+        			option = -1;
+        		}
+        }
+        else
+        {
+        		editFile.setKeepChangedFile(false);
+        }
+        return option;
+    }
+    
+    public void writeToLogFile(String logMessage)
+    {
+	    	if(currentFile.getParentFile().getParentFile().getName().equals("coop_ex") ||
+					currentFile.getParentFile().getParentFile().getName().equals("noncoop_ex"))
+		{
+			if(currentFile.getParentFile().getParentFile().getParentFile().isDirectory())
+			{
+				File logDelete = new File(currentFile.getParentFile().getParentFile().getParentFile().getAbsolutePath()+"/logEditor.txt");
+				try 
+				{
+					BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(logDelete,true));
+					DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+					Date date = new Date();
+					String message = dateFormat.format(date)+"File name: "+currentFile.getName()
+								+"\nPath:"+currentFile.getPath()+"\n"+logMessage+"\n\n";
+					bufferedWriter.write(message);
+					bufferedWriter.close();
+				} 
+				catch (IOException e) 
+				{	
+					e.printStackTrace();
+				}
+			}
+		}
+    }
+    
+    public void fastConvertDialog()
+    {
+    	
     }
 }
 

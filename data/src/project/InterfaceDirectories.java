@@ -2,12 +2,16 @@ package project;
 
 import java.awt.event.*;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -15,6 +19,8 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.event.*;
 import javax.swing.filechooser.FileSystemView;
 import javax.swing.tree.*;
+
+import java.util.Date;
 import java.util.List;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.ZipEntry;
@@ -23,9 +29,8 @@ import java.awt.*;
 
 public class InterfaceDirectories 
 {
-    private JScrollPane metaDataScroll;
-    private String resultFile;
-    private JTextArea metaDataTextArea;
+	private JEditorPane metaDataTextArea;
+    private JEditorPane readmeTextArea;
     private Desktop desktop;
     
     /** Provides nice icons and names for files. */
@@ -161,21 +166,54 @@ public class InterfaceDirectories
             fileName = new JLabel();
             fileDetailsValues.add(fileName);
             
-            //**********************set mete data panel********************
+            //**********************set mete data and README panel********************
             JPanel fileMetaDataPanel = new JPanel();
-            fileMetaDataPanel.setLayout(new BorderLayout(3,3));
-            metaDataTextArea = new JTextArea("\n\n\n\n\n");
+            fileMetaDataPanel.setLayout(new GridLayout(1,1));
+            JTabbedPane metaDataPane = new JTabbedPane();
+            
+            metaDataTextArea = new JEditorPane();
+            metaDataTextArea.setContentType("text/html");
             metaDataTextArea.setEditable(false);
-            metaDataTextArea.setLineWrap(true);
-            metaDataTextArea.setWrapStyleWord(true);
-            metaDataScroll = new JScrollPane(metaDataTextArea,
+            metaDataTextArea.setOpaque(false);
+            metaDataTextArea.addHyperlinkListener(new HyperlinkListener()
+            {
+				@Override
+				public void hyperlinkUpdate(HyperlinkEvent e) 
+				{
+					if(HyperlinkEvent.EventType.ACTIVATED.equals(e.getEventType()))
+					{
+						//Desktop d = Desktop.getDesktop();
+						try
+						{
+							desktop.browse(e.getURL().toURI());
+							//d.browse(e.getURL().toURI());
+						}
+						catch(Exception e1)
+						{
+							e1.printStackTrace();
+						}
+					}			
+				}		
+            	});
+            JScrollPane metaDataScroll = new JScrollPane(metaDataTextArea,
                                              JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                                              JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
             Dimension dd = tableScroll.getPreferredSize();
             metaDataScroll.setPreferredSize(new Dimension((int)dd.getWidth(), (int)dd.getHeight()+50));
-            fileMetaDataPanel.add(metaDataScroll, BorderLayout.CENTER);
-            fileMetaDataPanel.add(new JLabel("Meta Data"), BorderLayout.NORTH);
-            fileMetaDataPanel.setBorder(new EmptyBorder(20,0,0,0));
+            
+            readmeTextArea = new JEditorPane();
+            readmeTextArea.setContentType("text/html");
+            readmeTextArea.setEditable(false);
+            readmeTextArea.setOpaque(false);
+            JScrollPane readmeScroll = new JScrollPane(readmeTextArea,
+                                             JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                                             JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+            readmeScroll.setPreferredSize(new Dimension((int)dd.getWidth(), (int)dd.getHeight()+50));
+            
+            metaDataPane.add("Meta Data", metaDataScroll);
+            metaDataPane.addTab("README", readmeScroll);
+            fileMetaDataPanel.add(metaDataPane);
+            fileMetaDataPanel.setBorder(new EmptyBorder(10,0,0,0));
             
             //***********************set tools panel***********************
             JPanel toolBar = new JPanel();
@@ -266,6 +304,7 @@ public class InterfaceDirectories
                                             {
                 public void actionPerformed(ActionEvent ae) 
                 {
+                		writeToLogFile();
                     deleteDrectoriesAndFiles();
                     showChildren(currentNode);
                     //gui.revalidate();
@@ -433,13 +472,21 @@ public class InterfaceDirectories
     public String readTheFile(File file) throws FileNotFoundException
     {
         BufferedReader br = new BufferedReader(new FileReader(file));
-        String theFile = "";
+        String theFile = "<br><br>";
         try
         {
             String line = br.readLine();
             while(line != null)
             {
-                theFile += line+"\n";
+            		if(line.contains("http://")) //check if there's a URL
+            		{
+            			int i = line.indexOf(':');
+            			String front = line.substring(0, i+1);
+            			String back = line.substring(i+1, line.length());
+            			back = "<a href='"+back+"'>"+back+"</a>";
+            			line = front+back+"<br>";
+            		}
+                theFile += line+"<br>";
                 line = br.readLine();
             }
             br.close();
@@ -456,7 +503,8 @@ public class InterfaceDirectories
     public boolean findMetaData(File file)
     {
         boolean found = false;
-        resultFile = "";
+        String metaDataFile = "";
+        String readmeFile = "";
         if (file.isDirectory()) 
         {
             File[] files = fileSystemView.getFiles(file, true); 
@@ -465,10 +513,10 @@ public class InterfaceDirectories
                 String childName = child.getName();
                 if (childName.contains("metaData")) 
                 {
-                    resultFile += child.getName()+"\n\n";
+                		metaDataFile += child.getName()+"\n\n";
                     try 
                     {
-                        resultFile += readTheFile(child)+
+                    		metaDataFile += readTheFile(child)+
                             "----------------------------------------------------------------------------\n";
                     } 
                     catch (FileNotFoundException e) 
@@ -477,9 +525,25 @@ public class InterfaceDirectories
                     }
                     found = true;
                 }
+                else if(childName.contains("README.txt"))
+                {
+                		readmeFile += child.getName()+"\n\n";
+	                try 
+	                {
+	                		readmeFile += readTheFile(child)+
+	                        "----------------------------------------------------------------------------\n";
+	                } 
+	                catch (FileNotFoundException e) 
+	                {
+	                    e.printStackTrace();
+	                }
+	                found = true;
+                }
             }
-            metaDataTextArea.setText(resultFile);
-            metaDataTextArea.setCaretPosition(0); 
+            metaDataTextArea.setText(metaDataFile);
+            metaDataTextArea.setCaretPosition(0);
+            readmeTextArea.setText(readmeFile);
+            readmeTextArea.setCaretPosition(0);
         }
         return found;
     }
@@ -540,27 +604,6 @@ public class InterfaceDirectories
         }
     }
     
-    /*private void decompressGzipFile(String gzipFile, String newFile) {
-        try 
-        {
-            FileInputStream fis = new FileInputStream(gzipFile);
-            GZIPInputStream gis = new GZIPInputStream(fis);
-            FileOutputStream fos = new FileOutputStream(newFile);
-            byte[] buffer = new byte[100000];
-            int len;
-            while((len = gis.read(buffer)) != -1)
-            {
-                fos.write(buffer, 0, len);
-            }
-            fos.close();
-            gis.close();
-        } 
-        catch (IOException e) 
-        {
-            e.printStackTrace();
-        }
-    }*/
-    
     public void deleteDrectoriesAndFiles()
     {
         if(currentFile.isDirectory())
@@ -582,5 +625,31 @@ public class InterfaceDirectories
         String fileName = currentFile.getName();
         int index = fileName.lastIndexOf('.');
         return fileName.substring(index + 1);
+    }
+    
+    public void writeToLogFile()
+    {
+	    	if(currentFile.getParentFile().getParentFile().getName().equals("coop_ex") ||
+					currentFile.getParentFile().getParentFile().getName().equals("noncoop_ex"))
+		{
+			if(currentFile.getParentFile().getParentFile().getParentFile().isDirectory())
+			{
+				File logDelete = new File(currentFile.getParentFile().getParentFile().getParentFile().getAbsolutePath()+"/logDelete.txt");
+				try 
+				{
+					BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(logDelete,true));
+					DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+					Date date = new Date();
+					String logMessage = dateFormat.format(date)+"\tDelete file: "+currentFile.getName()
+								+"\nPath:"+currentFile.getPath()+"\n\n";
+					bufferedWriter.write(logMessage);
+					bufferedWriter.close();
+				} 
+				catch (IOException e) 
+				{	
+					e.printStackTrace();
+				}
+			}
+		}
     }
 }
