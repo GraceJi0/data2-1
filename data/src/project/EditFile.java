@@ -30,6 +30,7 @@ import org.apache.poi.hssf.usermodel.*;
 public class EditFile 
 {
     private File currentFile;
+    private String fileString;
     private List<List<String>> fileArray;
     private int columnNum;
     private int rowNum;
@@ -44,6 +45,7 @@ public class EditFile
     public EditFile(File file) 
     {
     		fileArray = new ArrayList<List<String>>();
+    		fileString = "";
         currentFile = file;
         missingCh = null;
         replaceCh = null;
@@ -75,6 +77,7 @@ public class EditFile
             	fileArray.removeAll(fileArray);
             	rowNum =0;
             	columnNum = 0;
+            //	System.out.p
 	        try 
 	        {
 	            if(extenssion.equals("xlsx"))
@@ -181,58 +184,89 @@ public class EditFile
     public boolean separateFile(String expression) throws FileNotFoundException
     {
     		boolean error = false;
-        BufferedReader br = new BufferedReader(new FileReader(currentFile));
-	        try
+    		getFileString();
+	    String lines[] = fileString.split("\n");
+	    int lineNum = 0;
+	    while(lineNum<lines.length && lines[lineNum] != null)
+	    {
+	    		String line = lines[lineNum];
+	        line.trim();
+	        String[] dataLine = line.split(expression);
+	        if(expression.equals("line")) // if it split by line, just display the data by line
 	        {
-	            String line = br.readLine();
-	            int lineNum = 0;
-	            while(line != null)
-	            {
-	                line.trim();
-	                	String[] dataLine = line.split(expression);
-	                if(expression.equals("line")) // if it split by line, just display the data by line
-	                {
-	                		dataLine = new String[1];
-	                		dataLine[0] = line;
-	                }
-	                for(int i = 0; i < dataLine.length; i++)
-	                {
-	                    fileArray.add(new ArrayList<String>());
-	                    fileArray.get(lineNum).add(dataLine[i].trim());
-	                }
-	                lineNum++;
-	                if(dataLine.length > columnNum)
-	                {
-	                		//keep the biggest columnNum in different rows to be the columnNum
-	                		columnNum = dataLine.length;
-	                }
-	                line = br.readLine();
-	            }
-	            br.close();
-	            if(fileArray.size() == 0)
-	            {
+	        		dataLine = new String[1];
+	        		dataLine[0] = line;
+	         }
+	         for(int i = 0; i < dataLine.length; i++)
+	         {
+	        	 	fileArray.add(new ArrayList<String>());
+	            fileArray.get(lineNum).add(dataLine[i].trim());
+	         }
+	         lineNum++;
+	         if(dataLine.length > columnNum)
+	         {
+	               //keep the biggest columnNum in different rows to be the columnNum
+	                	columnNum = dataLine.length;
+	         }     
+	     }
+	     if(fileArray.size() == 0)
+	     {
 	                JOptionPane.showConfirmDialog(null, 
 	                		"Can't open the file!\nPlease click \"Open \" or \"Locate\" to edit the file", 
 	                		"Error", JOptionPane.CLOSED_OPTION); 
 	                error = true;
-	            }
-	            else
-	            {
-	                columnNum = fileArray.get(0).size();
-	                rowNum = lineNum;
-	                splitExpression = expression;
-	                addColumnAndRowLabel();
-	            }
-	        }
-	        catch(IOException e)
-	        {
-	            JOptionPane.showConfirmDialog(null, e.getMessage(), 
-	                "Can't open the file!\nPlease click \"Open \" or \"Locate\"", 
-	                 JOptionPane.CLOSED_OPTION);            
-	            e.printStackTrace();
-	            error = true;
-	        }
+	      }
+	      else
+	      {
+	           columnNum = fileArray.get(0).size();
+	           rowNum = lineNum;
+	           splitExpression = expression;
+	           addRowLabel();
+	       }
         return error;
+    }
+    
+    public void getFileString()
+    {
+    		fileString = "";
+        try
+        {
+        		BufferedReader br = new BufferedReader(new FileReader(currentFile));
+            String line = br.readLine();
+            while(line != null)
+            {
+                //line.trim();
+                fileString+=line+"\n";
+                line = br.readLine();
+            }
+            br.close();
+        }
+        catch(IOException e)
+        {
+            JOptionPane.showConfirmDialog(null, e.getMessage(), 
+                "Can't open the file!\nPlease click \"Open \" or \"Locate\"", 
+                 JOptionPane.CLOSED_OPTION);            
+        }
+    }
+    
+    public void fileArrayToFileString()
+    {
+    		fileString = "";
+		for(int i = 0; i< fileArray.size(); i++)
+		{
+			int length = fileArray.get(i).size();
+			for(int j = 0; j < length; j++)
+			{
+				if(j == (length-1))
+				{
+					fileString+=fileArray.get(i).get(j)+"\n";
+				}
+				else
+				{
+					fileString+=fileArray.get(i).get(j)+	splitExpression;
+				}
+			}
+		}
     }
     
     //**********************edit xlsx files**************************
@@ -268,7 +302,7 @@ public class EditFile
 				{
 					error = true;
 				}
-				addColumnAndRowLabel();
+				addRowLabel();
 				fip.close();
 	        }
 	        else
@@ -356,7 +390,7 @@ public class EditFile
 					{
 						error = true;
 					}
-					addColumnAndRowLabel();
+					addRowLabel();
 					fip.close();
 			    }
 				else
@@ -445,6 +479,7 @@ public class EditFile
     		String newFileName = currentFile.getName();
     		if(rename != null)
     		{
+    			//JOPtionPane(the file has been opened as an ... file, do you want to add he extension to it?)
     			newFileName += "."+rename;
     		}
     		File file = new File(newFileName);
@@ -461,22 +496,7 @@ public class EditFile
 	    		try 
 	    		{
 				BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file.getName()));
-				String fileString = "";
-				for(int i = 0; i< fileArray.size(); i++)
-				{
-					int length = fileArray.get(i).size();
-					for(int j = 0; j < length; j++)
-					{
-						if(j == (length-1))
-						{
-							fileString+=fileArray.get(i).get(j)+"\n";
-						}
-						else
-						{
-							fileString+=fileArray.get(i).get(j)+	splitExpression;
-						}
-					}
-				}
+				
 				bufferedWriter.write(fileString);
 				bufferedWriter.close();
 	    		} 
@@ -645,7 +665,7 @@ public class EditFile
     		return rename;
     }
     
-    public void addColumnAndRowLabel()
+    public void addRowLabel()
     {
         for(int i = 0; i < rowNum; i++)
         {
