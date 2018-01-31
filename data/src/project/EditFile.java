@@ -66,7 +66,7 @@ public class EditFile
     {
     		String extenssion = getMyFileExtension();
     		boolean error = false;
-    		if(resetLabel==true)
+    		/*if(resetLabel==true)
     		{
     			for(int i = 0;i<fileArray.size();i++)
     			{
@@ -76,8 +76,9 @@ public class EditFile
     				}
     			}
     			resetLabel = false;
-    		}
-    		else if(keepChangedFile == false)
+    		}*/
+    		if(keepChangedFile == false)
+    		//else if(keepChangedFile == false)
         {
             	fileArray.removeAll(fileArray);
             	rowNum =0;
@@ -490,10 +491,7 @@ public class EditFile
     //***********save all changes that happens on the file*************
     public File writeBack(String rename)
     {
-    		//String newFileName = currentFile.getName();
     		String newFileName = currentFile.getAbsolutePath();
-    				///Users/dinghanji/Desktop/projectFile/coop_ex/Aphelocoma/00003932-S_File_4_mtDNA_partitions_for_RAxML.txt
-    		//System.out.println(newFileName);
     		int reply = -1;
     		String message;
     		if(rename != null)
@@ -506,12 +504,7 @@ public class EditFile
     			}
     			reply = -1;
     		}
-    		//File file = new File(currentFile.getParentFile().getAbsolutePath(),newFileName);
-    		//File file = new File(newFileName);
     		currentFile = new File(newFileName);
-    		//System.out.println(currentFile.getParentFile().getAbsolutePath());
-    		//currentFile.delete();
-    		//currentFile.renameTo(file);
     		if(getMyFileExtension().equals("xlsx"))
     		{
     			
@@ -524,7 +517,7 @@ public class EditFile
     		{
 	    		try 
 	    		{
-	    			BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(currentFile.getName()));
+	    			BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(currentFile.getAbsolutePath()));
 				//BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file.getName()));
 				if(!rowNumberExist)
 				{
@@ -599,27 +592,35 @@ public class EditFile
     
     public void moveColumn(int columnPosition)
     {
+    		keepChangedFile = true;
     		ArrayList<String> move = new ArrayList<String>();
-    			for(int i = 0;i<fileArray.size();i++)
+    		for(int i = 0;i<fileArray.size();i++)
+    		{
+    			for(int j = 1; j < fileArray.get(i).size(); j++)
     			{
-    				for(int j = 1; j < fileArray.get(i).size(); j++)
+    				if(j == columnPosition)
     				{
-    					if(j == columnPosition)
+    					if(fileArray.get(i).get(j)!= null)
     					{
-    						if(fileArray.get(i).get(j)!= null)
-    						{
-	    						move.add(fileArray.get(i).get(j));
-	    						fileArray.get(i).remove(j);
-    						}
+    						move.add(fileArray.get(i).get(j));
+    						fileArray.get(i).remove(j);
     					}
     				}
     			}
-    			for(int i = 0; i< move.size(); i++)
+    		}
+    		for(int i = 0; i< move.size(); i++)
+    		{
+    			fileArray.get(i).add(move.get(i));
+    		}
+    			
+    		for(int i = 0;i<fileArray.size();i++) //reset label
+    		{
+    			if(!fileArray.get(i).isEmpty())
     			{
-    				fileArray.get(i).add(move.get(i));
+    				fileArray.get(i).set(0, "row"+(i+1));
     			}
-    			keepChangedFile = true;
-    			fileArrayToFileString(ADD_ROW_NUMBER_OPTION);
+    		}
+    		fileArrayToFileString(ADD_ROW_NUMBER_OPTION);
     }
     
     public boolean deleteRow(List<String> selectedChoicesRow)

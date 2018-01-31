@@ -317,8 +317,8 @@ public class InterfaceMain
                 		//keep row index or not
                 		String expression = editFile.getSplitExpression();
                 		editFile.writeBack(editFile.getRename());
-                		refreshGUI(expression);
                 		editFile = new EditFile(currentFile);
+                		refreshGUI(expression);
                 }
             }
         });
