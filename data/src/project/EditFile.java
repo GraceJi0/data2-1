@@ -629,7 +629,6 @@ public class EditFile
 	    			{
 	    				fileArray.get(i).set(0, "row"+(i+1));
 	    			}
-	    			System.out.println("---------");
 	    		}
     		}
     		return error;
