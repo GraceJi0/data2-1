@@ -77,6 +77,11 @@ public class InterfaceMain
     private JCheckBox replaceSpaceInHeaders;
     private JCheckBox moveColumn;
     
+    private String replaceData;
+    private String missingData;
+    private int selectedHeaderRowData;
+    private int moveColumnIndex;
+    
     
     public InterfaceMain(File currentFile, JPanel gui) 
     {
@@ -287,21 +292,33 @@ public class InterfaceMain
             {
                 if(showConfirmBox("Do you want to save the changes?", "Save") == JOptionPane.YES_OPTION)
                 {
+                		if(replaceCheckBox.isSelected())
+                		{
+                			editFile.setMissingCh(missingData);
+                			editFile.setReplaceCh(replaceData);
+                			editFile.replaceMissingData();
+                		}
+                		if(replaceSpaceInHeaders.isSelected())
+                		{
+                			editFile.replaceSpaceInHeader(selectedHeaderRowData);
+                		}
+                		if(moveColumn.isSelected())
+                		{
+                			editFile.moveColumn(moveColumnIndex);
+                		}
                 		if(!selectedChoicesRow.isEmpty())
                 		{
-                			if(editFile.deleteRow(selectedChoicesRow)) //if there's an error
-                			{
-                				
-                			}
+                			editFile.deleteRow(selectedChoicesRow);
                 		}
-                		else if(!selectedChoicesColumn.isEmpty())
+                		if(!selectedChoicesColumn.isEmpty())
                 		{
                 			editFile.deleteColumn(selectedChoicesColumn);
                 		}
-                		//editFile.writeBack();
-                		refreshGUI(editFile.getSplitExpression());
-                		//if(rename != null) 
-                		
+                		//keep row index or not
+                		String expression = editFile.getSplitExpression();
+                		editFile.writeBack(editFile.getRename());
+                		refreshGUI(expression);
+                		editFile = new EditFile(currentFile);
                 }
             }
         });
@@ -458,7 +475,7 @@ public class InterfaceMain
             @Override
             public void actionPerformed(ActionEvent e) 
             {
-                refreshGUI("\\s+");
+            			refreshGUI("\\s+");
             }
         });
         
@@ -467,7 +484,7 @@ public class InterfaceMain
             @Override
             public void actionPerformed(ActionEvent e) 
             {
-                refreshGUI(",");
+            			refreshGUI(",");
             }
         });
         
@@ -476,7 +493,7 @@ public class InterfaceMain
             @Override
             public void actionPerformed(ActionEvent e) 
             {
-                refreshGUI("\t");
+            		refreshGUI("\t");
             }
         });
         
@@ -485,7 +502,7 @@ public class InterfaceMain
             @Override
             public void actionPerformed(ActionEvent e) 
             {
-                refreshGUI(";");
+            		refreshGUI(";");
             }
         });
         
@@ -731,20 +748,14 @@ public class InterfaceMain
         int option = JOptionPane.showConfirmDialog(null, message, "Replace", JOptionPane.OK_CANCEL_OPTION);
         if(option == 0)
         {
-        		String missing=missingCh.getText().trim();
-        		String replace = replaceCh.getText().trim();
-	        if(validReplaceData(missing) && validReplaceData(replace))
-	        {
-	        		editFile.setMissingCh(missing);
-		        editFile.setReplaceCh(replace);
-		        editFile.replaceMissingData();
-	        }
-	        else
+        		missingData = missingCh.getText().trim();
+        		replaceData = replaceCh.getText().trim();
+	        if(!validReplaceData(missingData) || !validReplaceData(replaceData))
 	        {
 	        		JOptionPane.showConfirmDialog(null,
-    				"Can't replace the missing data!\nPlease make sure it's not empty and there's no space, coma and semicolon.", 
-                    "Error", JOptionPane.CLOSED_OPTION);
-	        		option = -1;
+	    				"Can't replace the missing data!\nPlease make sure it's not empty and there's no space, coma and semicolon.", 
+	                    "Error", JOptionPane.CLOSED_OPTION);
+		        		option = -1;
 	        }
         }
         else
@@ -755,26 +766,7 @@ public class InterfaceMain
         return option;
     }
     
-    public int showReplaceSpaceInHeaderDialog()
-    {
-        JTextField selectedHeaderRows = new JTextField();
-        selectedHeaderRows.setText("1");
-        Object[] message = {"Replace spaces in header at row", selectedHeaderRows, "(row number, no space)","\nwith underscores"};
-        int option = JOptionPane.showConfirmDialog(null, message, "Headers", JOptionPane.OK_CANCEL_OPTION);
-        if(option == 0)
-        {
-        		if(editFile.replaceSpaceInHeader(selectedHeaderRows.getText().trim())) //if there's an error
-        		{
-        			option = -1;
-        		}
-        }
-        else
-        {
-        		editFile.setKeepChangedFile(false);
-        }
-        return option;
-    }
-    
+    //check if the missing data and replace data are valid
     public boolean validReplaceData(String data)
     {
     		boolean valid = true;
@@ -796,6 +788,29 @@ public class InterfaceMain
     		return valid;
     }
     
+    //replace the spaces in a specific header
+    public int showReplaceSpaceInHeaderDialog()
+    {
+        JTextField selectedHeaderRow = new JTextField();
+        selectedHeaderRow.setText("1");
+        Object[] message = {"Replace spaces in header at row", selectedHeaderRow, "(row number, no space)","\nwith underscores"};
+        int option = JOptionPane.showConfirmDialog(null, message, "Headers", JOptionPane.OK_CANCEL_OPTION);
+        if(option == 0)
+        {
+        		selectedHeaderRowData = Integer.parseInt(selectedHeaderRow.getText().trim())-1;
+        		if(!(selectedHeaderRowData<rowNum)||(editFile.getFileArray().get(selectedHeaderRowData)== null))
+        		{
+        			option = -1;
+        		}
+        }
+        else
+        {
+        		editFile.setKeepChangedFile(false);
+        }
+        return option;
+    }
+    
+    //move the selected column to the end of the file
     public int showMoveCloumnDialog()
     {
     		JTextField selectedColumn = new JTextField();
@@ -804,8 +819,8 @@ public class InterfaceMain
         int option = JOptionPane.showConfirmDialog(null, message, "Move Cloumn", JOptionPane.OK_CANCEL_OPTION);
         if(option == 0)
         {
-        		//if(Integer.parseInt(selectedColumn.getText())<=columnNum)
-        		if(editFile.moveColumn(selectedColumn.getText().trim())) //if there's an error
+        		moveColumnIndex = Integer.parseInt(selectedColumn.getText().trim());
+        		if(moveColumnIndex>columnNum)
         		{
         			option = -1;
         		}

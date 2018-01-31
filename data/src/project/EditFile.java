@@ -41,6 +41,7 @@ public class EditFile
     private String rename;
     private boolean keepChangedFile;
     private boolean resetLabel;
+    private boolean rowNumberExist;
     
     public EditFile(File file) 
     {
@@ -55,6 +56,8 @@ public class EditFile
         rename = null;
         keepChangedFile = false;
         resetLabel = false;
+        rowNumberExist = false;
+        getFileString();
     }
     
     public boolean editTheFile(String expression, JPanel gui)
@@ -77,7 +80,7 @@ public class EditFile
             	fileArray.removeAll(fileArray);
             	rowNum =0;
             	columnNum = 0;
-            //	System.out.p
+            //System.out.p
 	        try 
 	        {
 	            if(extenssion.equals("xlsx"))
@@ -184,7 +187,7 @@ public class EditFile
     public boolean separateFile(String expression) throws FileNotFoundException
     {
     		boolean error = false;
-    		getFileString();
+    		getFileString();  //get the file string from original file 
 	    String lines[] = fileString.split("\n");
 	    int lineNum = 0;
 	    while(lineNum<lines.length && lines[lineNum] != null)
@@ -192,12 +195,18 @@ public class EditFile
 	    		String line = lines[lineNum];
 	        line.trim();
 	        String[] dataLine = line.split(expression);
+	        int start = 0;
+	        if(dataLine[0].contains("row"))
+	        {
+	        		start = 1;
+	        		rowNumberExist = true;
+	        }
 	        if(expression.equals("line")) // if it split by line, just display the data by line
 	        {
 	        		dataLine = new String[1];
 	        		dataLine[0] = line;
 	         }
-	         for(int i = 0; i < dataLine.length; i++)
+	         for(int i = start; i < dataLine.length; i++)
 	         {
 	        	 	fileArray.add(new ArrayList<String>());
 	            fileArray.get(lineNum).add(dataLine[i].trim());
@@ -211,19 +220,19 @@ public class EditFile
 	     }
 	     if(fileArray.size() == 0)
 	     {
-	                JOptionPane.showConfirmDialog(null, 
-	                		"Can't open the file!\nPlease click \"Open \" or \"Locate\" to edit the file", 
-	                		"Error", JOptionPane.CLOSED_OPTION); 
-	                error = true;
-	      }
-	      else
-	      {
+	           JOptionPane.showConfirmDialog(null, 
+	           		"Can't open the file!\nPlease click \"Open \" or \"Locate\" to edit the file", 
+	           		"Error", JOptionPane.CLOSED_OPTION); 
+	           error = true;
+	     }
+	     else
+	     {
 	           columnNum = fileArray.get(0).size();
 	           rowNum = lineNum;
 	           splitExpression = expression;
 	           addRowLabel();
-	       }
-        return error;
+	     }
+         return error;
     }
     
     public void getFileString()
@@ -235,7 +244,6 @@ public class EditFile
             String line = br.readLine();
             while(line != null)
             {
-                //line.trim();
                 fileString+=line+"\n";
                 line = br.readLine();
             }
@@ -249,13 +257,22 @@ public class EditFile
         }
     }
     
-    public void fileArrayToFileString()
+    public void fileArrayToFileString(int keepRowNumber)
     {
     		fileString = "";
+    		int start = -1;
 		for(int i = 0; i< fileArray.size(); i++)
 		{
 			int length = fileArray.get(i).size();
-			for(int j = 0; j < length; j++)
+			if(keepRowNumber == 1)
+			{
+				start = 0;
+			}
+			else
+			{
+				start = 1;
+			}
+			for(int j = start; j < length; j++)
 			{
 				if(j == (length-1))
 				{
@@ -265,7 +282,7 @@ public class EditFile
 				{
 					fileString+=fileArray.get(i).get(j)+	splitExpression;
 				}
-			}
+			}	
 		}
     }
     
@@ -470,6 +487,9 @@ public class EditFile
         				}
         			}
         		}
+        		fileArrayToFileString(1);
+        		//System.out.println("===\n"+fileString);
+        		keepChangedFile = true;
         }
     }
     
@@ -477,12 +497,23 @@ public class EditFile
     public File writeBack(String rename)
     {
     		String newFileName = currentFile.getName();
+    		//System.out.println(newFileName);
+    		int reply = -1;
+    		String message;
     		if(rename != null)
     		{
-    			//JOPtionPane(the file has been opened as an ... file, do you want to add he extension to it?)
-    			newFileName += "."+rename;
+    			message = "The file is open as an "+rename+" file. Do you want to add the extension?";
+    			reply = JOptionPane.showConfirmDialog(null, message, "Rename", JOptionPane.YES_NO_OPTION);
+    			if(reply == JOptionPane.YES_OPTION)
+    			{
+    				newFileName += "."+rename;
+    			}
+    			reply = -1;
     		}
-    		File file = new File(newFileName);
+    		File file = new File(currentFile.getParentFile().getAbsolutePath(),newFileName);
+    		//System.out.println(currentFile.getParentFile().getAbsolutePath());
+    		//currentFile.delete();
+    		currentFile.renameTo(file);
     		if(getMyFileExtension().equals("xlsx"))
     		{
     			
@@ -496,7 +527,19 @@ public class EditFile
 	    		try 
 	    		{
 				BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file.getName()));
-				
+				if(!rowNumberExist)
+				{
+					message = "Do you want to add the row number into the file?";
+					reply = JOptionPane.showConfirmDialog(null, message, "Rename", JOptionPane.YES_NO_OPTION);
+					if(reply == JOptionPane.YES_OPTION)
+					{
+						fileArrayToFileString(1);
+					}
+					else
+					{
+						fileArrayToFileString(0);
+					}
+				}
 				bufferedWriter.write(fileString);
 				bufferedWriter.close();
 	    		} 
@@ -508,12 +551,27 @@ public class EditFile
     		return file;
     }
     
+    /*public void deletefile()
+    {
+        if(currentFile.isDirectory())
+        {
+            File[] contents = currentFile.listFiles();
+            if (contents != null) 
+            {
+                for (File f : contents) 
+                {
+                    f.delete();
+                }
+            }
+        }
+        currentFile.delete();
+    }*/
+    
     //*********replace spaces in headers with underscores***********
-    public boolean replaceSpaceInHeader(String headerIndex)
+    public boolean replaceSpaceInHeader(int headerPosition)
     {
     		boolean error = false;
     		//replaceSpace = true;
-    		int headerPosition = Integer.parseInt(headerIndex)-1;
     		if((headerPosition<rowNum)&&(fileArray.get(headerPosition)!= null))
     		{
 	    		for(int i = 0; i < fileArray.get(headerPosition).size(); i++)
@@ -530,6 +588,7 @@ public class EditFile
 	    			}
 	    		}
 	    		keepChangedFile = true;
+	    		fileArrayToFileString(1);
     		}
     		else
     		{
@@ -539,14 +598,9 @@ public class EditFile
     		return error;
     }
     
-    public boolean moveColumn(String columnIndex)
+    public void moveColumn(int columnPosition)
     {
-    		boolean error = false;
-    		
     		ArrayList<String> move = new ArrayList<String>();
-    		int columnPosition = Integer.parseInt(columnIndex);
-    		if(columnPosition<=columnNum)
-    		{
     			for(int i = 0;i<fileArray.size();i++)
     			{
     				for(int j = 1; j < fileArray.get(i).size(); j++)
@@ -566,9 +620,7 @@ public class EditFile
     				fileArray.get(i).add(move.get(i));
     			}
     			keepChangedFile = true;
-    		}
-    		
-    		return error;
+    			fileArrayToFileString(1);
     }
     
     public boolean deleteRow(List<String> selectedChoicesRow)
@@ -587,19 +639,20 @@ public class EditFile
 	    				rowIndex[j] = (Integer.parseInt(selectedChoicesRow.get(j).substring(3)))-1;
 	    			}
 	    		}
-    		}
-    		Arrays.sort(rowIndex);
-    		for(int k = length-1; k>=0; k--)
-    		{
-	    		for(int i = 0; i < fileArray.size(); i++)
+	    		Arrays.sort(rowIndex);
+	    		for(int k = length-1; k>=0; k--)
 	    		{
-	    			if(rowIndex[k]==i)
-	    			{
-	    				fileArray.remove(i);
-	    			}
+		    		for(int i = 0; i < fileArray.size(); i++)
+		    		{
+		    			if(rowIndex[k]==i)
+		    			{
+		    				fileArray.remove(i);
+		    			}
+		    		}
 	    		}
+	    		rowNum -= rowIndex.length;
+	    		fileArrayToFileString(1);
     		}
-    		rowNum -= rowIndex.length;
     		return error;
     }
     
