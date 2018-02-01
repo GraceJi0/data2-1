@@ -76,6 +76,7 @@ public class InterfaceMain
     private JCheckBox replaceCheckBox;
     private JCheckBox replaceSpaceInHeaders;
     private JCheckBox moveColumn;
+    private JCheckBox editHeadersFormat;
     
     private String replaceData;
     private String missingData;
@@ -144,6 +145,7 @@ public class InterfaceMain
         replaceCheckBox = new JCheckBox("Replace Missing Data");
         replaceSpaceInHeaders = new JCheckBox("Edit headers ");
         moveColumn = new JCheckBox("Move column");
+        editHeadersFormat = new JCheckBox("Edit Headers' Format");
         replaceCheckBox.addItemListener(new ItemListener() 
         {
             @Override
@@ -200,6 +202,21 @@ public class InterfaceMain
                 					"This function can't be used with the \"remove column\" and \"remove row\" function below.", 
                 					"Error", JOptionPane.CLOSED_OPTION);
                 			moveColumn.setSelected(false);
+                		}
+                };
+            }
+        });
+        editHeadersFormat.addItemListener(new ItemListener() 
+        {
+            @Override
+            public void itemStateChanged(ItemEvent e) 
+            {
+                if(e.getStateChange() == ItemEvent.SELECTED) 
+                {
+                		int option = editHeadersFormatDialog();
+                		if(option != 0)
+                		{
+                			editHeadersFormat.setSelected(false);
                 		}
                 };
             }
@@ -373,6 +390,7 @@ public class InterfaceMain
         checkboxPanel.add(replaceCheckBox);
         checkboxPanel.add(replaceSpaceInHeaders);
         checkboxPanel.add(moveColumn);
+        checkboxPanel.add(editHeadersFormat);
         
         columnControlPanel = new JPanel();
         columnControlPanel.setLayout(new BorderLayout());
@@ -817,10 +835,13 @@ public class InterfaceMain
         Object[] message = {"Move column", selectedColumn, "(column number, no space)","\nto the end of the file"};
         int option = JOptionPane.showConfirmDialog(null, message, "Move Cloumn", JOptionPane.OK_CANCEL_OPTION);
         if(option == 0)
-        {
+        {	
         		moveColumnIndex = Integer.parseInt(selectedColumn.getText().trim());
         		if(moveColumnIndex>columnNum)
         		{
+        			JOptionPane.showConfirmDialog(null,
+    	    				"The column number is not valid!", 
+    	                    "Error", JOptionPane.CLOSED_OPTION);
         			option = -1;
         		}
         }
@@ -831,6 +852,49 @@ public class InterfaceMain
         return option;
     }
     
+    public int editHeadersFormatDialog()
+    {
+        JTextField startColumn = new JTextField();
+        JTextField endColumn = new JTextField();
+        JTextField theRowNumber = new JTextField();
+        Object[] message = {"(Change headers format from \"ID X1 X2 Y1 Y2\" to \"ID X Y\")",
+        		"Select headers from column (start column number)", startColumn, "to column (end column number)",endColumn,
+        		"at row (row number)",theRowNumber};
+        int option = JOptionPane.showConfirmDialog(null, message, "Edit headers' format", JOptionPane.OK_CANCEL_OPTION);
+        if(option == 0)
+        {
+        		String startColumnString = startColumn.getText();
+        		String endColumnString = endColumn.getText();
+        		String theRowNumberString = theRowNumber.getText();
+        		if(!startColumnString.equals("") && !endColumnString.equals("") && !theRowNumberString.equals(""))
+        		{
+	        		int startColumnNumber = Integer.parseInt(startColumnString);
+	        		int endColumnNumber = Integer.parseInt(endColumnString);
+	        		int rowNumber = Integer.parseInt(theRowNumberString);
+	        		if(startColumnNumber>1 && startColumnNumber<columnNum && endColumnNumber>1 && endColumnNumber<columnNum 
+	        				&& rowNumber <= rowNum)
+	        			
+	        		{
+		        		
+		        }
+	        		else
+	        		{
+	        			JOptionPane.showConfirmDialog(null,
+	    	    				"The column number or row number is not valid!", 
+	    	                    "Error", JOptionPane.CLOSED_OPTION);
+	    		        	option = -1;
+	        		}
+        		}
+        		else
+        		{
+        			JOptionPane.showConfirmDialog(null,
+    	    				"The column number or row number is not valid!", 
+    	                    "Error", JOptionPane.CLOSED_OPTION);
+    		        	option = -1;
+        		}
+        }
+        return option;
+    }
     /*public void writeToLogFile(String logMessage)
     {
 	    	if(currentFile.getParentFile().getParentFile().getName().equals("coop_ex") ||
