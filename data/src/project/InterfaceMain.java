@@ -831,7 +831,7 @@ public class InterfaceMain
         return option;
     }
     
-    public void writeToLogFile(String logMessage)
+    /*public void writeToLogFile(String logMessage)
     {
 	    	if(currentFile.getParentFile().getParentFile().getName().equals("coop_ex") ||
 					currentFile.getParentFile().getParentFile().getName().equals("noncoop_ex"))
@@ -855,7 +855,7 @@ public class InterfaceMain
 				}
 			}
 		}
-    }
+    }*/
     
     public void fastConvertDialog()
     {

@@ -513,11 +513,11 @@ public class InterfaceDirectories
                 String childName = child.getName();
                 if (childName.contains("metaData")) 
                 {
-                		metaDataFile += child.getName()+"\n\n";
+                		metaDataFile += child.getName()+"<br>";
                     try 
                     {
                     		metaDataFile += readTheFile(child)+
-                            "----------------------------------------------------------------------------\n";
+                            "----------------------------------------------------------------------------<br>";
                     } 
                     catch (FileNotFoundException e) 
                     {
@@ -525,19 +525,29 @@ public class InterfaceDirectories
                     }
                     found = true;
                 }
-                else if(childName.contains("README.txt"))
+                else if(childName.contains("README"))
                 {
-                		readmeFile += child.getName()+"\n\n";
-	                try 
-	                {
-	                		readmeFile += readTheFile(child)+
-	                        "----------------------------------------------------------------------------\n";
-	                } 
-	                catch (FileNotFoundException e) 
-	                {
-	                    e.printStackTrace();
-	                }
-	                found = true;
+                		if(childName.contains("txt"))
+                		{
+	                		readmeFile += child.getName()+"<br>";
+		                try 
+		                {
+		                		readmeFile += readTheFile(child)+
+		                        "----------------------------------------------------------------------------<br>";
+		                } 
+		                catch (FileNotFoundException e) 
+		                {
+		                    e.printStackTrace();
+		                }
+		                found = true;
+                		}
+                		else
+                		{
+                			readmeFile+="****"+
+                					"The README file can't be displayed at this area, please click \"open\" or \"loacate\" to open the file."
+                					+"****";
+                			break;
+                		}
                 }
             }
             metaDataTextArea.setText(metaDataFile);
