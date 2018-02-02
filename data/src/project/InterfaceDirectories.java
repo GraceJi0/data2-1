@@ -29,6 +29,7 @@ import java.awt.*;
 
 public class InterfaceDirectories 
 {
+	private JFrame mainFrame;
 	private JEditorPane metaDataTextArea;
     private JEditorPane readmeTextArea;
     private Desktop desktop;
@@ -57,7 +58,16 @@ public class InterfaceDirectories
     private JButton deleteBtn;
     private JLabel fileName;
     
+    private String logChangesFilePath;
+    
     private DefaultMutableTreeNode currentNode;
+    
+    public InterfaceDirectories()
+    {
+    		mainFrame = new JFrame();
+    		getGui();
+    		addMenu();
+    }
     
     public Container getGui() 
     {
@@ -65,6 +75,7 @@ public class InterfaceDirectories
         {
             gui = new JPanel(new BorderLayout());
             gui.setBorder(new EmptyBorder(5,5,5,5));
+            
             
             fileSystemView = FileSystemView.getFileSystemView();
             desktop = Desktop.getDesktop();
@@ -337,6 +348,7 @@ public class InterfaceDirectories
             progressBar.setVisible(false);
             
             gui.add(simpleOutput, BorderLayout.SOUTH);
+            mainFrame.add(gui);
         }
         return gui;
     }
@@ -661,5 +673,47 @@ public class InterfaceDirectories
 				}
 			}
 		}
+    }
+    
+    public void addMenu()
+    {
+    		final JMenuBar menuBar = new JMenuBar();
+    		//**********create menus**********
+        JMenu fileMenu = new JMenu("File");
+        JMenu helpMenu = new JMenu("Help");
+        JMenuItem logFile = new JMenuItem("Log file");
+        fileMenu.add(logFile);
+        menuBar.add(fileMenu);
+        menuBar.add(helpMenu);
+        mainFrame.setJMenuBar(menuBar);
+        logFile.addActionListener(new MenuItemListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) 
+			{
+				setLogFile();
+			}
+		});
+    }
+    
+    public String setLogFile()
+    {
+    		String logDeleteFilePath = "";
+    		logChangesFilePath = "";
+    		String title = "Please set the locations that you want to save the log file.";
+    		JButton logDeleteBtn = new JButton("Log file that records all the deleted file.");
+    		JButton logChangeBtn = new JButton("Logfile that records all the changes that happens on a file.");
+    		Object message[] = {title,logDeleteBtn,logChangeBtn};
+    		Object[] closeMessage= {"Close"};
+    		
+    		JOptionPane.showOptionDialog(null,message, "Set location for log files",
+                    JOptionPane.CLOSED_OPTION, -1, null, closeMessage, null);
+    		
+    		return logDeleteFilePath;
+    }
+    
+    public JFrame getMainFrame()
+    {
+    		return mainFrame;
     }
 }

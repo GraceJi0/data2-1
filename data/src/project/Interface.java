@@ -19,12 +19,11 @@ public class Interface
          f.setVisible(true);*/
         
         
-        JFrame f = new JFrame("Data Management");
+    		InterfaceDirectories fileBrowser = new InterfaceDirectories();
+    		JFrame f = fileBrowser.getMainFrame();
         f.setPreferredSize(new Dimension(900, 700));
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
-        InterfaceDirectories fileBrowser = new InterfaceDirectories();
-        f.setContentPane(fileBrowser.getGui());
+        //f.setContentPane(fileBrowser.getGui());
         
         f.pack();
         f.setLocationByPlatform(true);
