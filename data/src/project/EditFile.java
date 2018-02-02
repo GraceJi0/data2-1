@@ -568,7 +568,6 @@ public class EditFile
     
     public boolean deleteRow(List<String> selectedChoicesRow)
     {
-    		
     		boolean error = false;
     		int length = selectedChoicesRow.size();
     		int[] rowIndex = new int[length];
