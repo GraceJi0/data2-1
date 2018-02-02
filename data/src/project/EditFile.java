@@ -347,7 +347,20 @@ public class EditFile
         		row = (XSSFRow) rowIterator.next();
         		Iterator < Cell >  cellIterator = row.cellIterator();
            
-        		while ( cellIterator.hasNext()) 
+        		int lastColumn = row.getLastCellNum();
+        		
+        		for(int cn = 0; cn < lastColumn;cn++)
+        		{
+        			Cell cell = row.getCell(cn);
+        			String cellValue = " ";
+        			if(cell != null)
+        			{
+        				cellValue = dataFormatter.formatCellValue(cell);
+        			}
+        			index++;
+        			fileArray.get(rowNum-1).add(cellValue);
+        		}
+        		/*while ( cellIterator.hasNext()) 
         		{
         			Cell cell = cellIterator.next();
         			String cellValue = " ";
@@ -361,7 +374,7 @@ public class EditFile
         			fileArray.get(rowNum-1).add(cellValue);
         			//System.out.println(cellValue);
         			//}
-        		}
+        		}*/
         		if(index > columnNum)
         		{
         			columnNum = index;
