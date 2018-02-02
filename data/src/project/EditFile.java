@@ -64,19 +64,7 @@ public class EditFile
     {
     		String extenssion = getMyFileExtension();
     		boolean error = false;
-    		/*if(resetLabel==true)
-    		{
-    			for(int i = 0;i<fileArray.size();i++)
-    			{
-    				if(!fileArray.get(i).isEmpty())
-    				{
-    					fileArray.get(i).set(0, "row"+(i+1));
-    				}
-    			}
-    			resetLabel = false;
-    		}*/
     		if(keepChangedFile == false)
-    		//else if(keepChangedFile == false)
         {
             	fileArray.removeAll(fileArray);
             	rowNum =0;
@@ -229,6 +217,7 @@ public class EditFile
          return error;
     }
     
+    //read the file from original file and put them in variable "fileString"
     public void getFileString()
     {
     		fileString = "";
@@ -251,6 +240,7 @@ public class EditFile
         }
     }
     
+    //go through the fileArray and add all strings to a long string for writing back.
     public void fileArrayToFileString(int keepRowNumber)
     {
     		fileString = "";
@@ -280,22 +270,20 @@ public class EditFile
     public boolean editXLSXfile(JPanel gui) throws IOException
     {   
 	    	Boolean error = false;
-	    //if((missingCh == null && replaceCh == null) || (missingCh.equals("") && replaceCh.equals("")))
-	    	//{
-	        FileInputStream fip = new FileInputStream(currentFile);
+	    FileInputStream fip = new FileInputStream(currentFile);
 	        
-	        if(fip.available() > 0)
-	        {
-	        		if(gui != null)
-	        		{
-	        			gui.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-	        		}
-		        XSSFWorkbook workbook = new XSSFWorkbook(fip);
-			    String sheets[] = getAllXLSXSheet(workbook);
-			    if(gui != null)
-			    {
-			    		gui.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-			    }
+	    if(fip.available() > 0)
+	    {
+	        	if(gui != null)
+	        	{
+	   			gui.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+	        	}
+	        XSSFWorkbook workbook = new XSSFWorkbook(fip);
+		    String sheets[] = getAllXLSXSheet(workbook);
+			if(gui != null)
+		    {
+		    		gui.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+		    }
 				String sheetSelected = (String)JOptionPane.showInputDialog(null, "Select a sheet to edit:",
 	        						"Select a sheet", JOptionPane.PLAIN_MESSAGE,null, sheets,null);
 				if(sheetSelected != null)
@@ -319,7 +307,6 @@ public class EditFile
 	                    "Error005", JOptionPane.CLOSED_OPTION); 
 	        		error = true;
 	        }
-	    //	}
         return error;
     }
     
@@ -345,10 +332,8 @@ public class EditFile
         		rowNum++;
         		fileArray.add(new ArrayList<String>());
         		row = (XSSFRow) rowIterator.next();
-        		Iterator < Cell >  cellIterator = row.cellIterator();
-           
-        		int lastColumn = row.getLastCellNum();
         		
+        		int lastColumn = row.getLastCellNum();
         		for(int cn = 0; cn < lastColumn;cn++)
         		{
         			Cell cell = row.getCell(cn);
@@ -360,21 +345,6 @@ public class EditFile
         			index++;
         			fileArray.get(rowNum-1).add(cellValue);
         		}
-        		/*while ( cellIterator.hasNext()) 
-        		{
-        			Cell cell = cellIterator.next();
-        			String cellValue = " ";
-        			if(!(dataFormatter.formatCellValue(cell)).isEmpty())
-        			{
-        				cellValue = dataFormatter.formatCellValue(cell);
-        			}
-        			//if(!cellValue.equals("\\s+") && !cellValue.isEmpty())
-        			//{
-        			index++;
-        			fileArray.get(rowNum-1).add(cellValue);
-        			//System.out.println(cellValue);
-        			//}
-        		}*/
         		if(index > columnNum)
         		{
         			columnNum = index;
@@ -387,8 +357,6 @@ public class EditFile
     public boolean editXLSfile(JPanel gui)
     {
     		Boolean error = false;
-    		//if((missingCh == null && replaceCh == null) || (missingCh.equals("") && replaceCh.equals("")))
-    		//{
 			try 
 			{
 				FileInputStream fip = new FileInputStream(currentFile);
@@ -429,7 +397,6 @@ public class EditFile
 	                    "Error007", JOptionPane.CLOSED_OPTION); 
 	        		error = true;
 			}
-    		//}
         return error;
     }
     
@@ -455,18 +422,19 @@ public class EditFile
 	    		rowNum++;
 	    		fileArray.add(new ArrayList<String>());
 	    		row = (HSSFRow) rowIterator.next();
-	    		Iterator < Cell >  cellIterator = row.cellIterator();
-	       
-	    		while ( cellIterator.hasNext()) 
-	    		{
-	    			Cell cell = cellIterator.next();
-	    			String cellValue = dataFormatter.formatCellValue(cell);
-	    			if(!cellValue.equals("\\s+") && !cellValue.isEmpty())
-	    			{
-	    				index++;
-	    				fileArray.get(rowNum-1).add(cellValue);
-	    			}
-	    		}
+	    		
+	    		int lastColumn = row.getLastCellNum();
+        		for(int cn = 0; cn < lastColumn;cn++)
+        		{
+        			Cell cell = row.getCell(cn);
+        			String cellValue = " ";
+        			if(cell != null)
+        			{
+        				cellValue = dataFormatter.formatCellValue(cell);
+        			}
+        			index++;
+        			fileArray.get(rowNum-1).add(cellValue);
+        		}
 	    		if(index > columnNum)
 	    		{
 	    			columnNum = index;
