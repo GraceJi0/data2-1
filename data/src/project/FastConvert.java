@@ -39,4 +39,9 @@ public class FastConvert
 			JOptionPane.showConfirmDialog(null,"Can't open PGDSpider!", "Error", JOptionPane.CLOSED_OPTION);
 		}
 	}
+	
+	public void successConvertDialog()
+	{
+		JOptionPane.showConfirmDialog(null,"Successfull convert!", "Fast convert", JOptionPane.CLOSED_OPTION);
+	}
 }
