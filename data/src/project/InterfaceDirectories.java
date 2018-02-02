@@ -703,22 +703,26 @@ public class InterfaceDirectories
     {
     		String title = "Please set the locations that you want to save the log file.";
     		JButton logDeleteBtn = new JButton("Log file that records all the deleted file.");
-    		JTextField test = new JTextField();
     		JButton logChangeBtn = new JButton("Logfile that records all the changes that happens on a file.");
+    		JTextField test = new JTextField();
+    		
     		Object message[] = {title, logDeleteBtn, logChangeBtn,test};
     		Object[] closeMessage= {"Close"};
     		JOptionPane.showOptionDialog(null,message, "Set location for log files",
                     JOptionPane.CLOSED_OPTION, -1, null, closeMessage, null);
+    		
     		//System.out.println(test.getText());
     		logDeleteBtn.addActionListener(new ActionListener()
     		{
 			@Override
 			public void actionPerformed(ActionEvent e) 
 			{
-				System.out.println("------");
+				System.out.println("----------save");
 				logDeleteFilePath = saveLogFile();
 			}
     		});
+    		
+    		
     		/*logChangeBtn.addActionListener(new ActionListener()
     		{
 			@Override
