@@ -710,9 +710,9 @@ public class InterfaceDirectories
     	    if (save == JFileChooser.APPROVE_OPTION) {
     	        try 
     	        {
-    	        		logDeleteFilePath = jfchooser.getSelectedFile()+".txt";
-    	        		//System.out.println(logDeleteFilePath);
-    	            FileWriter fw = new FileWriter(logDeleteFilePath);
+    	        	jfchooser.setName("logDelete.txt");
+    	        		logFilePath = jfchooser.getSelectedFile()+".txt";
+    	            FileWriter fw = new FileWriter(logFilePath);
     	            fw.write(fileContent);
     	            fw.close();
     	        } 
@@ -728,7 +728,6 @@ public class InterfaceDirectories
     {
     		if(!logDeleteFilePath.equals(""))
     		{
-    			System.out.println("-----"+logDeleteFilePath);
 			File logDelete = new File(logDeleteFilePath);
 			try 
 			{
