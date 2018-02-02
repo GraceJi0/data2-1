@@ -710,7 +710,6 @@ public class InterfaceDirectories
     	    if (save == JFileChooser.APPROVE_OPTION) {
     	        try 
     	        {
-    	        	jfchooser.setName("logDelete.txt");
     	        		logFilePath = jfchooser.getSelectedFile()+".txt";
     	            FileWriter fw = new FileWriter(logFilePath);
     	            fw.write(fileContent);

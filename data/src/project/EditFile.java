@@ -43,7 +43,6 @@ public class EditFile
     private String rename;
     private boolean keepChangedFile;
     private boolean resetLabel;
-    private boolean rowNumberExist;
     
     public EditFile(File file) 
     {
@@ -58,7 +57,6 @@ public class EditFile
         rename = null;
         keepChangedFile = false;
         resetLabel = false;
-        rowNumberExist = false;
         getFileString();
     }
     
@@ -99,7 +97,7 @@ public class EditFile
 	            		extenssion.equals("doc"))
 	            {
 	            		JOptionPane.showConfirmDialog(null,  "Can't open the file!\nPlease click \"Open \" or \"Locate\" to edit the file", 
-	            			"Error", JOptionPane.CLOSED_OPTION);
+	            			"Error001", JOptionPane.CLOSED_OPTION);
 	            		error = true;
 	            }
 	            else if(extenssion.equals(""))
@@ -172,7 +170,7 @@ public class EditFile
 	        catch (IOException e) 
 	        {
 	            JOptionPane.showConfirmDialog(null, "Can't open the file!\nPlease click \"Open \" or \"Locate\" to edit the file", 
-	                                          "Error", JOptionPane.CLOSED_OPTION);
+	                                          "Error002", JOptionPane.CLOSED_OPTION);
 	        }
         }
     		else
@@ -194,12 +192,8 @@ public class EditFile
 	    		String line = lines[lineNum];
 	        line.trim();
 	        String[] dataLine = line.split(expression);
+	        
 	        int start = 0;
-	        if(dataLine[0].contains("row"))
-	        {
-	        		start = 1;
-	        		rowNumberExist = true;
-	        }
 	        if(expression.equals("line")) // if it split by line, just display the data by line
 	        {
 	        		dataLine = new String[1];
@@ -209,6 +203,7 @@ public class EditFile
 	         {
 	        	 	fileArray.add(new ArrayList<String>());
 	            fileArray.get(lineNum).add(dataLine[i].trim());
+	            //System.out.println(dataLine[i].trim());
 	         }
 	         lineNum++;
 	         if(dataLine.length > columnNum)
@@ -221,7 +216,7 @@ public class EditFile
 	     {
 	           JOptionPane.showConfirmDialog(null, 
 	           		"Can't open the file!\nPlease click \"Open \" or \"Locate\" to edit the file", 
-	           		"Error", JOptionPane.CLOSED_OPTION); 
+	           		"Error003", JOptionPane.CLOSED_OPTION); 
 	           error = true;
 	     }
 	     else
@@ -250,8 +245,8 @@ public class EditFile
         }
         catch(IOException e)
         {
-            JOptionPane.showConfirmDialog(null, e.getMessage(), 
-                "Can't open the file!\nPlease click \"Open \" or \"Locate\"", 
+            JOptionPane.showConfirmDialog(null, 
+                "Can't open the file!\nPlease click \"Open \" or \"Locate\"", "Error 004", 
                  JOptionPane.CLOSED_OPTION);            
         }
     }
@@ -321,7 +316,7 @@ public class EditFile
 	        {
 	        		JOptionPane.showConfirmDialog(null,
 	        			"Can't open the file!\nPlease click \"Open \" or \"Locate\" to edit the file", 
-	                    "Error", JOptionPane.CLOSED_OPTION); 
+	                    "Error005", JOptionPane.CLOSED_OPTION); 
 	        		error = true;
 	        }
 	    //	}
@@ -409,7 +404,7 @@ public class EditFile
 			    {
 			    		JOptionPane.showConfirmDialog(null,
 			    				"Can't open the file!\nPlease click \"Open \" or \"Locate\" to edit the file", 
-			                    "Error", JOptionPane.CLOSED_OPTION); 
+			                    "Error006", JOptionPane.CLOSED_OPTION); 
 			        	error = true;
 			     }
 			} 
@@ -418,7 +413,7 @@ public class EditFile
 				e.printStackTrace();
 				JOptionPane.showConfirmDialog(null,
 	    				"Can't open the file!\nPlease click \"Open \" or \"Locate\" to edit the file", 
-	                    "Error", JOptionPane.CLOSED_OPTION); 
+	                    "Error007", JOptionPane.CLOSED_OPTION); 
 	        		error = true;
 			}
     		//}
@@ -514,8 +509,6 @@ public class EditFile
 	    		try 
 	    		{
 	    			BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(currentFile.getAbsolutePath()));
-				if(!rowNumberExist)
-				{
 					message = "Do you want to add the row number into the file?";
 					reply = JOptionPane.showConfirmDialog(null, message, "Add Row Number", JOptionPane.YES_NO_OPTION);
 					if(reply == JOptionPane.YES_OPTION)
@@ -526,7 +519,6 @@ public class EditFile
 					{
 						fileArrayToFileString(DONT_ADD_ROW_NUMBER_OPTION);
 					}
-				}
 				bufferedWriter.write(fileString);
 				bufferedWriter.close();
 	    		}
@@ -742,7 +734,6 @@ class TikaFileTypeDetector extends FileTypeDetector
         }
         return null;
     }
-    
 }
 
 
