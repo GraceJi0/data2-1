@@ -59,11 +59,14 @@ public class InterfaceDirectories
     private JLabel fileName;
     
     private String logChangesFilePath;
+    private String logDeleteFilePath;
     
     private DefaultMutableTreeNode currentNode;
     
     public InterfaceDirectories()
     {
+    		logDeleteFilePath = "";
+		logChangesFilePath = "";
     		mainFrame = new JFrame();
     		getGui();
     		addMenu();
@@ -696,24 +699,62 @@ public class InterfaceDirectories
 		});
     }
     
-    public String setLogFile()
+    public void setLogFile()
     {
-    		String logDeleteFilePath = "";
-    		logChangesFilePath = "";
     		String title = "Please set the locations that you want to save the log file.";
     		JButton logDeleteBtn = new JButton("Log file that records all the deleted file.");
+    		JTextField test = new JTextField();
     		JButton logChangeBtn = new JButton("Logfile that records all the changes that happens on a file.");
-    		Object message[] = {title,logDeleteBtn,logChangeBtn};
+    		Object message[] = {title, logDeleteBtn, logChangeBtn,test};
     		Object[] closeMessage= {"Close"};
-    		
     		JOptionPane.showOptionDialog(null,message, "Set location for log files",
                     JOptionPane.CLOSED_OPTION, -1, null, closeMessage, null);
-    		
-    		return logDeleteFilePath;
+    		//System.out.println(test.getText());
+    		logDeleteBtn.addActionListener(new ActionListener()
+    		{
+			@Override
+			public void actionPerformed(ActionEvent e) 
+			{
+				System.out.println("------");
+				logDeleteFilePath = saveLogFile();
+			}
+    		});
+    		/*logChangeBtn.addActionListener(new ActionListener()
+    		{
+			@Override
+			public void actionPerformed(ActionEvent e) 
+			{
+				logChangesFilePath = saveLogFile();
+			}
+    		});*/
     }
     
     public JFrame getMainFrame()
     {
     		return mainFrame;
+    }
+    
+    public String saveLogFile()
+    {
+    		String logFilePath="";
+    		String logDeleteContent = "This log file records all the files that has been deleted\n\n";
+    		JFileChooser jfchooser = new JFileChooser();
+    		jfchooser.setCurrentDirectory(new File("."));
+    		int save = jfchooser.showSaveDialog(null);
+    	    if (save == JFileChooser.APPROVE_OPTION) {
+    	        try 
+    	        {
+    	        		logDeleteFilePath = jfchooser.getSelectedFile()+".txt";
+    	        		System.out.println(logDeleteFilePath);
+    	            FileWriter fw = new FileWriter(logDeleteFilePath);
+    	            fw.write(logDeleteContent);
+    	            fw.close();
+    	        } 
+    	        catch (Exception ex) 
+    	        {
+    	            ex.printStackTrace();
+    	        }
+    	    }
+    	    return logFilePath;
     }
 }
