@@ -305,8 +305,6 @@ public class InterfaceDirectories
                     String destinationFolder = currentFile.getParentFile().getAbsolutePath();
                     unzip(destinationFolder,zipFile);
                     showChildren(currentNode);
-                    //gui.revalidate();
-                    //gui.repaint();
                 }
             });
             toolBar.add(unzipFile);
@@ -321,7 +319,6 @@ public class InterfaceDirectories
                 		writeToLogFile();
                     deleteDrectoriesAndFiles();
                     showChildren(currentNode);
-                    //gui.revalidate();
                     gui.repaint();
                 }
             });
@@ -652,32 +649,6 @@ public class InterfaceDirectories
         return fileName.substring(index + 1);
     }
     
-    public void writeToLogFile()
-    {
-	    	if(currentFile.getParentFile().getParentFile().getName().equals("coop_ex") ||
-					currentFile.getParentFile().getParentFile().getName().equals("noncoop_ex"))
-		{
-			if(currentFile.getParentFile().getParentFile().getParentFile().isDirectory())
-			{
-				File logDelete = new File(currentFile.getParentFile().getParentFile().getParentFile().getAbsolutePath()+"/logDelete.txt");
-				try 
-				{
-					BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(logDelete,true));
-					DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-					Date date = new Date();
-					String logMessage = dateFormat.format(date)+"\tDelete file: "+currentFile.getName()
-								+"\nPath:"+currentFile.getPath()+"\n\n";
-					bufferedWriter.write(logMessage);
-					bufferedWriter.close();
-				} 
-				catch (IOException e) 
-				{	
-					e.printStackTrace();
-				}
-			}
-		}
-    }
-    
     public void addMenu()
     {
     		final JMenuBar menuBar = new JMenuBar();
@@ -704,7 +675,7 @@ public class InterfaceDirectories
     		String title = "Please set the locations that you want to save the log file.";
     		JButton logDeleteBtn = new JButton("Log file that records all the deleted file.");
     		JButton logChangeBtn = new JButton("Logfile that records all the changes that happens on a file.");
-    
+    		
     		logDeleteBtn.addActionListener(new ActionListener()
     		{
 			@Override
@@ -725,14 +696,9 @@ public class InterfaceDirectories
     		});
     		
     		Object message[] = {title, logDeleteBtn, logChangeBtn};
-    		Object[] closeMessage= {"Close"};
-    		JOptionPane.showOptionDialog(null,message, "Set location for log files",
-                    JOptionPane.CLOSED_OPTION, -1, null, closeMessage, null);
-    }
-    
-    public JFrame getMainFrame()
-    {
-    		return mainFrame;
+        	Object[] closeMessage= {"Close"};
+        	JOptionPane.showOptionDialog(null,message, "Set location for log files",
+               JOptionPane.CLOSED_OPTION, -1, null, closeMessage, null);
     }
     
     public String saveLogFile(String fileContent)
@@ -745,7 +711,7 @@ public class InterfaceDirectories
     	        try 
     	        {
     	        		logDeleteFilePath = jfchooser.getSelectedFile()+".txt";
-    	        		System.out.println(logDeleteFilePath);
+    	        		//System.out.println(logDeleteFilePath);
     	            FileWriter fw = new FileWriter(logDeleteFilePath);
     	            fw.write(fileContent);
     	            fw.close();
@@ -756,5 +722,33 @@ public class InterfaceDirectories
     	        }
     	    }
     	    return logFilePath;
+    }
+    
+    public void writeToLogFile()
+    {
+    		if(!logDeleteFilePath.equals(""))
+    		{
+    			System.out.println("-----"+logDeleteFilePath);
+			File logDelete = new File(logDeleteFilePath);
+			try 
+			{
+				BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(logDelete,true));
+				DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+				Date date = new Date();
+				String logMessage = dateFormat.format(date)+"\tDelete file: "+currentFile.getName()
+									+"\nPath:"+currentFile.getPath()+"\n\n";
+				bufferedWriter.write(logMessage);
+				bufferedWriter.close();
+			} 
+			catch (IOException e) 
+			{	
+				e.printStackTrace();
+			}
+    		}
+    }
+    
+    public JFrame getMainFrame()
+    {
+    		return mainFrame;
     }
 }
