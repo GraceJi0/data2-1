@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.awt.Cursor;
 import java.io.*;
 
@@ -519,16 +520,16 @@ public class EditFile
 	    		try 
 	    		{
 	    			BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(currentFile.getAbsolutePath()));
-					message = "Do you want to add the row number into the file?";
-					reply = JOptionPane.showConfirmDialog(null, message, "Add Row Number", JOptionPane.YES_NO_OPTION);
-					if(reply == JOptionPane.YES_OPTION)
-					{
-						fileArrayToFileString(ADD_ROW_NUMBER_OPTION);
-					}
-					else
-					{
-						fileArrayToFileString(DONT_ADD_ROW_NUMBER_OPTION);
-					}
+				message = "Do you want to add the row number into the file?";
+				reply = JOptionPane.showConfirmDialog(null, message, "Add Row Number", JOptionPane.YES_NO_OPTION);
+				if(reply == JOptionPane.YES_OPTION)
+				{
+					fileArrayToFileString(ADD_ROW_NUMBER_OPTION);
+				}
+				else
+				{
+					fileArrayToFileString(DONT_ADD_ROW_NUMBER_OPTION);
+				}
 				bufferedWriter.write(fileString);
 				bufferedWriter.close();
 	    		}
@@ -538,6 +539,34 @@ public class EditFile
 			}
     		}
     		return currentFile;
+    }
+    
+    public void fileArrayToXLSXFile() throws Exception
+    {
+    		XSSFWorkbook workbook = new XSSFWorkbook();
+		
+    		try 
+    		{
+			FileInputStream file = new FileInputStream(currentFile.getAbsolutePath());
+			XSSFSheet spreedsheet = workbook.getSheet(sheetName);
+			XSSFRow row;
+				file.close();
+			
+    		} 
+    		catch (FileNotFoundException e) 
+    		{
+			e.printStackTrace();
+		}
+    		try 
+    		{
+    			FileOutputStream outFile = new FileOutputStream(currentFile);
+				workbook.write(outFile);
+				outFile.close();
+		}
+    		catch (IOException e) 
+    		{
+			e.printStackTrace();
+		}	
     }
     
     //*********replace spaces in headers with underscores***********
