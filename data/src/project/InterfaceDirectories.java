@@ -483,30 +483,33 @@ public class InterfaceDirectories
     /*read the meta data file by line*/
     public String readTheFile(File file) throws FileNotFoundException
     {
-        BufferedReader br = new BufferedReader(new FileReader(file));
         String theFile = "<br><br>";
-        try
+        if(file != null)
         {
-            String line = br.readLine();
-            while(line != null)
-            {
-            		if(line.contains("http://")) //check if there's a URL
-            		{
-            			int i = line.indexOf(':');
-            			String front = line.substring(0, i+1);
-            			String back = line.substring(i+1, line.length());
-            			back = "<a href='"+back+"'>"+back+"</a>";
-            			line = front+back+"<br>";
-            		}
-                theFile += line+"<br>";
-                line = br.readLine();
-            }
-            br.close();
-        }
-        catch(IOException e)
-        {
-            JOptionPane.showConfirmDialog(null, e.getMessage(), "Can't open the file!", JOptionPane.CLOSED_OPTION); 
-            e.printStackTrace();
+	        try
+	        {
+	        	BufferedReader br = new BufferedReader(new FileReader(file));
+	            String line = br.readLine();
+	            while(line != null)
+	            {
+	            		if(line.contains("http://")) //check if there's a URL
+	            		{
+	            			int i = line.indexOf(':');
+	            			String front = line.substring(0, i+1);
+	            			String back = line.substring(i+1, line.length());
+	            			back = "<a href='"+back+"'>"+back+"</a>";
+	            			line = front+back+"<br>";
+	            		}
+	                theFile += line+"<br>";
+	                line = br.readLine();
+	            }
+	            br.close();
+	        }
+	        catch(IOException e)
+	        {
+	            JOptionPane.showConfirmDialog(null, e.getMessage(), "Can't open the file!", JOptionPane.CLOSED_OPTION); 
+	            e.printStackTrace();
+	        }
         }
         return theFile;
     }
@@ -517,7 +520,7 @@ public class InterfaceDirectories
         boolean found = false;
         String metaDataFile = "";
         String readmeFile = "";
-        if (file.isDirectory()) 
+        if (file != null && file.isDirectory()) 
         {
             File[] files = fileSystemView.getFiles(file, true); 
             for (File child : files) 
@@ -644,9 +647,9 @@ public class InterfaceDirectories
     
     public String getMyFileExtension()
     {
-        String fileName = currentFile.getName();
-        int index = fileName.lastIndexOf('.');
-        return fileName.substring(index + 1);
+	        String fileName = currentFile.getName();
+	        int index = fileName.lastIndexOf('.');
+	        return fileName.substring(index + 1);
     }
     
     public void addMenu()

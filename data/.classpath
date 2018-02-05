@@ -16,5 +16,7 @@
 	<classpathentry kind="lib" path="/Users/dinghanji/Downloads/poi-3.17 2/lib/commons-codec-1.10.jar"/>
 	<classpathentry kind="lib" path="/Users/dinghanji/Downloads/poi-3.17 2/lib/commons-logging-1.2.jar"/>
 	<classpathentry kind="lib" path="/Users/dinghanji/Downloads/tika-app-1.17.jar"/>
+	<classpathentry kind="lib" path="/Users/dinghanji/Downloads/junit-4.12.jar"/>
+	<classpathentry kind="lib" path="/Users/dinghanji/Downloads/hamcrest-all-1.3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

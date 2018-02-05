@@ -48,7 +48,15 @@ public class EditFile
     {
     		fileArray = new ArrayList<List<String>>();
     		fileString = "";
-        currentFile = file;
+    		if(file != null)
+    		{
+    			currentFile = file;
+    		}
+    		else
+    		{
+    			JOptionPane.showConfirmDialog(null,  "Can't edit the file", 
+            			"Error", JOptionPane.CLOSED_OPTION);
+    		}
         missingCh = null;
         replaceCh = null;
         rowNum = 0;
@@ -64,106 +72,113 @@ public class EditFile
     {
     		String extenssion = getMyFileExtension();
     		boolean error = false;
-    		if(keepChangedFile == false)
-        {
-            	fileArray.removeAll(fileArray);
-            	rowNum =0;
-            	columnNum = 0;
-	        try 
+    		if(currentFile != null)
+    		{
+	    		if(keepChangedFile == false)
 	        {
-	            if(extenssion.equals("xlsx"))
-	            {
-	                error = editXLSXfile(gui);
-	            }
-	            else if(extenssion.equals("xls"))
-	            {
-	            		error = editXLSfile(gui);
-	            }
-	            else if(extenssion.equals("gff") || extenssion.equals("tped") || 
-	            		extenssion.equals("bayescan") || extenssion.equals("hmp") || 
-	            		extenssion.equals("pdf") || extenssion.equals("mts") || 
-	            		extenssion.equals("doc"))
-	            {
-	            		JOptionPane.showConfirmDialog(null,  "Can't open the file!\nPlease click \"Open \" or \"Locate\" to edit the file", 
-	            			"Error001", JOptionPane.CLOSED_OPTION);
-	            		error = true;
-	            }
-	            else if(extenssion.equals(""))
-	            {
-	            		String message = null;
-	            		FileTypeDetector detector = new TikaFileTypeDetector();
-	                String contentType = detector.probeContentType(currentFile.toPath());
-	                System.out.println(contentType);
-	                if(contentType.equals("application/vnd.ms-excel"))
-	                {
-	                		message = "This file doesn't have an extenssion. Do you want to try to open it as an xls file?";
-	                		int option = JOptionPane.showConfirmDialog(null, message, "Error", JOptionPane.OK_CANCEL_OPTION);
-	                		if(option == 0)
-	                		{
-		                		if(!editXLSfile(gui)) //If no error
+	            	fileArray.removeAll(fileArray);
+	            	rowNum =0;
+	            	columnNum = 0;
+		        try 
+		        {
+		            if(extenssion.equals("xlsx"))
+		            {
+		                error = editXLSXfile(gui);
+		            }
+		            else if(extenssion.equals("xls"))
+		            {
+		            		error = editXLSfile(gui);
+		            }
+		            else if(extenssion.equals("gff") || extenssion.equals("tped") || 
+		            		extenssion.equals("bayescan") || extenssion.equals("hmp") || 
+		            		extenssion.equals("pdf") || extenssion.equals("mts") || 
+		            		extenssion.equals("doc"))
+		            {
+		            		JOptionPane.showConfirmDialog(null,  "Can't open the file!\nPlease click \"Open \" or \"Locate\" to edit the file", 
+		            			"Error001", JOptionPane.CLOSED_OPTION);
+		            		error = true;
+		            }
+		            else if(extenssion.equals(""))
+		            {
+		            		String message = null;
+		            		FileTypeDetector detector = new TikaFileTypeDetector();
+		                String contentType = detector.probeContentType(currentFile.toPath());
+		                System.out.println(contentType);
+		                if(contentType.equals("application/vnd.ms-excel"))
+		                {
+		                		message = "This file doesn't have an extenssion. Do you want to try to open it as an xls file?";
+		                		int option = JOptionPane.showConfirmDialog(null, message, "Error", JOptionPane.OK_CANCEL_OPTION);
+		                		if(option == 0)
 		                		{
-		                			rename = "xls";
+			                		if(!editXLSfile(gui)) //If no error
+			                		{
+			                			rename = "xls";
+			                		}
 		                		}
-	                		}
-	                		else
-	                		{
-	                			error = true;
-	                		}
-	                }
-	                else if(contentType.equals("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
-	                {
-		                	message = "This file doesn't have an extenssion. Do you want to try to open it as an xlsx file?";
-		            		int option = JOptionPane.showConfirmDialog(null, message, "Error", JOptionPane.OK_CANCEL_OPTION);
-		            		if(option == 0)
-		            		{
-		                		if(!editXLSXfile(gui)) // if no error
+		                		else
 		                		{
-		                			rename = "xlsx";
+		                			error = true;
 		                		}
-		            		}
-		            		else
-		            		{
+		                }
+		                else if(contentType.equals("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
+		                {
+			                	message = "This file doesn't have an extenssion. Do you want to try to open it as an xlsx file?";
+			            		int option = JOptionPane.showConfirmDialog(null, message, "Error", JOptionPane.OK_CANCEL_OPTION);
+			            		if(option == 0)
+			            		{
+			                		if(!editXLSXfile(gui)) // if no error
+			                		{
+			                			rename = "xlsx";
+			                		}
+			            		}
+			            		else
+			            		{
+			            			error = true;
+			            		}
+		                }
+		                else if(contentType.equals("text/plain"))
+		                {
+			                	message = "This file doesn't have an extenssion. Do you want to try to open it as an txt file?";
+			            		int option = JOptionPane.showConfirmDialog(null, message, "Error", JOptionPane.OK_CANCEL_OPTION);
+			            		if(option == 0)
+			            		{
+			                		if(!editXLSXfile(gui))  //if no error
+			                		{
+			                			rename = "txt";
+			                		}
+			            		}
+			            		else
+			            		{
+			            			error = true;
+			            		}
+		                }
+		                else
+		                {
+		            			JOptionPane.showConfirmDialog
+		            								(null, "Can't open the file!\nPlease click \"Open \" or \"Locate\" to edit the file", 
+		                                         "Error", JOptionPane.CLOSED_OPTION);
 		            			error = true;
 		            		}
-	                }
-	                else if(contentType.equals("text/plain"))
-	                {
-		                	message = "This file doesn't have an extenssion. Do you want to try to open it as an txt file?";
-		            		int option = JOptionPane.showConfirmDialog(null, message, "Error", JOptionPane.OK_CANCEL_OPTION);
-		            		if(option == 0)
-		            		{
-		                		if(!editXLSXfile(gui))  //if no error
-		                		{
-		                			rename = "txt";
-		                		}
-		            		}
-		            		else
-		            		{
-		            			error = true;
-		            		}
-	                }
-	                else
-	                {
-	            			JOptionPane.showConfirmDialog
-	            								(null, "Can't open the file!\nPlease click \"Open \" or \"Locate\" to edit the file", 
-	                                         "Error", JOptionPane.CLOSED_OPTION);
-	            			error = true;
-	            		}
-	            }
-	            else
-	            {
-	                error = separateFile(expression);
-	            }
-	        } 
-	        catch (IOException e) 
-	        {
-	            JOptionPane.showConfirmDialog(null, "Can't open the file!\nPlease click \"Open \" or \"Locate\" to edit the file", 
-	                                          "Error002", JOptionPane.CLOSED_OPTION);
+		            }
+		            else
+		            {
+		                error = separateFile(expression);
+		            }
+		        } 
+		        catch (IOException e) 
+		        {
+		            JOptionPane.showConfirmDialog(null, "Can't open the file!\nPlease click \"Open \" or \"Locate\" to edit the file", 
+		                                          "Error002", JOptionPane.CLOSED_OPTION);
+		        }
 	        }
-        }
+	    		else
+	    		{
+	    			keepChangedFile = false;
+	    		}
+    		}
     		else
     		{
-    			keepChangedFile = false;
+    			error = true;
     		}
         return error;
     }
@@ -218,30 +233,34 @@ public class EditFile
     }
     
     //read the file from original file and put them in variable "fileString"
-    public void getFileString()
+    public String getFileString()
     {
     		fileString = "";
-        try
-        {
-        		BufferedReader br = new BufferedReader(new FileReader(currentFile));
-            String line = br.readLine();
-            while(line != null)
-            {
-                fileString+=line+"\n";
-                line = br.readLine();
-            }
-            br.close();
-        }
-        catch(IOException e)
-        {
-            JOptionPane.showConfirmDialog(null, 
-                "Can't open the file!\nPlease click \"Open \" or \"Locate\"", "Error 004", 
-                 JOptionPane.CLOSED_OPTION);            
-        }
+    		if(currentFile != null)
+    		{
+	        try
+	        {
+	        		BufferedReader br = new BufferedReader(new FileReader(currentFile));
+	            String line = br.readLine();
+	            while(line != null)
+	            {
+	                fileString+=line+"\n";
+	                line = br.readLine();
+	            }
+	            br.close();
+	        }
+	        catch(IOException e)
+	        {
+	            JOptionPane.showConfirmDialog(null, 
+	                "Can't open the file!\nPlease click \"Open \" or \"Locate\"", "Error 004", 
+	                 JOptionPane.CLOSED_OPTION);            
+	        }
+    		}
+    		return fileString;
     }
     
     //go through the fileArray and add all strings to a long string for writing back.
-    public void fileArrayToFileString(int keepRowNumber)
+    public String fileArrayToFileString(int keepRowNumber)
     {
     		fileString = "";
     		int start = 0;
@@ -264,6 +283,7 @@ public class EditFile
 				}
 			}	
 		}
+		return fileString;
     }
     
     //**********************edit xlsx files**************************
@@ -444,20 +464,29 @@ public class EditFile
     }
     
     //*************find the missing data and replace them with new characters************
-    public void replaceMissingData()
+    public boolean replaceMissingData()
     {
-        	for(int i = 0; i < fileArray.size(); i++)
-        	{
-        		for(int j = 0; j < fileArray.get(i).size(); j++)
-        		{
-        			if ((fileArray.get(i).get(j)).equals(missingCh))
-        			{
-        				fileArray.get(i).set(j, replaceCh);
-        			}
-        		}
-        	}
-        	fileArrayToFileString(ADD_ROW_NUMBER_OPTION);
-        	keepChangedFile = true;
+    		boolean error = false;
+    		if(!fileArray.isEmpty())
+    		{
+	        	for(int i = 0; i < fileArray.size(); i++)
+	        	{
+	        		for(int j = 0; j < fileArray.get(i).size(); j++)
+	        		{
+	        			if ((fileArray.get(i).get(j)).equals(missingCh))
+	        			{
+	        				fileArray.get(i).set(j, replaceCh);
+	        			}
+	        		}
+	        	}
+	        	fileArrayToFileString(ADD_ROW_NUMBER_OPTION);
+	        	keepChangedFile = true;
+    		}
+    		else 
+    		{
+    			error = true;
+    		}
+    		return error;
     }
     
     //***********save all changes that happens on the file*************
@@ -543,6 +572,7 @@ public class EditFile
     
     public void moveColumn(int columnPosition)
     {
+    		
     		keepChangedFile = true;
     		ArrayList<String> move = new ArrayList<String>();
     		for(int i = 0;i<fileArray.size();i++)
@@ -593,15 +623,16 @@ public class EditFile
 		    		}
 	    		}
 	    		rowNum -= rowIndex.length;
-	    		fileArrayToFileString(ADD_ROW_NUMBER_OPTION);
-	    		
-	    		for(int i = 0;i<fileArray.size();i++) //reset label
+
+	    		/*for(int i = 0;i<fileArray.size();i++) //reset label
 	    		{
 	    			if(!fileArray.get(i).isEmpty())
 	    			{
 	    				fileArray.get(i).set(0, "row"+(i+1));
+	    				System.out.println("row"+(i+1));
 	    			}
-	    		}
+	    		}*/
+	    		fileArrayToFileString(ADD_ROW_NUMBER_OPTION);
     		}
     		return error;
     }
@@ -680,13 +711,16 @@ public class EditFile
     public String getMyFileExtension()
     {
     		String extenssion = "";
-        String fileName = currentFile.getName();
-        int index = -1;
-        index = fileName.lastIndexOf('.');
-        if(index > -1)
-        {
-        		extenssion = fileName.substring(index + 1);
-        }
+    		if(currentFile != null)
+    		{
+	        String fileName = currentFile.getName();
+	        int index = -1;
+	        index = fileName.lastIndexOf('.');
+	        if(index > -1)
+	        {
+	        		extenssion = fileName.substring(index + 1);
+	        }
+    		}
         return extenssion;
     }
     
