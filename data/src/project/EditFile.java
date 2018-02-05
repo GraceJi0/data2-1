@@ -624,14 +624,14 @@ public class EditFile
 	    		}
 	    		rowNum -= rowIndex.length;
 
-	    		/*for(int i = 0;i<fileArray.size();i++) //reset label
+	    		for(int i = 0;i<fileArray.size();i++) //reset label
 	    		{
 	    			if(!fileArray.get(i).isEmpty())
 	    			{
 	    				fileArray.get(i).set(0, "row"+(i+1));
 	    				System.out.println("row"+(i+1));
 	    			}
-	    		}*/
+	    		}
 	    		fileArrayToFileString(ADD_ROW_NUMBER_OPTION);
     		}
     		return error;
@@ -640,7 +640,34 @@ public class EditFile
     public boolean deleteColumn(List<String> selectedChoicesColumn)
     {
     		boolean error = false;
-		
+		int length = selectedChoicesColumn.size();
+		int[] columnIndex = new int[length];
+		if(!selectedChoicesColumn.isEmpty())
+		{
+			resetLabel = true;
+	    		for(int j = 0; j < length;j++)
+	    		{
+	    			if(selectedChoicesColumn.get(j)!= null &&!(selectedChoicesColumn.get(j)).equals(""))
+	    			{
+	    				columnIndex[j] = (Integer.parseInt(selectedChoicesColumn.get(j).substring(6)));
+	    			}
+	    		}
+	    		Arrays.sort(columnIndex);
+	    		for(int k = length-1; k>=0; k--)
+	    		{
+		    		for(int i = 0; i< fileArray.size();i++)
+		    		{
+		    			for(int p = 0; p<fileArray.get(i).size(); p++)
+		    			{
+		    				if(columnIndex[k]==p)
+			    			{
+		    					fileArray.get(i).remove(p);
+			    			}
+		    			}
+		    		}
+	    		}
+	    		columnNum -= columnIndex.length;
+		}
 		return error;
     }
     
