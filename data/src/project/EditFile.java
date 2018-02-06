@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.awt.Cursor;
 import java.io.*;
 
@@ -21,6 +22,7 @@ import javax.swing.JPanel;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -525,7 +527,7 @@ public class EditFile
     		currentFile = new File(newFileName);
     		if(getMyFileExtension().equals("xlsx"))
     		{
-    			//fileArrayToXLSXFile();
+    			fileArrayToXLSXFile();
     		}
     		else if(getMyFileExtension().equals("xls"))
     		{
@@ -561,14 +563,31 @@ public class EditFile
     public void fileArrayToXLSXFile() 
     {
     		XSSFWorkbook workbook = new XSSFWorkbook();
-		
+    		FileInputStream file = null;
+    		FileOutputStream outFile;
     		try 
     		{
-			FileInputStream file = new FileInputStream(currentFile.getAbsolutePath());
+    			 file = new FileInputStream(currentFile.getAbsolutePath());
 			XSSFSheet spreedsheet = workbook.getSheet(sheetName);
-			XSSFRow row;
-			
-			//file.close();
+			for(int i = 0; i < fileArray.size();i++)
+			{
+				XSSFRow row = spreedsheet.getRow(i);
+				if(row == null)
+				{
+					row = spreedsheet.createRow(i);
+				}
+				else
+				{
+					spreedsheet.removeRow(row);
+				}
+				for(int j = 0; j < fileArray.get(i).size(); j++)
+				{
+					XSSFCell cell = row.createCell(j);
+					cell.setCellValue(fileArray.get(i).get(j));
+					System.out.println(cell.getStringCellValue());
+				}
+				//fileMap.put(Integer.toString(i), fileObject );
+			}
     		} 
     		catch (FileNotFoundException e) 
     		{
@@ -576,9 +595,10 @@ public class EditFile
 		}
     		try 
     		{
-    			FileOutputStream outFile = new FileOutputStream(currentFile);
-				workbook.write(outFile);
-				outFile.close();
+    			outFile = new FileOutputStream(currentFile);
+			workbook.write(outFile);
+			outFile.close();
+			file.close();
 		}
     		catch (IOException e) 
     		{
