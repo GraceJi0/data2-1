@@ -305,6 +305,9 @@ public class EditFile
 		    {
 		    		gui.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 		    }
+			//if(sheetName== null || sheetName.equals(""))
+			//{
+				System.out.println("---------------------"+sheetName);
 				String sheetSelected = (String)JOptionPane.showInputDialog(null, "Select a sheet to edit:",
 	        						"Select a sheet", JOptionPane.PLAIN_MESSAGE,null, sheets,null);
 				if(sheetSelected != null)
@@ -318,6 +321,7 @@ public class EditFile
 				{
 					error = true;
 				}
+			//}
 				addRowLabel();
 				fip.close();
 	        }
