@@ -482,32 +482,6 @@ public class EditFile
 	    }
     }
     
-    //*************find the missing data and replace them with new characters************
-    public boolean replaceMissingData()
-    {
-    		boolean error = false;
-    		if(!fileArray.isEmpty())
-    		{
-	        	for(int i = 0; i < fileArray.size(); i++)
-	        	{
-	        		for(int j = 0; j < fileArray.get(i).size(); j++)
-	        		{
-	        			if ((fileArray.get(i).get(j)).equals(missingCh))
-	        			{
-	        				fileArray.get(i).set(j, replaceCh);
-	        			}
-	        		}
-	        	}
-	        	fileArrayToFileString(ADD_ROW_NUMBER_OPTION);
-	        	keepChangedFile = true;
-    		}
-    		else 
-    		{
-    			error = true;
-    		}
-    		return error;
-    }
-    
     //***********save all changes that happens on the file*************
     public File writeBack(String rename)
     {
@@ -544,7 +518,14 @@ public class EditFile
 	    		}
 	    		else if(getMyFileExtension().equals("xls"))
 	    		{
-	    			
+	    			if(reply == JOptionPane.YES_OPTION)
+				{
+	    				fileArrayToXLSFile(ADD_ROW_NUMBER_OPTION);
+				}
+				else
+				{
+						fileArrayToXLSFile(DONT_ADD_ROW_NUMBER_OPTION);
+				}
 	    		}
 	    		else
 	    		{
@@ -557,8 +538,8 @@ public class EditFile
 	    				fileArrayToFileString(DONT_ADD_ROW_NUMBER_OPTION);
 	    			}
 	    			bufferedWriter.write(fileString);
-				bufferedWriter.close();
 	    		}
+			bufferedWriter.close();
     		}
     		catch (IOException e)
     		{
@@ -610,9 +591,71 @@ public class EditFile
     }
     
     //write the fileArray back to the original xls file
-    public void fileArrayToXLSFile()
+    public void fileArrayToXLSFile(int keepRowIndex)
     {
-    	
+    		HSSFWorkbook workbook = new HSSFWorkbook();
+		FileInputStream file = null;
+		FileOutputStream outFile;
+		try 
+		{
+			file = new FileInputStream(currentFile.getAbsolutePath());
+			HSSFSheet spreedsheet = workbook.createSheet(sheetName);
+			int start = 0;
+			if(keepRowIndex == DONT_ADD_ROW_NUMBER_OPTION)
+			{
+				start = 1;
+			}
+			for(int i = 0; i < fileArray.size();i++)
+			{
+				HSSFRow row = spreedsheet.createRow(i);
+				for(int j = start; j < fileArray.get(i).size(); j++)
+				{
+					HSSFCell cell = row.createCell(j-start);
+					cell.setCellValue(fileArray.get(i).get(j));
+				}
+			}
+		} 
+		catch (FileNotFoundException e) 
+		{
+			e.printStackTrace();
+		}
+		try 
+		{
+			outFile = new FileOutputStream(currentFile);
+			workbook.write(outFile);
+			outFile.close();
+			file.close();
+		}
+		catch (IOException e) 
+		{
+			e.printStackTrace();
+		}	
+    }
+    
+  //*************find the missing data and replace them with new characters************
+    public boolean replaceMissingData()
+    {
+    		boolean error = false;
+    		if(!fileArray.isEmpty())
+    		{
+	        	for(int i = 0; i < fileArray.size(); i++)
+	        	{
+	        		for(int j = 0; j < fileArray.get(i).size(); j++)
+	        		{
+	        			if ((fileArray.get(i).get(j)).equals(missingCh))
+	        			{
+	        				fileArray.get(i).set(j, replaceCh);
+	        			}
+	        		}
+	        	}
+	        	fileArrayToFileString(ADD_ROW_NUMBER_OPTION);
+	        	keepChangedFile = true;
+    		}
+    		else 
+    		{
+    			error = true;
+    		}
+    		return error;
     }
     
     //*********replace spaces in headers with underscores***********
