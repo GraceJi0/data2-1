@@ -707,25 +707,6 @@ public class InterfaceDirectories
     public String saveLogFile(String fileContent)
     {
     		String logFilePath="";
-    		/*JFileChooser jfchooser = new JFileChooser();
-    		jfchooser.setCurrentDirectory(new File("."));
-    		int save = jfchooser.showSaveDialog(null);
-    		jfchooser.setSelectedFile(new File("logDelete.txt"));
-    		//jfchooser.getUI().set
-    	    if (save == JFileChooser.APPROVE_OPTION) {
-    	        try 
-    	        {
-    	        		logFilePath = jfchooser.getSelectedFile()+".txt";
-    	            FileWriter fw = new FileWriter(logFilePath);
-    	            fw.write(fileContent);
-    	            fw.close();
-    	        } 
-    	        catch (Exception ex) 
-    	        {
-    	            ex.printStackTrace();
-    	        }
-    	    }*/
-    	    
     	    JFileChooser chooser = new JFileChooser();
     	    chooser.setCurrentDirectory(new java.io.File("."));
     	    chooser.setDialogTitle("Choose location for log file");
@@ -753,17 +734,16 @@ public class InterfaceDirectories
 				e.printStackTrace();
 			}
     	    } 
-    	    else 
-    	    {
-    	      System.out.println("No Selection ");
-    	    }
     	    return logFilePath;
     }
     
     public void writeToLogFile()
     {
-    		if(!logDeleteFilePath.equals(""))
+    		File file = new File("logDelete.txt");
+    		if(file.exists())
+    		//if(!logDeleteFilePath.equals(""))
     		{
+    			System.out.println("'''''");
 			File logDelete = new File(logDeleteFilePath);
 			try 
 			{
@@ -779,6 +759,10 @@ public class InterfaceDirectories
 			{	
 				e.printStackTrace();
 			}
+    		}
+    		else
+    		{
+    			System.out.println("======");
     		}
     }
     
