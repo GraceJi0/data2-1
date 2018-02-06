@@ -541,7 +541,8 @@ public class EditFile
     		return currentFile;
     }
     
-    public void fileArrayToXLSXFile() throws Exception
+    //write the fileArray back to the original xlsx file
+    public void fileArrayToXLSXFile() 
     {
     		XSSFWorkbook workbook = new XSSFWorkbook();
 		
@@ -550,8 +551,8 @@ public class EditFile
 			FileInputStream file = new FileInputStream(currentFile.getAbsolutePath());
 			XSSFSheet spreedsheet = workbook.getSheet(sheetName);
 			XSSFRow row;
-				file.close();
 			
+			//file.close();
     		} 
     		catch (FileNotFoundException e) 
     		{
@@ -567,6 +568,12 @@ public class EditFile
     		{
 			e.printStackTrace();
 		}	
+    }
+    
+    //write the fileArray back to the original xls file
+    public void fileArrayToXLSFile()
+    {
+    	
     }
     
     //*********replace spaces in headers with underscores***********
