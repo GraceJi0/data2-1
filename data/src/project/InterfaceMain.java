@@ -482,7 +482,7 @@ public class InterfaceMain
             @Override
             public void actionPerformed(ActionEvent e) 
             {
-            			refreshGUI("\\s+");
+            			refreshGUI(" ");
             }
         });
         
