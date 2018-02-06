@@ -83,10 +83,12 @@ public class InterfaceMain
     private int selectedHeaderRowData;
     private int moveColumnIndex;
     
+    private String theSheetName;
+    
     
     public InterfaceMain(File currentFile, JPanel gui) 
     {
-    		
+    		theSheetName = "";
     		editFile = new EditFile(currentFile);
         controlPanel = new JPanel();
         columnNum = 0;
@@ -331,6 +333,7 @@ public class InterfaceMain
                 		}
                 		//keep row index or not
                 		String expression = editFile.getSplitExpression();
+                		theSheetName = editFile.getSheetName();
                 		editFile.writeBack(editFile.getRename());
                 		editFile = new EditFile(currentFile);
                 		refreshGUI(expression);
@@ -590,7 +593,7 @@ public class InterfaceMain
     //******call method to edit the file and move it form ArrayList to array*******
     public boolean getTableFileData(String expression, JPanel gui)
     {
-        boolean error = editFile.editTheFile(expression, gui);
+        boolean error = editFile.editTheFile(expression, gui, theSheetName);
         if(!error)
         {
 	        //gui.setCursor(new Cursor(Cursor.WAIT_CURSOR));

@@ -69,7 +69,7 @@ public class EditFile
         getFileString();
     }
     
-    public boolean editTheFile(String expression, JPanel gui)
+    public boolean editTheFile(String expression, JPanel gui, String theSheetName)
     {
     		String extenssion = getMyFileExtension();
     		boolean error = false;
@@ -84,11 +84,11 @@ public class EditFile
 		        {
 		            if(extenssion.equals("xlsx"))
 		            {
-		                error = editXLSXfile(gui);
+		                error = editXLSXfile(gui,theSheetName);
 		            }
 		            else if(extenssion.equals("xls"))
 		            {
-		            		error = editXLSfile(gui);
+		            		error = editXLSfile(gui,theSheetName);
 		            }
 		            else if(extenssion.equals("gff") || extenssion.equals("tped") || 
 		            		extenssion.equals("bayescan") || extenssion.equals("hmp") || 
@@ -111,7 +111,7 @@ public class EditFile
 		                		int option = JOptionPane.showConfirmDialog(null, message, "Error", JOptionPane.OK_CANCEL_OPTION);
 		                		if(option == 0)
 		                		{
-			                		if(!editXLSfile(gui)) //If no error
+			                		if(!editXLSfile(gui,theSheetName)) //If no error
 			                		{
 			                			rename = "xls";
 			                		}
@@ -127,7 +127,7 @@ public class EditFile
 			            		int option = JOptionPane.showConfirmDialog(null, message, "Error", JOptionPane.OK_CANCEL_OPTION);
 			            		if(option == 0)
 			            		{
-			                		if(!editXLSXfile(gui)) // if no error
+			                		if(!editXLSXfile(gui,theSheetName)) // if no error
 			                		{
 			                			rename = "xlsx";
 			                		}
@@ -143,7 +143,7 @@ public class EditFile
 			            		int option = JOptionPane.showConfirmDialog(null, message, "Error", JOptionPane.OK_CANCEL_OPTION);
 			            		if(option == 0)
 			            		{
-			                		if(!editXLSXfile(gui))  //if no error
+			                		if(!separateFile(expression))  //if no error
 			                		{
 			                			rename = "txt";
 			                		}
@@ -288,7 +288,7 @@ public class EditFile
     }
     
     //**********************edit xlsx files**************************
-    public boolean editXLSXfile(JPanel gui) throws IOException
+    public boolean editXLSXfile(JPanel gui, String theSheetName) throws IOException
     {   
 	    	Boolean error = false;
 	    FileInputStream fip = new FileInputStream(currentFile);
@@ -305,11 +305,16 @@ public class EditFile
 		    {
 		    		gui.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 		    }
-			//if(sheetName== null || sheetName.equals(""))
-			//{
-				System.out.println("---------------------"+sheetName);
-				String sheetSelected = (String)JOptionPane.showInputDialog(null, "Select a sheet to edit:",
+			String sheetSelected;
+			if(theSheetName.equals(""))
+			{
+				 sheetSelected = (String)JOptionPane.showInputDialog(null, "Select a sheet to edit:",
 	        						"Select a sheet", JOptionPane.PLAIN_MESSAGE,null, sheets,null);
+			}
+			else
+			{
+				sheetSelected = theSheetName;
+			}
 				if(sheetSelected != null)
 				{
 					//gui.setCursor(new Cursor(Cursor.WAIT_CURSOR));
@@ -321,7 +326,6 @@ public class EditFile
 				{
 					error = true;
 				}
-			//}
 				addRowLabel();
 				fip.close();
 	        }
@@ -379,20 +383,28 @@ public class EditFile
     }
     
     //**********************edit xls files**************************
-    public boolean editXLSfile(JPanel gui)
+    public boolean editXLSfile(JPanel gui,String theSheetName)
     {
     		Boolean error = false;
-			try 
-			{
-				FileInputStream fip = new FileInputStream(currentFile);
-				if(fip.available() > 0)
-			    {
-					gui.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-			        HSSFWorkbook workbook = new HSSFWorkbook(fip);
-				    String sheets[] = getAllXLSSheet(workbook);
+		try 
+		{
+			FileInputStream fip = new FileInputStream(currentFile);
+			if(fip.available() > 0)
+		    {
+				gui.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+			    HSSFWorkbook workbook = new HSSFWorkbook(fip);
+				String sheets[] = getAllXLSSheet(workbook);
 				    gui.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-					String sheetSelected = (String)JOptionPane.showInputDialog(null, "Select a sheet to edit:",
+				    String sheetSelected;
+				    if(theSheetName.equals(""))
+				    {
+				    		sheetSelected = (String)JOptionPane.showInputDialog(null, "Select a sheet to edit:",
 		        						"Select a sheet", JOptionPane.PLAIN_MESSAGE,null, sheets,null);
+				    }
+				    else
+				    {
+				    		sheetSelected = theSheetName;
+				    }
 					if(sheetSelected != null)
 					{
 						sheetName = sheetSelected;
@@ -513,7 +525,7 @@ public class EditFile
     		currentFile = new File(newFileName);
     		if(getMyFileExtension().equals("xlsx"))
     		{
-    			
+    			//fileArrayToXLSXFile();
     		}
     		else if(getMyFileExtension().equals("xls"))
     		{

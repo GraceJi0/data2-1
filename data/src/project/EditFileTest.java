@@ -25,10 +25,10 @@ public class EditFileTest {
 	@Test
 	public void testEditTheFile()
 	{
-		assertTrue(editFile1.editTheFile("", null));
-		assertFalse(editFile2.editTheFile("", null));
-		assertFalse(editFile3.editTheFile("\t", null));
-		assertFalse(editFile4.editTheFile("\t", null));
+		assertTrue(editFile1.editTheFile("", null,""));
+		assertFalse(editFile2.editTheFile("", null,""));
+		assertFalse(editFile3.editTheFile("\t", null,""));
+		assertFalse(editFile4.editTheFile("\t", null,""));
 	}
 	
 	@Test
