@@ -3,6 +3,7 @@ package project;
 import java.awt.BorderLayout;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -37,9 +38,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 
 public class InterfaceMain 
 {
@@ -629,6 +632,26 @@ public class InterfaceMain
 	        fileTable.setPreferredScrollableViewportSize(fileTable.getPreferredSize());
 	        fileScroll = new JScrollPane(fileTable,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 	                                     JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+	        fileTable.getColumnModel().getColumn(0).setCellRenderer(new TableCellRenderer() 
+	        {
+	            @Override
+	            public Component getTableCellRendererComponent(JTable x, Object value, boolean isSelected, boolean hasFocus, int row, int column) 
+	            {
+
+	                boolean selected = fileTable.getSelectionModel().isSelectedIndex(row);
+	                Component component = fileTable.getTableHeader().getDefaultRenderer().getTableCellRendererComponent(fileTable, value, false, false, -1, -2);
+	                ((JLabel) component).setHorizontalAlignment(SwingConstants.CENTER);
+	                if (selected) 
+	                {
+	                    component.setFont(component.getFont().deriveFont(Font.BOLD));
+	                } 
+	                else 
+	                {
+	                    component.setFont(component.getFont().deriveFont(Font.PLAIN));
+	                }
+	                return component;
+	            }
+	        });
         }
         return error;
     }
@@ -663,8 +686,7 @@ public class InterfaceMain
                     }
                 }
             }
-        });
-        
+        }); 
     }
     
   //********dynamically set the row combo box(select the row)*********
