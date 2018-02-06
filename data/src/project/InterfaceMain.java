@@ -83,10 +83,12 @@ public class InterfaceMain
     private int selectedHeaderRowData;
     private int moveColumnIndex;
     
+    private String theSheetName;
+    
     
     public InterfaceMain(File currentFile, JPanel gui) 
     {
-    		
+    		theSheetName = "";
     		editFile = new EditFile(currentFile);
         controlPanel = new JPanel();
         columnNum = 0;
@@ -111,7 +113,6 @@ public class InterfaceMain
     {
         //**********************set main frame******************************
     		mainFrame = new JFrame("Editor");
-        //mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setPreferredSize(new Dimension(900, 700));
         mainFrame.setMinimumSize(new Dimension(900, 700));
         
@@ -141,7 +142,6 @@ public class InterfaceMain
         textPanel.setBorder(BorderFactory.createEmptyBorder(8, 0, 0, 8)); 
         
         //********************set components in checkbox panel(edit file operations)*******************
-        //JCheckBox test1 = new JCheckBox("Remove header");
         replaceCheckBox = new JCheckBox("Replace Missing Data");
         replaceSpaceInHeaders = new JCheckBox("Edit headers ");
         moveColumn = new JCheckBox("Move column");
@@ -333,6 +333,7 @@ public class InterfaceMain
                 		}
                 		//keep row index or not
                 		String expression = editFile.getSplitExpression();
+                		theSheetName = editFile.getSheetName();
                 		editFile.writeBack(editFile.getRename());
                 		editFile = new EditFile(currentFile);
                 		refreshGUI(expression);
@@ -347,7 +348,6 @@ public class InterfaceMain
                 {
                     clearAllChanges();
                 }
-                
             }
         });
         saveAsBtn.addActionListener(new ActionListener()
@@ -368,18 +368,8 @@ public class InterfaceMain
         {
 			public void actionPerformed(ActionEvent ae) 
 			{
-				try 
-				{
-					//String command = "java -Xmx1024m -Xms512m -jar /Users/dinghanji/Downloads/PGDSpider_2.1.1.3/PGDSpider2-cli.jar";
-					String command = "java -Xmx1024m -Xms512m -jar /Users/dinghanji/Downloads/PGDSpider_2.1.1.3/PGDSpider2.jar";
-					Runtime.getRuntime().exec(command);
-				}
-				catch (IOException e) 
-				{
-					JOptionPane.showConfirmDialog(null,
-		    				"Can't open PGDSpider!", 
-		                    "Error", JOptionPane.CLOSED_OPTION);
-				}
+				FastConvert fastConvert = new FastConvert(currentFile);
+				fastConvert.fastConvertDialog();
 			}
 		});
         
@@ -462,7 +452,6 @@ public class InterfaceMain
         JMenuItem splitBySemicolonMenuitem = new JMenuItem("Semicolon");
         JMenuItem splitByLineMenuItem = new JMenuItem("Line");
         
-        
         //**********add menu items to menus**********
         fileMenu.add(convertMenuItem);
         // fileMenu.addSeparator();
@@ -493,7 +482,7 @@ public class InterfaceMain
             @Override
             public void actionPerformed(ActionEvent e) 
             {
-            			refreshGUI("\\s+");
+            			refreshGUI(" ");
             }
         });
         
@@ -534,7 +523,7 @@ public class InterfaceMain
 		});
         
         replaceMenuItem.addActionListener(new MenuItemListener()
-                                              {
+        {
             @Override
             public void actionPerformed(ActionEvent e) 
             {
@@ -604,7 +593,7 @@ public class InterfaceMain
     //******call method to edit the file and move it form ArrayList to array*******
     public boolean getTableFileData(String expression, JPanel gui)
     {
-        boolean error = editFile.editTheFile(expression, gui);
+        boolean error = editFile.editTheFile(expression, gui, theSheetName);
         if(!error)
         {
 	        //gui.setCursor(new Cursor(Cursor.WAIT_CURSOR));
@@ -632,10 +621,6 @@ public class InterfaceMain
         boolean error = getTableFileData(expression, gui);
         if(!error)
         {
-	        //SwingUtilities.invokeLater(new Runnable() 
-	        //{
-	        // public void run() 
-	        // {
 	        fileTable = new JTable();
 	        fileTable.setModel(new DefaultTableModel(fileData, columnLabel));
 	        fileTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -644,8 +629,6 @@ public class InterfaceMain
 	        fileTable.setPreferredScrollableViewportSize(fileTable.getPreferredSize());
 	        fileScroll = new JScrollPane(fileTable,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 	                                     JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-	        //  }
-	        //});
         }
         return error;
     }
@@ -674,7 +657,6 @@ public class InterfaceMain
                     }
                     else
                     {
-                        //add the selected column to table.
                         DefaultTableModel model = (DefaultTableModel) columnTable.getModel();
                         model.addRow(new String[]{sColumn});
                         selectedChoicesColumn.add(sColumn);
@@ -696,7 +678,7 @@ public class InterfaceMain
         rowCombo = new JComboBox<String>(choices2);
         rowCombo.setSelectedIndex(-1);
         rowCombo.addItemListener(new ItemListener() 
-                                     {
+        {
             @Override
             public void itemStateChanged(ItemEvent e) 
             {
@@ -709,7 +691,6 @@ public class InterfaceMain
                     }
                     else
                     {
-                        //add the selected row to table.
                         DefaultTableModel model = (DefaultTableModel) rowTable.getModel();
                         model.addRow(new String[]{sRow});
                         selectedChoicesRow.add(sRow);
@@ -760,8 +741,7 @@ public class InterfaceMain
     {
         JTextField missingCh = new JTextField();
         JTextField replaceCh = new JTextField();
-        Object[] message = {"\nReplace missing data\n(no comma, space, semicolon)    ",
-        		missingCh, " with ", replaceCh,"   "};
+        Object[] message = {"\nReplace missing data\n(no comma, space, semicolon)    ", missingCh, " with ", replaceCh,"   "};
         int option = JOptionPane.showConfirmDialog(null, message, "Replace", JOptionPane.OK_CANCEL_OPTION);
         if(option == 0)
         {
@@ -774,11 +754,6 @@ public class InterfaceMain
 	                    "Error", JOptionPane.CLOSED_OPTION);
 		        		option = -1;
 	        }
-        }
-        else
-        {
-        		editFile.setMissingCh("");
-        		editFile.setReplaceCh("");
         }
         return option;
     }
@@ -879,52 +854,41 @@ public class InterfaceMain
 		        }
 	        		else
 	        		{
-	        			JOptionPane.showConfirmDialog(null,
-	    	    				"The column number or row number is not valid!", 
+	        			JOptionPane.showConfirmDialog(null,"The column number or row number is not valid!", 
 	    	                    "Error", JOptionPane.CLOSED_OPTION);
 	    		        	option = -1;
 	        		}
         		}
         		else
         		{
-        			JOptionPane.showConfirmDialog(null,
-    	    				"The column number or row number is not valid!", 
+        			JOptionPane.showConfirmDialog(null,"The column number or row number is not valid!", 
     	                    "Error", JOptionPane.CLOSED_OPTION);
     		        	option = -1;
         		}
         }
         return option;
     }
-    /*public void writeToLogFile(String logMessage)
+    /*public void writeToLogFile()
     {
-	    	if(currentFile.getParentFile().getParentFile().getName().equals("coop_ex") ||
-					currentFile.getParentFile().getParentFile().getName().equals("noncoop_ex"))
-		{
-			if(currentFile.getParentFile().getParentFile().getParentFile().isDirectory())
+    		if(!logDeleteFilePath.equals(""))
+    		{
+			File logDelete = new File(logDeleteFilePath);
+			try 
 			{
-				File logDelete = new File(currentFile.getParentFile().getParentFile().getParentFile().getAbsolutePath()+"/logEditor.txt");
-				try 
-				{
-					BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(logDelete,true));
-					DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-					Date date = new Date();
-					String message = dateFormat.format(date)+"File name: "+currentFile.getName()
-								+"\nPath:"+currentFile.getPath()+"\n"+logMessage+"\n\n";
-					bufferedWriter.write(message);
-					bufferedWriter.close();
-				} 
-				catch (IOException e) 
-				{	
-					e.printStackTrace();
-				}
+				BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(logDelete,true));
+				DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+				Date date = new Date();
+				String logMessage = dateFormat.format(date)+"\tDelete file: "+currentFile.getName()
+									+"\nPath:"+currentFile.getPath()+"\n\n";
+				bufferedWriter.write(logMessage);
+				bufferedWriter.close();
+			} 
+			catch (IOException e) 
+			{	
+				e.printStackTrace();
 			}
-		}
+    		}
     }*/
-    
-    public void fastConvertDialog()
-    {
-    	
-    }
 }
 
 class MenuItemListener implements ActionListener 

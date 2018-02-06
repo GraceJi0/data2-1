@@ -305,8 +305,6 @@ public class InterfaceDirectories
                     String destinationFolder = currentFile.getParentFile().getAbsolutePath();
                     unzip(destinationFolder,zipFile);
                     showChildren(currentNode);
-                    //gui.revalidate();
-                    //gui.repaint();
                 }
             });
             toolBar.add(unzipFile);
@@ -321,7 +319,6 @@ public class InterfaceDirectories
                 		writeToLogFile();
                     deleteDrectoriesAndFiles();
                     showChildren(currentNode);
-                    //gui.revalidate();
                     gui.repaint();
                 }
             });
@@ -486,30 +483,33 @@ public class InterfaceDirectories
     /*read the meta data file by line*/
     public String readTheFile(File file) throws FileNotFoundException
     {
-        BufferedReader br = new BufferedReader(new FileReader(file));
         String theFile = "<br><br>";
-        try
+        if(file != null)
         {
-            String line = br.readLine();
-            while(line != null)
-            {
-            		if(line.contains("http://")) //check if there's a URL
-            		{
-            			int i = line.indexOf(':');
-            			String front = line.substring(0, i+1);
-            			String back = line.substring(i+1, line.length());
-            			back = "<a href='"+back+"'>"+back+"</a>";
-            			line = front+back+"<br>";
-            		}
-                theFile += line+"<br>";
-                line = br.readLine();
-            }
-            br.close();
-        }
-        catch(IOException e)
-        {
-            JOptionPane.showConfirmDialog(null, e.getMessage(), "Can't open the file!", JOptionPane.CLOSED_OPTION); 
-            e.printStackTrace();
+	        try
+	        {
+	        	BufferedReader br = new BufferedReader(new FileReader(file));
+	            String line = br.readLine();
+	            while(line != null)
+	            {
+	            		if(line.contains("http://")) //check if there's a URL
+	            		{
+	            			int i = line.indexOf(':');
+	            			String front = line.substring(0, i+1);
+	            			String back = line.substring(i+1, line.length());
+	            			back = "<a href='"+back+"'>"+back+"</a>";
+	            			line = front+back+"<br>";
+	            		}
+	                theFile += line+"<br>";
+	                line = br.readLine();
+	            }
+	            br.close();
+	        }
+	        catch(IOException e)
+	        {
+	            JOptionPane.showConfirmDialog(null, e.getMessage(), "Can't open the file!", JOptionPane.CLOSED_OPTION); 
+	            e.printStackTrace();
+	        }
         }
         return theFile;
     }
@@ -520,7 +520,7 @@ public class InterfaceDirectories
         boolean found = false;
         String metaDataFile = "";
         String readmeFile = "";
-        if (file.isDirectory()) 
+        if (file != null && file.isDirectory()) 
         {
             File[] files = fileSystemView.getFiles(file, true); 
             for (File child : files) 
@@ -647,35 +647,9 @@ public class InterfaceDirectories
     
     public String getMyFileExtension()
     {
-        String fileName = currentFile.getName();
-        int index = fileName.lastIndexOf('.');
-        return fileName.substring(index + 1);
-    }
-    
-    public void writeToLogFile()
-    {
-	    	if(currentFile.getParentFile().getParentFile().getName().equals("coop_ex") ||
-					currentFile.getParentFile().getParentFile().getName().equals("noncoop_ex"))
-		{
-			if(currentFile.getParentFile().getParentFile().getParentFile().isDirectory())
-			{
-				File logDelete = new File(currentFile.getParentFile().getParentFile().getParentFile().getAbsolutePath()+"/logDelete.txt");
-				try 
-				{
-					BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(logDelete,true));
-					DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-					Date date = new Date();
-					String logMessage = dateFormat.format(date)+"\tDelete file: "+currentFile.getName()
-								+"\nPath:"+currentFile.getPath()+"\n\n";
-					bufferedWriter.write(logMessage);
-					bufferedWriter.close();
-				} 
-				catch (IOException e) 
-				{	
-					e.printStackTrace();
-				}
-			}
-		}
+	        String fileName = currentFile.getName();
+	        int index = fileName.lastIndexOf('.');
+	        return fileName.substring(index + 1);
     }
     
     public void addMenu()
@@ -704,54 +678,44 @@ public class InterfaceDirectories
     		String title = "Please set the locations that you want to save the log file.";
     		JButton logDeleteBtn = new JButton("Log file that records all the deleted file.");
     		JButton logChangeBtn = new JButton("Logfile that records all the changes that happens on a file.");
-    		JTextField test = new JTextField();
     		
-    		Object message[] = {title, logDeleteBtn, logChangeBtn,test};
-    		Object[] closeMessage= {"Close"};
-    		JOptionPane.showOptionDialog(null,message, "Set location for log files",
-                    JOptionPane.CLOSED_OPTION, -1, null, closeMessage, null);
-    		
-    		//System.out.println(test.getText());
     		logDeleteBtn.addActionListener(new ActionListener()
     		{
 			@Override
 			public void actionPerformed(ActionEvent e) 
 			{
-				System.out.println("----------save");
-				logDeleteFilePath = saveLogFile();
+				String fileContent = "This log file records all the files that has been deleted.\n\n";
+				logDeleteFilePath = saveLogFile(fileContent);
 			}
     		});
-    		
-    		
-    		/*logChangeBtn.addActionListener(new ActionListener()
+    		logChangeBtn.addActionListener(new ActionListener()
     		{
 			@Override
 			public void actionPerformed(ActionEvent e) 
 			{
-				logChangesFilePath = saveLogFile();
+				String fileContent = "This log file records all the changes that happened on each file.\n\n";
+				logChangesFilePath = saveLogFile(fileContent);
 			}
-    		});*/
+    		});
+    		
+    		Object message[] = {title, logDeleteBtn, logChangeBtn};
+        	Object[] closeMessage= {"Close"};
+        	JOptionPane.showOptionDialog(null,message, "Set location for log files",
+               JOptionPane.CLOSED_OPTION, -1, null, closeMessage, null);
     }
     
-    public JFrame getMainFrame()
-    {
-    		return mainFrame;
-    }
-    
-    public String saveLogFile()
+    public String saveLogFile(String fileContent)
     {
     		String logFilePath="";
-    		String logDeleteContent = "This log file records all the files that has been deleted\n\n";
     		JFileChooser jfchooser = new JFileChooser();
     		jfchooser.setCurrentDirectory(new File("."));
     		int save = jfchooser.showSaveDialog(null);
     	    if (save == JFileChooser.APPROVE_OPTION) {
     	        try 
     	        {
-    	        		logDeleteFilePath = jfchooser.getSelectedFile()+".txt";
-    	        		System.out.println(logDeleteFilePath);
-    	            FileWriter fw = new FileWriter(logDeleteFilePath);
-    	            fw.write(logDeleteContent);
+    	        		logFilePath = jfchooser.getSelectedFile()+".txt";
+    	            FileWriter fw = new FileWriter(logFilePath);
+    	            fw.write(fileContent);
     	            fw.close();
     	        } 
     	        catch (Exception ex) 
@@ -760,5 +724,32 @@ public class InterfaceDirectories
     	        }
     	    }
     	    return logFilePath;
+    }
+    
+    public void writeToLogFile()
+    {
+    		if(!logDeleteFilePath.equals(""))
+    		{
+			File logDelete = new File(logDeleteFilePath);
+			try 
+			{
+				BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(logDelete,true));
+				DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+				Date date = new Date();
+				String logMessage = dateFormat.format(date)+"\tDelete file: "+currentFile.getName()
+									+"\nPath:"+currentFile.getPath()+"\n\n";
+				bufferedWriter.write(logMessage);
+				bufferedWriter.close();
+			} 
+			catch (IOException e) 
+			{	
+				e.printStackTrace();
+			}
+    		}
+    }
+    
+    public JFrame getMainFrame()
+    {
+    		return mainFrame;
     }
 }
