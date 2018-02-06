@@ -684,7 +684,7 @@ public class InterfaceDirectories
 			@Override
 			public void actionPerformed(ActionEvent e) 
 			{
-				String fileContent = "This log file records all the files that has been deleted.\n\n";
+				String fileContent = "LogDelete.txt\nThis log file records all the files that has been deleted.\n\n";
 				logDeleteFilePath = saveLogFile(fileContent);
 			}
     		});
@@ -693,7 +693,7 @@ public class InterfaceDirectories
 			@Override
 			public void actionPerformed(ActionEvent e) 
 			{
-				String fileContent = "This log file records all the changes that happened on each file.\n\n";
+				String fileContent = "LogEdit.txt\nThis log file records all the changes that happened on each file.\n\n";
 				logChangesFilePath = saveLogFile(fileContent);
 			}
     		});
@@ -707,9 +707,11 @@ public class InterfaceDirectories
     public String saveLogFile(String fileContent)
     {
     		String logFilePath="";
-    		JFileChooser jfchooser = new JFileChooser();
+    		/*JFileChooser jfchooser = new JFileChooser();
     		jfchooser.setCurrentDirectory(new File("."));
     		int save = jfchooser.showSaveDialog(null);
+    		jfchooser.setSelectedFile(new File("logDelete.txt"));
+    		//jfchooser.getUI().set
     	    if (save == JFileChooser.APPROVE_OPTION) {
     	        try 
     	        {
@@ -722,6 +724,38 @@ public class InterfaceDirectories
     	        {
     	            ex.printStackTrace();
     	        }
+    	    }*/
+    	    
+    	    JFileChooser chooser = new JFileChooser();
+    	    chooser.setCurrentDirectory(new java.io.File("."));
+    	    chooser.setDialogTitle("Choose location for log file");
+    	    chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+    	    chooser.setAcceptAllFileFilterUsed(false);
+
+    	    if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) 
+    	    {
+    	    		if(fileContent.contains("LogDelete"))
+    	    		{
+    	    			logFilePath += chooser.getSelectedFile()+"/logDelete.txt";
+    	    		}
+    	    		else if(fileContent.contains("LogEdit"))
+    	    		{
+    	    			logFilePath += chooser.getSelectedFile()+"/logEdit.txt";
+    	    		}
+			try 
+			{	
+				FileWriter fw = new FileWriter(new File(logFilePath));
+				fw.write(fileContent);
+	            fw.close();
+			} 
+			catch (IOException e) 
+			{
+				e.printStackTrace();
+			}
+    	    } 
+    	    else 
+    	    {
+    	      System.out.println("No Selection ");
     	    }
     	    return logFilePath;
     }
