@@ -514,6 +514,7 @@ public class EditFile
     		String newFileName = currentFile.getAbsolutePath();
     		int reply = -1;
     		String message;
+    		BufferedWriter bufferedWriter;
     		if(rename != null)
     		{
     			message = "The file is open as an "+rename+" file. Do you want to add the extension?";
@@ -525,68 +526,70 @@ public class EditFile
     			reply = -1;
     		}
     		currentFile = new File(newFileName);
-    		if(getMyFileExtension().equals("xlsx"))
+    		try
     		{
-    			fileArrayToXLSXFile();
-    		}
-    		else if(getMyFileExtension().equals("xls"))
-    		{
-    			
-    		}
-    		else
-    		{
-	    		try 
+    			bufferedWriter = new BufferedWriter(new FileWriter(currentFile.getAbsolutePath()));
+    			message = "Do you want to add the row number into the file?";
+			reply = JOptionPane.showConfirmDialog(null, message, "Add Row Number", JOptionPane.YES_NO_OPTION);
+			if(getMyFileExtension().equals("xlsx"))
 	    		{
-	    			BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(currentFile.getAbsolutePath()));
-				message = "Do you want to add the row number into the file?";
-				reply = JOptionPane.showConfirmDialog(null, message, "Add Row Number", JOptionPane.YES_NO_OPTION);
 				if(reply == JOptionPane.YES_OPTION)
 				{
-					fileArrayToFileString(ADD_ROW_NUMBER_OPTION);
+	    				fileArrayToXLSXFile(ADD_ROW_NUMBER_OPTION);
 				}
 				else
 				{
-					fileArrayToFileString(DONT_ADD_ROW_NUMBER_OPTION);
+					fileArrayToXLSXFile(DONT_ADD_ROW_NUMBER_OPTION);
 				}
-				bufferedWriter.write(fileString);
+	    		}
+	    		else if(getMyFileExtension().equals("xls"))
+	    		{
+	    			
+	    		}
+	    		else
+	    		{
+	    			if(reply == JOptionPane.YES_OPTION)
+	    			{
+	    				fileArrayToFileString(ADD_ROW_NUMBER_OPTION);
+	    			}
+	    			else
+	    			{
+	    				fileArrayToFileString(DONT_ADD_ROW_NUMBER_OPTION);
+	    			}
+	    			bufferedWriter.write(fileString);
 				bufferedWriter.close();
 	    		}
-	    		catch (IOException e)
-	    		{
-				e.printStackTrace();
-			}
     		}
+    		catch (IOException e)
+    		{
+			e.printStackTrace();
+		}
     		return currentFile;
     }
     
     //write the fileArray back to the original xlsx file
-    public void fileArrayToXLSXFile() 
+    public void fileArrayToXLSXFile(int keepRowIndex) 
     {
     		XSSFWorkbook workbook = new XSSFWorkbook();
     		FileInputStream file = null;
     		FileOutputStream outFile;
     		try 
     		{
-    			 file = new FileInputStream(currentFile.getAbsolutePath());
-			XSSFSheet spreedsheet = workbook.getSheet(sheetName);
+    			file = new FileInputStream(currentFile.getAbsolutePath());
+			XSSFSheet spreedsheet = workbook.createSheet(sheetName);
+			int start = 0;
+			if(keepRowIndex == DONT_ADD_ROW_NUMBER_OPTION)
+			{
+				start = 1;
+			}
 			for(int i = 0; i < fileArray.size();i++)
 			{
-				XSSFRow row = spreedsheet.getRow(i);
-				if(row == null)
+				XSSFRow row = spreedsheet.createRow(i);
+				for(int j = start; j < fileArray.get(i).size(); j++)
 				{
-					row = spreedsheet.createRow(i);
-				}
-				else
-				{
-					spreedsheet.removeRow(row);
-				}
-				for(int j = 0; j < fileArray.get(i).size(); j++)
-				{
-					XSSFCell cell = row.createCell(j);
+					XSSFCell cell = row.createCell(j-start);
 					cell.setCellValue(fileArray.get(i).get(j));
-					System.out.println(cell.getStringCellValue());
 				}
-				//fileMap.put(Integer.toString(i), fileObject );
 			}
     		} 
     		catch (FileNotFoundException e) 
@@ -734,6 +737,7 @@ public class EditFile
 		    				if(columnIndex[k]==p)
 			    			{
 		    					fileArray.get(i).remove(p);
+		    					System.out.println(p);
 			    			}
 		    			}
 		    		}
