@@ -33,7 +33,6 @@ public class InterfaceDirectoriesTest {
 	@Test
 	public void testReadTheFile() throws Exception
 	{
-		//assertTrue((interfaceDirectories.readTheFile(null)).equals("<br><br>"));
 		assertTrue((interfaceDirectories.readTheFile(new File("a.txt"))).equals("<br><br>"));
 		assertTrue(!(interfaceDirectories.readTheFile(new File("b.txt"))).equals("<br><br>"));
 		assertTrue(!(interfaceDirectories.readTheFile(new File("c.txt"))).equals("<br><br>"));
