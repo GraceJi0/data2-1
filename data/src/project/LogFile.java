@@ -22,6 +22,8 @@ public class LogFile
 	{
 		currentFile = null;
 		editFileString = "";
+		logChangesFilePath = "";
+		logDeleteFilePath = "";
 	}
 	
 	public String saveLogFile(String fileContent)

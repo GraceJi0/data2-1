@@ -310,6 +310,7 @@ public class InterfaceMain
                 {
                 		addLogFileString();
                 		logFile.writeToLogEditFile();
+                		mainFrame.setCursor(new Cursor(Cursor.WAIT_CURSOR));
                 		if(replaceCheckBox.isSelected())
                 		{
                 			editFile.setMissingCh(missingData);
@@ -338,6 +339,7 @@ public class InterfaceMain
                 		editFile.writeBack(editFile.getRename());
                 		editFile = new EditFile(currentFile);
                 		refreshGUI(expression);
+                		mainFrame.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
                 }
             }
         });

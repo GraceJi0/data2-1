@@ -2,7 +2,6 @@ package Test;
 
 import static org.junit.Assert.*;
 import project.EditFile;
-
 import java.io.File;
 import org.junit.After;
 import org.junit.Before;
