@@ -1,7 +1,6 @@
 package project;
 
 import java.awt.BorderLayout;
-
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
@@ -16,7 +15,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -83,9 +81,12 @@ public class InterfaceMain
     
     private String theSheetName;
     
+    private LogFile logFile;
     
-    public InterfaceMain(File currentFile, JPanel gui) 
+    public InterfaceMain(File currentFile, JPanel gui, LogFile logFile) 
     {
+    		this.logFile = logFile;
+    		logFile.setCurrentFile(currentFile);
     		theSheetName = "";
     		editFile = new EditFile(currentFile);
         controlPanel = new JPanel();
@@ -307,6 +308,8 @@ public class InterfaceMain
             {
                 if(showConfirmBox("Do you want to save the changes?", "Save") == JOptionPane.YES_OPTION)
                 {
+                		addLogFileString();
+                		logFile.writeToLogEditFile();
                 		if(replaceCheckBox.isSelected())
                 		{
                 			editFile.setMissingCh(missingData);
@@ -885,10 +888,27 @@ public class InterfaceMain
         return option;
     }
     
-    /*public void writeToLogFile()
+    public void addLogFileString()
     {
-    		
-    }*/
+    		logFile.logSelectRows(selectedChoicesRow);
+    		logFile.logSelectColumn(selectedChoicesColumn);
+    		if(replaceCheckBox.isSelected())
+    		{
+    			logFile.logMissingData(missingData, replaceData);
+    		}
+    	    if(replaceSpaceInHeaders.isSelected())
+    	    {
+    	    		logFile.logEditHeaders(selectedHeaderRowData);
+    	    }
+    	    if(moveColumn.isSelected())
+    	    {
+    	    		logFile.logMoveColumn(moveColumnIndex);
+    	    }
+    	    if(editHeadersFormat.isSelected())
+    	    {
+    	    	
+    	    }
+    }
 }
 
 class MenuItemListener implements ActionListener 

@@ -278,7 +278,7 @@ public class InterfaceDirectories
                                            {
                 public void actionPerformed(ActionEvent ae)
                 {
-                    JFrame frame = new InterfaceMain(currentFile,gui).getMainFrame();
+                    JFrame frame = new InterfaceMain(currentFile,gui,logFile).getMainFrame();
                     if(frame != null)
                     {
 	                    frame.setVisible(true);

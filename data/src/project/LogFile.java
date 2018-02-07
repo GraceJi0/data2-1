@@ -24,11 +24,6 @@ public class LogFile
 		editFileString = "";
 	}
 	
-	public void setCurrentFile(File currentFile)
-	{
-		this.currentFile = currentFile;
-	}
-	
 	public String saveLogFile(String fileContent)
     {
     		String logFilePath="";
@@ -99,7 +94,8 @@ public class LogFile
 				BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(logEdit,true));
 				DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 				Date date = new Date();
-				String logMessage = dateFormat.format(date)+"\nEdit file: "+currentFile.getName()+"\nPath:"+currentFile.getPath()+"\n\n";
+				String logMessage = dateFormat.format(date)+"\nEdit file: "+currentFile.getName()+"\nPath:"+currentFile.getPath();
+				logMessage += editFileString+"\n\n";
 				bufferedWriter.write(logMessage);
 				bufferedWriter.close();
 			} 
@@ -151,14 +147,14 @@ public class LogFile
 		return editFileString;
 	}
 	
-	public String logMoveColumn(String columnIndex)
+	public String logMoveColumn(int columnIndex)
 	{
 		String message = "\nMove column "+columnIndex+" to the end of the file.";
 		editFileString +=message;
 		return editFileString;
 	}
 	
-	public String logEditHeaders(String rowIndex)
+	public String logEditHeaders(int rowIndex)
 	{
 		String message = "\nReplace all spaces in headers(row"+ rowIndex +") with underscores";
 		editFileString +=message;
@@ -170,6 +166,11 @@ public class LogFile
 		String message = "\nEdit headers format";
 		editFileString +=message;
 		return editFileString;
+	}
+	
+	public void setCurrentFile(File currentFile)
+	{
+		this.currentFile = currentFile;
 	}
 	
 	public void setLogDeleteFilePath(String path)
