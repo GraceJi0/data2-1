@@ -142,8 +142,11 @@ public class LogFile
 	
 	public String logMissingData(String missingData, String replaceData)
 	{
-		String message = "\nReplace missing data \""+missingData+"\""+" with \""+replaceData+"\".";
-		editFileString +=message;
+		if(missingData != null && replaceData != null)
+		{
+			String message = "\nReplace missing data \""+missingData+"\""+" with \""+replaceData+"\".";
+			editFileString +=message;
+		}
 		return editFileString;
 	}
 	
