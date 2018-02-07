@@ -751,7 +751,7 @@ public class InterfaceMain
         controlPanel.add(textPanel,BorderLayout.CENTER);
         controlPanel.add(leftPanel, BorderLayout.WEST);
         mainFrame.add(controlPanel);
-        mainFrame.setVisible(true);
+        //mainFrame.setVisible(true);
         mainFrame.revalidate();
         mainFrame.repaint();
     }

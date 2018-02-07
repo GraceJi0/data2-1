@@ -1221,3 +1221,96 @@ DEBUG 06-02 15:13:26,696 (PGDSpiderGUI.java:<init>:187)  -PGD Spider up and runn
 DEBUG 06-02 15:14:19,344 (PGDSpiderGUI.java:closePGDSpider:526)  -Exiting PGDSpider
 DEBUG 06-02 15:14:19,344 (PGDSpiderGUI.java:closePGDSpider:527)  -Save window size
 DEBUG 06-02 15:14:19,406 (PGDSpiderGUI.java:closePGDSpider:531)  -Shutdown java vm ...
+DEBUG 07-02 16:05:26,003 (PGDSpiderGUI.java:<init>:121)  -starting PGD Spider ...
+INFO  07-02 16:05:26,008 (PGDSpiderConfig.java:loadConfig:64)  -load PGDSpider configuration from: /Users/dinghanji/Downloads/PGDSpider_2.1.1.3/spider.conf.xml
+DEBUG 07-02 16:05:27,202 (PGDSpiderGUI.java:initializeGUI:220)  -init actions
+DEBUG 07-02 16:05:27,202 (PGDSpiderGUI.java:initializeGUI:233)  -init menu bar
+DEBUG 07-02 16:05:27,265 (PGDSpiderGUI.java:initializeGUI:244)  -init input panel
+DEBUG 07-02 16:05:27,269 (ParserFactory.java:getParserInstance:161)  -New PGDParser instance
+DEBUG 07-02 16:05:27,274 (ParserFactory.java:getParserInstance:53)  -New ArlequinParser instance
+DEBUG 07-02 16:05:27,290 (ParserFactory.java:getParserInstance:185)  -Parser for type: BAMOVA is missing!
+DEBUG 07-02 16:05:27,291 (ParserFactory.java:getParserInstance:57)  -New BamParser instance
+DEBUG 07-02 16:05:27,298 (ParserFactory.java:getParserInstance:61)  -New BapsParser instance
+DEBUG 07-02 16:05:27,302 (ParserFactory.java:getParserInstance:65)  -New BatwingParser instance
+DEBUG 07-02 16:05:27,304 (ParserFactory.java:getParserInstance:185)  -Parser for type: BAYENV is missing!
+DEBUG 07-02 16:05:27,304 (ParserFactory.java:getParserInstance:69)  -New BcfParser instance
+DEBUG 07-02 16:05:27,308 (ParserFactory.java:getParserInstance:73)  -New ConvertParser instance
+DEBUG 07-02 16:05:27,310 (ParserFactory.java:getParserInstance:77)  -New EigensoftParser instance
+DEBUG 07-02 16:05:27,313 (ParserFactory.java:getParserInstance:181)  -New ExtendedFastaParser instance
+DEBUG 07-02 16:05:27,316 (ParserFactory.java:getParserInstance:81)  -New FastaParser instance
+DEBUG 07-02 16:05:27,318 (ParserFactory.java:getParserInstance:85)  -New FastqParser instance
+DEBUG 07-02 16:05:27,319 (ParserFactory.java:getParserInstance:185)  -Parser for type: FDist2 (datacal) is missing!
+DEBUG 07-02 16:05:27,319 (ParserFactory.java:getParserInstance:89)  -New FstatParser instance
+DEBUG 07-02 16:05:27,321 (ParserFactory.java:getParserInstance:93)  -New GdaParser instance
+DEBUG 07-02 16:05:27,322 (ParserFactory.java:getParserInstance:97)  -New GenelandParser instance
+DEBUG 07-02 16:05:27,325 (ParserFactory.java:getParserInstance:101)  -New GenepopParser instance
+DEBUG 07-02 16:05:27,327 (ParserFactory.java:getParserInstance:105)  -New GenetixParser instance
+DEBUG 07-02 16:05:27,329 (ParserFactory.java:getParserInstance:185)  -Parser for type: GESTE / BayeScan is missing!
+DEBUG 07-02 16:05:27,329 (ParserFactory.java:getParserInstance:109)  -New HgdpParser instance
+DEBUG 07-02 16:05:27,331 (ParserFactory.java:getParserInstance:113)  -New HgdpCephParser instance
+DEBUG 07-02 16:05:27,333 (ParserFactory.java:getParserInstance:117)  -New Ima2Parser instance
+DEBUG 07-02 16:05:27,335 (ParserFactory.java:getParserInstance:121)  -New ImmancParser instance
+DEBUG 07-02 16:05:27,337 (ParserFactory.java:getParserInstance:125)  -New ImParser instance
+DEBUG 07-02 16:05:27,339 (ParserFactory.java:getParserInstance:185)  -Parser for type: KML is missing!
+DEBUG 07-02 16:05:27,339 (ParserFactory.java:getParserInstance:129)  -New MafParser instance
+DEBUG 07-02 16:05:27,341 (ParserFactory.java:getParserInstance:133)  -New MegaParser instance
+DEBUG 07-02 16:05:27,343 (ParserFactory.java:getParserInstance:137)  -New MigrateParser instance
+DEBUG 07-02 16:05:27,346 (ParserFactory.java:getParserInstance:141)  -New MsaParser instance
+DEBUG 07-02 16:05:27,347 (ParserFactory.java:getParserInstance:185)  -Parser for type: MSVar is missing!
+DEBUG 07-02 16:05:27,347 (ParserFactory.java:getParserInstance:145)  -New NewHybridsParser instance
+DEBUG 07-02 16:05:27,350 (ParserFactory.java:getParserInstance:149)  -New NexusParser instance
+DEBUG 07-02 16:05:27,354 (ParserFactory.java:getParserInstance:153)  -New OneSampParser instance
+DEBUG 07-02 16:05:27,355 (ParserFactory.java:getParserInstance:157)  -New PedParser instance
+DEBUG 07-02 16:05:27,358 (ParserFactory.java:getParserInstance:165)  -New PhylipParser instance
+DEBUG 07-02 16:05:27,360 (ParserFactory.java:getParserInstance:169)  -New SamParser instance
+DEBUG 07-02 16:05:27,363 (ParserFactory.java:getParserInstance:185)  -Parser for type: Structurama is missing!
+DEBUG 07-02 16:05:27,363 (ParserFactory.java:getParserInstance:173)  -New StructureParser instance
+DEBUG 07-02 16:05:27,365 (ParserFactory.java:getParserInstance:177)  -New VcfParser instance
+DEBUG 07-02 16:05:27,373 (PGDSpiderGUI.java:initializeGUI:247)  -init output panel
+DEBUG 07-02 16:05:27,404 (WriterFactory.java:getWriterInstance:171)  -Writer for type: CONVERT is missing!
+DEBUG 07-02 16:05:27,427 (WriterFactory.java:getWriterInstance:171)  -Writer for type: HGDP is missing!
+DEBUG 07-02 16:05:27,427 (WriterFactory.java:getWriterInstance:171)  -Writer for type: HGDP_CEPH (Arlequin) is missing!
+DEBUG 07-02 16:05:27,440 (WriterFactory.java:getWriterInstance:171)  -Writer for type: MAF is missing!
+DEBUG 07-02 16:05:27,473 (PGDSpiderGUI.java:initializeGUI:250)  -init spid panel
+DEBUG 07-02 16:05:27,474 (PGDSpiderGUI.java:initializeGUI:253)  -init log panel
+DEBUG 07-02 16:05:27,475 (PGDSpiderGUI.java:initializeGUI:256)  -init button panel
+DEBUG 07-02 16:05:29,464 (PGDSpiderGUI.java:<init>:187)  -PGD Spider up and running...
+INFO  07-02 16:07:03,094 (PGDSpiderGUI.java:setSpidFile:661)  -loading SPID file: bbb.spid
+DEBUG 07-02 16:07:03,099 (ParserFactory.java:getParserInstance:173)  -New StructureParser instance
+INFO  07-02 16:07:04,963 (ConvertAction.java:actionPerformed:65)  -Convert...
+INFO  07-02 16:07:08,715 (ConvertAction.java:actionPerformed:75)  -Overwrite existing output file
+DEBUG 07-02 16:07:08,716 (ParserFactory.java:getParserInstance:173)  -New StructureParser instance
+INFO  07-02 16:07:08,717 (ConvertAction.java:actionPerformed:87)  -convert STRUCTURE:test1.txt to GENEPOP:test2.txt
+DEBUG 07-02 16:07:08,719 (ParserFactory.java:getParserInstance:173)  -New StructureParser instance
+WARN  07-02 16:07:09,108 (GenepopWriter.java:parseAlignedSampleData:663)  -Data are converted to integers!
+INFO  07-02 16:07:09,121 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "3?3" converted to "1"
+INFO  07-02 16:07:09,122 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "15?" converted to "2"
+INFO  07-02 16:07:09,123 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "21?" converted to "3"
+INFO  07-02 16:07:09,132 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "2?4" converted to "4"
+INFO  07-02 16:07:09,134 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "2?8" converted to "5"
+INFO  07-02 16:07:09,140 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "28?" converted to "6"
+INFO  07-02 16:07:09,142 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "25?" converted to "7"
+INFO  07-02 16:07:09,143 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "27?" converted to "8"
+INFO  07-02 16:07:09,145 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "2??" converted to "9"
+INFO  07-02 16:07:09,147 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "2?6" converted to "10"
+INFO  07-02 16:07:09,155 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "23?" converted to "11"
+INFO  07-02 16:07:09,158 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "13?" converted to "12"
+INFO  07-02 16:07:09,160 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "22?" converted to "13"
+INFO  07-02 16:07:09,168 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "3?4" converted to "14"
+INFO  07-02 16:07:09,171 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "2?2" converted to "15"
+INFO  07-02 16:07:09,173 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "18?" converted to "16"
+INFO  07-02 16:07:09,175 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "3?7" converted to "17"
+INFO  07-02 16:07:09,188 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "24?" converted to "18"
+INFO  07-02 16:07:09,196 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "26?" converted to "19"
+INFO  07-02 16:07:09,198 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "14?" converted to "20"
+INFO  07-02 16:07:09,227 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "19?" converted to "21"
+INFO  07-02 16:07:09,256 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "3??" converted to "22"
+INFO  07-02 16:07:09,259 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "3?8" converted to "23"
+INFO  07-02 16:07:09,358 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "29?" converted to "24"
+INFO  07-02 16:07:09,392 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "16?" converted to "25"
+INFO  07-02 16:07:09,400 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "3?2" converted to "26"
+INFO  07-02 16:07:09,401 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "3?6" converted to "27"
+INFO  07-02 16:07:09,469 (ConverterThread.java:run:87)  -translation completed
+DEBUG 07-02 16:14:22,607 (PGDSpiderGUI.java:closePGDSpider:526)  -Exiting PGDSpider
+DEBUG 07-02 16:14:22,609 (PGDSpiderGUI.java:closePGDSpider:527)  -Save window size
+DEBUG 07-02 16:14:22,682 (PGDSpiderGUI.java:closePGDSpider:531)  -Shutdown java vm ...
