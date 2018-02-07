@@ -1,7 +1,5 @@
 package project;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -9,52 +7,27 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
-import javax.swing.JButton;
 import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
 
 public class LogFile 
 {
 	private String logDeleteFilePath;
 	private String logChangesFilePath;
 	private File currentFile;
+	private String editFileString;
 	
-	public LogFile(File currentFile)
+	public LogFile()
+	{
+		currentFile = null;
+		editFileString = "";
+	}
+	
+	public void setCurrentFile(File currentFile)
 	{
 		this.currentFile = currentFile;
 	}
-	
-	public void setLogFile()
-    {
-    		String title = "Please set the locations that you want to save the log file.";
-    		JButton logDeleteBtn = new JButton("Log file that records all the deleted file.");
-    		JButton logChangeBtn = new JButton("Logfile that records all the changes that happens on a file.");
-    		
-    		logDeleteBtn.addActionListener(new ActionListener()
-    		{
-			@Override
-			public void actionPerformed(ActionEvent e) 
-			{
-				String fileContent = "LogDelete.txt\nThis log file records all the files that has been deleted.\n\n";
-				logDeleteFilePath = saveLogFile(fileContent);
-			}
-    		});
-    		logChangeBtn.addActionListener(new ActionListener()
-    		{
-			@Override
-			public void actionPerformed(ActionEvent e) 
-			{
-				String fileContent = "LogEdit.txt\nThis log file records all the changes that happened on each file.\n\n";
-				logChangesFilePath = saveLogFile(fileContent);
-			}
-    		});
-    		
-    		Object message[] = {title, logDeleteBtn, logChangeBtn};
-        	Object[] closeMessage= {"Close"};
-        	JOptionPane.showOptionDialog(null,message, "Set location for log files",
-               JOptionPane.CLOSED_OPTION, -1, null, closeMessage, null);
-    }
 	
 	public String saveLogFile(String fileContent)
     {
@@ -89,9 +62,9 @@ public class LogFile
     	    return logFilePath;
     }
 	
-	public void writeToLogFile()
+	public void writeToLogDeleteFile()
     {
-    		File file = new File("logDelete.txt");
+    		//File file = new File("logDelete.txt");
     		//if(file.exists())
     		if(!logDeleteFilePath.equals(""))
     		{
@@ -102,8 +75,7 @@ public class LogFile
 				BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(logDelete,true));
 				DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 				Date date = new Date();
-				String logMessage = dateFormat.format(date)+"\tDelete file: "+currentFile.getName()
-									+"\nPath:"+currentFile.getPath()+"\n\n";
+				String logMessage = dateFormat.format(date)+"\tDelete file: "+currentFile.getName()+"\nPath:"+currentFile.getPath()+"\n\n";
 				bufferedWriter.write(logMessage);
 				bufferedWriter.close();
 			} 
@@ -112,19 +84,101 @@ public class LogFile
 				e.printStackTrace();
 			}
     		}
-    		else
+    }
+	
+	public void writeToLogEditFile()
+    {
+    		//File file = new File("logDelete.txt");
+    		//if(file.exists())
+    		if(!logChangesFilePath.equals(""))
     		{
-    			System.out.println("======");
+    			//System.out.println("+++++++");
+			File logEdit = new File(logChangesFilePath);
+			try 
+			{
+				BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(logEdit,true));
+				DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+				Date date = new Date();
+				String logMessage = dateFormat.format(date)+"\nEdit file: "+currentFile.getName()+"\nPath:"+currentFile.getPath()+"\n\n";
+				bufferedWriter.write(logMessage);
+				bufferedWriter.close();
+			} 
+			catch (IOException e) 
+			{	
+				e.printStackTrace();
+			}
     		}
     }
 	
-	public String getLogDeleteFilePath()
+	public String logSelectRows(List<String> rowList)
 	{
-		return logDeleteFilePath;
+		if(!rowList.isEmpty())
+		{
+			String message = "\nDelete rows: ";
+			for(int i = 0 ; i < rowList.size();i++)
+			{
+				if(!rowList.get(i).isEmpty())
+				{
+					message+=rowList.get(i)+" ";
+				}
+			}
+			editFileString +=message;
+		}
+		return editFileString;
 	}
 	
-	public String LogChangesFilePath()
+	public String logSelectColumn(List<String> columnList)
 	{
-		return logChangesFilePath;
+		if(!columnList.isEmpty())
+		{
+			String message = "\nDelete rows: ";
+			for(int i = 0 ; i < columnList.size();i++)
+			{
+				if(!columnList.get(i).isEmpty())
+				{
+					message+=columnList.get(i)+" ";
+				}
+			}
+			editFileString +=message;
+		}
+		return editFileString;
+	}
+	
+	public String logMissingData(String missingData, String replaceData)
+	{
+		String message = "\nReplace missing data \""+missingData+"\""+" with \""+replaceData+"\".";
+		editFileString +=message;
+		return editFileString;
+	}
+	
+	public String logMoveColumn(String columnIndex)
+	{
+		String message = "\nMove column "+columnIndex+" to the end of the file.";
+		editFileString +=message;
+		return editFileString;
+	}
+	
+	public String logEditHeaders(String rowIndex)
+	{
+		String message = "\nReplace all spaces in headers(row"+ rowIndex +") with underscores";
+		editFileString +=message;
+		return editFileString;
+	}
+	
+	public String logEditHeadersFormat(String content)
+	{
+		String message = "\nEdit headers format";
+		editFileString +=message;
+		return editFileString;
+	}
+	
+	public void setLogDeleteFilePath(String path)
+	{
+		logDeleteFilePath = path;
+	}
+	
+	public void setLogChangesFilePath(String path)
+	{
+		logChangesFilePath = path;
 	}
 }
