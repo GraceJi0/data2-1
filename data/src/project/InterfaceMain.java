@@ -333,7 +333,6 @@ public class InterfaceMain
                 		{
                 			editFile.deleteColumn(selectedChoicesColumn);
                 		}
-                		//keep row index or not
                 		String expression = editFile.getSplitExpression();
                 		theSheetName = editFile.getSheetName();
                 		editFile.writeBack(editFile.getRename());

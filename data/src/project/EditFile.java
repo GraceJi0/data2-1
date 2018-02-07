@@ -771,13 +771,11 @@ public class EditFile
 		    		}
 	    		}
 	    		rowNum -= rowIndex.length;
-
 	    		for(int i = 0;i<fileArray.size();i++) //reset label
 	    		{
 	    			if(!fileArray.get(i).isEmpty())
 	    			{
 	    				fileArray.get(i).set(0, "row"+(i+1));
-	    				//System.out.println("row"+(i+1));
 	    			}
 	    		}
 	    		fileArrayToFileString(ADD_ROW_NUMBER_OPTION);
@@ -810,7 +808,6 @@ public class EditFile
 		    				if(columnIndex[k]==p)
 			    			{
 		    					fileArray.get(i).remove(p);
-		    					System.out.println(p);
 			    			}
 		    			}
 		    		}
