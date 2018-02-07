@@ -58,6 +58,7 @@ public class InterfaceDirectories
     private JButton deleteBtn;
     private JLabel fileName;
     
+    private LogFile logFile;
     private String logChangesFilePath;
     private String logDeleteFilePath;
     
@@ -65,6 +66,7 @@ public class InterfaceDirectories
     
     public InterfaceDirectories()
     {
+    		logFile= new LogFile(currentFile);
     		logDeleteFilePath = "";
 		logChangesFilePath = "";
     		mainFrame = new JFrame();
@@ -316,7 +318,7 @@ public class InterfaceDirectories
                                             {
                 public void actionPerformed(ActionEvent ae) 
                 {
-                		writeToLogFile();
+                		logFile.writeToLogFile();
                     deleteDrectoriesAndFiles();
                     showChildren(currentNode);
                     gui.repaint();
@@ -647,9 +649,9 @@ public class InterfaceDirectories
     
     public String getMyFileExtension()
     {
-	        String fileName = currentFile.getName();
-	        int index = fileName.lastIndexOf('.');
-	        return fileName.substring(index + 1);
+	       String fileName = currentFile.getName();
+	       int index = fileName.lastIndexOf('.');
+	       return fileName.substring(index + 1);
     }
     
     public void addMenu()
@@ -678,14 +680,13 @@ public class InterfaceDirectories
     		String title = "Please set the locations that you want to save the log file.";
     		JButton logDeleteBtn = new JButton("Log file that records all the deleted file.");
     		JButton logChangeBtn = new JButton("Logfile that records all the changes that happens on a file.");
-    		
     		logDeleteBtn.addActionListener(new ActionListener()
     		{
 			@Override
 			public void actionPerformed(ActionEvent e) 
 			{
 				String fileContent = "LogDelete.txt\nThis log file records all the files that has been deleted.\n\n";
-				logDeleteFilePath = saveLogFile(fileContent);
+				logDeleteFilePath = logFile.saveLogFile(fileContent);
 			}
     		});
     		logChangeBtn.addActionListener(new ActionListener()
@@ -694,7 +695,7 @@ public class InterfaceDirectories
 			public void actionPerformed(ActionEvent e) 
 			{
 				String fileContent = "LogEdit.txt\nThis log file records all the changes that happened on each file.\n\n";
-				logChangesFilePath = saveLogFile(fileContent);
+				logChangesFilePath = logFile.saveLogFile(fileContent);
 			}
     		});
     		
@@ -704,7 +705,7 @@ public class InterfaceDirectories
                JOptionPane.CLOSED_OPTION, -1, null, closeMessage, null);
     }
     
-    public String saveLogFile(String fileContent)
+    /*public String saveLogFile(String fileContent)
     {
     		String logFilePath="";
     	    JFileChooser chooser = new JFileChooser();
@@ -735,9 +736,9 @@ public class InterfaceDirectories
 			}
     	    } 
     	    return logFilePath;
-    }
+    }*/
     
-    public void writeToLogFile()
+    /*public void writeToLogFile()
     {
     		File file = new File("logDelete.txt");
     		if(file.exists())
@@ -764,7 +765,7 @@ public class InterfaceDirectories
     		{
     			System.out.println("======");
     		}
-    }
+    }*/
     
     public JFrame getMainFrame()
     {

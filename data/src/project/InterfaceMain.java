@@ -535,13 +535,12 @@ public class InterfaceMain
         });
         
         convertMenuItem.addActionListener(new MenuItemListener()
-		        {
+        {
 			@Override
 			public void actionPerformed(ActionEvent e) 
 			{
 				try 
 				{
-					//String command = "java -Xmx1024m -Xms512m -jar /Users/dinghanji/Downloads/PGDSpider_2.1.1.3/PGDSpider2-cli.jar";
 					String command = "java -Xmx1024m -Xms512m -jar /Users/dinghanji/Downloads/PGDSpider_2.1.1.3/PGDSpider2.jar";
 					Runtime.getRuntime().exec(command);
 				}
@@ -890,6 +889,7 @@ public class InterfaceMain
         }
         return option;
     }
+    
     /*public void writeToLogFile()
     {
     		if(!logDeleteFilePath.equals(""))

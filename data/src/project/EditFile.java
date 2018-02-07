@@ -929,5 +929,3 @@ class TikaFileTypeDetector extends FileTypeDetector
         return null;
     }
 }
-
-
