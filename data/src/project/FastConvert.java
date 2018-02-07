@@ -32,10 +32,14 @@ public class FastConvert
 		//String commandGUI = "java -Xmx1024m -Xms512m -jar /Users/dinghanji/Downloads/PGDSpider_2.1.1.3/PGDSpider2.jar";
 		String commandFastConvert = "java -Xmx1024m -Xms512m -jar /Users/dinghanji/Downloads/PGDSpider_2.1.1.3/PGDSpider2-cli.jar "
 				+ "-inputfile /Users/dinghanji/Desktop/test1.txt -inputformat STRUCTURE -outputfile /Users/dinghanji/Desktop/test2.txt "
-				+ "-outputformat GENEPOP -spid /Users/dinghanji/Desktop/bbb.spid";
+				+ "-outputformat GENEPOP -spid /Users/dinghanji/Desktop/mine.spid";
 		try 
 		{
-			Runtime.getRuntime().exec(commandFastConvert);
+			if((Runtime.getRuntime().exec(commandFastConvert))!=null)
+			{
+				successConvertDialog();
+			}
+				
 		} 
 		catch (IOException e) 
 		{
