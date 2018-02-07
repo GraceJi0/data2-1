@@ -1,6 +1,7 @@
-package project;
+package Test;
 
 import static org.junit.Assert.*;
+import project.InterfaceDirectories;
 
 import java.io.File;
 
