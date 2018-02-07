@@ -12,14 +12,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -892,24 +887,7 @@ public class InterfaceMain
     
     /*public void writeToLogFile()
     {
-    		if(!logDeleteFilePath.equals(""))
-    		{
-			File logDelete = new File(logDeleteFilePath);
-			try 
-			{
-				BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(logDelete,true));
-				DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-				Date date = new Date();
-				String logMessage = dateFormat.format(date)+"\tDelete file: "+currentFile.getName()
-									+"\nPath:"+currentFile.getPath()+"\n\n";
-				bufferedWriter.write(logMessage);
-				bufferedWriter.close();
-			} 
-			catch (IOException e) 
-			{	
-				e.printStackTrace();
-			}
-    		}
+    		
     }*/
 }
 
