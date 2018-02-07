@@ -2,27 +2,19 @@ package project;
 
 import java.awt.event.*;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.event.*;
 import javax.swing.filechooser.FileSystemView;
 import javax.swing.tree.*;
-
-import java.util.Date;
 import java.util.List;
-import java.util.zip.GZIPInputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.awt.*;
@@ -58,6 +50,7 @@ public class InterfaceDirectories
     private JButton deleteBtn;
     private JLabel fileName;
     
+    private LogFile logFile;
     private String logChangesFilePath;
     private String logDeleteFilePath;
     
@@ -65,6 +58,7 @@ public class InterfaceDirectories
     
     public InterfaceDirectories()
     {
+    		logFile= new LogFile();
     		logDeleteFilePath = "";
 		logChangesFilePath = "";
     		mainFrame = new JFrame();
@@ -284,7 +278,7 @@ public class InterfaceDirectories
                                            {
                 public void actionPerformed(ActionEvent ae)
                 {
-                    JFrame frame = new InterfaceMain(currentFile,gui).getMainFrame();
+                    JFrame frame = new InterfaceMain(currentFile,gui,logFile).getMainFrame();
                     if(frame != null)
                     {
 	                    frame.setVisible(true);
@@ -316,7 +310,8 @@ public class InterfaceDirectories
                                             {
                 public void actionPerformed(ActionEvent ae) 
                 {
-                		writeToLogFile();
+                		logFile.setCurrentFile(currentFile);
+                		logFile.writeToLogDeleteFile();
                     deleteDrectoriesAndFiles();
                     showChildren(currentNode);
                     gui.repaint();
@@ -647,9 +642,9 @@ public class InterfaceDirectories
     
     public String getMyFileExtension()
     {
-	        String fileName = currentFile.getName();
-	        int index = fileName.lastIndexOf('.');
-	        return fileName.substring(index + 1);
+	       String fileName = currentFile.getName();
+	       int index = fileName.lastIndexOf('.');
+	       return fileName.substring(index + 1);
     }
     
     public void addMenu()
@@ -673,19 +668,20 @@ public class InterfaceDirectories
 		});
     }
     
+    //set dialog to select location for log files
     public void setLogFile()
     {
     		String title = "Please set the locations that you want to save the log file.";
     		JButton logDeleteBtn = new JButton("Log file that records all the deleted file.");
     		JButton logChangeBtn = new JButton("Logfile that records all the changes that happens on a file.");
-    		
     		logDeleteBtn.addActionListener(new ActionListener()
     		{
 			@Override
 			public void actionPerformed(ActionEvent e) 
 			{
-				String fileContent = "This log file records all the files that has been deleted.\n\n";
-				logDeleteFilePath = saveLogFile(fileContent);
+				String fileContent = "LogDelete.txt\nThis log file records all the files that has been deleted.\n\n";
+				logDeleteFilePath = logFile.saveLogFile(fileContent);
+				logFile.setLogDeleteFilePath(logDeleteFilePath);
 			}
     		});
     		logChangeBtn.addActionListener(new ActionListener()
@@ -693,59 +689,15 @@ public class InterfaceDirectories
 			@Override
 			public void actionPerformed(ActionEvent e) 
 			{
-				String fileContent = "This log file records all the changes that happened on each file.\n\n";
-				logChangesFilePath = saveLogFile(fileContent);
+				String fileContent = "LogEdit.txt\nThis log file records all the changes that happened on each file.\n\n";
+				logChangesFilePath = logFile.saveLogFile(fileContent);
+				logFile.setLogChangesFilePath(logChangesFilePath);
 			}
     		});
-    		
     		Object message[] = {title, logDeleteBtn, logChangeBtn};
         	Object[] closeMessage= {"Close"};
         	JOptionPane.showOptionDialog(null,message, "Set location for log files",
                JOptionPane.CLOSED_OPTION, -1, null, closeMessage, null);
-    }
-    
-    public String saveLogFile(String fileContent)
-    {
-    		String logFilePath="";
-    		JFileChooser jfchooser = new JFileChooser();
-    		jfchooser.setCurrentDirectory(new File("."));
-    		int save = jfchooser.showSaveDialog(null);
-    	    if (save == JFileChooser.APPROVE_OPTION) {
-    	        try 
-    	        {
-    	        		logFilePath = jfchooser.getSelectedFile()+".txt";
-    	            FileWriter fw = new FileWriter(logFilePath);
-    	            fw.write(fileContent);
-    	            fw.close();
-    	        } 
-    	        catch (Exception ex) 
-    	        {
-    	            ex.printStackTrace();
-    	        }
-    	    }
-    	    return logFilePath;
-    }
-    
-    public void writeToLogFile()
-    {
-    		if(!logDeleteFilePath.equals(""))
-    		{
-			File logDelete = new File(logDeleteFilePath);
-			try 
-			{
-				BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(logDelete,true));
-				DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-				Date date = new Date();
-				String logMessage = dateFormat.format(date)+"\tDelete file: "+currentFile.getName()
-									+"\nPath:"+currentFile.getPath()+"\n\n";
-				bufferedWriter.write(logMessage);
-				bufferedWriter.close();
-			} 
-			catch (IOException e) 
-			{	
-				e.printStackTrace();
-			}
-    		}
     }
     
     public JFrame getMainFrame()

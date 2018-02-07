@@ -1,8 +1,8 @@
 package project;
 
 import java.awt.BorderLayout;
-
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -11,16 +11,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -37,9 +31,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 
 public class InterfaceMain 
 {
@@ -85,9 +81,12 @@ public class InterfaceMain
     
     private String theSheetName;
     
+    private LogFile logFile;
     
-    public InterfaceMain(File currentFile, JPanel gui) 
+    public InterfaceMain(File currentFile, JPanel gui, LogFile logFile) 
     {
+    		this.logFile = logFile;
+    		logFile.setCurrentFile(currentFile);
     		theSheetName = "";
     		editFile = new EditFile(currentFile);
         controlPanel = new JPanel();
@@ -309,6 +308,8 @@ public class InterfaceMain
             {
                 if(showConfirmBox("Do you want to save the changes?", "Save") == JOptionPane.YES_OPTION)
                 {
+                		addLogFileString();
+                		logFile.writeToLogEditFile();
                 		if(replaceCheckBox.isSelected())
                 		{
                 			editFile.setMissingCh(missingData);
@@ -532,13 +533,12 @@ public class InterfaceMain
         });
         
         convertMenuItem.addActionListener(new MenuItemListener()
-		        {
+        {
 			@Override
 			public void actionPerformed(ActionEvent e) 
 			{
 				try 
 				{
-					//String command = "java -Xmx1024m -Xms512m -jar /Users/dinghanji/Downloads/PGDSpider_2.1.1.3/PGDSpider2-cli.jar";
 					String command = "java -Xmx1024m -Xms512m -jar /Users/dinghanji/Downloads/PGDSpider_2.1.1.3/PGDSpider2.jar";
 					Runtime.getRuntime().exec(command);
 				}
@@ -629,6 +629,26 @@ public class InterfaceMain
 	        fileTable.setPreferredScrollableViewportSize(fileTable.getPreferredSize());
 	        fileScroll = new JScrollPane(fileTable,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 	                                     JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+	        fileTable.getColumnModel().getColumn(0).setCellRenderer(new TableCellRenderer() 
+	        {
+	            @Override
+	            public Component getTableCellRendererComponent(JTable x, Object value, boolean isSelected, boolean hasFocus, int row, int column) 
+	            {
+
+	                boolean selected = fileTable.getSelectionModel().isSelectedIndex(row);
+	                Component component = fileTable.getTableHeader().getDefaultRenderer().getTableCellRendererComponent(fileTable, value, false, false, -1, -2);
+	                ((JLabel) component).setHorizontalAlignment(SwingConstants.CENTER);
+	                if (selected) 
+	                {
+	                    component.setFont(component.getFont().deriveFont(Font.BOLD));
+	                } 
+	                else 
+	                {
+	                    component.setFont(component.getFont().deriveFont(Font.PLAIN));
+	                }
+	                return component;
+	            }
+	        });
         }
         return error;
     }
@@ -663,8 +683,7 @@ public class InterfaceMain
                     }
                 }
             }
-        });
-        
+        }); 
     }
     
   //********dynamically set the row combo box(select the row)*********
@@ -868,27 +887,28 @@ public class InterfaceMain
         }
         return option;
     }
-    /*public void writeToLogFile()
+    
+    public void addLogFileString()
     {
-    		if(!logDeleteFilePath.equals(""))
+    		logFile.logSelectRows(selectedChoicesRow);
+    		logFile.logSelectColumn(selectedChoicesColumn);
+    		if(replaceCheckBox.isSelected())
     		{
-			File logDelete = new File(logDeleteFilePath);
-			try 
-			{
-				BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(logDelete,true));
-				DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-				Date date = new Date();
-				String logMessage = dateFormat.format(date)+"\tDelete file: "+currentFile.getName()
-									+"\nPath:"+currentFile.getPath()+"\n\n";
-				bufferedWriter.write(logMessage);
-				bufferedWriter.close();
-			} 
-			catch (IOException e) 
-			{	
-				e.printStackTrace();
-			}
+    			logFile.logMissingData(missingData, replaceData);
     		}
-    }*/
+    	    if(replaceSpaceInHeaders.isSelected())
+    	    {
+    	    		logFile.logEditHeaders(selectedHeaderRowData);
+    	    }
+    	    if(moveColumn.isSelected())
+    	    {
+    	    		logFile.logMoveColumn(moveColumnIndex);
+    	    }
+    	    if(editHeadersFormat.isSelected())
+    	    {
+    	    	
+    	    }
+    }
 }
 
 class MenuItemListener implements ActionListener 
