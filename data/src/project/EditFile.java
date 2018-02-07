@@ -569,7 +569,24 @@ public class EditFile
 				for(int j = start; j < fileArray.get(i).size(); j++)
 				{
 					XSSFCell cell = row.createCell(j-start);
-					cell.setCellValue(fileArray.get(i).get(j));
+					String cellValue = fileArray.get(i).get(j);
+					try
+					{
+						int cellInt = Integer.parseInt(cellValue);
+						cell.setCellValue(cellInt);
+					}
+					catch(NumberFormatException er)
+					{
+						try
+						{
+							double cellDouble = Double.parseDouble(cellValue);
+							cell.setCellValue(cellDouble);
+						}
+						catch(NumberFormatException e)
+						{
+							cell.setCellValue(cellValue);
+						}
+					}
 				}
 			}
     		} 
@@ -611,7 +628,24 @@ public class EditFile
 				for(int j = start; j < fileArray.get(i).size(); j++)
 				{
 					HSSFCell cell = row.createCell(j-start);
-					cell.setCellValue(fileArray.get(i).get(j));
+					String cellValue = fileArray.get(i).get(j);
+					try
+					{
+						int cellInt = Integer.parseInt(cellValue);
+						cell.setCellValue(cellInt);
+					}
+					catch(NumberFormatException er)
+					{
+						try
+						{
+							double cellDouble = Double.parseDouble(cellValue);
+							cell.setCellValue(cellDouble);
+						}
+						catch(NumberFormatException e)
+						{
+							cell.setCellValue(cellValue);
+						}
+					}
 				}
 			}
 		} 

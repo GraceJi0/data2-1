@@ -743,7 +743,7 @@ public class InterfaceDirectories
     		if(file.exists())
     		//if(!logDeleteFilePath.equals(""))
     		{
-    			System.out.println("'''''");
+    			//System.out.println("+++++++");
 			File logDelete = new File(logDeleteFilePath);
 			try 
 			{
