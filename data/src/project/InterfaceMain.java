@@ -65,6 +65,7 @@ public class InterfaceMain
     private String[] choices2;
     private JComboBox<String> columnCombo;
     private JComboBox<String> rowCombo;
+    private JPanel columnInputAndCombo;
     private JPanel columnOperationPanel;
     private JPanel rowOperationPanel;
     private JPanel columnRowPanel;
@@ -237,20 +238,11 @@ public class InterfaceMain
         columnPanel.add(columnScroll);
         
         JPanel columnInputPanel = new JPanel();
-        columnInputPanel.setLayout(new GridLayout(3,2));
-        JLabel c1 = new JLabel("Select");
-        c1.setPreferredSize(new Dimension(20,20));
-        JLabel c11 = new JLabel("column");
-        c1.setFont(new Font("SansSerif", Font.PLAIN,11));
-        c11.setFont(new Font("SansSerif", Font.PLAIN,11));
-        JLabel c2 = new JLabel("from");
-        c2.setFont(new Font("SansSerif", Font.PLAIN,11));
-        JLabel c3 = new JLabel("to");
-        c3.setFont(new Font("SansSerif", Font.PLAIN,11));
+        columnInputPanel.setLayout(new GridLayout(2,2));
+        JLabel c2 = new JLabel("from",JLabel.RIGHT);
+        JLabel c3 = new JLabel("to",JLabel.RIGHT);
         columnStartTextField = new JTextField("Integer");
         columnEndTextField = new JTextField("Integer");
-        columnInputPanel.add(c1);
-        columnInputPanel.add(c11);
         columnInputPanel.add(c2);
         columnInputPanel.add(columnStartTextField);
         columnInputPanel.add(c3);
@@ -264,13 +256,13 @@ public class InterfaceMain
         //columnAddaBtnPanel.setBorder(new EmptyBorder(10,20,10,0));
         columnAddaBtnPanel.add(addColumnBtn);
        
-        columnInput.setBorder(new EmptyBorder(10,10,10,10));
+        columnInput.setBorder(new EmptyBorder(10,0,10,10));
         columnInput.add(columnInputPanel,BorderLayout.CENTER);
         columnInput.add(columnAddaBtnPanel,BorderLayout.EAST);
         
         setColumnComoboBox();
         
-        JPanel columnInputAndCombo = new JPanel();
+        columnInputAndCombo = new JPanel();
         columnInputAndCombo.setLayout(new BorderLayout());
         columnInputAndCombo.add(columnInput, BorderLayout.CENTER);
         columnInputAndCombo.add(columnCombo, BorderLayout.NORTH);
@@ -767,7 +759,11 @@ public class InterfaceMain
     public void refreshGUI(String expression)
     {
         textPanel.remove(fileScroll); 
-        columnOperationPanel.remove(columnCombo);
+        columnInputAndCombo.remove(columnCombo);
+        columnOperationPanel.remove(columnInputAndCombo);
+        columnControlPanel.remove(columnOperationPanel);
+        //columnOperationPanel.remove(columnCombo);
+        //columnOperationPanel.remove(columnPanel);
         rowOperationPanel.remove(rowCombo);
         columnControlPanel.remove(columnOperationPanel);
         rowControlPanel.remove(rowOperationPanel);
@@ -783,9 +779,11 @@ public class InterfaceMain
         setRowComboBox();
         setColumnComoboBox();
         
-        columnOperationPanel.add(columnCombo);
+        //columnOperationPanel.add(columnCombo);
+        columnInputAndCombo.add(columnCombo, BorderLayout.NORTH);
+        columnOperationPanel.add(columnInputAndCombo);
+        columnControlPanel.add(columnOperationPanel,BorderLayout.CENTER);
         rowOperationPanel.add(rowCombo);
-        columnControlPanel.add(columnOperationPanel, BorderLayout.SOUTH);
         rowControlPanel.add(rowOperationPanel,BorderLayout.SOUTH);
         columnRowPanel.add(columnControlPanel);
         columnRowPanel.add(rowControlPanel);
