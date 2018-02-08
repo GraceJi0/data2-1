@@ -255,6 +255,29 @@ public class InterfaceMain
         columnAddBtnPanel.setLayout(new GridLayout(1,1));
         columnAddBtnPanel.setPreferredSize(new Dimension(40,40));
         columnAddBtnPanel.add(addColumnBtn);
+        addColumnBtn.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent ae) 
+            {
+            		int columnStart;
+            		int columnEnd;
+            		try
+            		{
+	                 columnStart = Integer.parseInt(columnStartTextField.getText());
+	                 columnEnd = Integer.parseInt(columnEndTextField.getText());
+	                 if(columnStart<=0 || columnEnd>=editFile.getColumnNum())
+	                 {
+	                	 	//put the number into the select table.
+	                 }
+            		}
+            		catch(NumberFormatException er)
+            		{
+            			JOptionPane.showConfirmDialog(null,"Please entre integers!", "Error", JOptionPane.CLOSED_OPTION);
+            			columnStartTextField.setText("Integer");
+            			columnEndTextField.setText("Integer");
+            		}
+            }
+        });
        
         JPanel columnInput = new JPanel();
         columnInput.setLayout(new BorderLayout(6,6));
