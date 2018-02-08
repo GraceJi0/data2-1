@@ -237,19 +237,18 @@ public class InterfaceMain
         columnPanel.setLayout(new GridLayout(1,1));
         columnPanel.add(columnScroll);
         
-        JPanel columnInputPanel = new JPanel();
-        columnInputPanel.setLayout(new GridLayout(2,2));
         JLabel c2 = new JLabel("from",JLabel.RIGHT);
         JLabel c3 = new JLabel("to",JLabel.RIGHT);
         columnStartTextField = new JTextField("Integer");
         columnEndTextField = new JTextField("Integer");
+        
+        JPanel columnInputPanel = new JPanel();
+        columnInputPanel.setLayout(new GridLayout(2,2));
         columnInputPanel.add(c2);
         columnInputPanel.add(columnStartTextField);
         columnInputPanel.add(c3);
         columnInputPanel.add(columnEndTextField);
         columnInputPanel.setPreferredSize(new Dimension(20,200));
-        JPanel columnInput = new JPanel();
-        columnInput.setLayout(new BorderLayout(6,6));
         
         JButton addColumnBtn = new JButton("Add");
         JPanel columnAddBtnPanel = new JPanel();
@@ -257,6 +256,8 @@ public class InterfaceMain
         columnAddBtnPanel.setPreferredSize(new Dimension(40,40));
         columnAddBtnPanel.add(addColumnBtn);
        
+        JPanel columnInput = new JPanel();
+        columnInput.setLayout(new BorderLayout(6,6));
         columnInput.setBorder(new EmptyBorder(10,0,10,10));
         columnInput.add(columnInputPanel,BorderLayout.CENTER);
         columnInput.add(columnAddBtnPanel,BorderLayout.EAST);
@@ -268,7 +269,6 @@ public class InterfaceMain
         columnInputAndCombo.add(columnInput, BorderLayout.CENTER);
         columnInputAndCombo.add(columnCombo, BorderLayout.NORTH);
         columnOperationPanel = new JPanel();
-        //columnOperationPanel.setBorder(new EmptyBorder(10,0,0,0));
         columnOperationPanel.setLayout(new GridLayout(2,1));
         
         columnOperationPanel.add(columnPanel);
