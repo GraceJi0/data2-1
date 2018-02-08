@@ -389,49 +389,55 @@ public class EditFile
 			FileInputStream fip = new FileInputStream(currentFile);
 			if(fip.available() > 0)
 		    {
-				gui.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+				if(gui != null)
+				{
+					gui.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+				}
 			    HSSFWorkbook workbook = new HSSFWorkbook(fip);
 				String sheets[] = getAllXLSSheet(workbook);
-				    gui.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-				    String sheetSelected;
-				    if(theSheetName.equals(""))
-				    {
-				    		sheetSelected = (String)JOptionPane.showInputDialog(null, "Select a sheet to edit:",
-		        						"Select a sheet", JOptionPane.PLAIN_MESSAGE,null, sheets,null);
-				    }
-				    else
-				    {
-				    		sheetSelected = theSheetName;
-				    }
-					if(sheetSelected != null)
-					{
-						sheetName = sheetSelected;
-						HSSFSheet sheet = workbook.getSheet(sheetSelected);
-						readTheXLSSheet(sheet);
-					}
-					else
-					{
-						error = true;
-					}
-					addRowLabel();
-					fip.close();
-			    }
-				else
+				if(gui != null)
+				{
+					gui.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+				}
+				String sheetSelected;
+				if(theSheetName.equals(""))
 			    {
-			    		JOptionPane.showConfirmDialog(null,
-			    				"Can't open the file!\nPlease click \"Open \" or \"Locate\" to edit the file", 
-			                    "Error006", JOptionPane.CLOSED_OPTION); 
-			        	error = true;
-			     }
-			} 
-			catch ( Exception e) 
+				    	sheetSelected = (String)JOptionPane.showInputDialog(null, "Select a sheet to edit:",
+		        						"Select a sheet", JOptionPane.PLAIN_MESSAGE,null, sheets,null);
+				}
+			    else
+			    {
+			    		sheetSelected = theSheetName;
+			    }
+				if(sheetSelected != null)
+				{
+					sheetName = sheetSelected;
+					HSSFSheet sheet = workbook.getSheet(sheetSelected);
+					readTheXLSSheet(sheet);
+				}
+				else
+				{
+					error = true;
+				}
+				addRowLabel();
+				fip.close();
+			}
+			else
 			{
-				e.printStackTrace();
 				JOptionPane.showConfirmDialog(null,
+			    			"Can't open the file!\nPlease click \"Open \" or \"Locate\" to edit the file", 
+			                    "Error006", JOptionPane.CLOSED_OPTION); 
+			    	error = true;
+			}
+		} 
+		catch ( Exception e) 
+		{
+			e.printStackTrace();
+			JOptionPane.showConfirmDialog(null,
 	    				"Can't open the file!\nPlease click \"Open \" or \"Locate\" to edit the file", 
 	                    "Error007", JOptionPane.CLOSED_OPTION); 
-	        		error = true;
-			}
+	   		error = true;
+		}
         return error;
     }
     
@@ -771,13 +777,11 @@ public class EditFile
 		    		}
 	    		}
 	    		rowNum -= rowIndex.length;
-
 	    		for(int i = 0;i<fileArray.size();i++) //reset label
 	    		{
 	    			if(!fileArray.get(i).isEmpty())
 	    			{
 	    				fileArray.get(i).set(0, "row"+(i+1));
-	    				//System.out.println("row"+(i+1));
 	    			}
 	    		}
 	    		fileArrayToFileString(ADD_ROW_NUMBER_OPTION);
@@ -810,7 +814,6 @@ public class EditFile
 		    				if(columnIndex[k]==p)
 			    			{
 		    					fileArray.get(i).remove(p);
-		    					System.out.println(p);
 			    			}
 		    			}
 		    		}

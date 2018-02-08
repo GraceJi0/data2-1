@@ -22,26 +22,29 @@ public class LogFile
 	{
 		currentFile = null;
 		editFileString = "";
+		logChangesFilePath = "";
+		logDeleteFilePath = "";
 	}
 	
 	public String saveLogFile(String fileContent)
     {
     		String logFilePath="";
+    		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH:mm");
+		Date date = new Date();
     	    JFileChooser chooser = new JFileChooser();
     	    chooser.setCurrentDirectory(new java.io.File("."));
     	    chooser.setDialogTitle("Choose location for log file");
     	    chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
     	    chooser.setAcceptAllFileFilterUsed(false);
-
     	    if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) 
     	    {
     	    		if(fileContent.contains("LogDelete"))
     	    		{
-    	    			logFilePath += chooser.getSelectedFile()+"/logDelete.txt";
+    	    			logFilePath += chooser.getSelectedFile()+"/logDelete"+dateFormat.format(date)+".txt";
     	    		}
     	    		else if(fileContent.contains("LogEdit"))
     	    		{
-    	    			logFilePath += chooser.getSelectedFile()+"/logEdit.txt";
+    	    			logFilePath += chooser.getSelectedFile()+"/logEdit"+dateFormat.format(date)+".txt";
     	    		}
 			try 
 			{	
@@ -59,11 +62,8 @@ public class LogFile
 	
 	public void writeToLogDeleteFile()
     {
-    		//File file = new File("logDelete.txt");
-    		//if(file.exists())
     		if(!logDeleteFilePath.equals(""))
     		{
-    			//System.out.println("+++++++");
 			File logDelete = new File(logDeleteFilePath);
 			try 
 			{
@@ -83,11 +83,8 @@ public class LogFile
 	
 	public void writeToLogEditFile()
     {
-    		//File file = new File("logDelete.txt");
-    		//if(file.exists())
     		if(!logChangesFilePath.equals(""))
     		{
-    			//System.out.println("+++++++");
 			File logEdit = new File(logChangesFilePath);
 			try 
 			{
@@ -142,8 +139,11 @@ public class LogFile
 	
 	public String logMissingData(String missingData, String replaceData)
 	{
-		String message = "\nReplace missing data \""+missingData+"\""+" with \""+replaceData+"\".";
-		editFileString +=message;
+		if(missingData != null && replaceData != null)
+		{
+			String message = "\nReplace missing data \""+missingData+"\""+" with \""+replaceData+"\".";
+			editFileString +=message;
+		}
 		return editFileString;
 	}
 	

@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -48,6 +49,8 @@ public class InterfaceMain
     private List<String> selectedChoicesColumn;
     private int columnNum;
     private int rowNum;
+    private JTextField columnStartTextField;
+    private JTextField columnEndTextField;
     private JTable rowTable;
     private JTable columnTable;
     private JTable fileTable;
@@ -233,13 +236,53 @@ public class InterfaceMain
         columnPanel.setLayout(new GridLayout(1,1));
         columnPanel.add(columnScroll);
         
-        columnOperationPanel = new JPanel();
-        columnOperationPanel.setLayout(new GridLayout(2,1));
+        JPanel columnInputPanel = new JPanel();
+        columnInputPanel.setLayout(new GridLayout(3,2));
+        JLabel c1 = new JLabel("Select");
+        c1.setPreferredSize(new Dimension(20,20));
+        JLabel c11 = new JLabel("column");
+        c1.setFont(new Font("SansSerif", Font.PLAIN,11));
+        c11.setFont(new Font("SansSerif", Font.PLAIN,11));
+        JLabel c2 = new JLabel("from");
+        c2.setFont(new Font("SansSerif", Font.PLAIN,11));
+        JLabel c3 = new JLabel("to");
+        c3.setFont(new Font("SansSerif", Font.PLAIN,11));
+        columnStartTextField = new JTextField("Integer");
+        columnEndTextField = new JTextField("Integer");
+        columnInputPanel.add(c1);
+        columnInputPanel.add(c11);
+        columnInputPanel.add(c2);
+        columnInputPanel.add(columnStartTextField);
+        columnInputPanel.add(c3);
+        columnInputPanel.add(columnEndTextField);
+        JPanel columnInput = new JPanel();
+        columnInput.setLayout(new BorderLayout(6,6));
+        
+        JButton addColumnBtn = new JButton("Add");
+        JPanel columnAddaBtnPanel = new JPanel();
+        columnAddaBtnPanel.setLayout(new GridLayout(1,1));
+        //columnAddaBtnPanel.setBorder(new EmptyBorder(10,20,10,0));
+        columnAddaBtnPanel.add(addColumnBtn);
+       
+        columnInput.setBorder(new EmptyBorder(10,10,10,10));
+        columnInput.add(columnInputPanel,BorderLayout.CENTER);
+        columnInput.add(columnAddaBtnPanel,BorderLayout.EAST);
+        
         setColumnComoboBox();
         
+        JPanel columnInputAndCombo = new JPanel();
+        columnInputAndCombo.setLayout(new BorderLayout());
+        columnInputAndCombo.add(columnInput, BorderLayout.CENTER);
+        columnInputAndCombo.add(columnCombo, BorderLayout.NORTH);
+        columnOperationPanel = new JPanel();
+        //columnOperationPanel.setBorder(new EmptyBorder(10,0,0,0));
+        columnOperationPanel.setLayout(new GridLayout(2,1));
+        
+        columnOperationPanel.add(columnPanel);
+        columnOperationPanel.add(columnInputAndCombo);
+
         JButton deleteColumnButton = new JButton("Delete");
-        columnOperationPanel.add(deleteColumnButton);
-        columnOperationPanel.add(columnCombo);
+        
         deleteColumnButton.addActionListener(new ActionListener()
                                                  {
             public void actionPerformed(ActionEvent ae) 
@@ -310,6 +353,7 @@ public class InterfaceMain
                 {
                 		addLogFileString();
                 		logFile.writeToLogEditFile();
+                		mainFrame.setCursor(new Cursor(Cursor.WAIT_CURSOR));
                 		if(replaceCheckBox.isSelected())
                 		{
                 			editFile.setMissingCh(missingData);
@@ -332,12 +376,12 @@ public class InterfaceMain
                 		{
                 			editFile.deleteColumn(selectedChoicesColumn);
                 		}
-                		//keep row index or not
                 		String expression = editFile.getSplitExpression();
                 		theSheetName = editFile.getSheetName();
                 		editFile.writeBack(editFile.getRename());
                 		editFile = new EditFile(currentFile);
                 		refreshGUI(expression);
+                		mainFrame.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
                 }
             }
         });
@@ -386,8 +430,8 @@ public class InterfaceMain
         columnControlPanel = new JPanel();
         columnControlPanel.setLayout(new BorderLayout());
         columnControlPanel.setBorder(BorderFactory.createTitledBorder("Remove Columns"));
-        columnControlPanel.add(columnOperationPanel, BorderLayout.SOUTH);
-        columnControlPanel.add(columnPanel,BorderLayout.CENTER);
+        columnControlPanel.add(deleteColumnButton,BorderLayout.SOUTH);
+        columnControlPanel.add(columnOperationPanel,BorderLayout.CENTER);
         
         rowControlPanel = new JPanel();
         rowControlPanel.setLayout(new BorderLayout());
@@ -750,7 +794,7 @@ public class InterfaceMain
         controlPanel.add(textPanel,BorderLayout.CENTER);
         controlPanel.add(leftPanel, BorderLayout.WEST);
         mainFrame.add(controlPanel);
-        mainFrame.setVisible(true);
+        //mainFrame.setVisible(true);
         mainFrame.revalidate();
         mainFrame.repaint();
     }

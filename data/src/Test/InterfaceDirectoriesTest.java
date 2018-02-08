@@ -1,9 +1,8 @@
-package project;
+package Test;
 
 import static org.junit.Assert.*;
-
+import project.InterfaceDirectories;
 import java.io.File;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,7 +33,6 @@ public class InterfaceDirectoriesTest {
 	@Test
 	public void testReadTheFile() throws Exception
 	{
-		//assertTrue((interfaceDirectories.readTheFile(null)).equals("<br><br>"));
 		assertTrue((interfaceDirectories.readTheFile(new File("a.txt"))).equals("<br><br>"));
 		assertTrue(!(interfaceDirectories.readTheFile(new File("b.txt"))).equals("<br><br>"));
 		assertTrue(!(interfaceDirectories.readTheFile(new File("c.txt"))).equals("<br><br>"));
