@@ -247,18 +247,19 @@ public class InterfaceMain
         columnInputPanel.add(columnStartTextField);
         columnInputPanel.add(c3);
         columnInputPanel.add(columnEndTextField);
+        columnInputPanel.setPreferredSize(new Dimension(20,200));
         JPanel columnInput = new JPanel();
         columnInput.setLayout(new BorderLayout(6,6));
         
         JButton addColumnBtn = new JButton("Add");
-        JPanel columnAddaBtnPanel = new JPanel();
-        columnAddaBtnPanel.setLayout(new GridLayout(1,1));
-        //columnAddaBtnPanel.setBorder(new EmptyBorder(10,20,10,0));
-        columnAddaBtnPanel.add(addColumnBtn);
+        JPanel columnAddBtnPanel = new JPanel();
+        columnAddBtnPanel.setLayout(new GridLayout(1,1));
+        columnAddBtnPanel.setPreferredSize(new Dimension(40,40));
+        columnAddBtnPanel.add(addColumnBtn);
        
         columnInput.setBorder(new EmptyBorder(10,0,10,10));
         columnInput.add(columnInputPanel,BorderLayout.CENTER);
-        columnInput.add(columnAddaBtnPanel,BorderLayout.EAST);
+        columnInput.add(columnAddBtnPanel,BorderLayout.EAST);
         
         setColumnComoboBox();
         
@@ -608,6 +609,8 @@ public class InterfaceMain
         ((DefaultTableModel)columnTable.getModel()).setRowCount(0);
         selectedChoicesRow.removeAll(selectedChoicesRow);
         selectedChoicesColumn.removeAll(selectedChoicesColumn);
+        columnStartTextField.setText("Integer");
+        columnEndTextField.setText("Integer");
         replaceCheckBox.setSelected(false);
         replaceSpaceInHeaders.setSelected(false);
         moveColumn.setSelected(false);
@@ -762,8 +765,6 @@ public class InterfaceMain
         columnInputAndCombo.remove(columnCombo);
         columnOperationPanel.remove(columnInputAndCombo);
         columnControlPanel.remove(columnOperationPanel);
-        //columnOperationPanel.remove(columnCombo);
-        //columnOperationPanel.remove(columnPanel);
         rowOperationPanel.remove(rowCombo);
         columnControlPanel.remove(columnOperationPanel);
         rowControlPanel.remove(rowOperationPanel);
@@ -779,7 +780,6 @@ public class InterfaceMain
         setRowComboBox();
         setColumnComoboBox();
         
-        //columnOperationPanel.add(columnCombo);
         columnInputAndCombo.add(columnCombo, BorderLayout.NORTH);
         columnOperationPanel.add(columnInputAndCombo);
         columnControlPanel.add(columnOperationPanel,BorderLayout.CENTER);
@@ -893,7 +893,7 @@ public class InterfaceMain
         JTextField startColumn = new JTextField();
         JTextField endColumn = new JTextField();
         JTextField theRowNumber = new JTextField();
-        Object[] message = {"(Change headers format from \"ID X1 X2 Y1 Y2\" to \"ID X Y\")",
+        Object[] message = {"(Delete every second headers \"ID X1 X2 Y1 Y2\" to \"ID X Y\")",
         		"Select headers from column (start column number)", startColumn, "to column (end column number)",endColumn,
         		"at row (row number)",theRowNumber};
         int option = JOptionPane.showConfirmDialog(null, message, "Edit headers' format", JOptionPane.OK_CANCEL_OPTION);
