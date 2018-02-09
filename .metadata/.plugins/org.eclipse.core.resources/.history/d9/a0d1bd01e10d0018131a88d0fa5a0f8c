@@ -555,14 +555,13 @@ public class EditFile
     {
     		try 
     		{
-    			FileInputStream fileInput = new FileInputStream(currentFile);
-    			if(fileInput.available()<=0)
+    			FileInputStream file = new FileInputStream(currentFile);
+    			if(file.available()<=0)
     			{
     				System.out.println("-------------");
     			}
     			System.out.println(currentFile.getName());
-    			XSSFWorkbook workbook = new XSSFWorkbook(fileInput);
-    			//workbook.createSheet();
+    			XSSFWorkbook workbook = new XSSFWorkbook(file);
 			XSSFSheet spreedsheet = workbook.getSheet(sheetName);
 			int start = 0;
 			if(keepRowIndex == DONT_ADD_ROW_NUMBER_OPTION)
@@ -604,7 +603,7 @@ public class EditFile
 			//workbook.write(outFile);
 			workbook.close();
 			//outFile.close();
-			fileInput.close();
+			file.close();
 		} 
     		catch (IOException e1) 
     		{

@@ -556,7 +556,7 @@ public class EditFile
     		try 
     		{
     			FileInputStream fileInput = new FileInputStream(currentFile);
-    			if(fileInput.available()<=0)
+    			if(file.available()<=0)
     			{
     				System.out.println("-------------");
     			}
@@ -604,7 +604,7 @@ public class EditFile
 			//workbook.write(outFile);
 			workbook.close();
 			//outFile.close();
-			fileInput.close();
+			file.close();
 		} 
     		catch (IOException e1) 
     		{
