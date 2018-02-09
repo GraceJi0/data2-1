@@ -267,13 +267,9 @@ public class InterfaceMain
             		{
 	                 columnStart = Integer.parseInt(columnStartTextField.getText());
 	                 columnEnd = Integer.parseInt(columnEndTextField.getText());
-	                 if(columnStart>0 && columnEnd<=editFile.getColumnNum() && columnStart<=columnEnd)
+	                 if(columnStart<=0 || columnEnd>=editFile.getColumnNum())
 	                 {
-	                	 	addIndexGroup( columnStart, columnEnd, selectedChoicesColumn, columnTable, "column");
-	                 }
-	                 else
-	                 {
-	                	 	JOptionPane.showConfirmDialog(null,"Invalid column number!", "Error", JOptionPane.CLOSED_OPTION);
+	                	 	addIndexGroup( columnStart, columnEnd, selectedChoicesColumn);
 	                 }
             		}
             		catch(NumberFormatException er)
@@ -360,13 +356,9 @@ public class InterfaceMain
             		{
             			rowStart = Integer.parseInt(rowStartTextField.getText());
             			rowEnd = Integer.parseInt(rowEndTextField.getText());
-	                 if(rowStart >0 && rowEnd <= editFile.getRowNum() && rowStart<=rowEnd)
+	                 if(rowStart<=0 || rowEnd>=editFile.getRowNum())
 	                 {
-	                	 	addIndexGroup( rowStart, rowEnd, selectedChoicesRow, rowTable, "row");
-	                 }
-	                 else
-	                 {
-	                	 	JOptionPane.showConfirmDialog(null,"Invalid row number", "Error", JOptionPane.CLOSED_OPTION);
+	                	 	addIndexGroup( rowStart, rowEnd, selectedChoicesRow);
 	                 }
             		}
             		catch(NumberFormatException er)
@@ -771,14 +763,11 @@ public class InterfaceMain
     }
     
     //add a group of column or row index to the selected table
-    public void addIndexGroup(int start, int end, List<String> selectedIndexList, JTable table, String title)
+    public void addIndexGroup(int start, int end, List<String> selectedIndexList)
     {
     		for(int i = start; i<=end; i++)
     		{
-    			String label = title+i;
-    			selectedIndexList.add(label);
-    			DefaultTableModel model = (DefaultTableModel) table.getModel();
-            model.addRow(new String[]{label});
+    			selectedIndexList.add("row"+i);
     		}
     }
     

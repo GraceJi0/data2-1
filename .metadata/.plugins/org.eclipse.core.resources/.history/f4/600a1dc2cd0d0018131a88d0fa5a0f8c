@@ -602,7 +602,6 @@ public class EditFile
 			workbook.write(outFile);
 			outFile.close();
 			file.close();
-			workbook.close();
 		}
     		catch (IOException e) 
     		{
@@ -662,7 +661,6 @@ public class EditFile
 			workbook.write(outFile);
 			outFile.close();
 			file.close();
-			workbook.close();
 		}
 		catch (IOException e) 
 		{

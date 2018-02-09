@@ -267,9 +267,10 @@ public class InterfaceMain
             		{
 	                 columnStart = Integer.parseInt(columnStartTextField.getText());
 	                 columnEnd = Integer.parseInt(columnEndTextField.getText());
-	                 if(columnStart>0 && columnEnd<=editFile.getColumnNum() && columnStart<=columnEnd)
+	                 if(columnStart>0 && columnEnd<editFile.getColumnNum() && columnStart<=columnEnd)
 	                 {
 	                	 	addIndexGroup( columnStart, columnEnd, selectedChoicesColumn, columnTable, "column");
+	                	 	setColumnComoboBox();
 	                 }
 	                 else
 	                 {
@@ -360,9 +361,10 @@ public class InterfaceMain
             		{
             			rowStart = Integer.parseInt(rowStartTextField.getText());
             			rowEnd = Integer.parseInt(rowEndTextField.getText());
-	                 if(rowStart >0 && rowEnd <= editFile.getRowNum() && rowStart<=rowEnd)
+	                 if(rowStart >0 && rowEnd < editFile.getRowNum() && rowStart<=rowEnd)
 	                 {
 	                	 	addIndexGroup( rowStart, rowEnd, selectedChoicesRow, rowTable, "row");
+	                	 	setRowComboBox();
 	                 }
 	                 else
 	                 {

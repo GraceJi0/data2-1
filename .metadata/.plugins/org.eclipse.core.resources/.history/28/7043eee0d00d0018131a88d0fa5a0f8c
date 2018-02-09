@@ -267,13 +267,9 @@ public class InterfaceMain
             		{
 	                 columnStart = Integer.parseInt(columnStartTextField.getText());
 	                 columnEnd = Integer.parseInt(columnEndTextField.getText());
-	                 if(columnStart>0 && columnEnd<=editFile.getColumnNum() && columnStart<=columnEnd)
+	                 if(columnStart<=0 || columnEnd>=editFile.getColumnNum())
 	                 {
-	                	 	addIndexGroup( columnStart, columnEnd, selectedChoicesColumn, columnTable, "column");
-	                 }
-	                 else
-	                 {
-	                	 	JOptionPane.showConfirmDialog(null,"Invalid column number!", "Error", JOptionPane.CLOSED_OPTION);
+	                	 	//put the number into the select table.
 	                 }
             		}
             		catch(NumberFormatException er)
@@ -360,13 +356,9 @@ public class InterfaceMain
             		{
             			rowStart = Integer.parseInt(rowStartTextField.getText());
             			rowEnd = Integer.parseInt(rowEndTextField.getText());
-	                 if(rowStart >0 && rowEnd <= editFile.getRowNum() && rowStart<=rowEnd)
+	                 if(rowStart<=0 || rowEnd>=editFile.getRowNum())
 	                 {
-	                	 	addIndexGroup( rowStart, rowEnd, selectedChoicesRow, rowTable, "row");
-	                 }
-	                 else
-	                 {
-	                	 	JOptionPane.showConfirmDialog(null,"Invalid row number", "Error", JOptionPane.CLOSED_OPTION);
+	                	 	//put the number into the select table.
 	                 }
             		}
             		catch(NumberFormatException er)
@@ -768,18 +760,6 @@ public class InterfaceMain
 	        });
         }
         return error;
-    }
-    
-    //add a group of column or row index to the selected table
-    public void addIndexGroup(int start, int end, List<String> selectedIndexList, JTable table, String title)
-    {
-    		for(int i = start; i<=end; i++)
-    		{
-    			String label = title+i;
-    			selectedIndexList.add(label);
-    			DefaultTableModel model = (DefaultTableModel) table.getModel();
-            model.addRow(new String[]{label});
-    		}
     }
     
     //********dynamically set the column combo box(select the column)*********
