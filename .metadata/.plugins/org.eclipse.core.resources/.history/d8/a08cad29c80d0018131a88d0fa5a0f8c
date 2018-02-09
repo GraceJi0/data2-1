@@ -396,12 +396,12 @@ public class InterfaceMain
             public void actionPerformed(ActionEvent ae) 
             {
                 //delete the selected column in table.
-                int row = rowTable.getSelectedRow();
+                int row = columnTable.getSelectedRow();
                 if(row > -1)
                 {
-                    String selectedItem = ((DefaultTableModel) rowTable.getModel()).getValueAt(row, 0).toString();
-                    selectedChoicesRow.remove(selectedItem);
-                    ((DefaultTableModel)rowTable.getModel()).removeRow(row);
+                    String selectedItem = ((DefaultTableModel) columnTable.getModel()).getValueAt(row, 0).toString();
+                    selectedChoicesColumn.remove(selectedItem);
+                    ((DefaultTableModel)columnTable.getModel()).removeRow(row);
                 }
             }
         });
@@ -511,7 +511,7 @@ public class InterfaceMain
         rowControlPanel.setLayout(new BorderLayout());
         rowControlPanel.setBorder(BorderFactory.createTitledBorder("Remove Rows"));
         rowControlPanel.add(deleteRowButton, BorderLayout.SOUTH);
-        rowControlPanel.add(rowOperationPanel, BorderLayout.CENTER);
+        rowControlPanel.add(columnOperationPanel, BorderLayout.CENTER);
         
         leftPanel = new JPanel();
         leftPanel.setLayout(new BorderLayout());
@@ -846,8 +846,8 @@ public class InterfaceMain
         columnInputAndCombo.remove(columnCombo);
         columnOperationPanel.remove(columnInputAndCombo);
         columnControlPanel.remove(columnOperationPanel);
-        rowInputAndCombo.remove(rowCombo);
-        rowOperationPanel.remove(rowInputAndCombo);
+        rowOperationPanel.remove(rowCombo);
+        columnControlPanel.remove(columnOperationPanel);
         rowControlPanel.remove(rowOperationPanel);
         columnRowPanel.remove(columnControlPanel);
         columnRowPanel.remove(rowControlPanel);
@@ -864,9 +864,8 @@ public class InterfaceMain
         columnInputAndCombo.add(columnCombo, BorderLayout.NORTH);
         columnOperationPanel.add(columnInputAndCombo);
         columnControlPanel.add(columnOperationPanel,BorderLayout.CENTER);
-        rowInputAndCombo.add(rowCombo, BorderLayout.NORTH);
-        rowOperationPanel.add(rowInputAndCombo);
-        rowControlPanel.add(rowOperationPanel,BorderLayout.CENTER);
+        rowOperationPanel.add(rowCombo);
+        rowControlPanel.add(rowOperationPanel,BorderLayout.SOUTH);
         columnRowPanel.add(columnControlPanel);
         columnRowPanel.add(rowControlPanel);
         leftPanel.add(columnRowPanel, BorderLayout.CENTER);

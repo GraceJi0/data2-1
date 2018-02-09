@@ -51,8 +51,6 @@ public class InterfaceMain
     private int rowNum;
     private JTextField columnStartTextField;
     private JTextField columnEndTextField;
-    private JTextField rowStartTextField;
-    private JTextField rowEndTextField;
     private JTable rowTable;
     private JTable columnTable;
     private JTable fileTable;
@@ -68,7 +66,6 @@ public class InterfaceMain
     private JComboBox<String> columnCombo;
     private JComboBox<String> rowCombo;
     private JPanel columnInputAndCombo;
-    private JPanel rowInputAndCombo;
     private JPanel columnOperationPanel;
     private JPanel rowOperationPanel;
     private JPanel columnRowPanel;
@@ -329,75 +326,20 @@ public class InterfaceMain
         rowPanel.setLayout(new GridLayout(1,1));
         rowPanel.add(rowScroll);
         
-        JLabel r2 = new JLabel("from",JLabel.RIGHT);
-        JLabel r3 = new JLabel("to",JLabel.RIGHT);
-        rowStartTextField = new JTextField("Integer");
-        rowEndTextField = new JTextField("Integer");
+        rowOperationPanel = new JPanel();
+        rowOperationPanel.setLayout(new GridLayout(2,1));
+        setRowComboBox();
         
-        JPanel rowInputPanel = new JPanel();
-        rowInputPanel.setLayout(new GridLayout(2,2));
-        rowInputPanel.add(r2);
-        rowInputPanel.add(rowStartTextField);
-        rowInputPanel.add(r3);
-        rowInputPanel.add(rowEndTextField);
-        rowInputPanel.setPreferredSize(new Dimension(20,200));
-        
-        JButton addRowBtn = new JButton("Add");
-        JPanel rowAddBtnPanel = new JPanel();
-        rowAddBtnPanel.setLayout(new GridLayout(1,1));
-        rowAddBtnPanel.setPreferredSize(new Dimension(40,40));
-        rowAddBtnPanel.add(addRowBtn);
-        addRowBtn.addActionListener(new ActionListener()
+        JButton deleteRowButton = new JButton("Delete");
+        rowOperationPanel.add(deleteRowButton);
+        rowOperationPanel.add(rowCombo);
+        deleteRowButton.addActionListener(new ActionListener()
         {
             public void actionPerformed(ActionEvent ae) 
             {
-            		int rowStart;
-            		int rowEnd;
-            		try
-            		{
-            			rowStart = Integer.parseInt(rowStartTextField.getText());
-            			rowEnd = Integer.parseInt(rowEndTextField.getText());
-	                 if(rowStart<=0 || rowEnd>=editFile.getRowNum())
-	                 {
-	                	 	//put the number into the select table.
-	                 }
-            		}
-            		catch(NumberFormatException er)
-            		{
-            			JOptionPane.showConfirmDialog(null,"Please entre integers!", "Error", JOptionPane.CLOSED_OPTION);
-            			rowStartTextField.setText("Integer");
-            			rowEndTextField.setText("Integer");
-            		}
-            }
-        });
-       
-        JPanel rowInput = new JPanel();
-        rowInput.setLayout(new BorderLayout(6,6));
-        rowInput.setBorder(new EmptyBorder(10,0,10,10));
-        rowInput.add(rowInputPanel,BorderLayout.CENTER);
-        rowInput.add(rowAddBtnPanel,BorderLayout.EAST);
-        
-        setRowComboBox();
-        
-        rowInputAndCombo = new JPanel();
-        rowInputAndCombo.setLayout(new BorderLayout());
-        rowInputAndCombo.add(rowInput, BorderLayout.CENTER);
-        rowInputAndCombo.add(rowCombo, BorderLayout.NORTH);
-        rowOperationPanel = new JPanel();
-        rowOperationPanel.setLayout(new GridLayout(2,1));
-        
-        rowOperationPanel.add(rowPanel);
-        rowOperationPanel.add(rowInputAndCombo);
-
-        JButton deleteRowButton = new JButton("Delete");
-        
-        deleteRowButton.addActionListener(new ActionListener()
-                                                 {
-            public void actionPerformed(ActionEvent ae) 
-            {
-                //delete the selected column in table.
+                //delete the selected row in table.
                 int row = rowTable.getSelectedRow();
-                if(row > -1)
+                if(row >-1)
                 {
                     String selectedItem = ((DefaultTableModel) rowTable.getModel()).getValueAt(row, 0).toString();
                     selectedChoicesRow.remove(selectedItem);
@@ -510,8 +452,8 @@ public class InterfaceMain
         rowControlPanel = new JPanel();
         rowControlPanel.setLayout(new BorderLayout());
         rowControlPanel.setBorder(BorderFactory.createTitledBorder("Remove Rows"));
-        rowControlPanel.add(deleteRowButton, BorderLayout.SOUTH);
-        rowControlPanel.add(rowOperationPanel, BorderLayout.CENTER);
+        rowControlPanel.add(rowOperationPanel, BorderLayout.SOUTH);
+        rowControlPanel.add(rowPanel, BorderLayout.CENTER);
         
         leftPanel = new JPanel();
         leftPanel.setLayout(new BorderLayout());
@@ -846,8 +788,8 @@ public class InterfaceMain
         columnInputAndCombo.remove(columnCombo);
         columnOperationPanel.remove(columnInputAndCombo);
         columnControlPanel.remove(columnOperationPanel);
-        rowInputAndCombo.remove(rowCombo);
-        rowOperationPanel.remove(rowInputAndCombo);
+        rowOperationPanel.remove(rowCombo);
+        columnControlPanel.remove(columnOperationPanel);
         rowControlPanel.remove(rowOperationPanel);
         columnRowPanel.remove(columnControlPanel);
         columnRowPanel.remove(rowControlPanel);
@@ -864,9 +806,8 @@ public class InterfaceMain
         columnInputAndCombo.add(columnCombo, BorderLayout.NORTH);
         columnOperationPanel.add(columnInputAndCombo);
         columnControlPanel.add(columnOperationPanel,BorderLayout.CENTER);
-        rowInputAndCombo.add(rowCombo, BorderLayout.NORTH);
-        rowOperationPanel.add(rowInputAndCombo);
-        rowControlPanel.add(rowOperationPanel,BorderLayout.CENTER);
+        rowOperationPanel.add(rowCombo);
+        rowControlPanel.add(rowOperationPanel,BorderLayout.SOUTH);
         columnRowPanel.add(columnControlPanel);
         columnRowPanel.add(rowControlPanel);
         leftPanel.add(columnRowPanel, BorderLayout.CENTER);
