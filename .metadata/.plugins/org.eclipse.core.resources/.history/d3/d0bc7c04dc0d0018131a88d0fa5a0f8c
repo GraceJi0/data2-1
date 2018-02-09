@@ -313,27 +313,27 @@ public class EditFile
 			{
 				sheetSelected = theSheetName;
 			}
-			if(sheetSelected != null)
-			{
-				//gui.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-				sheetName = sheetSelected;
-				XSSFSheet sheet = workbook.getSheet(sheetSelected);
-				readTheXLSXSheet(sheet);
-			}
-			else
-			{
-				error = true;
-			}
-			addRowLabel();
-			fip.close();
-	    }
-	    else
-	    {
+				if(sheetSelected != null)
+				{
+					//gui.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+					sheetName = sheetSelected;
+					XSSFSheet sheet = workbook.getSheet(sheetSelected);
+					readTheXLSXSheet(sheet);
+				}
+				else
+				{
+					error = true;
+				}
+				addRowLabel();
+				fip.close();
+	        }
+	        else
+	        {
 	        		JOptionPane.showConfirmDialog(null,
 	        			"Can't open the file!\nPlease click \"Open \" or \"Locate\" to edit the file", 
 	                    "Error005", JOptionPane.CLOSED_OPTION); 
 	        		error = true;
-	    }
+	        }
         return error;
     }
     
@@ -553,61 +553,62 @@ public class EditFile
     //write the fileArray back to the original xlsx file
     public void fileArrayToXLSXFile(int keepRowIndex) 
     {
+    		XSSFWorkbook workbook;
+    		FileInputStream file = null;
+    		FileOutputStream outFile;
     		try 
     		{
-    			FileInputStream file = new FileInputStream(currentFile);
-    			if(file.available()<=0)
+    			file = new FileInputStream(currentFile);
+    			try 
     			{
-    				System.out.println("-------------");
-    			}
-    			System.out.println(currentFile.getName());
-    			XSSFWorkbook workbook = new XSSFWorkbook(file);
-			XSSFSheet spreedsheet = workbook.getSheet(sheetName);
-			int start = 0;
-			if(keepRowIndex == DONT_ADD_ROW_NUMBER_OPTION)
-			{
-				start = 1;
-			}
-			for(int i = 0; i < fileArray.size();i++)
-			{
-				XSSFRow row = spreedsheet.getRow(i);
-				if(row !=null)
+				workbook = new XSSFWorkbook(file);
+				XSSFSheet spreedsheet = workbook.getSheet(sheetName);
+				int start = 0;
+				if(keepRowIndex == DONT_ADD_ROW_NUMBER_OPTION)
 				{
-					spreedsheet.removeRow(row);
+					start = 1;
 				}
-				row = spreedsheet.createRow(i);
-				for(int j = start; j < fileArray.get(i).size(); j++)
+				for(int i = 0; i < fileArray.size();i++)
 				{
-					XSSFCell cell = row.createCell(j-start);
-					String cellValue = fileArray.get(i).get(j);
-					try
+					XSSFRow row = spreedsheet.createRow(i);
+					for(int j = start; j < fileArray.get(i).size(); j++)
 					{
-						int cellInt = Integer.parseInt(cellValue);
-						cell.setCellValue(cellInt);
-					}
-					catch(NumberFormatException er)
-					{
+						XSSFCell cell = row.createCell(j-start);
+						String cellValue = fileArray.get(i).get(j);
 						try
 						{
-							double cellDouble = Double.parseDouble(cellValue);
-							cell.setCellValue(cellDouble);
+							int cellInt = Integer.parseInt(cellValue);
+							cell.setCellValue(cellInt);
 						}
-						catch(NumberFormatException e)
+						catch(NumberFormatException er)
 						{
-							cell.setCellValue(cellValue);
+							try
+							{
+								double cellDouble = Double.parseDouble(cellValue);
+								cell.setCellValue(cellDouble);
+							}
+							catch(NumberFormatException e)
+							{
+								cell.setCellValue(cellValue);
+							}
 						}
 					}
 				}
+				outFile = new FileOutputStream(currentFile);
+				workbook.write(outFile);
+				workbook.close();
+				outFile.close();
+				file.close();
+			} 
+    			catch (IOException e1) 
+    			{
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 			}
-			//FileOutputStream outFile = new FileOutputStream(currentFile);
-			//workbook.write(outFile);
-			workbook.close();
-			//outFile.close();
-			file.close();
-		} 
-    		catch (IOException e1) 
+    		} 
+    		catch (FileNotFoundException e) 
     		{
-			e1.printStackTrace();
+			e.printStackTrace();
 		}	
     }
     
