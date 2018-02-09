@@ -42,10 +42,10 @@ public class FastConvert
 		String inputPath = currentFile.getAbsolutePath();
 		String outputPath = currentFile.getParentFile().getAbsolutePath()+"/GENEPOP"+currentFile.getName();
 		String spidPath = currentFile.getParentFile().getAbsolutePath()+"/PGDSpiderSpidFile.spid";
-		creatSpidFile(missingValue, spidPath);
+		String file = creatSpidFile(missingValue, spidPath);
 		String commandFastConvert = "java -Xmx1024m -Xms512m -jar /Users/dinghanji/Downloads/PGDSpider_2.1.1.3/PGDSpider2-cli.jar "+
-									"-inputfile "+ inputPath + " -inputformat STRUCTURE -outputfile "+ outputPath +
-									" -outputformat GENEPOP -spid " + spidPath;
+									"-inputfile "+inputPath + " -inputformat STRUCTURE -outputfile "+outputPath+
+									" -outputformat GENEPOP -spid "+spidPath;
 		/*String commandFastConvert = "java -Xmx1024m -Xms512m -jar /Users/dinghanji/Downloads/PGDSpider_2.1.1.3/PGDSpider2-cli.jar "
 				+ "-inputfile /Users/dinghanji/Desktop/test1.txt -inputformat STRUCTURE -outputfile /Users/dinghanji/Desktop/test2.txt "
 				+ "-outputformat GENEPOP -spid /Users/dinghanji/Desktop/mine.spid";*/
@@ -64,10 +64,10 @@ public class FastConvert
 		}
 	}
 	
-	/*public void successConvertDialog()
+	public void successConvertDialog()
 	{
 		JOptionPane.showConfirmDialog(null,"Successfull convert!", "Fast convert", JOptionPane.CLOSED_OPTION);
-	}*/
+	}
 	
 	public String readInputStream(InputStream stream)
 	{
