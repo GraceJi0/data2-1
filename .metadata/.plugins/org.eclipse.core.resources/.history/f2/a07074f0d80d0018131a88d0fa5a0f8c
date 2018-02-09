@@ -828,21 +828,9 @@ public class EditFile
     public boolean editHeadersFormat(int start, int end, int rowIndex)
     {
     		boolean error = false;
-    		int[] list = new int[end];
-    		int index = 0;
     		for(int i = start+1; i<=end;i = i+2)
     		{
-    			list[index] = i;
-    			index++;
-    			//fileArray.get(rowIndex).remove(i);
-    		}
-    		Arrays.sort(list);
-    		for(int i = list.length; i > 0; i--)
-    		{
-    			if(list[i]!= 0)
-    			{
-    				fileArray.get(rowIndex).remove(list[i]);
-    			}
+    			fileArray.get(rowIndex).remove(i);
     		}
     		return error;
     }

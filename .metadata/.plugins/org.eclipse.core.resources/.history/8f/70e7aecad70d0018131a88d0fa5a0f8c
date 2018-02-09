@@ -1000,7 +1000,7 @@ public class InterfaceMain
 	        		int rowNumber = Integer.parseInt(theRowNumberString);
 	        		if(startColumnNumber>1 && startColumnNumber<columnNum && endColumnNumber>1 && endColumnNumber<columnNum && rowNumber <= rowNum)
 	        		{
-	        			editFile.editHeadersFormat(startColumnNumber, endColumnNumber, rowNumber);
+		        		
 		        }
 	        		else
 	        		{
