@@ -1,0 +1,116 @@
+package project;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import javax.swing.JOptionPane;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import javax.swing.JTextField;
+
+
+public class FastConvert 
+{
+	private File currentFile;
+	
+	public FastConvert(File convertFile)
+	{
+		currentFile = convertFile;
+	}
+	
+	public void fastConvertDialog() 
+	{
+		String fileName =  currentFile.getName();
+		JTextField missingValueInput = new JTextField();
+	    Object[] message = {"Convert: "+fileName, "From STRUCTURE to GENEPOP","\nWhat is the missing value code?(default is -9)",
+	    		missingValueInput,"\n\n", "For more file format options, please go to the \"convert\" in File menu",};
+	    int option = JOptionPane.showConfirmDialog(null, message, "Fast convert", JOptionPane.OK_CANCEL_OPTION);
+	    if(option == 0)
+	    {	
+	    		runPGDSpider(missingValueInput.getText());
+	    }
+	}
+	
+	public void runPGDSpider(String missingValue)
+	{
+		String file = creatSpidFile(missingValue);
+		String inputPath = currentFile.getAbsolutePath();
+		String outputPath = currentFile.getParentFile().getAbsolutePath()+"/GENEPOP"+currentFile.getName();
+		String spitPath = currentFile.getParentFile().getAbsolutePath()+"/PGDSpiderSpidFile.spid";
+		String commandFastConvert = "java -Xmx1024m -Xms512m -jar /Users/dinghanji/Downloads/PGDSpider_2.1.1.3/PGDSpider2-cli.jar "
+				+ "-inputfile /Users/dinghanji/Desktop/test1.txt -inputformat STRUCTURE -outputfile /Users/dinghanji/Desktop/test2.txt "
+				+ "-outputformat GENEPOP -spid /Users/dinghanji/Desktop/bbb.spid";
+		try 
+		{
+			Process pros = Runtime.getRuntime().exec(commandFastConvert);
+			InputStream in = pros.getInputStream();
+			InputStream err = pros.getErrorStream();
+			System.out.println(readInputStream(in));
+			System.out.println("--------");
+			System.out.println(readInputStream(err));
+		} 
+		catch (IOException e) 
+		{
+			JOptionPane.showConfirmDialog(null,"Can't open PGDSpider!", "Error", JOptionPane.CLOSED_OPTION);
+		}
+	}
+	
+	public void successConvertDialog()
+	{
+		JOptionPane.showConfirmDialog(null,"Successfull convert!", "Fast convert", JOptionPane.CLOSED_OPTION);
+	}
+	
+	public String readInputStream(InputStream stream)
+	{
+		BufferedReader text = new BufferedReader(new InputStreamReader(stream));
+		String message = "";
+		try 
+		{
+			String line = text.readLine();
+			while(line != null)
+			{
+				message += line+"\n";
+				line = text.readLine();
+			}
+		} 
+		catch (IOException e) 
+		{
+			e.printStackTrace();
+		}
+		return message;
+	}
+	
+	public String creatSpidFile(String missingValue)
+	{
+		String file = "";
+		if(missingValue == null || missingValue.equals(""))
+		{
+			missingValue = "-9";
+		}
+		file += "# spid-file generated: Mon Jun 20 13:18:29 CEST 2011\n"+
+				"# STRUCTURE Parser questions\n"+
+				"PARSER_FORMAT=STRUCTURE\n\n"+
+				"# What is the ploidy of the data?\n"+
+				"STRUCTURE_PARSER_PLOIDY_QUESTION=DIPLOID_ONE_ROW\n"+
+				"# Select the type of the data:\n"+
+				"STRUCTURE_PARSER_DATA_TYPE_QUESTION=MICROSAT\n"+
+				"# Enter the number of markers (loci) listed in the input file:\n"+
+				"\n"+
+				"\n"+
+				"\n"+
+				"\n"+
+				"\n"+
+				"\n"+
+				"\n"+
+				"\n"+
+				"\n"+
+				"\n"+
+				"\n"+
+				"\n"+
+				"\n"+
+				"\n"+
+				"\n";
+		
+		return file;
+	}
+}

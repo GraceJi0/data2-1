@@ -154,3 +154,143 @@ INFO  09-02 15:47:41,395 (GenepopWriter.java:parseAlignedSampleData:675)  -Allel
 INFO  09-02 15:47:41,400 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "16?" converted to "25"
 INFO  09-02 15:47:41,402 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "3?2" converted to "26"
 INFO  09-02 15:47:41,403 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "3?6" converted to "27"
+INFO  09-02 16:16:46,504 (PGDSpiderConfig.java:loadConfig:64)  -load PGDSpider configuration from: /Users/dinghanji/Downloads/PGDSpider_2.1.1.3/spider.conf.xml
+DEBUG 09-02 16:16:46,561 (ParserFactory.java:getParserInstance:173)  -New StructureParser instance
+DEBUG 09-02 16:16:46,579 (ParserFactory.java:getParserInstance:173)  -New StructureParser instance
+WARN  09-02 16:16:46,738 (GenepopWriter.java:parseAlignedSampleData:663)  -Data are converted to integers!
+INFO  09-02 16:16:46,740 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "3?3" converted to "1"
+INFO  09-02 16:16:46,740 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "15?" converted to "2"
+INFO  09-02 16:16:46,741 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "21?" converted to "3"
+INFO  09-02 16:16:46,741 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "2?4" converted to "4"
+INFO  09-02 16:16:46,741 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "2?8" converted to "5"
+INFO  09-02 16:16:46,741 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "28?" converted to "6"
+INFO  09-02 16:16:46,741 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "25?" converted to "7"
+INFO  09-02 16:16:46,741 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "27?" converted to "8"
+INFO  09-02 16:16:46,741 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "2??" converted to "9"
+INFO  09-02 16:16:46,742 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "2?6" converted to "10"
+INFO  09-02 16:16:46,742 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "23?" converted to "11"
+INFO  09-02 16:16:46,742 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "13?" converted to "12"
+INFO  09-02 16:16:46,744 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "22?" converted to "13"
+INFO  09-02 16:16:46,745 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "3?4" converted to "14"
+INFO  09-02 16:16:46,747 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "2?2" converted to "15"
+INFO  09-02 16:16:46,748 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "18?" converted to "16"
+INFO  09-02 16:16:46,749 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "3?7" converted to "17"
+INFO  09-02 16:16:46,751 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "24?" converted to "18"
+INFO  09-02 16:16:46,753 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "26?" converted to "19"
+INFO  09-02 16:16:46,754 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "14?" converted to "20"
+INFO  09-02 16:16:46,756 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "19?" converted to "21"
+INFO  09-02 16:16:46,761 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "3??" converted to "22"
+INFO  09-02 16:16:46,762 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "3?8" converted to "23"
+INFO  09-02 16:16:46,784 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "29?" converted to "24"
+INFO  09-02 16:16:46,788 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "16?" converted to "25"
+INFO  09-02 16:16:46,789 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "3?2" converted to "26"
+INFO  09-02 16:16:46,790 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "3?6" converted to "27"
+INFO  09-02 16:27:37,180 (PGDSpiderConfig.java:loadConfig:64)  -load PGDSpider configuration from: /Users/dinghanji/Downloads/PGDSpider_2.1.1.3/spider.conf.xml
+DEBUG 09-02 16:27:37,238 (ParserFactory.java:getParserInstance:173)  -New StructureParser instance
+DEBUG 09-02 16:27:37,259 (ParserFactory.java:getParserInstance:173)  -New StructureParser instance
+WARN  09-02 16:27:37,443 (GenepopWriter.java:parseAlignedSampleData:663)  -Data are converted to integers!
+INFO  09-02 16:27:37,445 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "3?3" converted to "1"
+INFO  09-02 16:27:37,445 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "15?" converted to "2"
+INFO  09-02 16:27:37,446 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "21?" converted to "3"
+INFO  09-02 16:27:37,446 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "2?4" converted to "4"
+INFO  09-02 16:27:37,446 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "2?8" converted to "5"
+INFO  09-02 16:27:37,446 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "28?" converted to "6"
+INFO  09-02 16:27:37,446 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "25?" converted to "7"
+INFO  09-02 16:27:37,446 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "27?" converted to "8"
+INFO  09-02 16:27:37,447 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "2??" converted to "9"
+INFO  09-02 16:27:37,447 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "2?6" converted to "10"
+INFO  09-02 16:27:37,447 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "23?" converted to "11"
+INFO  09-02 16:27:37,447 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "13?" converted to "12"
+INFO  09-02 16:27:37,449 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "22?" converted to "13"
+INFO  09-02 16:27:37,451 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "3?4" converted to "14"
+INFO  09-02 16:27:37,452 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "2?2" converted to "15"
+INFO  09-02 16:27:37,452 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "18?" converted to "16"
+INFO  09-02 16:27:37,453 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "3?7" converted to "17"
+INFO  09-02 16:27:37,455 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "24?" converted to "18"
+INFO  09-02 16:27:37,457 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "26?" converted to "19"
+INFO  09-02 16:27:37,459 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "14?" converted to "20"
+INFO  09-02 16:27:37,461 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "19?" converted to "21"
+INFO  09-02 16:27:37,465 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "3??" converted to "22"
+INFO  09-02 16:27:37,466 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "3?8" converted to "23"
+INFO  09-02 16:27:37,486 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "29?" converted to "24"
+INFO  09-02 16:27:37,492 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "16?" converted to "25"
+INFO  09-02 16:27:37,495 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "3?2" converted to "26"
+INFO  09-02 16:27:37,495 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "3?6" converted to "27"
+INFO  09-02 16:28:26,414 (PGDSpiderConfig.java:loadConfig:64)  -load PGDSpider configuration from: /Users/dinghanji/Downloads/PGDSpider_2.1.1.3/spider.conf.xml
+DEBUG 09-02 16:28:26,472 (ParserFactory.java:getParserInstance:173)  -New StructureParser instance
+DEBUG 09-02 16:28:26,493 (ParserFactory.java:getParserInstance:173)  -New StructureParser instance
+DEBUG 09-02 16:28:26,504 (StructureParser.java:parse:698)  -java.lang.ArrayIndexOutOfBoundsException: -43
+ERROR 09-02 16:28:26,506 (StructureParser.java:parse:699)  -input file error at line: 2
+ERROR 09-02 16:28:26,547 (GenepopWriter.java:write:161)  -No Microsat, Standard, SNP or AFLP data in the input file. GENEPOP can only handle these data types!!!
+INFO  09-02 16:36:54,449 (PGDSpiderConfig.java:loadConfig:64)  -load PGDSpider configuration from: /Users/dinghanji/Downloads/PGDSpider_2.1.1.3/spider.conf.xml
+DEBUG 09-02 16:36:54,504 (ParserFactory.java:getParserInstance:173)  -New StructureParser instance
+DEBUG 09-02 16:36:54,523 (ParserFactory.java:getParserInstance:173)  -New StructureParser instance
+ERROR 09-02 16:36:54,531 (StructureParser.java:parse:369)  -Number of markers (loci) listed in the input file not defined!!!
+ERROR 09-02 16:36:54,580 (GenepopWriter.java:write:161)  -No Microsat, Standard, SNP or AFLP data in the input file. GENEPOP can only handle these data types!!!
+INFO  09-02 16:38:53,657 (PGDSpiderConfig.java:loadConfig:64)  -load PGDSpider configuration from: /Users/dinghanji/Downloads/PGDSpider_2.1.1.3/spider.conf.xml
+DEBUG 09-02 16:38:53,720 (ParserFactory.java:getParserInstance:173)  -New StructureParser instance
+DEBUG 09-02 16:38:53,742 (ParserFactory.java:getParserInstance:173)  -New StructureParser instance
+ERROR 09-02 16:38:53,750 (StructureParser.java:parse:369)  -Number of markers (loci) listed in the input file not defined!!!
+ERROR 09-02 16:38:53,788 (GenepopWriter.java:write:161)  -No Microsat, Standard, SNP or AFLP data in the input file. GENEPOP can only handle these data types!!!
+INFO  09-02 16:40:01,050 (PGDSpiderConfig.java:loadConfig:64)  -load PGDSpider configuration from: /Users/dinghanji/Downloads/PGDSpider_2.1.1.3/spider.conf.xml
+DEBUG 09-02 16:40:01,179 (ParserFactory.java:getParserInstance:173)  -New StructureParser instance
+DEBUG 09-02 16:40:01,244 (ParserFactory.java:getParserInstance:173)  -New StructureParser instance
+WARN  09-02 16:40:01,424 (GenepopWriter.java:parseAlignedSampleData:663)  -Data are converted to integers!
+INFO  09-02 16:40:01,426 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "3?3" converted to "1"
+INFO  09-02 16:40:01,426 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "15?" converted to "2"
+INFO  09-02 16:40:01,426 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "21?" converted to "3"
+INFO  09-02 16:40:01,427 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "2?4" converted to "4"
+INFO  09-02 16:40:01,427 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "2?8" converted to "5"
+INFO  09-02 16:40:01,427 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "28?" converted to "6"
+INFO  09-02 16:40:01,427 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "25?" converted to "7"
+INFO  09-02 16:40:01,428 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "27?" converted to "8"
+INFO  09-02 16:40:01,428 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "2??" converted to "9"
+INFO  09-02 16:40:01,428 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "2?6" converted to "10"
+INFO  09-02 16:40:01,428 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "23?" converted to "11"
+INFO  09-02 16:40:01,429 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "13?" converted to "12"
+INFO  09-02 16:40:01,431 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "22?" converted to "13"
+INFO  09-02 16:40:01,433 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "3?4" converted to "14"
+INFO  09-02 16:40:01,434 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "2?2" converted to "15"
+INFO  09-02 16:40:01,434 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "18?" converted to "16"
+INFO  09-02 16:40:01,435 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "3?7" converted to "17"
+INFO  09-02 16:40:01,436 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "24?" converted to "18"
+INFO  09-02 16:40:01,438 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "26?" converted to "19"
+INFO  09-02 16:40:01,440 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "14?" converted to "20"
+INFO  09-02 16:40:01,442 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "19?" converted to "21"
+INFO  09-02 16:40:01,446 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "3??" converted to "22"
+INFO  09-02 16:40:01,447 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "3?8" converted to "23"
+INFO  09-02 16:40:01,460 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "29?" converted to "24"
+INFO  09-02 16:40:01,465 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "16?" converted to "25"
+INFO  09-02 16:40:01,467 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "3?2" converted to "26"
+INFO  09-02 16:40:01,468 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "3?6" converted to "27"
+INFO  09-02 16:48:05,188 (PGDSpiderConfig.java:loadConfig:64)  -load PGDSpider configuration from: /Users/dinghanji/Downloads/PGDSpider_2.1.1.3/spider.conf.xml
+DEBUG 09-02 16:48:05,301 (ParserFactory.java:getParserInstance:173)  -New StructureParser instance
+DEBUG 09-02 16:48:05,319 (ParserFactory.java:getParserInstance:173)  -New StructureParser instance
+WARN  09-02 16:48:05,487 (GenepopWriter.java:parseAlignedSampleData:663)  -Data are converted to integers!
+INFO  09-02 16:48:05,490 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "3?3" converted to "1"
+INFO  09-02 16:48:05,490 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "15?" converted to "2"
+INFO  09-02 16:48:05,490 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "21?" converted to "3"
+INFO  09-02 16:48:05,491 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "2?4" converted to "4"
+INFO  09-02 16:48:05,491 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "2?8" converted to "5"
+INFO  09-02 16:48:05,491 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "28?" converted to "6"
+INFO  09-02 16:48:05,491 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "25?" converted to "7"
+INFO  09-02 16:48:05,491 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "27?" converted to "8"
+INFO  09-02 16:48:05,492 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "2??" converted to "9"
+INFO  09-02 16:48:05,493 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "2?6" converted to "10"
+INFO  09-02 16:48:05,493 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "23?" converted to "11"
+INFO  09-02 16:48:05,493 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "13?" converted to "12"
+INFO  09-02 16:48:05,496 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "22?" converted to "13"
+INFO  09-02 16:48:05,498 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "3?4" converted to "14"
+INFO  09-02 16:48:05,499 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "2?2" converted to "15"
+INFO  09-02 16:48:05,499 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "18?" converted to "16"
+INFO  09-02 16:48:05,500 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "3?7" converted to "17"
+INFO  09-02 16:48:05,502 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "24?" converted to "18"
+INFO  09-02 16:48:05,504 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "26?" converted to "19"
+INFO  09-02 16:48:05,505 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "14?" converted to "20"
+INFO  09-02 16:48:05,508 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "19?" converted to "21"
+INFO  09-02 16:48:05,511 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "3??" converted to "22"
+INFO  09-02 16:48:05,512 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "3?8" converted to "23"
+INFO  09-02 16:48:05,528 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "29?" converted to "24"
+INFO  09-02 16:48:05,534 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "16?" converted to "25"
+INFO  09-02 16:48:05,536 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "3?2" converted to "26"
+INFO  09-02 16:48:05,537 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "3?6" converted to "27"

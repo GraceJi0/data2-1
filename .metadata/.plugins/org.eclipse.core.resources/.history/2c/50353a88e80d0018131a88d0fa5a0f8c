@@ -5,13 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import javax.swing.JOptionPane;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.InputStreamReader;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import javax.swing.JTextField;
 
 
@@ -39,16 +33,13 @@ public class FastConvert
 	
 	public void runPGDSpider(String missingValue)
 	{
+		String file = creatSpidFile(missingValue);
 		String inputPath = currentFile.getAbsolutePath();
 		String outputPath = currentFile.getParentFile().getAbsolutePath()+"/GENEPOP"+currentFile.getName();
-		String spidPath = currentFile.getParentFile().getAbsolutePath()+"/PGDSpiderSpidFile.spid";
-		String file = creatSpidFile(missingValue, spidPath);
-		String commandFastConvert = "java -Xmx1024m -Xms512m -jar /Users/dinghanji/Downloads/PGDSpider_2.1.1.3/PGDSpider2-cli.jar "+
-									"-inputfile "+inputPath + " -inputformat STRUCTURE -outputfile "+outputPath+
-									" -outputformat GENEPOP -spid "+spidPath;
-		/*String commandFastConvert = "java -Xmx1024m -Xms512m -jar /Users/dinghanji/Downloads/PGDSpider_2.1.1.3/PGDSpider2-cli.jar "
+		String spitPath = currentFile.getParentFile().getAbsolutePath()+"/PGDSpiderSpidFile.spid";
+		String commandFastConvert = "java -Xmx1024m -Xms512m -jar /Users/dinghanji/Downloads/PGDSpider_2.1.1.3/PGDSpider2-cli.jar "
 				+ "-inputfile /Users/dinghanji/Desktop/test1.txt -inputformat STRUCTURE -outputfile /Users/dinghanji/Desktop/test2.txt "
-				+ "-outputformat GENEPOP -spid /Users/dinghanji/Desktop/mine.spid";*/
+				+ "-outputformat GENEPOP -spid /Users/dinghanji/Desktop/bbb.spid";
 		try 
 		{
 			Process pros = Runtime.getRuntime().exec(commandFastConvert);
@@ -89,16 +80,14 @@ public class FastConvert
 		return message;
 	}
 	
-	public String creatSpidFile(String missingValue,String spidPath)
+	public String creatSpidFile(String missingValue)
 	{
 		String file = "";
 		if(missingValue == null || missingValue.equals(""))
 		{
 			missingValue = "-9";
 		}
-		DateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd G 'at' HH:mm:ss z");
-		Date date = new Date();
-		file += "# spid-file generated: "+dateFormat.format(date)+"\n"+
+		file += "# spid-file generated: Mon Jun 20 13:18:29 CEST 2011\n"+
 				"# STRUCTURE Parser questions\n"+
 				"PARSER_FORMAT=STRUCTURE\n\n"+
 				"# What is the ploidy of the data?\n"+
@@ -106,7 +95,7 @@ public class FastConvert
 				"# Select the type of the data:\n"+
 				"STRUCTURE_PARSER_DATA_TYPE_QUESTION=MICROSAT\n"+
 				"# Enter the number of markers (loci) listed in the input file:\n"+
-				"STRUCTURE_PARSER_NUMBER_LOCI_QUESTION=20\n"+ ////////////////////not working if I remove "20"
+				"STRUCTURE_PARSER_NUMBER_LOCI_QUESTION\n"+
 				"# Are marker (locus) names included?\n" + 
 				"STRUCTURE_PARSER_LOCI_NAMES_QUESTION=false\n"+
 				"# How are Microsat alleles coded?\n" + 
@@ -124,21 +113,12 @@ public class FastConvert
 				"# Are the \"Recessive Alleles\" row and/or the \"Inter-Marker Distance\" row present in the input file?\n" + 
 				"STRUCTURE_PARSER_ADDITIONAL_ROW_QUESTION=NONE\n\n"+
 				"# GENEPOP Writer questions\n" + 
-				"WRITER_FORMAT=GENEPOP\n\n"+
+				"WRITER_FORMAT=GENEPOP\n"+
 				"# Specify which data type should be included in the GENEPOP file  (GENEPOP can only analyze one data type per file):\n" + 
 				"GENEPOP_WRITER_DATA_TYPE_QUESTION=MICROSAT\n" + 
 				"# Specify the locus/locus combination you want to write to the GENEPOP file:\n" + 
 				"GENEPOP_WRITER_LOCUS_COMBINATION_QUESTION=";
-		try 
-		{
-			BufferedWriter bw = new BufferedWriter(new FileWriter(spidPath));
-			bw.write(file);
-			bw.close();
-		}
-		catch (IOException e) 
-		{
-			e.printStackTrace();
-		} 
+		
 		return file;
 	}
 }
