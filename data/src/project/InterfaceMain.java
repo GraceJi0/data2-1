@@ -699,6 +699,8 @@ public class InterfaceMain
         selectedChoicesColumn.removeAll(selectedChoicesColumn);
         columnStartTextField.setText("Integer");
         columnEndTextField.setText("Integer");
+        rowStartTextField.setText("Integer");
+        rowEndTextField.setText("Integer");
         replaceCheckBox.setSelected(false);
         replaceSpaceInHeaders.setSelected(false);
         moveColumn.setSelected(false);
