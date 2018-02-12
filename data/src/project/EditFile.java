@@ -501,10 +501,8 @@ public class EditFile
     			}
     			reply = -1;
     		}
-    		currentFile = new File(newFileName);
     		try
     		{
-    			bufferedWriter = new BufferedWriter(new FileWriter(currentFile.getAbsolutePath()));
     			message = "Do you want to add the row number into the file?";
 			reply = JOptionPane.showConfirmDialog(null, message, "Add Row Number", JOptionPane.YES_NO_OPTION);
 			if(getMyFileExtension().equals("xlsx"))
@@ -526,11 +524,13 @@ public class EditFile
 				}
 				else
 				{
-						fileArrayToXLSFile(DONT_ADD_ROW_NUMBER_OPTION);
+					fileArrayToXLSFile(DONT_ADD_ROW_NUMBER_OPTION);
 				}
 	    		}
 	    		else
 	    		{
+	    			currentFile = new File(newFileName);
+	    			bufferedWriter = new BufferedWriter(new FileWriter(currentFile.getAbsolutePath()));
 	    			if(reply == JOptionPane.YES_OPTION)
 	    			{
 	    				fileArrayToFileString(ADD_ROW_NUMBER_OPTION);
@@ -540,8 +540,8 @@ public class EditFile
 	    				fileArrayToFileString(DONT_ADD_ROW_NUMBER_OPTION);
 	    			}
 	    			bufferedWriter.write(fileString);
+	    			bufferedWriter.close();
 	    		}
-			bufferedWriter.close();
     		}
     		catch (IOException e)
     		{
@@ -553,6 +553,19 @@ public class EditFile
     //write the fileArray back to the original xlsx file
     public void fileArrayToXLSXFile(int keepRowIndex) 
     {
+    		/*file = new FileInputStream(currentFile.getAbsolutePath());
+		HSSFSheet spreedsheet = workbook.createSheet(sheetName);
+		HSSFWorkbook workbook = new HSSFWorkbook();*/
+    	
+    		/*FileInputStream fip = new FileInputStream(currentFile);
+	    if(fip.available() > 0)
+	    {
+	        	if(gui != null)
+	        	{
+	   			gui.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+	        	}
+	        XSSFWorkbook workbook = new XSSFWorkbook(fip);
+		    String sheets[] = getAllXLSXSheet(workbook);*/
     		try 
     		{
     			System.out.println(currentFile.getName());
