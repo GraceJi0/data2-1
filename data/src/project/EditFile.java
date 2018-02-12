@@ -617,60 +617,64 @@ public class EditFile
     //write the fileArray back to the original xls file
     public void fileArrayToXLSFile(int keepRowIndex)
     {
-    		HSSFWorkbook workbook = new HSSFWorkbook();
-		FileInputStream file = null;
-		FileOutputStream outFile;
-		try 
+	    	try 
 		{
-			file = new FileInputStream(currentFile.getAbsolutePath());
-			HSSFSheet spreedsheet = workbook.createSheet(sheetName);
-			int start = 0;
-			if(keepRowIndex == DONT_ADD_ROW_NUMBER_OPTION)
+			FileInputStream fileInput = new FileInputStream(currentFile);
+			if(fileInput.available()>0)
 			{
-				start = 1;
-			}
-			for(int i = 0; i < fileArray.size();i++)
-			{
-				HSSFRow row = spreedsheet.createRow(i);
-				for(int j = start; j < fileArray.get(i).size(); j++)
+	    			HSSFWorkbook workbook = new HSSFWorkbook(fileInput);
+				HSSFSheet spreedsheet = workbook.getSheet(sheetName);
+				int start = 0;
+				if(keepRowIndex == DONT_ADD_ROW_NUMBER_OPTION)
 				{
-					HSSFCell cell = row.createCell(j-start);
-					String cellValue = fileArray.get(i).get(j);
-					try
+					start = 1;
+				}
+				int length = fileArray.size();
+				int lastRow = spreedsheet.getLastRowNum();
+				for(int i = 0; i <= lastRow;i++)
+				{
+					HSSFRow row = spreedsheet.getRow(i);
+					if(row != null)
 					{
-						int cellInt = Integer.parseInt(cellValue);
-						cell.setCellValue(cellInt);
+						spreedsheet.removeRow(row);
 					}
-					catch(NumberFormatException er)
+					if(i<length)
 					{
-						try
+						row = spreedsheet.createRow(i);
+						for(int j = start; j < fileArray.get(i).size(); j++)
 						{
-							double cellDouble = Double.parseDouble(cellValue);
-							cell.setCellValue(cellDouble);
-						}
-						catch(NumberFormatException e)
-						{
-							cell.setCellValue(cellValue);
+							HSSFCell cell = row.createCell(j-start);
+							String cellValue = fileArray.get(i).get(j);
+							try
+							{
+								int cellInt = Integer.parseInt(cellValue);
+								cell.setCellValue(cellInt);
+							}
+							catch(NumberFormatException er)
+							{
+								try
+								{
+									double cellDouble = Double.parseDouble(cellValue);
+									cell.setCellValue(cellDouble);
+								}
+								catch(NumberFormatException e)
+								{
+									cell.setCellValue(cellValue);
+								}
+							}
 						}
 					}
 				}
+				FileOutputStream outFile = new FileOutputStream(currentFile);
+				workbook.write(outFile);
+				outFile.close();
+				workbook.close();
+				fileInput.close();
 			}
 		} 
-		catch (FileNotFoundException e) 
+		catch (IOException e1) 
 		{
-			e.printStackTrace();
-		}
-		try 
-		{
-			outFile = new FileOutputStream(currentFile);
-			workbook.write(outFile);
-			outFile.close();
-			file.close();
-			workbook.close();
-		}
-		catch (IOException e) 
-		{
-			e.printStackTrace();
+			e1.printStackTrace();
 		}	
     }
     
