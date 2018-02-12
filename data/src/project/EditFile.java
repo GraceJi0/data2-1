@@ -838,17 +838,29 @@ public class EditFile
     		boolean error = false;
     		int[] list = new int[end];
     		int index = 0;
+    		rowIndex--;
     		for(int i = start+1; i<=end;i = i+2)
     		{
     			list[index] = i;
     			index++;
     		}
     		Arrays.sort(list);
-    		for(int i = list.length; i > 0; i--)
+    		
+    		for(int i = 0 ; i < list.length; i++)
     		{
-    			if(list[i]!= 0)
+    			System.out.println(list[i]);
+    		}
+    		System.out.println("======================");
+    		for(int i = list.length-1; i >= 0; i--)
+    		{
+    			System.out.println("list:"+list[i]+"\n");
+    			if(list[i]!= 0 && list[i]<fileArray.get(rowIndex).size())
     			{
-    				fileArray.get(rowIndex).remove(list[i]);
+    				if(!(fileArray.get(rowIndex).get(list[i]-1).isEmpty()))
+    				{
+	    				System.out.println(fileArray.get(rowIndex).get(list[i]));
+	    				fileArray.get(rowIndex).remove(list[i]);
+    				}
     			}
     		}
     		return error;
