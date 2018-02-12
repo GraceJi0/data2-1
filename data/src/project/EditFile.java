@@ -553,71 +553,59 @@ public class EditFile
     //write the fileArray back to the original xlsx file
     public void fileArrayToXLSXFile(int keepRowIndex) 
     {
-    		/*file = new FileInputStream(currentFile.getAbsolutePath());
-		HSSFSheet spreedsheet = workbook.createSheet(sheetName);
-		HSSFWorkbook workbook = new HSSFWorkbook();*/
-    	
-    		/*FileInputStream fip = new FileInputStream(currentFile);
-	    if(fip.available() > 0)
-	    {
-	        	if(gui != null)
-	        	{
-	   			gui.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-	        	}
-	        XSSFWorkbook workbook = new XSSFWorkbook(fip);
-		    String sheets[] = getAllXLSXSheet(workbook);*/
     		try 
     		{
-    			System.out.println(currentFile.getName());
     			FileInputStream fileInput = new FileInputStream(currentFile);
-    			if(fileInput.available()<=0)
+    			if(fileInput.available()>0)
     			{
-    				System.out.println("-------------");
+	    			XSSFWorkbook workbook = new XSSFWorkbook(fileInput);
+				XSSFSheet spreedsheet = workbook.getSheet(sheetName);
+				int start = 0;
+				if(keepRowIndex == DONT_ADD_ROW_NUMBER_OPTION)
+				{
+					start = 1;
+				}
+				int length = fileArray.size();
+				int lastRow = spreedsheet.getLastRowNum();
+				for(int i = 0; i < lastRow;i++)
+				{
+					XSSFRow row = spreedsheet.getRow(i);
+					if(row != null)
+					{
+						spreedsheet.removeRow(row);
+						System.out.println("------remove"+i);
+					}
+					if(i<length)
+					{
+						System.out.println("update"+i);
+						row = spreedsheet.createRow(i);
+						for(int j = start; j < fileArray.get(i).size(); j++)
+						{
+							XSSFCell cell = row.createCell(j-start);
+							String cellValue = fileArray.get(i).get(j);
+							try
+							{
+								int cellInt = Integer.parseInt(cellValue);
+								cell.setCellValue(cellInt);
+							}
+							catch(NumberFormatException er)
+							{
+								try
+								{
+									double cellDouble = Double.parseDouble(cellValue);
+									cell.setCellValue(cellDouble);
+								}
+								catch(NumberFormatException e)
+								{
+									cell.setCellValue(cellValue);
+								}
+							}
+						}
+					}
+				}
+				workbook.close();
+				fileInput.close();
     			}
-    			XSSFWorkbook workbook = new XSSFWorkbook(fileInput);
-    			//workbook.createSheet();
-			XSSFSheet spreedsheet = workbook.getSheet(sheetName);
-			int start = 0;
-			if(keepRowIndex == DONT_ADD_ROW_NUMBER_OPTION)
-			{
-				start = 1;
-			}
-			for(int i = 0; i < fileArray.size();i++)
-			{
-				XSSFRow row = spreedsheet.getRow(i);
-				if(row !=null)
-				{
-					spreedsheet.removeRow(row);
-				}
-				row = spreedsheet.createRow(i);
-				for(int j = start; j < fileArray.get(i).size(); j++)
-				{
-					XSSFCell cell = row.createCell(j-start);
-					String cellValue = fileArray.get(i).get(j);
-					try
-					{
-						int cellInt = Integer.parseInt(cellValue);
-						cell.setCellValue(cellInt);
-					}
-					catch(NumberFormatException er)
-					{
-						try
-						{
-							double cellDouble = Double.parseDouble(cellValue);
-							cell.setCellValue(cellDouble);
-						}
-						catch(NumberFormatException e)
-						{
-							cell.setCellValue(cellValue);
-						}
-					}
-				}
-			}
-			//FileOutputStream outFile = new FileOutputStream(currentFile);
-			//workbook.write(outFile);
-			workbook.close();
-			//outFile.close();
-			fileInput.close();
 		} 
     		catch (IOException e1) 
     		{
