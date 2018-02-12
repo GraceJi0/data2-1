@@ -603,6 +603,9 @@ public class EditFile
 						}
 					}
 				}
+				FileOutputStream outFile = new FileOutputStream(currentFile);
+				workbook.write(outFile);
+				outFile.close();
 				workbook.close();
 				fileInput.close();
     			}
