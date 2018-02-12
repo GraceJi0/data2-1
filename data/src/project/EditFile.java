@@ -567,17 +567,15 @@ public class EditFile
 				}
 				int length = fileArray.size();
 				int lastRow = spreedsheet.getLastRowNum();
-				for(int i = 0; i < lastRow;i++)
+				for(int i = 0; i <= lastRow;i++)
 				{
 					XSSFRow row = spreedsheet.getRow(i);
 					if(row != null)
 					{
 						spreedsheet.removeRow(row);
-						System.out.println("------remove"+i);
 					}
 					if(i<length)
 					{
-						System.out.println("update"+i);
 						row = spreedsheet.createRow(i);
 						for(int j = start; j < fileArray.get(i).size(); j++)
 						{
