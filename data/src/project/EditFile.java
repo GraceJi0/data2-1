@@ -555,12 +555,12 @@ public class EditFile
     {
     		try 
     		{
+    			System.out.println(currentFile.getName());
     			FileInputStream fileInput = new FileInputStream(currentFile);
     			if(fileInput.available()<=0)
     			{
     				System.out.println("-------------");
     			}
-    			System.out.println(currentFile.getName());
     			XSSFWorkbook workbook = new XSSFWorkbook(fileInput);
     			//workbook.createSheet();
 			XSSFSheet spreedsheet = workbook.getSheet(sheetName);
