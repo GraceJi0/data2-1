@@ -924,7 +924,7 @@ public class InterfaceMain
 		}
 		String expression = editFile.getSplitExpression();
 		theSheetName = editFile.getSheetName();
-		editFile.writeBack(editFile.getRename());
+		currentFile = editFile.writeBack(editFile.getRename());
 		editFile = new EditFile(currentFile);
 		refreshGUI(expression);
 		mainFrame.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));

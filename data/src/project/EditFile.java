@@ -543,8 +543,6 @@ public class EditFile
 	    		}
 	    		else
 	    		{	
-	    			//currentFile = new File(newFileName);
-	    			//System.out.println("----"+currentFile.getAbsolutePath());
 	    			bufferedWriter = new BufferedWriter(new FileWriter(currentFile.getAbsolutePath()));
 	    			if(reply == JOptionPane.YES_OPTION)
 	    			{
@@ -557,15 +555,12 @@ public class EditFile
 	    			bufferedWriter.write(fileString);
 	    			bufferedWriter.close();
 	    		}
-			//System.out.println(currentFile.getAbsolutePath());
-			File temp = new File("temp");
-			Files.copy(currentFile, temp);
-			File newFile = new File(newFileName);
-			currentFile.delete();
-			Files.copy(temp, newFile);
-			currentFile = newFile;
-			//currentFile.delete();
-			
+			if(rename != null)
+			{
+				File newFile = new File(newFileName);
+				Files.copy(currentFile, newFile);
+				currentFile = newFile;
+			}
     		}
     		catch (IOException e)
     		{
