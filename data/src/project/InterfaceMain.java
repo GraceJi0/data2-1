@@ -691,6 +691,7 @@ public class InterfaceMain
         rowEndTextField.setText("Integer");
         replaceCheckBox.setSelected(false);
         replaceSpaceInHeaders.setSelected(false);
+        editHeadersFormat.setSelected(false);
         moveColumn.setSelected(false);
         editFile.setMissingCh(""); //clear missing data and replace data
 		editFile.setReplaceCh("");
@@ -711,9 +712,7 @@ public class InterfaceMain
         			Files.copy(currentFile, tempFile);
         			currentFile = tempFile;
         			updateFile();
-
         			newFile.delete();
-        			
             }
         		catch (Exception ex) 
         		{
@@ -914,6 +913,7 @@ public class InterfaceMain
         mainFrame.repaint();
     }
     
+    //after save or save as, update the file and refresh GUI.
     public void updateFile()
     {
     		editFile.setCurrentFile(currentFile);
@@ -1059,6 +1059,7 @@ public class InterfaceMain
         return option;
     }
     
+    //Delete every second headers
     public int editHeadersFormatDialog()
     {
     		int option;
@@ -1110,6 +1111,7 @@ public class InterfaceMain
         return option;
     }
     
+    //set log file string for all kinds of functions
     public void addLogFileString()
     {
     		logFile.logSelectRows(selectedChoicesRow);

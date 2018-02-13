@@ -29,7 +29,7 @@ public class FastConvert
 		String fileName =  currentFile.getName();
 		JTextField missingValueInput = new JTextField();
 	    Object[] message = {"Convert: "+fileName, "From STRUCTURE to GENEPOP","\nWhat is the missing value code?(default is -9)",
-	    		missingValueInput,"\n\n", "For more file format options, please go to the \"convert\" in File menu",};
+	    		missingValueInput,"\n\n", "(Fast convert will generate a spid file automatically.)\nFor more file format options, please go to the \"convert\" in File menu",};
 	    int option = JOptionPane.showConfirmDialog(null, message, "Fast convert", JOptionPane.OK_CANCEL_OPTION);
 	    if(option == 0)
 	    {	
@@ -57,17 +57,19 @@ public class FastConvert
 			String result = readInputStream(in);
 			String resultMessage = readInputStream(err);
 			JOptionPane.showConfirmDialog(null,result+resultMessage, "PGDSpider", JOptionPane.CLOSED_OPTION);
+			if(result.contains("ERROR"))
+			{
+				File spidFile = new File(spidPath);
+				spidFile.delete();
+				File output = new File(outputPath);
+				output.delete();
+			}
 		} 
 		catch (IOException e) 
 		{
 			JOptionPane.showConfirmDialog(null,"Can't open PGDSpider!", "Error", JOptionPane.CLOSED_OPTION);
 		}
 	}
-	
-	/*public void successConvertDialog()
-	{
-		JOptionPane.showConfirmDialog(null,"Successfull convert!", "Fast convert", JOptionPane.CLOSED_OPTION);
-	}*/
 	
 	public String readInputStream(InputStream stream)
 	{
