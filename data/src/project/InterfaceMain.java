@@ -178,11 +178,11 @@ public class InterfaceMain
             {
                 if(e.getStateChange() == ItemEvent.SELECTED) 
                 {
-                		int option = showReplaceSpaceInHeaderDialog();
-                		if(option != 0)
-                		{
-                			replaceSpaceInHeaders.setSelected(false);
-                		}
+	                		int option = showReplaceSpaceInHeaderDialog();
+	                		if(option != 0)
+	                		{
+	                			replaceSpaceInHeaders.setSelected(false);
+	                		}
                 };
             }
         });
@@ -193,21 +193,11 @@ public class InterfaceMain
             {
                 if(e.getStateChange() == ItemEvent.SELECTED) 
                 {
-                		if(selectedChoicesColumn.isEmpty() && selectedChoicesRow.isEmpty())
-                		{
 	                		int option = showMoveCloumnDialog();
 	                		if(option != 0)
 	                		{
 	                			moveColumn.setSelected(false);
 	                		}
-                		}
-                		else
-                		{
-                			JOptionPane.showConfirmDialog(null,
-                					"This function can't be used with the \"remove column\" and \"remove row\" function below.", 
-                					"Error", JOptionPane.CLOSED_OPTION);
-                			moveColumn.setSelected(false);
-                		}
                 };
             }
         });
@@ -261,24 +251,34 @@ public class InterfaceMain
         {
             public void actionPerformed(ActionEvent ae) 
             {
-            		int columnStart;
-            		int columnEnd;
-            		try
+            		if(!moveColumn.isSelected())
             		{
-	                 columnStart = Integer.parseInt(columnStartTextField.getText());
-	                 columnEnd = Integer.parseInt(columnEndTextField.getText());
-	                 if(columnStart>0 && columnEnd<=editFile.getColumnNum() && columnStart<=columnEnd)
-	                 {
-	                	 	addIndexGroup( columnStart, columnEnd, selectedChoicesColumn, columnTable, "column");
-	                 }
-	                 else
-	                 {
-	                	 	JOptionPane.showConfirmDialog(null,"Invalid column number!", "Error", JOptionPane.CLOSED_OPTION);
-	                 }
+	            		int columnStart;
+	            		int columnEnd;
+	            		try
+	            		{
+		                 columnStart = Integer.parseInt(columnStartTextField.getText());
+		                 columnEnd = Integer.parseInt(columnEndTextField.getText());
+		                 if(columnStart>0 && columnEnd<=editFile.getColumnNum() && columnStart<=columnEnd)
+		                 {
+		                	 	addIndexGroup( columnStart, columnEnd, selectedChoicesColumn, columnTable, "column");
+		                 }
+		                 else
+		                 {
+		                	 	JOptionPane.showConfirmDialog(null,"Invalid column number!", "Error", JOptionPane.CLOSED_OPTION);
+		                 }
+	            		}
+	            		catch(NumberFormatException er)
+	            		{
+	            			JOptionPane.showConfirmDialog(null,"Please entre integers!", "Error", JOptionPane.CLOSED_OPTION);
+	            			columnStartTextField.setText("Integer");
+	            			columnEndTextField.setText("Integer");
+	            		}
             		}
-            		catch(NumberFormatException er)
+            		else
             		{
-            			JOptionPane.showConfirmDialog(null,"Please entre integers!", "Error", JOptionPane.CLOSED_OPTION);
+            			JOptionPane.showConfirmDialog(null, "This function can not be used with \"Move columns\".", 
+            					"Error", JOptionPane.CLOSED_OPTION);
             			columnStartTextField.setText("Integer");
             			columnEndTextField.setText("Integer");
             		}
@@ -354,24 +354,34 @@ public class InterfaceMain
         {
             public void actionPerformed(ActionEvent ae) 
             {
-            		int rowStart;
-            		int rowEnd;
-            		try
+            		if(!replaceSpaceInHeaders.isSelected() && !editHeadersFormat.isSelected())
             		{
-            			rowStart = Integer.parseInt(rowStartTextField.getText());
-            			rowEnd = Integer.parseInt(rowEndTextField.getText());
-	                 if(rowStart >0 && rowEnd <= editFile.getRowNum() && rowStart<=rowEnd)
-	                 {
-	                	 	addIndexGroup( rowStart, rowEnd, selectedChoicesRow, rowTable, "row");
-	                 }
-	                 else
-	                 {
-	                	 	JOptionPane.showConfirmDialog(null,"Invalid row number", "Error", JOptionPane.CLOSED_OPTION);
-	                 }
+	            		int rowStart;
+	            		int rowEnd;
+	            		try
+	            		{
+	            			rowStart = Integer.parseInt(rowStartTextField.getText());
+	            			rowEnd = Integer.parseInt(rowEndTextField.getText());
+		                 if(rowStart >0 && rowEnd <= editFile.getRowNum() && rowStart<=rowEnd)
+		                 {
+		                	 	addIndexGroup( rowStart, rowEnd, selectedChoicesRow, rowTable, "row");
+		                 }
+		                 else
+		                 {
+		                	 	JOptionPane.showConfirmDialog(null,"Invalid row number", "Error", JOptionPane.CLOSED_OPTION);
+		                 }
+	            		}
+	            		catch(NumberFormatException er)
+	            		{
+	            			JOptionPane.showConfirmDialog(null,"Please entre integers!", "Error", JOptionPane.CLOSED_OPTION);
+	            			rowStartTextField.setText("Integer");
+	            			rowEndTextField.setText("Integer");
+	            		}
             		}
-            		catch(NumberFormatException er)
+            		else
             		{
-            			JOptionPane.showConfirmDialog(null,"Please entre integers!", "Error", JOptionPane.CLOSED_OPTION);
+            			JOptionPane.showConfirmDialog(null, "This function can not be used with \"Edit headers\" and \"Edit headers' format\".", 
+            					"Error", JOptionPane.CLOSED_OPTION);
             			rowStartTextField.setText("Integer");
             			rowEndTextField.setText("Integer");
             		}
@@ -801,17 +811,25 @@ public class InterfaceMain
             {
                 if(e.getStateChange() == ItemEvent.SELECTED) 
                 {
-                    String sColumn = columnCombo.getSelectedItem().toString();
-                    if(selectedChoicesColumn.contains(sColumn))
-                    {
-                        duplicatSelectedAlert("This column has already been selected!");
-                    }
-                    else
-                    {
-                        DefaultTableModel model = (DefaultTableModel) columnTable.getModel();
-                        model.addRow(new String[]{sColumn});
-                        selectedChoicesColumn.add(sColumn);
-                    }
+                		if(!moveColumn.isSelected())
+                		{
+	                    String sColumn = columnCombo.getSelectedItem().toString();
+	                    if(selectedChoicesColumn.contains(sColumn))
+	                    {
+	                        duplicatSelectedAlert("This column has already been selected!");
+	                    }
+	                    else
+	                    {
+	                        DefaultTableModel model = (DefaultTableModel) columnTable.getModel();
+	                        model.addRow(new String[]{sColumn});
+	                        selectedChoicesColumn.add(sColumn);
+	                    }
+                		}
+                		else
+                		{
+                			JOptionPane.showConfirmDialog(null, "This function can not be used with \"Move columns\".", 
+                					"Error", JOptionPane.CLOSED_OPTION);
+                		}
                 }
             }
         }); 
@@ -834,17 +852,25 @@ public class InterfaceMain
             {
                 if(e.getStateChange() == ItemEvent.SELECTED) 
                 {
-                    String sRow = rowCombo.getSelectedItem().toString();
-                    if(selectedChoicesRow.contains(sRow))
-                    {
-                        duplicatSelectedAlert("This row has already been selected!");
-                    }
-                    else
-                    {
-                        DefaultTableModel model = (DefaultTableModel) rowTable.getModel();
-                        model.addRow(new String[]{sRow});
-                        selectedChoicesRow.add(sRow);
-                    }
+                		if(!replaceSpaceInHeaders.isSelected() && !editHeadersFormat.isSelected())
+                		{
+	                    String sRow = rowCombo.getSelectedItem().toString();
+	                    if(selectedChoicesRow.contains(sRow))
+	                    {
+	                        duplicatSelectedAlert("This row has already been selected!");
+	                    }
+	                    else
+	                    {
+	                        DefaultTableModel model = (DefaultTableModel) rowTable.getModel();
+	                        model.addRow(new String[]{sRow});
+	                        selectedChoicesRow.add(sRow);
+	                    }
+                		}
+                		else
+                		{
+                			JOptionPane.showConfirmDialog(null, "This function can not be used with \"Edit headers\" and \"Edit headers' format\".", 
+                					"Error", JOptionPane.CLOSED_OPTION);
+                		}
                 }
             }
         });
@@ -937,88 +963,116 @@ public class InterfaceMain
     //replace the spaces in a specific header
     public int showReplaceSpaceInHeaderDialog()
     {
-        JTextField selectedHeaderRow = new JTextField();
-        selectedHeaderRow.setText("1");
-        Object[] message = {"Replace spaces in header at row", selectedHeaderRow, "(row number, no space)","\nwith underscores"};
-        int option = JOptionPane.showConfirmDialog(null, message, "Headers", JOptionPane.OK_CANCEL_OPTION);
-        if(option == 0)
-        {
-        		selectedHeaderRowData = Integer.parseInt(selectedHeaderRow.getText().trim())-1;
-        		if(!(selectedHeaderRowData<rowNum)||(editFile.getFileArray().get(selectedHeaderRowData)== null))
-        		{
-        			option = -1;
-        		}
-        }
-        else
-        {
-        		editFile.setKeepChangedFile(false);
-        }
+    		int option;
+    		if(selectedChoicesRow.isEmpty())
+		{
+	        JTextField selectedHeaderRow = new JTextField();
+	        selectedHeaderRow.setText("1");
+	        Object[] message = {"Replace spaces in header at row", selectedHeaderRow, "(row number, no space)","\nwith underscores"};
+	        option = JOptionPane.showConfirmDialog(null, message, "Headers", JOptionPane.OK_CANCEL_OPTION);
+	        if(option == 0)
+	        {
+	        		selectedHeaderRowData = Integer.parseInt(selectedHeaderRow.getText().trim())-1;
+	        		if(!(selectedHeaderRowData<rowNum)||(editFile.getFileArray().get(selectedHeaderRowData)== null))
+	        		{
+	        			option = -1;
+	        		}
+	        }
+	        else
+	        {
+	        		editFile.setKeepChangedFile(false);
+	        }
+		}
+    		else
+    		{
+    			option = -1;
+    			JOptionPane.showConfirmDialog(null, "This function can not be used with \"Remove rows\".", "Error", JOptionPane.OK_CANCEL_OPTION);
+    		}
         return option;
     }
     
     //move the selected column to the end of the file
     public int showMoveCloumnDialog()
     {
-    		JTextField selectedColumn = new JTextField();
-    		selectedColumn.setText("1");
-        Object[] message = {"Move column", selectedColumn, "(column number, no space)","\nto the end of the file"};
-        int option = JOptionPane.showConfirmDialog(null, message, "Move Cloumn", JOptionPane.OK_CANCEL_OPTION);
-        if(option == 0)
-        {	
-        		moveColumnIndex = Integer.parseInt(selectedColumn.getText().trim());
-        		if(moveColumnIndex>columnNum)
-        		{
-        			JOptionPane.showConfirmDialog(null,
-    	    				"The column number is not valid!", 
-    	                    "Error", JOptionPane.CLOSED_OPTION);
-        			option = -1;
-        		}
-        }
-        else
-        {
-        		editFile.setKeepChangedFile(false);
-        }
+    		int option;
+    		if(selectedChoicesColumn.isEmpty())
+    		{
+	    		JTextField selectedColumn = new JTextField();
+	    		selectedColumn.setText("1");
+	        Object[] message = {"Move column", selectedColumn, "(column number, no space)","\nto the end of the file"};
+	        option = JOptionPane.showConfirmDialog(null, message, "Move Cloumn", JOptionPane.OK_CANCEL_OPTION);
+	        if(option == 0)
+	        {	
+	        		moveColumnIndex = Integer.parseInt(selectedColumn.getText().trim());
+	        		if(moveColumnIndex>columnNum)
+	        		{
+	        			JOptionPane.showConfirmDialog(null,
+	    	    				"The column number is not valid!", 
+	    	                    "Error", JOptionPane.CLOSED_OPTION);
+	        			option = -1;
+	        		}
+	        }
+	        else
+	        {
+	        		editFile.setKeepChangedFile(false);
+	        }
+    		}
+    		else
+    		{
+    			option = -1;
+    			JOptionPane.showConfirmDialog(null, "This function can not be used with \"Remove columns\".", "Error", JOptionPane.CLOSED_OPTION);
+    		}
         return option;
     }
     
     public int editHeadersFormatDialog()
     {
-        JTextField startColumn = new JTextField();
-        JTextField endColumn = new JTextField();
-        JTextField theRowNumber = new JTextField();
-        Object[] message = {"(Delete every second headers \"ID X1 X2 Y1 Y2\" to \"ID X Y\")",
-        		"Select headers from column (start column number)", startColumn, "to column (end column number)",endColumn,
-        		"at row (row number)",theRowNumber};
-        int option = JOptionPane.showConfirmDialog(null, message, "Edit headers' format", JOptionPane.OK_CANCEL_OPTION);
-        if(option == 0)
-        {
-        		String startColumnString = startColumn.getText();
-        		String endColumnString = endColumn.getText();
-        		String theRowNumberString = theRowNumber.getText();
-        		if(!startColumnString.equals("") && !endColumnString.equals("") && !theRowNumberString.equals(""))
-        		{
-	        		int startColumnNumber = Integer.parseInt(startColumnString);
-	        		int endColumnNumber = Integer.parseInt(endColumnString);
-	        		int rowNumber = Integer.parseInt(theRowNumberString);
-	        		if(startColumnNumber>=1 && startColumnNumber<columnNum && endColumnNumber>=1 && endColumnNumber<columnNum 
-	        				&& rowNumber <= rowNum && endColumnNumber-startColumnNumber>0)
+    		int option;
+    		if(selectedChoicesColumn.isEmpty() && selectedChoicesRow.isEmpty())
+    		{
+	        JTextField startColumn = new JTextField();
+	        JTextField endColumn = new JTextField();
+	        JTextField theRowNumber = new JTextField();
+	        Object[] message = {"(Delete every second headers \"ID X1 X2 Y1 Y2\" to \"ID X Y\")",
+	        		"Select headers from column (start column number)", startColumn, "to column (end column number)",endColumn,
+	        		"at row (row number)",theRowNumber};
+	        option = JOptionPane.showConfirmDialog(null, message, "Edit headers' format", JOptionPane.OK_CANCEL_OPTION);
+	        if(option == 0)
+	        {
+	        		String startColumnString = startColumn.getText();
+	        		String endColumnString = endColumn.getText();
+	        		String theRowNumberString = theRowNumber.getText();
+	        		if(!startColumnString.equals("") && !endColumnString.equals("") && !theRowNumberString.equals(""))
 	        		{
-	        			editFile.editHeadersFormat(startColumnNumber, endColumnNumber, rowNumber);
-		        }
+		        		int startColumnNumber = Integer.parseInt(startColumnString);
+		        		int endColumnNumber = Integer.parseInt(endColumnString);
+		        		int rowNumber = Integer.parseInt(theRowNumberString);
+		        		if(startColumnNumber>=1 && startColumnNumber<columnNum && endColumnNumber>=1 && endColumnNumber<columnNum 
+		        				&& rowNumber <= rowNum && endColumnNumber-startColumnNumber>0)
+		        		{
+		        			editFile.editHeadersFormat(startColumnNumber, endColumnNumber, rowNumber);
+			        }
+		        		else
+		        		{
+		        			JOptionPane.showConfirmDialog(null,"The column number or row number is not valid!", 
+		    	                    "Error", JOptionPane.CLOSED_OPTION);
+		    		        	option = -1;
+		        		}
+	        		}
 	        		else
 	        		{
 	        			JOptionPane.showConfirmDialog(null,"The column number or row number is not valid!", 
 	    	                    "Error", JOptionPane.CLOSED_OPTION);
 	    		        	option = -1;
 	        		}
-        		}
-        		else
-        		{
-        			JOptionPane.showConfirmDialog(null,"The column number or row number is not valid!", 
-    	                    "Error", JOptionPane.CLOSED_OPTION);
-    		        	option = -1;
-        		}
-        }
+	        }
+    		}
+    		else
+    		{
+    			option = -1;
+    			JOptionPane.showConfirmDialog(null, "This function can not be used with \"Remove columns\" and \"Remove rows\".", 
+    					"Error", JOptionPane.CLOSED_OPTION);
+    		}
         return option;
     }
     
