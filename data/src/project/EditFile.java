@@ -846,19 +846,12 @@ public class EditFile
     		}
     		Arrays.sort(list);
     		
-    		for(int i = 0 ; i < list.length; i++)
-    		{
-    			System.out.println(list[i]);
-    		}
-    		System.out.println("======================");
     		for(int i = list.length-1; i >= 0; i--)
     		{
-    			System.out.println("list:"+list[i]+"\n");
     			if(list[i]!= 0 && list[i]<fileArray.get(rowIndex).size())
     			{
     				if(!(fileArray.get(rowIndex).get(list[i]-1).isEmpty()))
     				{
-	    				System.out.println(fileArray.get(rowIndex).get(list[i]));
 	    				fileArray.get(rowIndex).remove(list[i]);
     				}
     			}
