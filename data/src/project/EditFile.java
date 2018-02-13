@@ -736,7 +736,6 @@ public class EditFile
     
     public void moveColumn(int columnPosition)
     {
-    		
     		keepChangedFile = true;
     		ArrayList<String> move = new ArrayList<String>();
     		for(int i = 0;i<fileArray.size();i++)

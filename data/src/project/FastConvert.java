@@ -24,6 +24,7 @@ public class FastConvert
 		currentFile = convertFile;
 	}
 	
+	//set the fast convert dialog and allow users to input the missing value
 	public void fastConvertDialog() 
 	{
 		String fileName =  currentFile.getName();
@@ -37,6 +38,8 @@ public class FastConvert
 	    }
 	}
 	
+	//run PGDSpider using command line, creat spid file and output file for converting, if convert is not successful, 
+	//delete the output file and spid file.
 	public void runPGDSpider(String missingValue)
 	{
 		String inputPath = currentFile.getAbsolutePath();
@@ -71,6 +74,22 @@ public class FastConvert
 		}
 	}
 	
+	public void runDetailConvert()
+	{
+		String inputPath = currentFile.getAbsolutePath();
+		String commandLine = "java -Xmx1024m -Xms512m -jar /Users/dinghanji/Downloads/PGDSpider_2.1.1.3/PGDSpider2-cli.jar"+" -inputfile "+ inputPath;
+		try 
+		{
+			Process pros = Runtime.getRuntime().exec(commandLine);
+			Runtime.getRuntime().exec("java -Xmx1024m -Xms512m -jar /Users/dinghanji/Downloads/PGDSpider_2.1.1.3/PGDSpider2.jar");
+		} 
+		catch (IOException e) 
+		{
+			JOptionPane.showConfirmDialog(null,"Can't open PGDSpider!", "Error", JOptionPane.CLOSED_OPTION);
+		}
+	}
+	
+	//read the log message after convert.
 	public String readInputStream(InputStream stream)
 	{
 		BufferedReader text = new BufferedReader(new InputStreamReader(stream));
@@ -91,6 +110,7 @@ public class FastConvert
 		return message;
 	}
 	
+	//create a spid file.
 	public String creatSpidFile(String missingValue,String spidPath)
 	{
 		String file = "";

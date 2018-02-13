@@ -650,15 +650,8 @@ public class InterfaceMain
 			@Override
 			public void actionPerformed(ActionEvent e) 
 			{
-				try 
-				{
-					String command = "java -Xmx1024m -Xms512m -jar /Users/dinghanji/Downloads/PGDSpider_2.1.1.3/PGDSpider2.jar";
-					Runtime.getRuntime().exec(command);
-				}
-				catch (IOException e2) 
-				{
-					JOptionPane.showConfirmDialog(null,"Can't open PGDSpider!", "Error", JOptionPane.CLOSED_OPTION);
-				}
+				FastConvert detailConvert = new FastConvert(currentFile);
+				detailConvert.runDetailConvert();
 			}
 		});
     }
