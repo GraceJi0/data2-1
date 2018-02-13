@@ -551,15 +551,13 @@ public class InterfaceMain
         final JMenuBar menuBar = new JMenuBar();
         //**********create menus**********
         JMenu fileMenu = new JMenu("File");
-        JMenu editMenu = new JMenu("Edit");
         JMenu splitMenu = new JMenu("Split");
         JMenu helpMenu = new JMenu("Help");
         
         //**********create menu items**********
         JMenuItem convertMenuItem = new JMenuItem("Convert");
         /*JMenuItem cutMenuItem = new JMenuItem("Cut");
-         cutMenuItem.setActionCommand("Cut");*/
-        JMenuItem replaceMenuItem = new JMenuItem("Replace");
+         cutMenuItem.setActionCommand("Cut");*/;
         JMenuItem splitByCommaMenuItem = new JMenuItem("Comma");
         JMenuItem splitBySpaceMenuItem = new JMenuItem("Space");
         JMenuItem splitByTabMenuItem = new JMenuItem("Tab");
@@ -570,7 +568,6 @@ public class InterfaceMain
         fileMenu.add(convertMenuItem);
         // fileMenu.addSeparator();
         //editMenu.add(cutMenuItem);
-        editMenu.add(replaceMenuItem);
         splitMenu.add(splitByCommaMenuItem);
         splitMenu.add(splitBySpaceMenuItem);
         splitMenu.add(splitByTabMenuItem);
@@ -579,7 +576,6 @@ public class InterfaceMain
         
         //**********add menu to menu bar**********
         menuBar.add(fileMenu);
-        menuBar.add(editMenu);
         if(!editFile.getMyFileExtension().equals("xlsx"))
         {
         		menuBar.add(splitMenu);
@@ -635,15 +631,6 @@ public class InterfaceMain
 				refreshGUI("line"); // if the file split by line, just display the file by line
 			}
 		});
-        
-        replaceMenuItem.addActionListener(new MenuItemListener()
-        {
-            @Override
-            public void actionPerformed(ActionEvent e) 
-            {
-                
-            }
-        });
         
         convertMenuItem.addActionListener(new MenuItemListener()
         {
