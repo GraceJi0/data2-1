@@ -12,7 +12,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.BorderFactory;
@@ -34,8 +36,11 @@ import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.FileChooserUI;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
+
+import com.google.common.io.Files;
 
 public class InterfaceMain 
 {
@@ -718,14 +723,26 @@ public class InterfaceMain
 		editFile.setReplaceCh("");
     }
     
+    //save as the file and allow users to select the save location
     public void saveAsFile()
     {
         JFileChooser chooser = new JFileChooser();
-        chooser.setCurrentDirectory(new File("."));
         chooser.setDialogTitle("Save as");
+        chooser.setSelectedFile(currentFile);
         if(chooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION)
         {
-            ///////////////////////////////////////////////////////
+        		try 
+        		{
+        			File newFile = chooser.getSelectedFile();
+        			Files.copy(currentFile,newFile );
+        			File tempFile = new File(newFile.getAbsolutePath()+"."+editFile.getMyFileExtension());
+        			Files.copy(newFile,tempFile);
+        			newFile.delete();
+            }
+        		catch (Exception ex) 
+        		{
+                ex.printStackTrace();
+            }
         }
     }
     
