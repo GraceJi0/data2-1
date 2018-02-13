@@ -77,11 +77,10 @@ public class FastConvert
 	public void runDetailConvert()
 	{
 		String inputPath = currentFile.getAbsolutePath();
-		String commandLine = "java -Xmx1024m -Xms512m -jar /Users/dinghanji/Downloads/PGDSpider_2.1.1.3/PGDSpider2-cli.jar"+" -inputfile "+ inputPath;
+		String commandLine = "java -Xmx1024m -Xms512m -jar /Users/dinghanji/Downloads/PGDSpider_2.1.1.3/PGDSpider2.jar";
 		try 
 		{
 			Process pros = Runtime.getRuntime().exec(commandLine);
-			Runtime.getRuntime().exec("java -Xmx1024m -Xms512m -jar /Users/dinghanji/Downloads/PGDSpider_2.1.1.3/PGDSpider2.jar");
 		} 
 		catch (IOException e) 
 		{
