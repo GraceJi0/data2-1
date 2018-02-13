@@ -859,6 +859,11 @@ public class EditFile
     		return error;
     }
     
+    public void setCurrentFile(File currentFile)
+    {
+    		this.currentFile = currentFile;
+    }
+    
     public String getSplitExpression()
     {
     	 	return splitExpression;

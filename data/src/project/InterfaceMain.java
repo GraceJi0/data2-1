@@ -49,6 +49,9 @@ public class InterfaceMain
     private String fileName;
     private File currentFile;
     
+    private JLabel fileNameLabel;
+    private JPanel fileInformation;
+    
     private List<String> selectedChoicesRow;
     private List<String> selectedChoicesColumn;
     private int columnNum;
@@ -137,9 +140,9 @@ public class InterfaceMain
          splitInformation = 
             "\nIf the file is not well displayed, please try other ways in top menu \"split\"";
         }
-        JPanel fileInformation = new JPanel();
+        fileInformation = new JPanel();
         fileInformation.setLayout(new GridLayout(2,1));
-        JLabel fileNameLabel = new JLabel(fileName);
+        fileNameLabel = new JLabel(fileName);
         fileNameLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
         JLabel splitLabel = new JLabel(splitInformation);
         splitLabel.setForeground(Color.red);
@@ -447,37 +450,7 @@ public class InterfaceMain
             {
                 if(showConfirmBox("Do you want to save the changes?", "Save") == JOptionPane.YES_OPTION)
                 {
-                		addLogFileString();
-                		logFile.writeToLogEditFile();
-                		mainFrame.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-                		if(replaceCheckBox.isSelected())
-                		{
-                			editFile.setMissingCh(missingData);
-                			editFile.setReplaceCh(replaceData);
-                			editFile.replaceMissingData();
-                		}
-                		if(replaceSpaceInHeaders.isSelected())
-                		{
-                			editFile.replaceSpaceInHeader(selectedHeaderRowData);
-                		}
-                		if(moveColumn.isSelected())
-                		{
-                			editFile.moveColumn(moveColumnIndex);
-                		}
-                		if(!selectedChoicesRow.isEmpty())
-                		{
-                			editFile.deleteRow(selectedChoicesRow);
-                		}
-                		if(!selectedChoicesColumn.isEmpty())
-                		{
-                			editFile.deleteColumn(selectedChoicesColumn);
-                		}
-                		String expression = editFile.getSplitExpression();
-                		theSheetName = editFile.getSheetName();
-                		editFile.writeBack(editFile.getRename());
-                		editFile = new EditFile(currentFile);
-                		refreshGUI(expression);
-                		mainFrame.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+                		updateFile();
                 }
             }
         });
@@ -731,13 +704,16 @@ public class InterfaceMain
         chooser.setSelectedFile(currentFile);
         if(chooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION)
         {
-        		try 
+        		try
         		{
         			File newFile = chooser.getSelectedFile();
-        			Files.copy(currentFile,newFile );
         			File tempFile = new File(newFile.getAbsolutePath()+"."+editFile.getMyFileExtension());
-        			Files.copy(newFile,tempFile);
+        			Files.copy(currentFile, tempFile);
+        			currentFile = tempFile;
+        			updateFile();
+
         			newFile.delete();
+        			
             }
         		catch (Exception ex) 
         		{
@@ -896,6 +872,8 @@ public class InterfaceMain
     //*****refresh the GUI after make changes to the file or switch the split model.*****
     public void refreshGUI(String expression)
     {
+    		fileInformation.remove(fileNameLabel);
+    		textPanel.remove(fileInformation);
         textPanel.remove(fileScroll); 
         columnInputAndCombo.remove(columnCombo);
         columnOperationPanel.remove(columnInputAndCombo);
@@ -915,6 +893,9 @@ public class InterfaceMain
         setRowComboBox();
         setColumnComoboBox();
         
+        fileNameLabel.setText(currentFile.getName());
+        fileInformation.add(fileNameLabel);
+        textPanel.add(fileInformation,BorderLayout.NORTH);
         columnInputAndCombo.add(columnCombo, BorderLayout.NORTH);
         columnOperationPanel.add(columnInputAndCombo);
         columnControlPanel.add(columnOperationPanel,BorderLayout.CENTER);
@@ -931,6 +912,42 @@ public class InterfaceMain
         //mainFrame.setVisible(true);
         mainFrame.revalidate();
         mainFrame.repaint();
+    }
+    
+    public void updateFile()
+    {
+    		editFile.setCurrentFile(currentFile);
+    		addLogFileString();
+		logFile.writeToLogEditFile();
+		mainFrame.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+		if(replaceCheckBox.isSelected())
+		{
+			editFile.setMissingCh(missingData);
+			editFile.setReplaceCh(replaceData);
+			editFile.replaceMissingData();
+		}
+		if(replaceSpaceInHeaders.isSelected())
+		{
+			editFile.replaceSpaceInHeader(selectedHeaderRowData);
+		}
+		if(moveColumn.isSelected())
+		{
+			editFile.moveColumn(moveColumnIndex);
+		}
+		if(!selectedChoicesRow.isEmpty())
+		{
+			editFile.deleteRow(selectedChoicesRow);
+		}
+		if(!selectedChoicesColumn.isEmpty())
+		{
+			editFile.deleteColumn(selectedChoicesColumn);
+		}
+		String expression = editFile.getSplitExpression();
+		theSheetName = editFile.getSheetName();
+		editFile.writeBack(editFile.getRename());
+		editFile = new EditFile(currentFile);
+		refreshGUI(expression);
+		mainFrame.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
     }
     
     //show the replace dialog when user click the replace check box to replace the missing data with other characters
