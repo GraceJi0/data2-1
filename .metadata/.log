@@ -110,3 +110,13 @@ Contains: The project description file (.project) for 'data' is missing.  This f
 !MESSAGE Problems while opening projects
 !SUBENTRY 2 org.eclipse.core.resources 4 567 2018-02-12 10:25:41.973
 !MESSAGE The project description file (.project) for 'data' is missing.  This file contains important information about the project.  The project will not function properly until this file is restored.
+!SESSION 2018-02-13 19:46:26.578 -----------------------------------------------
+eclipse.buildId=4.7.0.I20170612-0950
+java.version=1.8.0_101
+java.vendor=Oracle Corporation
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.java.product -keyring /Users/dinghanji/.eclipse_keyring
+Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -product org.eclipse.epp.package.java.product -keyring /Users/dinghanji/.eclipse_keyring
+
+!ENTRY org.eclipse.core.net 1 0 2018-02-13 19:46:35.281
+!MESSAGE System property http.nonProxyHosts has been set to local|*.local|169.254/16|*.169.254/16 by an external source. This value will be overwritten using the values from the preferences
