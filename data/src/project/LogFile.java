@@ -124,7 +124,7 @@ public class LogFile
 	{
 		if(!columnList.isEmpty())
 		{
-			String message = "\nDelete rows: ";
+			String message = "\nDelete Cloumn: ";
 			for(int i = 0 ; i < columnList.size();i++)
 			{
 				if(!columnList.get(i).isEmpty())
