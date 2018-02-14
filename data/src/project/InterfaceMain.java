@@ -465,6 +465,10 @@ public class InterfaceMain
                 }
             }
         });
+        if(editFile.getMyFileExtension().equals(""))
+        {
+        		saveAsBtn.setEnabled(false);
+        }
         saveAsBtn.addActionListener(new ActionListener()
                                         {
             public void actionPerformed(ActionEvent ae) 
@@ -692,20 +696,22 @@ public class InterfaceMain
         			File newFile = chooser.getSelectedFile();
         			String newPath = newFile.getAbsolutePath();
         			File tempFile;
-        			/*if(getFileExtension(newFile).equals(""))
-        			{*/
+        			if(getFileExtension(newFile).equals(""))
+        			{
         				 tempFile = new File(newPath+"."+editFile.getMyFileExtension());
-        			/*}
+        				 System.out.println(tempFile.getAbsolutePath());
+        			}
         			else
         			{
         				tempFile = new File(newPath);
-        			}*/
+        				System.out.println(tempFile.getAbsolutePath());
+        			}
         			Files.copy(currentFile, tempFile);
         			currentFile = tempFile;
-        			if(getFileExtension(currentFile) != null || !getFileExtension(currentFile).equals(""))
+        			/*if(getFileExtension(currentFile) != null || !getFileExtension(currentFile).equals(""))
         			{
         				editFile.setRename("");
-        			}
+        			}*/
         			updateFile();
         			newFile.delete();
             }

@@ -64,7 +64,7 @@ public class EditFile
         rowNum = 0;
         columnNum = 0;
         sheetName = null;
-        rename = null;
+        rename = "";
         keepChangedFile = false;
         resetLabel = false;
         getFileString();
@@ -108,7 +108,7 @@ public class EditFile
 		                if(contentType.equals("application/vnd.ms-excel"))
 		                {
 		                		int option = 0;
-		                		if(rename == null)
+		                		if(rename.equals(""))
 		                		{
 			                		message = "This file doesn't have an extenssion. Do you want to try to open it as an xls file?";
 			                		option = JOptionPane.showConfirmDialog(null, message, "Error", JOptionPane.OK_CANCEL_OPTION);
@@ -128,7 +128,7 @@ public class EditFile
 		                else if(contentType.equals("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
 		                {
 			                	int option = 0;
-		                		if(rename == null)
+		                		if(rename.equals(""))
 		                		{
 				                	message = "This file doesn't have an extenssion. Do you want to try to open it as an xlsx file?";
 				            		option = JOptionPane.showConfirmDialog(null, message, "Error", JOptionPane.OK_CANCEL_OPTION);
@@ -148,7 +148,7 @@ public class EditFile
 		                else if(contentType.equals("text/plain"))
 		                {
 			                	int option = 0;
-		                		if(rename == null)
+		                		if(rename.equals(""))
 		                		{
 				                	message = "This file doesn't have an extenssion. Do you want to try to open it as an txt file?";
 				            		option = JOptionPane.showConfirmDialog(null, message, "Error", JOptionPane.OK_CANCEL_OPTION);
@@ -506,7 +506,7 @@ public class EditFile
     		String message;
     		BufferedWriter bufferedWriter;
     		//System.out.println("-----"+currentFile.getName());
-    		if(rename != null && !rename.equals(""))
+    		if(!rename.equals(""))
     		{
     			message = "The file is open as an "+rename+" file. Do you want to add the extension?";
     			reply = JOptionPane.showConfirmDialog(null, message, "Rename", JOptionPane.YES_NO_OPTION);
@@ -556,7 +556,7 @@ public class EditFile
 	    			bufferedWriter.write(fileString);
 	    			bufferedWriter.close();
 	    		}
-			if(rename != null)
+			if(!rename.equals(""))
 			{
 				File newFile = new File(newFileName);
 	    			File tempFile = new File("temp");
