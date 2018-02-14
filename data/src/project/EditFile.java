@@ -519,7 +519,7 @@ public class EditFile
     		{
     			message = "Do you want to add the row number into the file?";
 			reply = JOptionPane.showConfirmDialog(null, message, "Add Row Number", JOptionPane.YES_NO_OPTION);
-			if(getMyFileExtension().equals("xlsx"))
+			if(getMyFileExtension().equals("xlsx") || rename.equals("xlsx"))
 	    		{
 				if(reply == JOptionPane.YES_OPTION)
 				{
@@ -530,7 +530,7 @@ public class EditFile
 					fileArrayToXLSXFile(DONT_ADD_ROW_NUMBER_OPTION);
 				}
 	    		}
-	    		else if(getMyFileExtension().equals("xls"))
+	    		else if(getMyFileExtension().equals("xls") || rename.equals("xls"))
 	    		{
 	    			if(reply == JOptionPane.YES_OPTION)
 				{
