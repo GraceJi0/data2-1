@@ -557,9 +557,17 @@ public class EditFile
 	    		}
 			if(rename != null)
 			{
-				File newFile = new File(newFileName);
+				/*File newFile = new File(newFileName);
 				Files.copy(currentFile, newFile);
-				currentFile = newFile;
+				currentFile = newFile;*/
+				
+				File newFile = new File(newFileName);
+	    			File tempFile = new File("temp");
+	    			Files.copy(currentFile, tempFile);
+	    			currentFile.delete();
+	    			Files.copy(tempFile, newFile);
+	    			tempFile.delete();
+	    			currentFile = newFile;
 			}
     		}
     		catch (IOException e)
