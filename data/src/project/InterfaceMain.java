@@ -131,7 +131,8 @@ public class InterfaceMain
         
         //***************set components at the top contain file name and split help information
         String splitInformation;
-        if(editFile.getMyFileExtension().equals("xlsx"))
+        String extenssion = editFile.getMyFileExtension();
+        if(extenssion.equals("xlsx") || extenssion.equals("xls") || editFile.getRename().equals("xlsx")|| editFile.getRename().equals("xls"))
         {
         		splitInformation = editFile.getSheetName();
         }
@@ -576,7 +577,8 @@ public class InterfaceMain
         
         //**********add menu to menu bar**********
         menuBar.add(fileMenu);
-        if(!editFile.getMyFileExtension().equals("xlsx"))
+        String extenssion = editFile.getMyFileExtension();
+        if(!extenssion.equals("xlsx") && !extenssion.equals("xls") && !editFile.getRename().equals("xlsx") && !editFile.getRename().equals("xls"))
         {
         		menuBar.add(splitMenu);
         }
@@ -688,10 +690,19 @@ public class InterfaceMain
         		try
         		{
         			File newFile = chooser.getSelectedFile();
-        			File tempFile = new File(newFile.getAbsolutePath()+"."+editFile.getMyFileExtension());
+        			String newPath = newFile.getAbsolutePath();
+        			File tempFile;
+        			/*if(getFileExtension(newFile).equals(""))
+        			{*/
+        				 tempFile = new File(newPath+"."+editFile.getMyFileExtension());
+        			/*}
+        			else
+        			{
+        				tempFile = new File(newPath);
+        			}*/
         			Files.copy(currentFile, tempFile);
         			currentFile = tempFile;
-        			if(editFile.getMyFileExtension() != null || !editFile.getMyFileExtension().equals(""))
+        			if(getFileExtension(currentFile) != null || !getFileExtension(currentFile).equals(""))
         			{
         				editFile.setRename("");
         			}
@@ -1116,6 +1127,22 @@ public class InterfaceMain
     	    {
     	    		
     	    }
+    }
+    
+    public String getFileExtension(File theFile)
+    {
+    		String extenssion = "";
+    		if(theFile != null)
+    		{
+	        String fileName = theFile.getName();
+	        int index = -1;
+	        index = fileName.lastIndexOf('.');
+	        if(index > -1)
+	        {
+	        		extenssion = fileName.substring(index + 1);
+	        }
+    		}
+        return extenssion;
     }
 }
 

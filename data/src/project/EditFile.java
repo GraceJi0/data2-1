@@ -505,6 +505,7 @@ public class EditFile
     		int reply = -1;
     		String message;
     		BufferedWriter bufferedWriter;
+    		//System.out.println("-----"+currentFile.getName());
     		if(rename != null && !rename.equals(""))
     		{
     			message = "The file is open as an "+rename+" file. Do you want to add the extension?";
