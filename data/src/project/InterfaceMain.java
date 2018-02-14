@@ -691,6 +691,10 @@ public class InterfaceMain
         			File tempFile = new File(newFile.getAbsolutePath()+"."+editFile.getMyFileExtension());
         			Files.copy(currentFile, tempFile);
         			currentFile = tempFile;
+        			if(editFile.getMyFileExtension() != null || !editFile.getMyFileExtension().equals(""))
+        			{
+        				editFile.setRename("");
+        			}
         			updateFile();
         			newFile.delete();
             }

@@ -505,7 +505,7 @@ public class EditFile
     		int reply = -1;
     		String message;
     		BufferedWriter bufferedWriter;
-    		if(rename != null)
+    		if(rename != null && !rename.equals(""))
     		{
     			message = "The file is open as an "+rename+" file. Do you want to add the extension?";
     			reply = JOptionPane.showConfirmDialog(null, message, "Rename", JOptionPane.YES_NO_OPTION);
@@ -557,10 +557,6 @@ public class EditFile
 	    		}
 			if(rename != null)
 			{
-				/*File newFile = new File(newFileName);
-				Files.copy(currentFile, newFile);
-				currentFile = newFile;*/
-				
 				File newFile = new File(newFileName);
 	    			File tempFile = new File("temp");
 	    			Files.copy(currentFile, tempFile);
@@ -943,6 +939,11 @@ public class EditFile
     public String getRename()
     {
     		return rename;
+    }
+    
+    public void setRename(String newName)
+    {
+    		rename = newName;
     }
     
     public void addRowLabel()
