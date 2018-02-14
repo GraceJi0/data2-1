@@ -695,25 +695,21 @@ public class InterfaceMain
         		{
         			File newFile = chooser.getSelectedFile();
         			String newPath = newFile.getAbsolutePath();
-        			File tempFile;
         			if(getFileExtension(newFile).equals(""))
         			{
-        				 tempFile = new File(newPath+"."+editFile.getMyFileExtension());
-        				 System.out.println(tempFile.getAbsolutePath());
+        				 File tempFile = new File(newPath+"."+editFile.getMyFileExtension());
+        				 Files.copy(currentFile, tempFile);
+        				 currentFile = tempFile;
+        				 updateFile();
+        				 newFile.delete();
         			}
         			else
         			{
-        				tempFile = new File(newPath);
-        				System.out.println(tempFile.getAbsolutePath());
+        				Files.copy(currentFile, newFile);
+        				currentFile = newFile;
+        				updateFile();
         			}
-        			Files.copy(currentFile, tempFile);
-        			currentFile = tempFile;
-        			/*if(getFileExtension(currentFile) != null || !getFileExtension(currentFile).equals(""))
-        			{
-        				editFile.setRename("");
-        			}*/
-        			updateFile();
-        			newFile.delete();
+        			
             }
         		catch (Exception ex) 
         		{
