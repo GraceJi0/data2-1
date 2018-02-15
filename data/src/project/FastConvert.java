@@ -11,6 +11,7 @@ import java.io.InputStreamReader;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import javax.swing.JTextField;
 
@@ -18,10 +19,15 @@ import javax.swing.JTextField;
 public class FastConvert 
 {
 	private File currentFile;
+	private List<List<String>> fileArray;
+	private int markerNumInt;
+	private String fastConvertLogString;
 	
-	public FastConvert(File convertFile)
+	public FastConvert(File convertFile, List<List<String>> fileArray)
 	{
 		currentFile = convertFile;
+		markerNumInt = -1;
+		fastConvertLogString = "";
 	}
 	
 	//set the fast convert dialog and allow users to input the missing value
@@ -29,23 +35,34 @@ public class FastConvert
 	{
 		String fileName =  currentFile.getName();
 		JTextField missingValueInput = new JTextField();
-	    Object[] message = {"Convert: "+fileName, "From STRUCTURE to GENEPOP","\nWhat is the missing value code?(default is -9)",
-	    		missingValueInput,"\n\n", "(Fast convert will generate a spid file automatically.)\nFor more file format options, please go to the \"convert\" in File menu",};
+		JTextField marksNumInput = new JTextField();
+	    Object[] message = {"Convert: "+fileName, "From STRUCTURE to GENEPOP","\nEnter the missing value(default is -9):",
+	    		missingValueInput,"Enter the number of markers (loci) listed in the file:",marksNumInput,"\n\n", 
+	    		"(Fast convert will generate a spid file automatically.)\nFor more file format options, please go to the \"convert\" in File menu"};
 	    int option = JOptionPane.showConfirmDialog(null, message, "Fast convert", JOptionPane.OK_CANCEL_OPTION);
 	    if(option == 0)
 	    {	
-	    		runPGDSpider(missingValueInput.getText());
+	    		runPGDSpider(missingValueInput.getText(), marksNumInput.getText());
 	    }
 	}
 	
 	//run PGDSpider using command line, creat spid file and output file for converting, if convert is not successful, 
 	//delete the output file and spid file.
-	public void runPGDSpider(String missingValue)
+	public void runPGDSpider(String missingValue, String markerNum)
 	{
 		String inputPath = currentFile.getAbsolutePath();
 		String outputPath = currentFile.getParentFile().getAbsolutePath()+"/GENEPOP"+currentFile.getName();
 		String spidPath = currentFile.getParentFile().getAbsolutePath()+"/PGDSpiderSpidFile.spid";
-		creatSpidFile(missingValue, spidPath);
+		/*int option = checkFileFormat();
+		if(markerNumInt == -1)
+		{
+			markerNum = "";
+		}
+		else
+		{
+			markerNum =  Integer.toString(markerNumInt);
+		}*/
+		creatSpidFile(missingValue, markerNum,spidPath);
 		String commandFastConvert = "java -Xmx1024m -Xms512m -jar /Users/dinghanji/Downloads/PGDSpider_2.1.1.3/PGDSpider2-cli.jar "+
 									"-inputfile "+ inputPath + " -inputformat STRUCTURE -outputfile "+ outputPath +
 									" -outputformat GENEPOP -spid " + spidPath;
@@ -66,6 +83,10 @@ public class FastConvert
 				spidFile.delete();
 				File output = new File(outputPath);
 				output.delete();
+			}
+			else
+			{
+				setfastConvertLog();
 			}
 		} 
 		catch (IOException e) 
@@ -110,7 +131,7 @@ public class FastConvert
 	}
 	
 	//create a spid file.
-	public String creatSpidFile(String missingValue,String spidPath)
+	public String creatSpidFile(String missingValue, String marksNum, String spidPath)
 	{
 		String file = "";
 		if(missingValue == null || missingValue.equals(""))
@@ -127,7 +148,8 @@ public class FastConvert
 				"# Select the type of the data:\n"+
 				"STRUCTURE_PARSER_DATA_TYPE_QUESTION=MICROSAT\n"+
 				"# Enter the number of markers (loci) listed in the input file:\n"+
-				"STRUCTURE_PARSER_NUMBER_LOCI_QUESTION=20\n"+ ////////////////////not working if I remove "20"
+				//"STRUCTURE_PARSER_NUMBER_LOCI_QUESTION="+marksNum+"\n"+ ////////////////////not working if I remove "20"
+				"STRUCTURE_PARSER_NUMBER_LOCI_QUESTION=20\n"+
 				"# Are marker (locus) names included?\n" + 
 				"STRUCTURE_PARSER_LOCI_NAMES_QUESTION=false\n"+
 				"# How are Microsat alleles coded?\n" + 
@@ -161,5 +183,73 @@ public class FastConvert
 			e.printStackTrace();
 		} 
 		return file;
+	}
+	
+	//check the file's format, get the number of marks of this file.
+	public int checkFileFormat()
+	{
+		int count = 0;
+		boolean rowFormat = true;
+		boolean columnFormat = true;
+		int option = -1;
+		//int prevRowLength = 0;
+		
+		System.out.println(fileArray.toString());
+		int prevRowLength = fileArray.get(0).size();
+		int prevColumnLength = fileArray.size();
+		for(int i = 0; i < fileArray.size(); i++)
+		{
+			int rowLength = fileArray.get(i).size();
+			if(rowLength == prevRowLength)
+			{
+				int columnLength = 0;
+				for(int j = 0 ; j < rowLength; j++)
+				{
+					if(!fileArray.get(i).get(j).isEmpty())
+					{
+						try
+						{
+							int data = Integer.parseInt(fileArray.get(i).get(j));
+							count++;
+						}
+						catch(Exception e)
+						{
+							
+						}
+						columnLength++;
+					}
+				}
+				if(columnLength != prevColumnLength)
+				{
+					columnFormat = false;
+					prevColumnLength = columnLength;
+				}
+			}
+			else
+			{
+				rowFormat = false;
+				prevRowLength = rowLength;
+			}
+		}
+		if(rowFormat == false || columnFormat == false)
+		{
+			option = JOptionPane.showConfirmDialog(null,"The file might not in STRUCTURE format, do you still want to conver the file?",
+					"Error", JOptionPane.YES_NO_OPTION);
+		}
+		else
+		{
+			markerNumInt = count;
+		}
+		return option;
+	}
+	
+	public void setfastConvertLog()
+	{
+		fastConvertLogString += "\nFast convert: convert file from STRUCTURE to GENEPOP.";
+	}
+	
+	public String getfastConvertLog()
+	{
+		return fastConvertLogString;
 	}
 }

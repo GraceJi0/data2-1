@@ -18,6 +18,7 @@ public class LogFile
 	private File currentFile;
 	private String editFileString;
 	
+	
 	public LogFile()
 	{
 		currentFile = null;
@@ -161,11 +162,16 @@ public class LogFile
 		return editFileString;
 	}
 	
-	public String logEditHeadersFormat(String content)
+	public String logEditHeadersFormat(int columnStart, int columnEnd, int row)
 	{
-		String message = "\nEdit headers format";
+		String message = "\nDelete every second cell frome column "+columnStart+" to "+columnEnd+" at row "+ row;
 		editFileString +=message;
 		return editFileString;
+	}
+	
+	public String logFastConvert(String content)
+	{
+		return editFileString += content;
 	}
 	
 	public void setCurrentFile(File currentFile)

@@ -12,12 +12,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -36,7 +34,6 @@ import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
-import javax.swing.plaf.FileChooserUI;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
@@ -83,19 +80,25 @@ public class InterfaceMain
     private JPanel columnControlPanel;
     private JPanel rowControlPanel;
 
+    //checkbox variables 
     private JCheckBox replaceCheckBox;
     private JCheckBox replaceSpaceInHeaders;
     private JCheckBox moveColumn;
     private JCheckBox editHeadersFormat;
     
+    //variables at checkbox area
     private String replaceData;
     private String missingData;
     private int selectedHeaderRowData;
     private int moveColumnIndex;
+    private int startColumnNumber;
+	private int endColumnNumber;
+	private int rowNumber;
     
     private String theSheetName;
     
     private LogFile logFile;
+    private FastConvert fastConvert;
     
     public InterfaceMain(File currentFile, JPanel gui, LogFile logFile) 
     {
@@ -435,15 +438,20 @@ public class InterfaceMain
         //*****************set components in bottom panel*****************
         JButton saveBtn = new JButton("Save");
         saveBtn.setPreferredSize(new Dimension(160, 40));
+        saveBtn.setIcon(new ImageIcon("save.png"));
         saveBtn.setToolTipText("Click to save the file");
         JButton clearBtn = new JButton("Clear");
         clearBtn.setPreferredSize(new Dimension(160, 40));
+        clearBtn.setIcon(new ImageIcon("clear.png"));
         JButton saveAsBtn = new JButton("Save as");
         saveAsBtn.setPreferredSize(new Dimension(160, 40));
+        saveAsBtn.setIcon(new ImageIcon("saveAs.png"));
         JButton fastConvertBtn = new JButton("Fast convert");
         fastConvertBtn.setPreferredSize(new Dimension(160, 40));
+        fastConvertBtn.setIcon(new ImageIcon("fastConvert.png"));
         JButton closeBtn = new JButton("Close");
         closeBtn.setPreferredSize(new Dimension(160, 40));
+        closeBtn.setIcon(new ImageIcon("close.png"));
         
         saveBtn.addActionListener(new ActionListener()
         {
@@ -485,10 +493,15 @@ public class InterfaceMain
         });
         fastConvertBtn.addActionListener(new ActionListener()
         {
-			public void actionPerformed(ActionEvent ae) 
+			public void actionPerformed(ActionEvent ae)
 			{
-				FastConvert fastConvert = new FastConvert(currentFile);
+				fastConvert = new FastConvert(currentFile, editFile.getFileArray());
 				fastConvert.fastConvertDialog();
+				if(logFile != null)
+				{
+					logFile.logFastConvert(fastConvert.getfastConvertLog());
+					logFile.writeToLogEditFile();
+				}
 			}
 		});
         
@@ -643,7 +656,7 @@ public class InterfaceMain
 			@Override
 			public void actionPerformed(ActionEvent e) 
 			{
-				FastConvert detailConvert = new FastConvert(currentFile);
+				FastConvert detailConvert = new FastConvert(currentFile, editFile.getFileArray());
 				detailConvert.runDetailConvert();
 			}
 		});
@@ -1076,9 +1089,9 @@ public class InterfaceMain
 	        		String theRowNumberString = theRowNumber.getText();
 	        		if(!startColumnString.equals("") && !endColumnString.equals("") && !theRowNumberString.equals(""))
 	        		{
-		        		int startColumnNumber = Integer.parseInt(startColumnString);
-		        		int endColumnNumber = Integer.parseInt(endColumnString);
-		        		int rowNumber = Integer.parseInt(theRowNumberString);
+		        		startColumnNumber = Integer.parseInt(startColumnString);
+		        		endColumnNumber = Integer.parseInt(endColumnString);
+		        		rowNumber = Integer.parseInt(theRowNumberString);
 		        		if(startColumnNumber>=1 && startColumnNumber<columnNum && endColumnNumber>=1 && endColumnNumber<columnNum 
 		        				&& rowNumber <= rowNum && endColumnNumber-startColumnNumber>0)
 		        		{
@@ -1127,7 +1140,7 @@ public class InterfaceMain
     	    }
     	    if(editHeadersFormat.isSelected())
     	    {
-    	    		
+    	    		logFile.logEditHeadersFormat(startColumnNumber, endColumnNumber, rowNumber);
     	    }
     }
     
