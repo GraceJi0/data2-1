@@ -1,3 +1,0 @@
-LogEdit.txt
-This log file records all the changes that happened on each file.
-

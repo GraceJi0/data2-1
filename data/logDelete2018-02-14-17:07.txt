@@ -1,3 +1,0 @@
-LogDelete.txt
-This log file records all the files that has been deleted.
-
