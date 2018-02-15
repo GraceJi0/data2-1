@@ -97,7 +97,7 @@ public class FastConvert
 	
 	public void runDetailConvert()
 	{
-		String inputPath = currentFile.getAbsolutePath();
+		//String inputPath = currentFile.getAbsolutePath();
 		String commandLine = "java -Xmx1024m -Xms512m -jar /Users/dinghanji/Downloads/PGDSpider_2.1.1.3/PGDSpider2.jar";
 		try 
 		{
@@ -209,7 +209,7 @@ public class FastConvert
 					{
 						try
 						{
-							int data = Integer.parseInt(fileArray.get(i).get(j));
+							Integer.parseInt(fileArray.get(i).get(j));
 							count++;
 						}
 						catch(Exception e)
