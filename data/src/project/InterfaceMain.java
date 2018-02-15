@@ -104,6 +104,7 @@ public class InterfaceMain
     {
     		this.logFile = logFile;
     		logFile.setCurrentFile(currentFile);
+    		logFile.initializelLogEditFile();
     		theSheetName = "";
     		editFile = new EditFile(currentFile);
         controlPanel = new JPanel();

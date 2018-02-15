@@ -82,7 +82,7 @@ public class LogFile
     		}
     }
 	
-	public void writeToLogEditFile()
+	public void initializelLogEditFile()
     {
     		if(!logChangesFilePath.equals(""))
     		{
@@ -93,7 +93,6 @@ public class LogFile
 				DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 				Date date = new Date();
 				String logMessage = dateFormat.format(date)+"\nEdit file: "+currentFile.getName()+"\nPath:"+currentFile.getPath();
-				logMessage += editFileString+"\n\n";
 				bufferedWriter.write(logMessage);
 				bufferedWriter.close();
 			} 
@@ -103,6 +102,25 @@ public class LogFile
 			}
     		}
     }
+	
+	public void writeToLogEditFile()
+	{
+		if(!logChangesFilePath.equals(""))
+		{
+			File logEdit = new File(logChangesFilePath);
+			try 
+			{
+				BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(logEdit));
+				String logMessage = editFileString+"\n\n";
+				bufferedWriter.write(logMessage);
+				bufferedWriter.close();
+			} 
+			catch (IOException e) 
+			{	
+				e.printStackTrace();
+			}
+		}
+	}
 	
 	public String logSelectRows(List<String> rowList)
 	{

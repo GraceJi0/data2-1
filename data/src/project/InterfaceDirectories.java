@@ -673,7 +673,7 @@ public class InterfaceDirectories
     {
     		String title = "Please set the locations that you want to save the log file.";
     		JButton logDeleteBtn = new JButton("Log file that records all the deleted file.");
-    		JButton logChangeBtn = new JButton("Logfile that records all the changes that happens on a file.");
+    		JButton logChangeBtn = new JButton("Log file that records all the changes that happens on a file.");
     		logDeleteBtn.addActionListener(new ActionListener()
     		{
 			@Override
