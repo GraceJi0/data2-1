@@ -92,7 +92,7 @@ public class LogFile
 				BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(logEdit,true));
 				DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 				Date date = new Date();
-				String logMessage = dateFormat.format(date)+"\n\nEdit file: "+currentFile.getName()+"\nPath:"+currentFile.getPath();
+				String logMessage = "\n\n"+dateFormat.format(date)+"\nEdit file: "+currentFile.getName()+"\nPath:"+currentFile.getPath();
 				bufferedWriter.write(logMessage);
 				bufferedWriter.close();
 			} 
@@ -144,7 +144,7 @@ public class LogFile
 	{
 		if(!columnList.isEmpty())
 		{
-			String message = "\nDelete Cloumn: ";
+			String message = "\nDelete Cloumns: ";
 			for(int i = 0 ; i < columnList.size();i++)
 			{
 				if(!columnList.get(i).isEmpty())

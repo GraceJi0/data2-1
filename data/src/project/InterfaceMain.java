@@ -723,6 +723,10 @@ public class InterfaceMain
         				currentFile = newFile;
         				updateFile();
         			}
+        			logFile.setCurrentFile(currentFile);
+        			logFile.initializelLogEditFile();
+        			addLogFileString();
+        			logFile.writeToLogEditFile();
         			
             }
         		catch (Exception ex) 
