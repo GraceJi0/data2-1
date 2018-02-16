@@ -3,7 +3,17 @@ package project;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -28,6 +38,7 @@ public class FastConvert
 		currentFile = convertFile;
 		markerNumInt = -1;
 		fastConvertLogString = "";
+		this.fileArray = fileArray;
 	}
 	
 	//set the fast convert dialog and allow users to input the missing value
@@ -53,7 +64,7 @@ public class FastConvert
 		String inputPath = currentFile.getAbsolutePath();
 		String outputPath = currentFile.getParentFile().getAbsolutePath()+"/GENEPOP"+currentFile.getName();
 		String spidPath = currentFile.getParentFile().getAbsolutePath()+"/PGDSpiderSpidFile.spid";
-		/*int option = checkFileFormat();
+		int option = checkFileFormat();
 		if(markerNumInt == -1)
 		{
 			markerNum = "";
@@ -61,37 +72,48 @@ public class FastConvert
 		else
 		{
 			markerNum =  Integer.toString(markerNumInt);
-		}*/
-		creatSpidFile(missingValue, markerNum,spidPath);
-		String commandFastConvert = "java -Xmx1024m -Xms512m -jar /Users/dinghanji/Downloads/PGDSpider_2.1.1.3/PGDSpider2-cli.jar "+
-									"-inputfile "+ inputPath + " -inputformat STRUCTURE -outputfile "+ outputPath +
-									" -outputformat GENEPOP -spid " + spidPath;
-		/*String commandFastConvert = "java -Xmx1024m -Xms512m -jar /Users/dinghanji/Downloads/PGDSpider_2.1.1.3/PGDSpider2-cli.jar "
-				+ "-inputfile /Users/dinghanji/Desktop/test1.txt -inputformat STRUCTURE -outputfile /Users/dinghanji/Desktop/test2.txt "
-				+ "-outputformat GENEPOP -spid /Users/dinghanji/Desktop/mine.spid";*/
-		try 
+		}
+		if(option == JOptionPane.YES_OPTION)
 		{
-			Process pros = Runtime.getRuntime().exec(commandFastConvert);
-			InputStream in = pros.getInputStream();
-			InputStream err = pros.getErrorStream();
-			String result = readInputStream(in);
-			String resultMessage = readInputStream(err);
-			JOptionPane.showConfirmDialog(null,result+resultMessage, "PGDSpider", JOptionPane.CLOSED_OPTION);
-			if(result.contains("ERROR"))
+			creatSpidFile(missingValue, markerNum,spidPath);
+			String commandFastConvert = "java -Xmx1024m -Xms512m -jar /Users/dinghanji/Downloads/PGDSpider_2.1.1.3/PGDSpider2-cli.jar "+
+										"-inputfile "+ inputPath + " -inputformat STRUCTURE -outputfile "+ outputPath +
+										" -outputformat GENEPOP -spid " + spidPath;
+			try 
 			{
-				File spidFile = new File(spidPath);
-				spidFile.delete();
-				File output = new File(outputPath);
-				output.delete();
-			}
-			else
+				Process pros = Runtime.getRuntime().exec(commandFastConvert);
+				InputStream in = pros.getInputStream();
+				InputStream err = pros.getErrorStream();
+				String result = readInputStream(in);
+				
+				String resultMessage = readInputStream(err);
+				JButton showDetails = new JButton("Show Details");
+				showDetails.addActionListener(new ActionListener()
+                {
+					public void actionPerformed(ActionEvent ae) 
+					{
+						showPGDSpiderErrorMessage(result, resultMessage);
+					}
+				});
+				Object[] message = {showErrorMessage(result),showDetails};
+				JOptionPane.showConfirmDialog(null,message, "PGDSpider", JOptionPane.CLOSED_OPTION);
+				
+				if(result.contains("ERROR"))
+				{
+					File spidFile = new File(spidPath);
+					spidFile.delete();
+					File output = new File(outputPath);
+					output.delete();
+				}
+				else
+				{
+					setfastConvertLog();
+				}
+			} 
+			catch (IOException e) 
 			{
-				setfastConvertLog();
+				JOptionPane.showConfirmDialog(null,"Can't open PGDSpider!", "Error", JOptionPane.CLOSED_OPTION);
 			}
-		} 
-		catch (IOException e) 
-		{
-			JOptionPane.showConfirmDialog(null,"Can't open PGDSpider!", "Error", JOptionPane.CLOSED_OPTION);
 		}
 	}
 	
@@ -101,7 +123,7 @@ public class FastConvert
 		String commandLine = "java -Xmx1024m -Xms512m -jar /Users/dinghanji/Downloads/PGDSpider_2.1.1.3/PGDSpider2.jar";
 		try 
 		{
-			Process pros = Runtime.getRuntime().exec(commandLine);
+			Runtime.getRuntime().exec(commandLine);
 		} 
 		catch (IOException e) 
 		{
@@ -148,8 +170,7 @@ public class FastConvert
 				"# Select the type of the data:\n"+
 				"STRUCTURE_PARSER_DATA_TYPE_QUESTION=MICROSAT\n"+
 				"# Enter the number of markers (loci) listed in the input file:\n"+
-				//"STRUCTURE_PARSER_NUMBER_LOCI_QUESTION="+marksNum+"\n"+ ////////////////////not working if I remove "20"
-				"STRUCTURE_PARSER_NUMBER_LOCI_QUESTION=20\n"+
+				"STRUCTURE_PARSER_NUMBER_LOCI_QUESTION="+marksNum+"\n"+
 				"# Are marker (locus) names included?\n" + 
 				"STRUCTURE_PARSER_LOCI_NAMES_QUESTION=false\n"+
 				"# How are Microsat alleles coded?\n" + 
@@ -189,21 +210,18 @@ public class FastConvert
 	public int checkFileFormat()
 	{
 		int count = 0;
-		boolean rowFormat = true;
 		boolean columnFormat = true;
 		int option = -1;
-		//int prevRowLength = 0;
-		
-		System.out.println(fileArray.toString());
-		int prevRowLength = fileArray.get(0).size();
-		int prevColumnLength = fileArray.size();
+		int columnLength = 0;
+		int countResult = 0;
+		int prevColumnLength = fileArray.get(1).size();
 		for(int i = 0; i < fileArray.size(); i++)
 		{
-			int rowLength = fileArray.get(i).size();
-			if(rowLength == prevRowLength)
+			count = 0;
+			if(!fileArray.get(i).isEmpty())
 			{
-				int columnLength = 0;
-				for(int j = 0 ; j < rowLength; j++)
+				int length = fileArray.get(i).size();
+				for(int j = 0 ; j < length; j++)
 				{
 					if(!fileArray.get(i).get(j).isEmpty())
 					{
@@ -212,35 +230,53 @@ public class FastConvert
 							Integer.parseInt(fileArray.get(i).get(j));
 							count++;
 						}
-						catch(Exception e)
-						{
-							
-						}
-						columnLength++;
+						catch(Exception e){}
 					}
+					columnLength++;
 				}
 				if(columnLength != prevColumnLength)
 				{
 					columnFormat = false;
-					prevColumnLength = columnLength;
 				}
-			}
-			else
-			{
-				rowFormat = false;
-				prevRowLength = rowLength;
+				prevColumnLength = columnLength;
+				columnLength = 0;
+				countResult = count;
 			}
 		}
-		if(rowFormat == false || columnFormat == false)
+		if(columnFormat == false || countResult % 2 != 0)
 		{
 			option = JOptionPane.showConfirmDialog(null,"The file might not in STRUCTURE format, do you still want to conver the file?",
 					"Error", JOptionPane.YES_NO_OPTION);
 		}
 		else
 		{
-			markerNumInt = count;
+			option = JOptionPane.YES_OPTION;
 		}
+		markerNumInt = countResult/2;
 		return option;
+	}
+	
+	public String showErrorMessage(String result)
+	{
+		String errorMessage = "Error Message:\n";
+		errorMessage+=result;
+		return errorMessage;
+	}
+	
+	public JPanel showPGDSpiderErrorMessage(String result, String resultMessage)
+	{
+		//JFrame errorMessageFrame = new JFrame();
+		JPanel errorMessagePanel = new JPanel();
+		errorMessagePanel.setMaximumSize(new Dimension(500,300));
+		JTextArea errorMessageTextArea = new JTextArea();
+		JScrollPane errorMessageScroll = new JScrollPane(errorMessageTextArea,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		result = "\n"+resultMessage;
+		errorMessageTextArea.setText(result);
+		errorMessageTextArea.setEditable(false);
+		errorMessagePanel.add(errorMessageScroll);
+		errorMessagePanel.setVisible(true);
+		return errorMessagePanel;
 	}
 	
 	public void setfastConvertLog()

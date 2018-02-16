@@ -203,45 +203,55 @@ public class EditFile
     		getFileString();  //get the file string from original file 
 	    String lines[] = fileString.split("\n");
 	    int lineNum = 0;
-	    while(lineNum<lines.length && lines[lineNum] != null)
+	    try
 	    {
-	    		String line = lines[lineNum];
-	        line.trim();
-	        String[] dataLine = line.split(expression);
-	        
-	        int start = 0;
-	        if(expression.equals("line")) // if it split by line, just display the data by line
-	        {
-	        		dataLine = new String[1];
-	        		dataLine[0] = line;
-	         }
-	         for(int i = start; i < dataLine.length; i++)
-	         {
-	        	 	fileArray.add(new ArrayList<String>());
-	            fileArray.get(lineNum).add(dataLine[i].trim());
-	            //System.out.println(dataLine[i].trim());
-	         }
-	         lineNum++;
-	         if(dataLine.length > columnNum)
-	         {
-	               //keep the biggest columnNum in different rows to be the columnNum
-	                	columnNum = dataLine.length;
-	         }     
-	     }
-	     if(fileArray.size() == 0)
-	     {
-	           JOptionPane.showConfirmDialog(null, 
+		    while(lineNum<lines.length && lines[lineNum] != null)
+		    {
+		    		String line = lines[lineNum];
+		        line.trim();
+		        String[] dataLine = line.split(expression);
+		        
+		        int start = 0;
+		        if(expression.equals("line")) // if it split by line, just display the data by line
+		        {
+		        		dataLine = new String[1];
+		        		dataLine[0] = line;
+		         }
+		         for(int i = start; i < dataLine.length; i++)
+		         {
+		        	 	fileArray.add(new ArrayList<String>());
+		            fileArray.get(lineNum).add(dataLine[i].trim());
+		            //System.out.println(dataLine[i].trim());
+		         }
+		         lineNum++;
+		         if(dataLine.length > columnNum)
+		         {
+		               //keep the biggest columnNum in different rows to be the columnNum
+		                	columnNum = dataLine.length;
+		         }  
+		     }
+		     if(fileArray.size() == 0)
+		     {
+		           JOptionPane.showConfirmDialog(null, 
+		           		"Can't open the file!\nPlease click \"Open \" or \"Locate\" to edit the file", 
+		           		"Error003", JOptionPane.CLOSED_OPTION); 
+		           error = true;
+		     }
+		     else
+		     {
+		           columnNum = fileArray.get(0).size();
+		           rowNum = lineNum;
+		           splitExpression = expression;
+		           addRowLabel();
+		     }
+	    }
+	    catch(Exception e)
+	    {
+	    		JOptionPane.showConfirmDialog(null, 
 	           		"Can't open the file!\nPlease click \"Open \" or \"Locate\" to edit the file", 
-	           		"Error003", JOptionPane.CLOSED_OPTION); 
-	           error = true;
-	     }
-	     else
-	     {
-	           columnNum = fileArray.get(0).size();
-	           rowNum = lineNum;
-	           splitExpression = expression;
-	           addRowLabel();
-	     }
+	           		"Error003-1", JOptionPane.CLOSED_OPTION); 
+	    		error = true;
+	    }
          return error;
     }
     

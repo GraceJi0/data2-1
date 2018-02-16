@@ -1931,3 +1931,782 @@ DEBUG 15-02 15:53:16,926 (FileViewer.java:windowClosing:88)  -Calling gc to free
 DEBUG 15-02 15:53:24,505 (PGDSpiderGUI.java:closePGDSpider:526)  -Exiting PGDSpider
 DEBUG 15-02 15:53:24,506 (PGDSpiderGUI.java:closePGDSpider:527)  -Save window size
 DEBUG 15-02 15:53:24,560 (PGDSpiderGUI.java:closePGDSpider:531)  -Shutdown java vm ...
+DEBUG 16-02 15:31:17,945 (PGDSpiderGUI.java:<init>:121)  -starting PGD Spider ...
+INFO  16-02 15:31:17,948 (PGDSpiderConfig.java:loadConfig:64)  -load PGDSpider configuration from: /Users/dinghanji/Downloads/PGDSpider_2.1.1.3/spider.conf.xml
+DEBUG 16-02 15:31:18,861 (PGDSpiderGUI.java:initializeGUI:220)  -init actions
+DEBUG 16-02 15:31:18,861 (PGDSpiderGUI.java:initializeGUI:233)  -init menu bar
+DEBUG 16-02 15:31:18,909 (PGDSpiderGUI.java:initializeGUI:244)  -init input panel
+DEBUG 16-02 15:31:18,911 (ParserFactory.java:getParserInstance:161)  -New PGDParser instance
+DEBUG 16-02 15:31:18,919 (ParserFactory.java:getParserInstance:53)  -New ArlequinParser instance
+DEBUG 16-02 15:31:18,929 (ParserFactory.java:getParserInstance:185)  -Parser for type: BAMOVA is missing!
+DEBUG 16-02 15:31:18,929 (ParserFactory.java:getParserInstance:57)  -New BamParser instance
+DEBUG 16-02 15:31:18,936 (ParserFactory.java:getParserInstance:61)  -New BapsParser instance
+DEBUG 16-02 15:31:18,940 (ParserFactory.java:getParserInstance:65)  -New BatwingParser instance
+DEBUG 16-02 15:31:18,942 (ParserFactory.java:getParserInstance:185)  -Parser for type: BAYENV is missing!
+DEBUG 16-02 15:31:18,942 (ParserFactory.java:getParserInstance:69)  -New BcfParser instance
+DEBUG 16-02 15:31:18,945 (ParserFactory.java:getParserInstance:73)  -New ConvertParser instance
+DEBUG 16-02 15:31:18,947 (ParserFactory.java:getParserInstance:77)  -New EigensoftParser instance
+DEBUG 16-02 15:31:18,949 (ParserFactory.java:getParserInstance:181)  -New ExtendedFastaParser instance
+DEBUG 16-02 15:31:18,952 (ParserFactory.java:getParserInstance:81)  -New FastaParser instance
+DEBUG 16-02 15:31:18,954 (ParserFactory.java:getParserInstance:85)  -New FastqParser instance
+DEBUG 16-02 15:31:18,955 (ParserFactory.java:getParserInstance:185)  -Parser for type: FDist2 (datacal) is missing!
+DEBUG 16-02 15:31:18,956 (ParserFactory.java:getParserInstance:89)  -New FstatParser instance
+DEBUG 16-02 15:31:18,958 (ParserFactory.java:getParserInstance:93)  -New GdaParser instance
+DEBUG 16-02 15:31:18,961 (ParserFactory.java:getParserInstance:97)  -New GenelandParser instance
+DEBUG 16-02 15:31:18,964 (ParserFactory.java:getParserInstance:101)  -New GenepopParser instance
+DEBUG 16-02 15:31:18,966 (ParserFactory.java:getParserInstance:105)  -New GenetixParser instance
+DEBUG 16-02 15:31:18,968 (ParserFactory.java:getParserInstance:185)  -Parser for type: GESTE / BayeScan is missing!
+DEBUG 16-02 15:31:18,968 (ParserFactory.java:getParserInstance:109)  -New HgdpParser instance
+DEBUG 16-02 15:31:18,970 (ParserFactory.java:getParserInstance:113)  -New HgdpCephParser instance
+DEBUG 16-02 15:31:18,971 (ParserFactory.java:getParserInstance:117)  -New Ima2Parser instance
+DEBUG 16-02 15:31:18,974 (ParserFactory.java:getParserInstance:121)  -New ImmancParser instance
+DEBUG 16-02 15:31:18,975 (ParserFactory.java:getParserInstance:125)  -New ImParser instance
+DEBUG 16-02 15:31:18,978 (ParserFactory.java:getParserInstance:185)  -Parser for type: KML is missing!
+DEBUG 16-02 15:31:18,978 (ParserFactory.java:getParserInstance:129)  -New MafParser instance
+DEBUG 16-02 15:31:18,979 (ParserFactory.java:getParserInstance:133)  -New MegaParser instance
+DEBUG 16-02 15:31:18,981 (ParserFactory.java:getParserInstance:137)  -New MigrateParser instance
+DEBUG 16-02 15:31:18,984 (ParserFactory.java:getParserInstance:141)  -New MsaParser instance
+DEBUG 16-02 15:31:18,985 (ParserFactory.java:getParserInstance:185)  -Parser for type: MSVar is missing!
+DEBUG 16-02 15:31:18,985 (ParserFactory.java:getParserInstance:145)  -New NewHybridsParser instance
+DEBUG 16-02 15:31:18,988 (ParserFactory.java:getParserInstance:149)  -New NexusParser instance
+DEBUG 16-02 15:31:18,992 (ParserFactory.java:getParserInstance:153)  -New OneSampParser instance
+DEBUG 16-02 15:31:18,993 (ParserFactory.java:getParserInstance:157)  -New PedParser instance
+DEBUG 16-02 15:31:18,995 (ParserFactory.java:getParserInstance:165)  -New PhylipParser instance
+DEBUG 16-02 15:31:18,998 (ParserFactory.java:getParserInstance:169)  -New SamParser instance
+DEBUG 16-02 15:31:19,000 (ParserFactory.java:getParserInstance:185)  -Parser for type: Structurama is missing!
+DEBUG 16-02 15:31:19,000 (ParserFactory.java:getParserInstance:173)  -New StructureParser instance
+DEBUG 16-02 15:31:19,003 (ParserFactory.java:getParserInstance:177)  -New VcfParser instance
+DEBUG 16-02 15:31:19,012 (PGDSpiderGUI.java:initializeGUI:247)  -init output panel
+DEBUG 16-02 15:31:19,041 (WriterFactory.java:getWriterInstance:171)  -Writer for type: CONVERT is missing!
+DEBUG 16-02 15:31:19,061 (WriterFactory.java:getWriterInstance:171)  -Writer for type: HGDP is missing!
+DEBUG 16-02 15:31:19,061 (WriterFactory.java:getWriterInstance:171)  -Writer for type: HGDP_CEPH (Arlequin) is missing!
+DEBUG 16-02 15:31:19,071 (WriterFactory.java:getWriterInstance:171)  -Writer for type: MAF is missing!
+DEBUG 16-02 15:31:19,107 (PGDSpiderGUI.java:initializeGUI:250)  -init spid panel
+DEBUG 16-02 15:31:19,109 (PGDSpiderGUI.java:initializeGUI:253)  -init log panel
+DEBUG 16-02 15:31:19,110 (PGDSpiderGUI.java:initializeGUI:256)  -init button panel
+DEBUG 16-02 15:31:21,069 (PGDSpiderGUI.java:<init>:187)  -PGD Spider up and running...
+DEBUG 16-02 15:32:48,247 (SelectOutputFileAction.java:actionPerformed:52)  -Added file extension: .txt
+DEBUG 16-02 15:33:26,603 (PGDSpiderGUI.java:closePGDSpider:526)  -Exiting PGDSpider
+DEBUG 16-02 15:33:26,604 (PGDSpiderGUI.java:closePGDSpider:527)  -Save window size
+DEBUG 16-02 15:33:26,704 (PGDSpiderGUI.java:closePGDSpider:531)  -Shutdown java vm ...
+DEBUG 16-02 15:41:30,760 (PGDSpiderGUI.java:<init>:121)  -starting PGD Spider ...
+INFO  16-02 15:41:30,763 (PGDSpiderConfig.java:loadConfig:64)  -load PGDSpider configuration from: /Users/dinghanji/Downloads/PGDSpider_2.1.1.3/spider.conf.xml
+DEBUG 16-02 15:41:31,780 (PGDSpiderGUI.java:initializeGUI:220)  -init actions
+DEBUG 16-02 15:41:31,780 (PGDSpiderGUI.java:initializeGUI:233)  -init menu bar
+DEBUG 16-02 15:41:31,828 (PGDSpiderGUI.java:initializeGUI:244)  -init input panel
+DEBUG 16-02 15:41:31,832 (ParserFactory.java:getParserInstance:161)  -New PGDParser instance
+DEBUG 16-02 15:41:31,840 (ParserFactory.java:getParserInstance:53)  -New ArlequinParser instance
+DEBUG 16-02 15:41:31,855 (ParserFactory.java:getParserInstance:185)  -Parser for type: BAMOVA is missing!
+DEBUG 16-02 15:41:31,856 (ParserFactory.java:getParserInstance:57)  -New BamParser instance
+DEBUG 16-02 15:41:31,864 (ParserFactory.java:getParserInstance:61)  -New BapsParser instance
+DEBUG 16-02 15:41:31,868 (ParserFactory.java:getParserInstance:65)  -New BatwingParser instance
+DEBUG 16-02 15:41:31,870 (ParserFactory.java:getParserInstance:185)  -Parser for type: BAYENV is missing!
+DEBUG 16-02 15:41:31,870 (ParserFactory.java:getParserInstance:69)  -New BcfParser instance
+DEBUG 16-02 15:41:31,872 (ParserFactory.java:getParserInstance:73)  -New ConvertParser instance
+DEBUG 16-02 15:41:31,875 (ParserFactory.java:getParserInstance:77)  -New EigensoftParser instance
+DEBUG 16-02 15:41:31,877 (ParserFactory.java:getParserInstance:181)  -New ExtendedFastaParser instance
+DEBUG 16-02 15:41:31,881 (ParserFactory.java:getParserInstance:81)  -New FastaParser instance
+DEBUG 16-02 15:41:31,882 (ParserFactory.java:getParserInstance:85)  -New FastqParser instance
+DEBUG 16-02 15:41:31,883 (ParserFactory.java:getParserInstance:185)  -Parser for type: FDist2 (datacal) is missing!
+DEBUG 16-02 15:41:31,883 (ParserFactory.java:getParserInstance:89)  -New FstatParser instance
+DEBUG 16-02 15:41:31,885 (ParserFactory.java:getParserInstance:93)  -New GdaParser instance
+DEBUG 16-02 15:41:31,887 (ParserFactory.java:getParserInstance:97)  -New GenelandParser instance
+DEBUG 16-02 15:41:31,889 (ParserFactory.java:getParserInstance:101)  -New GenepopParser instance
+DEBUG 16-02 15:41:31,891 (ParserFactory.java:getParserInstance:105)  -New GenetixParser instance
+DEBUG 16-02 15:41:31,893 (ParserFactory.java:getParserInstance:185)  -Parser for type: GESTE / BayeScan is missing!
+DEBUG 16-02 15:41:31,893 (ParserFactory.java:getParserInstance:109)  -New HgdpParser instance
+DEBUG 16-02 15:41:31,895 (ParserFactory.java:getParserInstance:113)  -New HgdpCephParser instance
+DEBUG 16-02 15:41:31,897 (ParserFactory.java:getParserInstance:117)  -New Ima2Parser instance
+DEBUG 16-02 15:41:31,899 (ParserFactory.java:getParserInstance:121)  -New ImmancParser instance
+DEBUG 16-02 15:41:31,901 (ParserFactory.java:getParserInstance:125)  -New ImParser instance
+DEBUG 16-02 15:41:31,903 (ParserFactory.java:getParserInstance:185)  -Parser for type: KML is missing!
+DEBUG 16-02 15:41:31,903 (ParserFactory.java:getParserInstance:129)  -New MafParser instance
+DEBUG 16-02 15:41:31,905 (ParserFactory.java:getParserInstance:133)  -New MegaParser instance
+DEBUG 16-02 15:41:31,907 (ParserFactory.java:getParserInstance:137)  -New MigrateParser instance
+DEBUG 16-02 15:41:31,909 (ParserFactory.java:getParserInstance:141)  -New MsaParser instance
+DEBUG 16-02 15:41:31,910 (ParserFactory.java:getParserInstance:185)  -Parser for type: MSVar is missing!
+DEBUG 16-02 15:41:31,910 (ParserFactory.java:getParserInstance:145)  -New NewHybridsParser instance
+DEBUG 16-02 15:41:31,913 (ParserFactory.java:getParserInstance:149)  -New NexusParser instance
+DEBUG 16-02 15:41:31,917 (ParserFactory.java:getParserInstance:153)  -New OneSampParser instance
+DEBUG 16-02 15:41:31,918 (ParserFactory.java:getParserInstance:157)  -New PedParser instance
+DEBUG 16-02 15:41:31,920 (ParserFactory.java:getParserInstance:165)  -New PhylipParser instance
+DEBUG 16-02 15:41:31,923 (ParserFactory.java:getParserInstance:169)  -New SamParser instance
+DEBUG 16-02 15:41:31,925 (ParserFactory.java:getParserInstance:185)  -Parser for type: Structurama is missing!
+DEBUG 16-02 15:41:31,926 (ParserFactory.java:getParserInstance:173)  -New StructureParser instance
+DEBUG 16-02 15:41:31,928 (ParserFactory.java:getParserInstance:177)  -New VcfParser instance
+DEBUG 16-02 15:41:31,935 (PGDSpiderGUI.java:initializeGUI:247)  -init output panel
+DEBUG 16-02 15:41:31,961 (WriterFactory.java:getWriterInstance:171)  -Writer for type: CONVERT is missing!
+DEBUG 16-02 15:41:31,979 (WriterFactory.java:getWriterInstance:171)  -Writer for type: HGDP is missing!
+DEBUG 16-02 15:41:31,980 (WriterFactory.java:getWriterInstance:171)  -Writer for type: HGDP_CEPH (Arlequin) is missing!
+DEBUG 16-02 15:41:31,989 (WriterFactory.java:getWriterInstance:171)  -Writer for type: MAF is missing!
+DEBUG 16-02 15:41:32,024 (PGDSpiderGUI.java:initializeGUI:250)  -init spid panel
+DEBUG 16-02 15:41:32,025 (PGDSpiderGUI.java:initializeGUI:253)  -init log panel
+DEBUG 16-02 15:41:32,026 (PGDSpiderGUI.java:initializeGUI:256)  -init button panel
+DEBUG 16-02 15:41:34,004 (PGDSpiderGUI.java:<init>:187)  -PGD Spider up and running...
+INFO  16-02 15:43:01,180 (PGDSpiderGUI.java:setSpidFile:661)  -loading SPID file: PGDSpiderSpidFile.spid
+DEBUG 16-02 15:43:01,184 (ParserFactory.java:getParserInstance:173)  -New StructureParser instance
+DEBUG 16-02 15:43:20,005 (SelectOutputFileAction.java:actionPerformed:52)  -Added file extension: .txt
+INFO  16-02 15:43:21,229 (ConvertAction.java:actionPerformed:65)  -Convert...
+DEBUG 16-02 15:43:21,229 (ParserFactory.java:getParserInstance:173)  -New StructureParser instance
+INFO  16-02 15:43:21,229 (ConvertAction.java:actionPerformed:87)  -convert STRUCTURE:00001622-Microsatellite genotypes Zosterops hybrid zone Dryad0000.txt to GENEPOP:aaa.txt
+DEBUG 16-02 15:43:21,232 (ParserFactory.java:getParserInstance:173)  -New StructureParser instance
+WARN  16-02 15:43:21,447 (GenepopWriter.java:parseAlignedSampleData:584)  -Data are converted to integers!
+INFO  16-02 15:43:21,449 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "22?" converted to "1"
+INFO  16-02 15:43:21,449 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "25?" converted to "2"
+INFO  16-02 15:43:21,450 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "23?" converted to "3"
+INFO  16-02 15:43:21,451 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "2?7" converted to "4"
+INFO  16-02 15:43:21,451 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "28?" converted to "5"
+INFO  16-02 15:43:21,453 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "2?2" converted to "6"
+INFO  16-02 15:43:21,455 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "24?" converted to "7"
+INFO  16-02 15:43:21,456 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "3?1" converted to "8"
+INFO  16-02 15:43:21,457 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "21?" converted to "9"
+INFO  16-02 15:43:21,458 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "2?3" converted to "10"
+INFO  16-02 15:43:21,458 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "3?5" converted to "11"
+INFO  16-02 15:43:21,459 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "26?" converted to "12"
+INFO  16-02 15:43:21,461 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "3?4" converted to "13"
+INFO  16-02 15:43:21,461 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "19?" converted to "14"
+INFO  16-02 15:43:21,462 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "3?9" converted to "15"
+INFO  16-02 15:43:21,464 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "27?" converted to "16"
+INFO  16-02 15:43:21,464 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "29?" converted to "17"
+INFO  16-02 15:43:21,466 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "2?6" converted to "18"
+INFO  16-02 15:43:21,502 (ConverterThread.java:run:87)  -translation completed
+DEBUG 16-02 15:53:17,719 (PGDSpiderGUI.java:<init>:121)  -starting PGD Spider ...
+INFO  16-02 15:53:17,722 (PGDSpiderConfig.java:loadConfig:64)  -load PGDSpider configuration from: /Users/dinghanji/Downloads/PGDSpider_2.1.1.3/spider.conf.xml
+DEBUG 16-02 15:53:18,771 (PGDSpiderGUI.java:initializeGUI:220)  -init actions
+DEBUG 16-02 15:53:18,771 (PGDSpiderGUI.java:initializeGUI:233)  -init menu bar
+DEBUG 16-02 15:53:18,813 (PGDSpiderGUI.java:initializeGUI:244)  -init input panel
+DEBUG 16-02 15:53:18,816 (ParserFactory.java:getParserInstance:161)  -New PGDParser instance
+DEBUG 16-02 15:53:18,818 (ParserFactory.java:getParserInstance:53)  -New ArlequinParser instance
+DEBUG 16-02 15:53:18,827 (ParserFactory.java:getParserInstance:185)  -Parser for type: BAMOVA is missing!
+DEBUG 16-02 15:53:18,827 (ParserFactory.java:getParserInstance:57)  -New BamParser instance
+DEBUG 16-02 15:53:18,833 (ParserFactory.java:getParserInstance:61)  -New BapsParser instance
+DEBUG 16-02 15:53:18,837 (ParserFactory.java:getParserInstance:65)  -New BatwingParser instance
+DEBUG 16-02 15:53:18,839 (ParserFactory.java:getParserInstance:185)  -Parser for type: BAYENV is missing!
+DEBUG 16-02 15:53:18,839 (ParserFactory.java:getParserInstance:69)  -New BcfParser instance
+DEBUG 16-02 15:53:18,843 (ParserFactory.java:getParserInstance:73)  -New ConvertParser instance
+DEBUG 16-02 15:53:18,845 (ParserFactory.java:getParserInstance:77)  -New EigensoftParser instance
+DEBUG 16-02 15:53:18,846 (ParserFactory.java:getParserInstance:181)  -New ExtendedFastaParser instance
+DEBUG 16-02 15:53:18,850 (ParserFactory.java:getParserInstance:81)  -New FastaParser instance
+DEBUG 16-02 15:53:18,852 (ParserFactory.java:getParserInstance:85)  -New FastqParser instance
+DEBUG 16-02 15:53:18,854 (ParserFactory.java:getParserInstance:185)  -Parser for type: FDist2 (datacal) is missing!
+DEBUG 16-02 15:53:18,856 (ParserFactory.java:getParserInstance:89)  -New FstatParser instance
+DEBUG 16-02 15:53:18,859 (ParserFactory.java:getParserInstance:93)  -New GdaParser instance
+DEBUG 16-02 15:53:18,860 (ParserFactory.java:getParserInstance:97)  -New GenelandParser instance
+DEBUG 16-02 15:53:18,862 (ParserFactory.java:getParserInstance:101)  -New GenepopParser instance
+DEBUG 16-02 15:53:18,864 (ParserFactory.java:getParserInstance:105)  -New GenetixParser instance
+DEBUG 16-02 15:53:18,866 (ParserFactory.java:getParserInstance:185)  -Parser for type: GESTE / BayeScan is missing!
+DEBUG 16-02 15:53:18,866 (ParserFactory.java:getParserInstance:109)  -New HgdpParser instance
+DEBUG 16-02 15:53:18,868 (ParserFactory.java:getParserInstance:113)  -New HgdpCephParser instance
+DEBUG 16-02 15:53:18,869 (ParserFactory.java:getParserInstance:117)  -New Ima2Parser instance
+DEBUG 16-02 15:53:18,871 (ParserFactory.java:getParserInstance:121)  -New ImmancParser instance
+DEBUG 16-02 15:53:18,872 (ParserFactory.java:getParserInstance:125)  -New ImParser instance
+DEBUG 16-02 15:53:18,875 (ParserFactory.java:getParserInstance:185)  -Parser for type: KML is missing!
+DEBUG 16-02 15:53:18,875 (ParserFactory.java:getParserInstance:129)  -New MafParser instance
+DEBUG 16-02 15:53:18,876 (ParserFactory.java:getParserInstance:133)  -New MegaParser instance
+DEBUG 16-02 15:53:18,878 (ParserFactory.java:getParserInstance:137)  -New MigrateParser instance
+DEBUG 16-02 15:53:18,881 (ParserFactory.java:getParserInstance:141)  -New MsaParser instance
+DEBUG 16-02 15:53:18,882 (ParserFactory.java:getParserInstance:185)  -Parser for type: MSVar is missing!
+DEBUG 16-02 15:53:18,882 (ParserFactory.java:getParserInstance:145)  -New NewHybridsParser instance
+DEBUG 16-02 15:53:18,885 (ParserFactory.java:getParserInstance:149)  -New NexusParser instance
+DEBUG 16-02 15:53:18,888 (ParserFactory.java:getParserInstance:153)  -New OneSampParser instance
+DEBUG 16-02 15:53:18,890 (ParserFactory.java:getParserInstance:157)  -New PedParser instance
+DEBUG 16-02 15:53:18,892 (ParserFactory.java:getParserInstance:165)  -New PhylipParser instance
+DEBUG 16-02 15:53:18,894 (ParserFactory.java:getParserInstance:169)  -New SamParser instance
+DEBUG 16-02 15:53:18,897 (ParserFactory.java:getParserInstance:185)  -Parser for type: Structurama is missing!
+DEBUG 16-02 15:53:18,897 (ParserFactory.java:getParserInstance:173)  -New StructureParser instance
+DEBUG 16-02 15:53:18,900 (ParserFactory.java:getParserInstance:177)  -New VcfParser instance
+DEBUG 16-02 15:53:18,907 (PGDSpiderGUI.java:initializeGUI:247)  -init output panel
+DEBUG 16-02 15:53:18,932 (WriterFactory.java:getWriterInstance:171)  -Writer for type: CONVERT is missing!
+DEBUG 16-02 15:53:18,950 (WriterFactory.java:getWriterInstance:171)  -Writer for type: HGDP is missing!
+DEBUG 16-02 15:53:18,951 (WriterFactory.java:getWriterInstance:171)  -Writer for type: HGDP_CEPH (Arlequin) is missing!
+DEBUG 16-02 15:53:18,963 (WriterFactory.java:getWriterInstance:171)  -Writer for type: MAF is missing!
+DEBUG 16-02 15:53:18,995 (PGDSpiderGUI.java:initializeGUI:250)  -init spid panel
+DEBUG 16-02 15:53:18,996 (PGDSpiderGUI.java:initializeGUI:253)  -init log panel
+DEBUG 16-02 15:53:18,997 (PGDSpiderGUI.java:initializeGUI:256)  -init button panel
+DEBUG 16-02 15:53:20,944 (PGDSpiderGUI.java:<init>:187)  -PGD Spider up and running...
+INFO  16-02 15:53:58,501 (PGDSpiderGUI.java:setSpidFile:661)  -loading SPID file: PGDSpiderSpidFile.spid
+DEBUG 16-02 15:53:58,504 (ParserFactory.java:getParserInstance:173)  -New StructureParser instance
+INFO  16-02 15:53:59,464 (ConvertAction.java:actionPerformed:65)  -Convert...
+DEBUG 16-02 15:53:59,465 (ParserFactory.java:getParserInstance:173)  -New StructureParser instance
+INFO  16-02 15:53:59,465 (ConvertAction.java:actionPerformed:87)  -convert STRUCTURE:00005299-All_Samples_Dryad0000.txt to GENEPOP:bbb.txt
+DEBUG 16-02 15:53:59,466 (ParserFactory.java:getParserInstance:173)  -New StructureParser instance
+WARN  16-02 15:53:59,814 (GenepopWriter.java:parseAlignedSampleData:663)  -Data are converted to integers!
+INFO  16-02 15:53:59,816 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "ApCo36" converted to "1"
+INFO  16-02 15:53:59,816 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "allele" converted to "2"
+INFO  16-02 15:53:59,816 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "ApCo22" converted to "3"
+INFO  16-02 15:53:59,819 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "ApCo4?" converted to "4"
+INFO  16-02 15:53:59,824 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "ApCo29" converted to "5"
+INFO  16-02 15:53:59,825 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "ApCo3?" converted to "6"
+INFO  16-02 15:53:59,828 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?32" converted to "7"
+INFO  16-02 15:53:59,831 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.968" converted to "8"
+INFO  16-02 15:53:59,833 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "16?" converted to "9"
+INFO  16-02 15:53:59,834 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "15?" converted to "10"
+INFO  16-02 15:53:59,835 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.164" converted to "11"
+INFO  16-02 15:53:59,836 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.836" converted to "12"
+INFO  16-02 15:53:59,837 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "3?5" converted to "13"
+INFO  16-02 15:53:59,838 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "3?8" converted to "14"
+INFO  16-02 15:53:59,842 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "18?" converted to "15"
+INFO  16-02 15:53:59,848 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "14?" converted to "16"
+INFO  16-02 15:53:59,852 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.273" converted to "17"
+INFO  16-02 15:53:59,853 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.727" converted to "18"
+INFO  16-02 15:53:59,857 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?55" converted to "19"
+INFO  16-02 15:53:59,860 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.945" converted to "20"
+INFO  16-02 15:53:59,861 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.223" converted to "21"
+INFO  16-02 15:53:59,864 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.777" converted to "22"
+INFO  16-02 15:53:59,865 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?47" converted to "23"
+INFO  16-02 15:53:59,866 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.953" converted to "24"
+INFO  16-02 15:53:59,868 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?53" converted to "25"
+INFO  16-02 15:53:59,870 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.947" converted to "26"
+INFO  16-02 15:53:59,874 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "3?2" converted to "27"
+INFO  16-02 15:53:59,876 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?41" converted to "28"
+INFO  16-02 15:53:59,878 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.959" converted to "29"
+INFO  16-02 15:53:59,883 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "26?" converted to "30"
+INFO  16-02 15:53:59,886 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "24?" converted to "31"
+INFO  16-02 15:53:59,888 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?62" converted to "32"
+INFO  16-02 15:53:59,891 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.938" converted to "33"
+INFO  16-02 15:53:59,891 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?26" converted to "34"
+INFO  16-02 15:53:59,892 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.974" converted to "35"
+INFO  16-02 15:53:59,898 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "21?" converted to "36"
+INFO  16-02 15:53:59,899 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?89" converted to "37"
+INFO  16-02 15:53:59,900 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.911" converted to "38"
+INFO  16-02 15:53:59,902 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.194" converted to "39"
+INFO  16-02 15:53:59,903 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.8?6" converted to "40"
+INFO  16-02 15:53:59,905 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "17?" converted to "41"
+INFO  16-02 15:53:59,907 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?37" converted to "42"
+INFO  16-02 15:53:59,908 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.963" converted to "43"
+INFO  16-02 15:53:59,909 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?34" converted to "44"
+INFO  16-02 15:53:59,910 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.966" converted to "45"
+INFO  16-02 15:53:59,914 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.124" converted to "46"
+INFO  16-02 15:53:59,915 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.876" converted to "47"
+INFO  16-02 15:53:59,915 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "32?" converted to "48"
+INFO  16-02 15:53:59,916 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "2?6" converted to "49"
+INFO  16-02 15:53:59,917 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.135" converted to "50"
+INFO  16-02 15:53:59,917 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.865" converted to "51"
+INFO  16-02 15:53:59,918 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?56" converted to "52"
+INFO  16-02 15:53:59,919 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.944" converted to "53"
+INFO  16-02 15:53:59,921 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.145" converted to "54"
+INFO  16-02 15:53:59,922 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.855" converted to "55"
+INFO  16-02 15:53:59,924 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "25?" converted to "56"
+INFO  16-02 15:53:59,924 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?59" converted to "57"
+INFO  16-02 15:53:59,925 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.941" converted to "58"
+INFO  16-02 15:53:59,925 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?33" converted to "59"
+INFO  16-02 15:53:59,925 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.967" converted to "60"
+INFO  16-02 15:53:59,928 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.417" converted to "61"
+INFO  16-02 15:53:59,929 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.583" converted to "62"
+INFO  16-02 15:53:59,933 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?21" converted to "63"
+INFO  16-02 15:53:59,934 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.979" converted to "64"
+INFO  16-02 15:53:59,936 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?63" converted to "65"
+INFO  16-02 15:53:59,940 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.937" converted to "66"
+INFO  16-02 15:53:59,941 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.27" converted to "67"
+INFO  16-02 15:53:59,941 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.73" converted to "68"
+INFO  16-02 15:53:59,942 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?6" converted to "69"
+INFO  16-02 15:53:59,943 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.94" converted to "70"
+INFO  16-02 15:53:59,943 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?25" converted to "71"
+INFO  16-02 15:53:59,944 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.975" converted to "72"
+INFO  16-02 15:53:59,948 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?35" converted to "73"
+INFO  16-02 15:53:59,949 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.965" converted to "74"
+INFO  16-02 15:53:59,949 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.1?9" converted to "75"
+INFO  16-02 15:53:59,949 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.891" converted to "76"
+INFO  16-02 15:53:59,950 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "29?" converted to "77"
+INFO  16-02 15:53:59,951 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?31" converted to "78"
+INFO  16-02 15:53:59,951 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.969" converted to "79"
+INFO  16-02 15:53:59,953 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?38" converted to "80"
+INFO  16-02 15:53:59,954 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.962" converted to "81"
+INFO  16-02 15:53:59,955 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?91" converted to "82"
+INFO  16-02 15:53:59,961 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.9?9" converted to "83"
+INFO  16-02 15:53:59,964 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?97" converted to "84"
+INFO  16-02 15:53:59,966 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.9?3" converted to "85"
+INFO  16-02 15:53:59,968 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?44" converted to "86"
+INFO  16-02 15:53:59,969 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.956" converted to "87"
+INFO  16-02 15:53:59,972 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?45" converted to "88"
+INFO  16-02 15:53:59,973 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.955" converted to "89"
+INFO  16-02 15:53:59,988 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?28" converted to "90"
+INFO  16-02 15:53:59,996 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.972" converted to "91"
+INFO  16-02 15:54:00,065 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?54" converted to "92"
+INFO  16-02 15:54:00,067 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.946" converted to "93"
+INFO  16-02 15:54:00,079 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?96" converted to "94"
+INFO  16-02 15:54:00,086 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.9?4" converted to "95"
+INFO  16-02 15:54:00,088 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?2" converted to "96"
+INFO  16-02 15:54:00,091 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.98" converted to "97"
+INFO  16-02 15:54:00,117 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.226" converted to "98"
+INFO  16-02 15:54:00,128 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.774" converted to "99"
+INFO  16-02 15:54:00,165 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?72" converted to "100"
+INFO  16-02 15:54:00,166 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.928" converted to "101"
+INFO  16-02 15:54:00,186 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.1?6" converted to "102"
+INFO  16-02 15:54:00,187 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.894" converted to "103"
+INFO  16-02 15:54:00,188 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.1?5" converted to "104"
+INFO  16-02 15:54:00,189 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.895" converted to "105"
+INFO  16-02 15:54:00,192 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?75" converted to "106"
+INFO  16-02 15:54:00,203 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.925" converted to "107"
+INFO  16-02 15:54:00,204 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.23" converted to "108"
+INFO  16-02 15:54:00,207 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.77" converted to "109"
+INFO  16-02 15:54:00,208 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?77" converted to "110"
+INFO  16-02 15:54:00,209 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.923" converted to "111"
+INFO  16-02 15:54:00,211 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?24" converted to "112"
+INFO  16-02 15:54:00,214 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.976" converted to "113"
+INFO  16-02 15:54:00,215 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?7" converted to "114"
+INFO  16-02 15:54:00,216 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.93" converted to "115"
+INFO  16-02 15:54:00,216 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?43" converted to "116"
+INFO  16-02 15:54:00,217 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.957" converted to "117"
+INFO  16-02 15:54:00,219 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.256" converted to "118"
+INFO  16-02 15:54:00,220 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.744" converted to "119"
+INFO  16-02 15:54:00,221 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.359" converted to "120"
+INFO  16-02 15:54:00,222 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.641" converted to "121"
+INFO  16-02 15:54:00,224 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?95" converted to "122"
+INFO  16-02 15:54:00,225 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.9?5" converted to "123"
+INFO  16-02 15:54:00,227 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "22?" converted to "124"
+INFO  16-02 15:54:00,228 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?42" converted to "125"
+INFO  16-02 15:54:00,228 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.958" converted to "126"
+INFO  16-02 15:54:00,229 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?4" converted to "127"
+INFO  16-02 15:54:00,230 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.96" converted to "128"
+INFO  16-02 15:54:00,232 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.258" converted to "129"
+INFO  16-02 15:54:00,234 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.742" converted to "130"
+INFO  16-02 15:54:00,235 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?3" converted to "131"
+INFO  16-02 15:54:00,237 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.97" converted to "132"
+INFO  16-02 15:54:00,238 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.122" converted to "133"
+INFO  16-02 15:54:00,239 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.878" converted to "134"
+INFO  16-02 15:54:00,240 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?46" converted to "135"
+INFO  16-02 15:54:00,241 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.954" converted to "136"
+INFO  16-02 15:54:00,241 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?74" converted to "137"
+INFO  16-02 15:54:00,241 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.926" converted to "138"
+INFO  16-02 15:54:00,242 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?65" converted to "139"
+INFO  16-02 15:54:00,243 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.935" converted to "140"
+INFO  16-02 15:54:00,245 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.186" converted to "141"
+INFO  16-02 15:54:00,249 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.814" converted to "142"
+INFO  16-02 15:54:00,252 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.866" converted to "143"
+INFO  16-02 15:54:00,252 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.134" converted to "144"
+INFO  16-02 15:54:00,253 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "3?1" converted to "145"
+INFO  16-02 15:54:00,253 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "2??" converted to "146"
+INFO  16-02 15:54:00,254 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.235" converted to "147"
+INFO  16-02 15:54:00,254 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.765" converted to "148"
+INFO  16-02 15:54:00,255 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.278" converted to "149"
+INFO  16-02 15:54:00,256 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.722" converted to "150"
+INFO  16-02 15:54:00,257 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.612" converted to "151"
+INFO  16-02 15:54:00,257 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.388" converted to "152"
+INFO  16-02 15:54:00,258 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.565" converted to "153"
+INFO  16-02 15:54:00,260 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.435" converted to "154"
+INFO  16-02 15:54:00,262 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?27" converted to "155"
+INFO  16-02 15:54:00,263 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.973" converted to "156"
+INFO  16-02 15:54:00,265 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?88" converted to "157"
+INFO  16-02 15:54:00,265 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.912" converted to "158"
+INFO  16-02 15:54:00,267 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.347" converted to "159"
+INFO  16-02 15:54:00,268 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.653" converted to "160"
+INFO  16-02 15:54:00,269 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.1?7" converted to "161"
+INFO  16-02 15:54:00,270 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.893" converted to "162"
+INFO  16-02 15:54:00,270 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?71" converted to "163"
+INFO  16-02 15:54:00,272 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.929" converted to "164"
+INFO  16-02 15:54:00,274 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?49" converted to "165"
+INFO  16-02 15:54:00,275 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.951" converted to "166"
+INFO  16-02 15:54:00,276 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.323" converted to "167"
+INFO  16-02 15:54:00,277 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.677" converted to "168"
+INFO  16-02 15:54:00,279 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "2?2" converted to "169"
+INFO  16-02 15:54:00,282 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.44" converted to "170"
+INFO  16-02 15:54:00,283 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.56" converted to "171"
+INFO  16-02 15:54:00,283 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "28?" converted to "172"
+INFO  16-02 15:54:00,284 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.137" converted to "173"
+INFO  16-02 15:54:00,285 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.863" converted to "174"
+INFO  16-02 15:54:00,287 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.117" converted to "175"
+INFO  16-02 15:54:00,287 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.883" converted to "176"
+INFO  16-02 15:54:00,290 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?29" converted to "177"
+INFO  16-02 15:54:00,291 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.971" converted to "178"
+INFO  16-02 15:54:00,291 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.116" converted to "179"
+INFO  16-02 15:54:00,293 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.884" converted to "180"
+INFO  16-02 15:54:00,294 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.16" converted to "181"
+INFO  16-02 15:54:00,297 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.84" converted to "182"
+INFO  16-02 15:54:00,299 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.121" converted to "183"
+INFO  16-02 15:54:00,300 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.879" converted to "184"
+INFO  16-02 15:54:00,301 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?36" converted to "185"
+INFO  16-02 15:54:00,302 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.964" converted to "186"
+INFO  16-02 15:54:00,303 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "19?" converted to "187"
+INFO  16-02 15:54:00,303 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.112" converted to "188"
+INFO  16-02 15:54:00,304 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.888" converted to "189"
+INFO  16-02 15:54:00,306 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?51" converted to "190"
+INFO  16-02 15:54:00,307 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.949" converted to "191"
+INFO  16-02 15:54:00,307 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.361" converted to "192"
+INFO  16-02 15:54:00,308 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.639" converted to "193"
+INFO  16-02 15:54:00,308 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "2?3" converted to "194"
+INFO  16-02 15:54:00,311 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?52" converted to "195"
+INFO  16-02 15:54:00,313 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.948" converted to "196"
+INFO  16-02 15:54:00,314 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.143" converted to "197"
+INFO  16-02 15:54:00,315 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.857" converted to "198"
+INFO  16-02 15:54:00,316 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.166" converted to "199"
+INFO  16-02 15:54:00,318 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.834" converted to "200"
+INFO  16-02 15:54:00,319 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.142" converted to "201"
+INFO  16-02 15:54:00,320 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.858" converted to "202"
+INFO  16-02 15:54:00,322 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?85" converted to "203"
+INFO  16-02 15:54:00,323 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.915" converted to "204"
+INFO  16-02 15:54:00,324 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.386" converted to "205"
+INFO  16-02 15:54:00,325 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.614" converted to "206"
+INFO  16-02 15:54:00,326 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.132" converted to "207"
+INFO  16-02 15:54:00,327 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.868" converted to "208"
+INFO  16-02 15:54:00,328 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?93" converted to "209"
+INFO  16-02 15:54:00,328 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.9?7" converted to "210"
+INFO  16-02 15:54:00,330 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.2?8" converted to "211"
+INFO  16-02 15:54:00,330 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.792" converted to "212"
+INFO  16-02 15:54:00,331 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?5" converted to "213"
+INFO  16-02 15:54:00,332 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.95" converted to "214"
+INFO  16-02 15:54:00,333 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?23" converted to "215"
+INFO  16-02 15:54:00,357 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.977" converted to "216"
+INFO  16-02 15:54:00,371 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.274" converted to "217"
+INFO  16-02 15:54:00,390 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.726" converted to "218"
+INFO  16-02 15:54:00,393 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?64" converted to "219"
+INFO  16-02 15:54:00,399 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.936" converted to "220"
+INFO  16-02 15:54:00,412 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.148" converted to "221"
+INFO  16-02 15:54:00,416 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.852" converted to "222"
+INFO  16-02 15:54:00,418 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.152" converted to "223"
+INFO  16-02 15:54:00,420 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.848" converted to "224"
+INFO  16-02 15:54:00,422 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?94" converted to "225"
+INFO  16-02 15:54:00,424 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.9?6" converted to "226"
+INFO  16-02 15:54:00,425 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.952" converted to "227"
+INFO  16-02 15:54:00,426 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.?48" converted to "228"
+INFO  16-02 15:54:00,427 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?19" converted to "229"
+INFO  16-02 15:54:00,427 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.981" converted to "230"
+INFO  16-02 15:54:00,428 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?92" converted to "231"
+INFO  16-02 15:54:00,429 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.9?8" converted to "232"
+INFO  16-02 15:54:00,434 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.111" converted to "233"
+INFO  16-02 15:54:00,435 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.889" converted to "234"
+INFO  16-02 15:54:00,436 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.252" converted to "235"
+INFO  16-02 15:54:00,438 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.748" converted to "236"
+INFO  16-02 15:54:00,439 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.2?5" converted to "237"
+INFO  16-02 15:54:00,440 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.795" converted to "238"
+INFO  16-02 15:54:00,441 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?86" converted to "239"
+INFO  16-02 15:54:00,442 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.914" converted to "240"
+INFO  16-02 15:54:00,445 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?83" converted to "241"
+INFO  16-02 15:54:00,448 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.917" converted to "242"
+INFO  16-02 15:54:00,449 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.39" converted to "243"
+INFO  16-02 15:54:00,449 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.61" converted to "244"
+INFO  16-02 15:54:00,449 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.239" converted to "245"
+INFO  16-02 15:54:00,450 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.761" converted to "246"
+INFO  16-02 15:54:00,450 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.165" converted to "247"
+INFO  16-02 15:54:00,451 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.835" converted to "248"
+INFO  16-02 15:54:00,451 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.197" converted to "249"
+INFO  16-02 15:54:00,451 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.8?3" converted to "250"
+INFO  16-02 15:54:00,452 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?22" converted to "251"
+INFO  16-02 15:54:00,453 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.978" converted to "252"
+INFO  16-02 15:54:00,455 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.174" converted to "253"
+INFO  16-02 15:54:00,455 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.826" converted to "254"
+INFO  16-02 15:54:00,455 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?76" converted to "255"
+INFO  16-02 15:54:00,456 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.924" converted to "256"
+INFO  16-02 15:54:00,458 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?8" converted to "257"
+INFO  16-02 15:54:00,460 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.92" converted to "258"
+INFO  16-02 15:54:00,462 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?68" converted to "259"
+INFO  16-02 15:54:00,463 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.932" converted to "260"
+INFO  16-02 15:54:00,463 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.196" converted to "261"
+INFO  16-02 15:54:00,464 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.8?4" converted to "262"
+INFO  16-02 15:54:00,465 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.342" converted to "263"
+INFO  16-02 15:54:00,466 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.658" converted to "264"
+INFO  16-02 15:54:00,467 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?87" converted to "265"
+INFO  16-02 15:54:00,468 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.913" converted to "266"
+INFO  16-02 15:54:00,469 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.215" converted to "267"
+INFO  16-02 15:54:00,469 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.785" converted to "268"
+INFO  16-02 15:54:00,470 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.747" converted to "269"
+INFO  16-02 15:54:00,471 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.253" converted to "270"
+INFO  16-02 15:54:00,472 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.322" converted to "271"
+INFO  16-02 15:54:00,473 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.678" converted to "272"
+INFO  16-02 15:54:00,476 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.131" converted to "273"
+INFO  16-02 15:54:00,477 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.869" converted to "274"
+INFO  16-02 15:54:00,477 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.294" converted to "275"
+INFO  16-02 15:54:00,478 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.7?6" converted to "276"
+INFO  16-02 15:54:00,479 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?82" converted to "277"
+INFO  16-02 15:54:00,480 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.918" converted to "278"
+INFO  16-02 15:54:00,480 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.285" converted to "279"
+INFO  16-02 15:54:00,481 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.715" converted to "280"
+INFO  16-02 15:54:00,483 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.627" converted to "281"
+INFO  16-02 15:54:00,484 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.373" converted to "282"
+INFO  16-02 15:54:00,485 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.2?6" converted to "283"
+INFO  16-02 15:54:00,486 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.794" converted to "284"
+INFO  16-02 15:54:00,487 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.1" converted to "285"
+INFO  16-02 15:54:00,488 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.9" converted to "286"
+INFO  16-02 15:54:00,488 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?58" converted to "287"
+INFO  16-02 15:54:00,489 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.942" converted to "288"
+INFO  16-02 15:54:00,489 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?61" converted to "289"
+INFO  16-02 15:54:00,490 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.939" converted to "290"
+INFO  16-02 15:54:00,490 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?9" converted to "291"
+INFO  16-02 15:54:00,490 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.91" converted to "292"
+INFO  16-02 15:54:00,491 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.387" converted to "293"
+INFO  16-02 15:54:00,491 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.613" converted to "294"
+INFO  16-02 15:54:00,492 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.5?6" converted to "295"
+INFO  16-02 15:54:00,494 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.494" converted to "296"
+INFO  16-02 15:54:00,497 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.398" converted to "297"
+INFO  16-02 15:54:00,499 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.6?2" converted to "298"
+INFO  16-02 15:54:00,500 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?78" converted to "299"
+INFO  16-02 15:54:00,500 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.922" converted to "300"
+INFO  16-02 15:54:00,501 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.264" converted to "301"
+INFO  16-02 15:54:00,502 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.736" converted to "302"
+INFO  16-02 15:54:00,503 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?57" converted to "303"
+INFO  16-02 15:54:00,505 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.943" converted to "304"
+INFO  16-02 15:54:00,508 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.175" converted to "305"
+INFO  16-02 15:54:00,509 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.825" converted to "306"
+INFO  16-02 15:54:00,512 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.717" converted to "307"
+INFO  16-02 15:54:00,513 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.283" converted to "308"
+INFO  16-02 15:54:00,514 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.227" converted to "309"
+INFO  16-02 15:54:00,515 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.773" converted to "310"
+INFO  16-02 15:54:00,517 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.51" converted to "311"
+INFO  16-02 15:54:00,517 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.49" converted to "312"
+INFO  16-02 15:54:00,519 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.193" converted to "313"
+INFO  16-02 15:54:00,520 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.8?7" converted to "314"
+INFO  16-02 15:54:00,522 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.374" converted to "315"
+INFO  16-02 15:54:00,523 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.626" converted to "316"
+INFO  16-02 15:54:00,523 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.115" converted to "317"
+INFO  16-02 15:54:00,524 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.885" converted to "318"
+INFO  16-02 15:54:00,525 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.155" converted to "319"
+INFO  16-02 15:54:00,525 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.845" converted to "320"
+INFO  16-02 15:54:00,530 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.696" converted to "321"
+INFO  16-02 15:54:00,532 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.3?4" converted to "322"
+INFO  16-02 15:54:00,533 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.329" converted to "323"
+INFO  16-02 15:54:00,534 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.671" converted to "324"
+INFO  16-02 15:54:00,534 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.415" converted to "325"
+INFO  16-02 15:54:00,535 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.585" converted to "326"
+INFO  16-02 15:54:00,536 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.63" converted to "327"
+INFO  16-02 15:54:00,537 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.37" converted to "328"
+INFO  16-02 15:54:00,538 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "13?" converted to "329"
+INFO  16-02 15:54:00,538 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.881" converted to "330"
+INFO  16-02 15:54:00,539 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.119" converted to "331"
+INFO  16-02 15:54:00,541 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.721" converted to "332"
+INFO  16-02 15:54:00,542 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.279" converted to "333"
+INFO  16-02 15:54:00,542 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.489" converted to "334"
+INFO  16-02 15:54:00,543 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.511" converted to "335"
+INFO  16-02 15:54:00,543 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.267" converted to "336"
+INFO  16-02 15:54:00,543 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.733" converted to "337"
+INFO  16-02 15:54:00,544 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.292" converted to "338"
+INFO  16-02 15:54:00,544 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.7?8" converted to "339"
+INFO  16-02 15:54:00,546 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.599" converted to "340"
+INFO  16-02 15:54:00,548 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.4?1" converted to "341"
+INFO  16-02 15:54:00,550 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.579" converted to "342"
+INFO  16-02 15:54:00,551 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.421" converted to "343"
+INFO  16-02 15:54:00,552 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.862" converted to "344"
+INFO  16-02 15:54:00,553 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.138" converted to "345"
+INFO  16-02 15:54:00,554 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.47" converted to "346"
+INFO  16-02 15:54:00,554 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.53" converted to "347"
+INFO  16-02 15:54:00,556 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.326" converted to "348"
+INFO  16-02 15:54:00,557 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.674" converted to "349"
+INFO  16-02 15:54:00,558 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.1?1" converted to "350"
+INFO  16-02 15:54:00,558 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.899" converted to "351"
+INFO  16-02 15:54:00,559 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.592" converted to "352"
+INFO  16-02 15:54:00,560 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.4?8" converted to "353"
+INFO  16-02 15:54:00,560 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.1?8" converted to "354"
+INFO  16-02 15:54:00,561 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.892" converted to "355"
+INFO  16-02 15:54:00,561 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.43" converted to "356"
+INFO  16-02 15:54:00,568 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.57" converted to "357"
+INFO  16-02 15:54:00,576 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.921" converted to "358"
+INFO  16-02 15:54:00,577 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.?79" converted to "359"
+INFO  16-02 15:54:00,578 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.798" converted to "360"
+INFO  16-02 15:54:00,586 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.2?2" converted to "361"
+INFO  16-02 15:54:00,587 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.749" converted to "362"
+INFO  16-02 15:54:00,589 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.251" converted to "363"
+INFO  16-02 15:54:00,590 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.559" converted to "364"
+INFO  16-02 15:54:00,591 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.441" converted to "365"
+INFO  16-02 15:54:00,592 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.9?1" converted to "366"
+INFO  16-02 15:54:00,600 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.?99" converted to "367"
+INFO  16-02 15:54:00,601 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.718" converted to "368"
+INFO  16-02 15:54:00,622 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.282" converted to "369"
+INFO  16-02 15:54:00,626 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "2?7" converted to "370"
+INFO  16-02 15:54:00,628 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.796" converted to "371"
+INFO  16-02 15:54:00,630 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.2?4" converted to "372"
+INFO  16-02 15:54:00,631 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.874" converted to "373"
+INFO  16-02 15:54:00,632 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.126" converted to "374"
+INFO  16-02 15:54:00,633 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.933" converted to "375"
+INFO  16-02 15:54:00,634 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.?67" converted to "376"
+INFO  16-02 15:54:00,637 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.243" converted to "377"
+INFO  16-02 15:54:00,638 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.757" converted to "378"
+INFO  16-02 15:54:00,642 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.546" converted to "379"
+INFO  16-02 15:54:00,644 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.454" converted to "380"
+INFO  16-02 15:54:00,648 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.983" converted to "381"
+INFO  16-02 15:54:00,651 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.?17" converted to "382"
+INFO  16-02 15:54:00,653 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.961" converted to "383"
+INFO  16-02 15:54:00,654 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.?39" converted to "384"
+INFO  16-02 15:54:00,656 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.87" converted to "385"
+INFO  16-02 15:54:00,657 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.13" converted to "386"
+INFO  16-02 15:54:00,659 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.877" converted to "387"
+INFO  16-02 15:54:00,659 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.123" converted to "388"
+INFO  16-02 15:54:00,660 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.824" converted to "389"
+INFO  16-02 15:54:00,661 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.176" converted to "390"
+INFO  16-02 15:54:00,662 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.856" converted to "391"
+INFO  16-02 15:54:00,664 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.144" converted to "392"
+INFO  16-02 15:54:00,666 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.872" converted to "393"
+INFO  16-02 15:54:00,667 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.128" converted to "394"
+INFO  16-02 15:54:00,669 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.426" converted to "395"
+INFO  16-02 15:54:00,670 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.574" converted to "396"
+INFO  16-02 15:54:00,671 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.931" converted to "397"
+INFO  16-02 15:54:00,672 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.?69" converted to "398"
+INFO  16-02 15:54:00,674 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.738" converted to "399"
+INFO  16-02 15:54:00,675 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.262" converted to "400"
+INFO  16-02 15:54:00,677 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.828" converted to "401"
+INFO  16-02 15:54:00,679 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.172" converted to "402"
+INFO  16-02 15:54:00,680 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.916" converted to "403"
+INFO  16-02 15:54:00,681 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.?84" converted to "404"
+INFO  16-02 15:54:00,682 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.597" converted to "405"
+INFO  16-02 15:54:00,682 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.4?3" converted to "406"
+INFO  16-02 15:54:00,683 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "12?" converted to "407"
+INFO  16-02 15:54:00,686 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.927" converted to "408"
+INFO  16-02 15:54:00,688 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.?73" converted to "409"
+INFO  16-02 15:54:00,689 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.896" converted to "410"
+INFO  16-02 15:54:00,691 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.1?4" converted to "411"
+INFO  16-02 15:54:00,693 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.864" converted to "412"
+INFO  16-02 15:54:00,694 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.136" converted to "413"
+INFO  16-02 15:54:00,695 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.859" converted to "414"
+INFO  16-02 15:54:00,695 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.141" converted to "415"
+INFO  16-02 15:54:00,697 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "23?" converted to "416"
+INFO  16-02 15:54:00,700 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.499" converted to "417"
+INFO  16-02 15:54:00,702 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.5?1" converted to "418"
+INFO  16-02 15:54:00,703 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.661" converted to "419"
+INFO  16-02 15:54:00,704 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.339" converted to "420"
+INFO  16-02 15:54:00,705 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.52" converted to "421"
+INFO  16-02 15:54:00,708 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.48" converted to "422"
+INFO  16-02 15:54:00,711 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.647" converted to "423"
+INFO  16-02 15:54:00,714 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.353" converted to "424"
+INFO  16-02 15:54:00,717 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.22" converted to "425"
+INFO  16-02 15:54:00,720 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.78" converted to "426"
+INFO  16-02 15:54:00,727 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.527" converted to "427"
+INFO  16-02 15:54:00,728 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.473" converted to "428"
+INFO  16-02 15:54:00,731 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.584" converted to "429"
+INFO  16-02 15:54:00,733 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.416" converted to "430"
+INFO  16-02 15:54:00,734 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.898" converted to "431"
+INFO  16-02 15:54:00,734 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.1?2" converted to "432"
+INFO  16-02 15:54:00,737 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.861" converted to "433"
+INFO  16-02 15:54:00,738 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.139" converted to "434"
+INFO  16-02 15:54:00,738 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.767" converted to "435"
+INFO  16-02 15:54:00,738 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.233" converted to "436"
+INFO  16-02 15:54:00,739 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.214" converted to "437"
+INFO  16-02 15:54:00,741 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.786" converted to "438"
+INFO  16-02 15:54:00,742 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.6?3" converted to "439"
+INFO  16-02 15:54:00,743 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.397" converted to "440"
+INFO  16-02 15:54:00,744 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.982" converted to "441"
+INFO  16-02 15:54:00,746 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.?18" converted to "442"
+INFO  16-02 15:54:00,748 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.59" converted to "443"
+INFO  16-02 15:54:00,749 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.41" converted to "444"
+INFO  16-02 15:54:00,751 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.873" converted to "445"
+INFO  16-02 15:54:00,752 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.127" converted to "446"
+INFO  16-02 15:54:00,753 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.524" converted to "447"
+INFO  16-02 15:54:00,755 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.476" converted to "448"
+INFO  16-02 15:54:00,756 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.455" converted to "449"
+INFO  16-02 15:54:00,756 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.545" converted to "450"
+INFO  16-02 15:54:00,758 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.72" converted to "451"
+INFO  16-02 15:54:00,759 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.28" converted to "452"
+INFO  16-02 15:54:00,760 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.491" converted to "453"
+INFO  16-02 15:54:00,762 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.5?9" converted to "454"
+INFO  16-02 15:54:00,764 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.295" converted to "455"
+INFO  16-02 15:54:00,765 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.7?5" converted to "456"
+INFO  16-02 15:54:00,767 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.6?4" converted to "457"
+INFO  16-02 15:54:00,769 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.396" converted to "458"
+INFO  16-02 15:54:00,770 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.754" converted to "459"
+INFO  16-02 15:54:00,772 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.246" converted to "460"
+INFO  16-02 15:54:00,773 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.768" converted to "461"
+INFO  16-02 15:54:00,774 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.232" converted to "462"
+INFO  16-02 15:54:00,776 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.537" converted to "463"
+INFO  16-02 15:54:00,777 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.463" converted to "464"
+INFO  16-02 15:54:00,777 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.818" converted to "465"
+INFO  16-02 15:54:00,778 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.182" converted to "466"
+INFO  16-02 15:54:00,780 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.689" converted to "467"
+INFO  16-02 15:54:00,781 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.311" converted to "468"
+INFO  16-02 15:54:00,781 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.732" converted to "469"
+INFO  16-02 15:54:00,783 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.268" converted to "470"
+INFO  16-02 15:54:00,785 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.759" converted to "471"
+INFO  16-02 15:54:00,786 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.241" converted to "472"
+INFO  16-02 15:54:00,787 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.573" converted to "473"
+INFO  16-02 15:54:00,789 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.427" converted to "474"
+INFO  16-02 15:54:00,790 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.7?7" converted to "475"
+INFO  16-02 15:54:00,791 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.293" converted to "476"
+INFO  16-02 15:54:00,792 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.75" converted to "477"
+INFO  16-02 15:54:00,793 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.25" converted to "478"
+INFO  16-02 15:54:00,794 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.593" converted to "479"
+INFO  16-02 15:54:00,796 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.4?7" converted to "480"
+INFO  16-02 15:54:00,798 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.624" converted to "481"
+INFO  16-02 15:54:00,799 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.376" converted to "482"
+INFO  16-02 15:54:00,800 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.839" converted to "483"
+INFO  16-02 15:54:00,800 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.161" converted to "484"
+INFO  16-02 15:54:00,802 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.3?1" converted to "485"
+INFO  16-02 15:54:00,803 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.699" converted to "486"
+INFO  16-02 15:54:00,804 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.811" converted to "487"
+INFO  16-02 15:54:00,805 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.189" converted to "488"
+INFO  16-02 15:54:00,808 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.458" converted to "489"
+INFO  16-02 15:54:00,810 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.542" converted to "490"
+INFO  16-02 15:54:00,811 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.832" converted to "491"
+INFO  16-02 15:54:00,811 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.168" converted to "492"
+INFO  16-02 15:54:00,821 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.651" converted to "493"
+INFO  16-02 15:54:00,823 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.349" converted to "494"
+INFO  16-02 15:54:00,823 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.847" converted to "495"
+INFO  16-02 15:54:00,824 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.153" converted to "496"
+INFO  16-02 15:54:00,826 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.552" converted to "497"
+INFO  16-02 15:54:00,827 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.448" converted to "498"
+INFO  16-02 15:54:00,828 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.719" converted to "499"
+INFO  16-02 15:54:00,832 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.281" converted to "500"
+INFO  16-02 15:54:00,835 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.664" converted to "501"
+INFO  16-02 15:54:00,837 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.336" converted to "502"
+INFO  16-02 15:54:00,840 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.843" converted to "503"
+INFO  16-02 15:54:00,842 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.157" converted to "504"
+INFO  16-02 15:54:00,845 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.817" converted to "505"
+INFO  16-02 15:54:00,848 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.183" converted to "506"
+INFO  16-02 15:54:00,850 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.934" converted to "507"
+INFO  16-02 15:54:00,851 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.?66" converted to "508"
+INFO  16-02 15:54:00,855 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.821" converted to "509"
+INFO  16-02 15:54:00,856 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.179" converted to "510"
+INFO  16-02 15:54:00,859 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.669" converted to "511"
+INFO  16-02 15:54:00,860 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.331" converted to "512"
+INFO  16-02 15:54:00,862 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.771" converted to "513"
+INFO  16-02 15:54:00,863 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.229" converted to "514"
+INFO  16-02 15:54:00,864 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.882" converted to "515"
+INFO  16-02 15:54:00,865 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.118" converted to "516"
+INFO  16-02 15:54:00,866 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "31?" converted to "517"
+INFO  16-02 15:54:00,867 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.572" converted to "518"
+INFO  16-02 15:54:00,868 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.428" converted to "519"
+INFO  16-02 15:54:00,872 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.741" converted to "520"
+INFO  16-02 15:54:00,874 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.259" converted to "521"
+INFO  16-02 15:54:00,876 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "3?7" converted to "522"
+INFO  16-02 15:54:00,877 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.451" converted to "523"
+INFO  16-02 15:54:00,879 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.549" converted to "524"
+INFO  16-02 15:54:00,884 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.867" converted to "525"
+INFO  16-02 15:54:00,886 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.133" converted to "526"
+INFO  16-02 15:54:00,890 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.831" converted to "527"
+INFO  16-02 15:54:00,892 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.169" converted to "528"
+INFO  16-02 15:54:00,904 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.18" converted to "529"
+INFO  16-02 15:54:00,907 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.82" converted to "530"
+INFO  16-02 15:54:00,910 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.?81" converted to "531"
+INFO  16-02 15:54:00,912 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.919" converted to "532"
+INFO  16-02 15:54:00,915 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.6?7" converted to "533"
+INFO  16-02 15:54:00,916 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.393" converted to "534"
+INFO  16-02 15:54:00,917 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.32" converted to "535"
+INFO  16-02 15:54:00,918 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.68" converted to "536"
+INFO  16-02 15:54:00,919 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.346" converted to "537"
+INFO  16-02 15:54:00,920 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.654" converted to "538"
+INFO  16-02 15:54:00,921 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.188" converted to "539"
+INFO  16-02 15:54:00,921 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.812" converted to "540"
+INFO  16-02 15:54:00,924 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.192" converted to "541"
+INFO  16-02 15:54:00,925 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.8?8" converted to "542"
+INFO  16-02 15:54:00,925 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.151" converted to "543"
+INFO  16-02 15:54:00,926 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.849" converted to "544"
+INFO  16-02 15:54:00,927 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.7?1" converted to "545"
+INFO  16-02 15:54:00,931 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.299" converted to "546"
+INFO  16-02 15:54:00,933 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.563" converted to "547"
+INFO  16-02 15:54:00,934 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.437" converted to "548"
+INFO  16-02 15:54:00,935 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.366" converted to "549"
+INFO  16-02 15:54:00,936 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.634" converted to "550"
+INFO  16-02 15:54:00,938 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.472" converted to "551"
+INFO  16-02 15:54:00,939 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.528" converted to "552"
+INFO  16-02 15:54:00,939 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.191" converted to "553"
+INFO  16-02 15:54:00,941 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.8?9" converted to "554"
+INFO  16-02 15:54:00,945 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.394" converted to "555"
+INFO  16-02 15:54:00,946 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.6?6" converted to "556"
+INFO  16-02 15:54:00,947 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.317" converted to "557"
+INFO  16-02 15:54:00,948 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.683" converted to "558"
+INFO  16-02 15:54:00,949 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.769" converted to "559"
+INFO  16-02 15:54:00,950 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.231" converted to "560"
+INFO  16-02 15:54:00,953 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.35" converted to "561"
+INFO  16-02 15:54:00,954 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.65" converted to "562"
+INFO  16-02 15:54:00,955 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.338" converted to "563"
+INFO  16-02 15:54:00,955 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.662" converted to "564"
+INFO  16-02 15:54:00,956 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.79" converted to "565"
+INFO  16-02 15:54:00,956 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.21" converted to "566"
+INFO  16-02 15:54:00,957 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.577" converted to "567"
+INFO  16-02 15:54:00,958 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.423" converted to "568"
+INFO  16-02 15:54:00,958 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.85" converted to "569"
+INFO  16-02 15:54:00,960 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.15" converted to "570"
+INFO  16-02 15:54:00,974 (GenepopWriter.java:parseAlignedSampleData:596)  -Allele "?.474" converted to "571"
+INFO  16-02 15:54:00,976 (GenepopWriter.java:parseAlignedSampleData:675)  -Allele "?.526" converted to "572"
+INFO  16-02 15:54:01,004 (ConverterThread.java:run:87)  -translation completed
+DEBUG 16-02 15:56:22,882 (PGDSpiderGUI.java:closePGDSpider:526)  -Exiting PGDSpider
+DEBUG 16-02 15:56:22,883 (PGDSpiderGUI.java:closePGDSpider:527)  -Save window size
+DEBUG 16-02 15:56:22,945 (PGDSpiderGUI.java:closePGDSpider:531)  -Shutdown java vm ...
+DEBUG 16-02 16:03:55,046 (PGDSpiderGUI.java:closePGDSpider:526)  -Exiting PGDSpider
+DEBUG 16-02 16:03:55,048 (PGDSpiderGUI.java:closePGDSpider:527)  -Save window size
+DEBUG 16-02 16:03:55,097 (PGDSpiderGUI.java:closePGDSpider:531)  -Shutdown java vm ...

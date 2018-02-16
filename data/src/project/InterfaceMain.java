@@ -1035,7 +1035,7 @@ public class InterfaceMain
     		else
     		{
     			option = -1;
-    			JOptionPane.showConfirmDialog(null, "This function can not be used with \"Remove rows\".", "Error", JOptionPane.OK_CANCEL_OPTION);
+    			JOptionPane.showConfirmDialog(null, "This function can not be used with \"Remove rows\".", "Error", JOptionPane.CLOSED_OPTION);
     		}
         return option;
     }
