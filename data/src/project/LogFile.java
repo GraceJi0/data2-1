@@ -92,7 +92,7 @@ public class LogFile
 				BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(logEdit,true));
 				DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 				Date date = new Date();
-				String logMessage = dateFormat.format(date)+"\nEdit file: "+currentFile.getName()+"\nPath:"+currentFile.getPath();
+				String logMessage = dateFormat.format(date)+"\n\nEdit file: "+currentFile.getName()+"\nPath:"+currentFile.getPath();
 				bufferedWriter.write(logMessage);
 				bufferedWriter.close();
 			} 
@@ -110,10 +110,11 @@ public class LogFile
 			File logEdit = new File(logChangesFilePath);
 			try 
 			{
-				BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(logEdit));
-				String logMessage = editFileString+"\n\n";
+				BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(logEdit,true));
+				String logMessage = editFileString;
 				bufferedWriter.write(logMessage);
 				bufferedWriter.close();
+				editFileString = "";
 			} 
 			catch (IOException e) 
 			{	
