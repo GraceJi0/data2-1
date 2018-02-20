@@ -673,7 +673,7 @@ public class InterfaceDirectories
     {
     		String title = "Please set the locations that you want to save the log file.";
     		JButton logDeleteBtn = new JButton("Log file that records all the deleted file.");
-    		JButton logChangeBtn = new JButton("Logfile that records all the changes that happens on a file.");
+    		JButton logChangeBtn = new JButton("Log file that records all the changes that happens on a file.");
     		logDeleteBtn.addActionListener(new ActionListener()
     		{
 			@Override
@@ -682,6 +682,11 @@ public class InterfaceDirectories
 				String fileContent = "LogDelete.txt\nThis log file records all the files that has been deleted.\n\n";
 				logDeleteFilePath = logFile.saveLogFile(fileContent);
 				logFile.setLogDeleteFilePath(logDeleteFilePath);
+				if(!logDeleteFilePath.equals(""))
+				{
+					logDeleteBtn.setText("logDelete.txt");
+					logDeleteBtn.setIcon(new ImageIcon("checkmark.png"));
+				}
 			}
     		});
     		logChangeBtn.addActionListener(new ActionListener()
@@ -692,6 +697,11 @@ public class InterfaceDirectories
 				String fileContent = "LogEdit.txt\nThis log file records all the changes that happened on each file.\n\n";
 				logChangesFilePath = logFile.saveLogFile(fileContent);
 				logFile.setLogChangesFilePath(logChangesFilePath);
+				if(!logChangesFilePath.equals(""))
+				{
+					logChangeBtn.setText("logEdit.txt");
+					logChangeBtn.setIcon(new ImageIcon("checkmark.png"));
+				}
 			}
     		});
     		Object message[] = {title, logDeleteBtn, logChangeBtn};

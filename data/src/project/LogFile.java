@@ -18,6 +18,7 @@ public class LogFile
 	private File currentFile;
 	private String editFileString;
 	
+	
 	public LogFile()
 	{
 		currentFile = null;
@@ -81,7 +82,7 @@ public class LogFile
     		}
     }
 	
-	public void writeToLogEditFile()
+	public void initializelLogEditFile()
     {
     		if(!logChangesFilePath.equals(""))
     		{
@@ -91,8 +92,7 @@ public class LogFile
 				BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(logEdit,true));
 				DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 				Date date = new Date();
-				String logMessage = dateFormat.format(date)+"\nEdit file: "+currentFile.getName()+"\nPath:"+currentFile.getPath();
-				logMessage += editFileString+"\n\n";
+				String logMessage = "\n\n"+dateFormat.format(date)+"\nEdit file: "+currentFile.getName()+"\nPath:"+currentFile.getPath();
 				bufferedWriter.write(logMessage);
 				bufferedWriter.close();
 			} 
@@ -102,6 +102,26 @@ public class LogFile
 			}
     		}
     }
+	
+	public void writeToLogEditFile()
+	{
+		if(!logChangesFilePath.equals(""))
+		{
+			File logEdit = new File(logChangesFilePath);
+			try 
+			{
+				BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(logEdit,true));
+				String logMessage = editFileString;
+				bufferedWriter.write(logMessage);
+				bufferedWriter.close();
+				editFileString = "";
+			} 
+			catch (IOException e) 
+			{	
+				e.printStackTrace();
+			}
+		}
+	}
 	
 	public String logSelectRows(List<String> rowList)
 	{
@@ -124,7 +144,7 @@ public class LogFile
 	{
 		if(!columnList.isEmpty())
 		{
-			String message = "\nDelete rows: ";
+			String message = "\nDelete Cloumns: ";
 			for(int i = 0 ; i < columnList.size();i++)
 			{
 				if(!columnList.get(i).isEmpty())
@@ -161,11 +181,16 @@ public class LogFile
 		return editFileString;
 	}
 	
-	public String logEditHeadersFormat(String content)
+	public String logEditHeadersFormat(int columnStart, int columnEnd, int row)
 	{
-		String message = "\nEdit headers format";
+		String message = "\nDelete every second cell frome column "+columnStart+" to "+columnEnd+" at row "+ row;
 		editFileString +=message;
 		return editFileString;
+	}
+	
+	public String logFastConvert(String content)
+	{
+		return editFileString += content;
 	}
 	
 	public void setCurrentFile(File currentFile)

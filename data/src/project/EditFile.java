@@ -24,6 +24,9 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.tika.Tika;
 import org.apache.tika.mime.MimeTypes;
+
+import com.google.common.io.Files;
+
 import org.apache.poi.hssf.usermodel.*;
 
 public class EditFile 
@@ -61,7 +64,7 @@ public class EditFile
         rowNum = 0;
         columnNum = 0;
         sheetName = null;
-        rename = null;
+        rename = "";
         keepChangedFile = false;
         resetLabel = false;
         getFileString();
@@ -102,11 +105,14 @@ public class EditFile
 		            		String message = null;
 		            		FileTypeDetector detector = new TikaFileTypeDetector();
 		                String contentType = detector.probeContentType(currentFile.toPath());
-		                System.out.println(contentType);
 		                if(contentType.equals("application/vnd.ms-excel"))
 		                {
-		                		message = "This file doesn't have an extenssion. Do you want to try to open it as an xls file?";
-		                		int option = JOptionPane.showConfirmDialog(null, message, "Error", JOptionPane.OK_CANCEL_OPTION);
+		                		int option = 0;
+		                		if(rename.equals(""))
+		                		{
+			                		message = "This file doesn't have an extenssion. Do you want to try to open it as an xls file?";
+			                		option = JOptionPane.showConfirmDialog(null, message, "Error", JOptionPane.OK_CANCEL_OPTION);
+		                		}
 		                		if(option == 0)
 		                		{
 			                		if(!editXLSfile(gui,theSheetName)) //If no error
@@ -121,8 +127,12 @@ public class EditFile
 		                }
 		                else if(contentType.equals("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
 		                {
-			                	message = "This file doesn't have an extenssion. Do you want to try to open it as an xlsx file?";
-			            		int option = JOptionPane.showConfirmDialog(null, message, "Error", JOptionPane.OK_CANCEL_OPTION);
+			                	int option = 0;
+		                		if(rename.equals(""))
+		                		{
+				                	message = "This file doesn't have an extenssion. Do you want to try to open it as an xlsx file?";
+				            		option = JOptionPane.showConfirmDialog(null, message, "Error", JOptionPane.OK_CANCEL_OPTION);
+		                		}
 			            		if(option == 0)
 			            		{
 			                		if(!editXLSXfile(gui,theSheetName)) // if no error
@@ -137,8 +147,12 @@ public class EditFile
 		                }
 		                else if(contentType.equals("text/plain"))
 		                {
-			                	message = "This file doesn't have an extenssion. Do you want to try to open it as an txt file?";
-			            		int option = JOptionPane.showConfirmDialog(null, message, "Error", JOptionPane.OK_CANCEL_OPTION);
+			                	int option = 0;
+		                		if(rename.equals(""))
+		                		{
+				                	message = "This file doesn't have an extenssion. Do you want to try to open it as an txt file?";
+				            		option = JOptionPane.showConfirmDialog(null, message, "Error", JOptionPane.OK_CANCEL_OPTION);
+		                		}
 			            		if(option == 0)
 			            		{
 			                		if(!separateFile(expression))  //if no error
@@ -189,45 +203,55 @@ public class EditFile
     		getFileString();  //get the file string from original file 
 	    String lines[] = fileString.split("\n");
 	    int lineNum = 0;
-	    while(lineNum<lines.length && lines[lineNum] != null)
+	    try
 	    {
-	    		String line = lines[lineNum];
-	        line.trim();
-	        String[] dataLine = line.split(expression);
-	        
-	        int start = 0;
-	        if(expression.equals("line")) // if it split by line, just display the data by line
-	        {
-	        		dataLine = new String[1];
-	        		dataLine[0] = line;
-	         }
-	         for(int i = start; i < dataLine.length; i++)
-	         {
-	        	 	fileArray.add(new ArrayList<String>());
-	            fileArray.get(lineNum).add(dataLine[i].trim());
-	            //System.out.println(dataLine[i].trim());
-	         }
-	         lineNum++;
-	         if(dataLine.length > columnNum)
-	         {
-	               //keep the biggest columnNum in different rows to be the columnNum
-	                	columnNum = dataLine.length;
-	         }     
-	     }
-	     if(fileArray.size() == 0)
-	     {
-	           JOptionPane.showConfirmDialog(null, 
+		    while(lineNum<lines.length && lines[lineNum] != null)
+		    {
+		    		String line = lines[lineNum];
+		        line.trim();
+		        String[] dataLine = line.split(expression);
+		        
+		        int start = 0;
+		        if(expression.equals("line")) // if it split by line, just display the data by line
+		        {
+		        		dataLine = new String[1];
+		        		dataLine[0] = line;
+		         }
+		         for(int i = start; i < dataLine.length; i++)
+		         {
+		        	 	fileArray.add(new ArrayList<String>());
+		            fileArray.get(lineNum).add(dataLine[i].trim());
+		            //System.out.println(dataLine[i].trim());
+		         }
+		         lineNum++;
+		         if(dataLine.length > columnNum)
+		         {
+		               //keep the biggest columnNum in different rows to be the columnNum
+		                	columnNum = dataLine.length;
+		         }  
+		     }
+		     if(fileArray.size() == 0)
+		     {
+		           JOptionPane.showConfirmDialog(null, 
+		           		"Can't open the file!\nPlease click \"Open \" or \"Locate\" to edit the file", 
+		           		"Error003", JOptionPane.CLOSED_OPTION); 
+		           error = true;
+		     }
+		     else
+		     {
+		           columnNum = fileArray.get(0).size();
+		           rowNum = lineNum;
+		           splitExpression = expression;
+		           addRowLabel();
+		     }
+	    }
+	    catch(Exception e)
+	    {
+	    		JOptionPane.showConfirmDialog(null, 
 	           		"Can't open the file!\nPlease click \"Open \" or \"Locate\" to edit the file", 
-	           		"Error003", JOptionPane.CLOSED_OPTION); 
-	           error = true;
-	     }
-	     else
-	     {
-	           columnNum = fileArray.get(0).size();
-	           rowNum = lineNum;
-	           splitExpression = expression;
-	           addRowLabel();
-	     }
+	           		"Error003-1", JOptionPane.CLOSED_OPTION); 
+	    		error = true;
+	    }
          return error;
     }
     
@@ -297,22 +321,24 @@ public class EditFile
 	        	{
 	   			gui.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 	        	}
-	        XSSFWorkbook workbook = new XSSFWorkbook(fip);
-		    String sheets[] = getAllXLSXSheet(workbook);
-			if(gui != null)
-		    {
-		    		gui.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-		    }
-			String sheetSelected;
-			if(theSheetName.equals(""))
-			{
-				 sheetSelected = (String)JOptionPane.showInputDialog(null, "Select a sheet to edit:",
-	        						"Select a sheet", JOptionPane.PLAIN_MESSAGE,null, sheets,null);
-			}
-			else
-			{
-				sheetSelected = theSheetName;
-			}
+	        	try
+	        	{
+		        XSSFWorkbook workbook = new XSSFWorkbook(fip);
+			    String sheets[] = getAllXLSXSheet(workbook);
+				if(gui != null)
+			    {
+			    		gui.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+			    }
+				String sheetSelected;
+				if(theSheetName.equals(""))
+				{
+					 sheetSelected = (String)JOptionPane.showInputDialog(null, "Select a sheet to edit:",
+		        						"Select a sheet", JOptionPane.PLAIN_MESSAGE,null, sheets,null);
+				}
+				else
+				{
+					sheetSelected = theSheetName;
+				}
 				if(sheetSelected != null)
 				{
 					//gui.setCursor(new Cursor(Cursor.WAIT_CURSOR));
@@ -325,15 +351,23 @@ public class EditFile
 					error = true;
 				}
 				addRowLabel();
-				fip.close();
-	        }
-	        else
-	        {
+	        	}
+	        	catch(Exception e)
+	        	{
+	        		JOptionPane.showConfirmDialog
+					(null, "Can't open the file!\nPlease click \"Open \" or \"Locate\" to edit the file", 
+		         "Error8", JOptionPane.CLOSED_OPTION);
+	        		error = true;
+	        	}
+			fip.close();
+	    }
+	    else
+	    {
 	        		JOptionPane.showConfirmDialog(null,
 	        			"Can't open the file!\nPlease click \"Open \" or \"Locate\" to edit the file", 
 	                    "Error005", JOptionPane.CLOSED_OPTION); 
 	        		error = true;
-	        }
+	    }
         return error;
     }
     
@@ -393,33 +427,43 @@ public class EditFile
 				{
 					gui.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 				}
-			    HSSFWorkbook workbook = new HSSFWorkbook(fip);
-				String sheets[] = getAllXLSSheet(workbook);
-				if(gui != null)
+				try
 				{
-					gui.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+				    HSSFWorkbook workbook = new HSSFWorkbook(fip);
+					String sheets[] = getAllXLSSheet(workbook);
+					if(gui != null)
+					{
+						gui.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+					}
+					String sheetSelected;
+					if(theSheetName.equals(""))
+				    {
+					    	sheetSelected = (String)JOptionPane.showInputDialog(null, "Select a sheet to edit:",
+			        						"Select a sheet", JOptionPane.PLAIN_MESSAGE,null, sheets,null);
+					}
+				    else
+				    {
+				    		sheetSelected = theSheetName;
+				    }
+					if(sheetSelected != null)
+					{
+						sheetName = sheetSelected;
+						HSSFSheet sheet = workbook.getSheet(sheetSelected);
+						readTheXLSSheet(sheet);
+					}
+					else
+					{
+						error = true;
+					}
+					addRowLabel();
 				}
-				String sheetSelected;
-				if(theSheetName.equals(""))
-			    {
-				    	sheetSelected = (String)JOptionPane.showInputDialog(null, "Select a sheet to edit:",
-		        						"Select a sheet", JOptionPane.PLAIN_MESSAGE,null, sheets,null);
-				}
-			    else
-			    {
-			    		sheetSelected = theSheetName;
-			    }
-				if(sheetSelected != null)
+				catch(Exception e)
 				{
-					sheetName = sheetSelected;
-					HSSFSheet sheet = workbook.getSheet(sheetSelected);
-					readTheXLSSheet(sheet);
-				}
-				else
-				{
+					JOptionPane.showConfirmDialog
+							(null, "Can't open the file!\nPlease click \"Open \" or \"Locate\" to edit the file", 
+				         "Error9", JOptionPane.CLOSED_OPTION);
 					error = true;
 				}
-				addRowLabel();
 				fip.close();
 			}
 			else
@@ -491,7 +535,8 @@ public class EditFile
     		int reply = -1;
     		String message;
     		BufferedWriter bufferedWriter;
-    		if(rename != null)
+    		//System.out.println("-----"+currentFile.getName());
+    		if(!rename.equals(""))
     		{
     			message = "The file is open as an "+rename+" file. Do you want to add the extension?";
     			reply = JOptionPane.showConfirmDialog(null, message, "Rename", JOptionPane.YES_NO_OPTION);
@@ -501,13 +546,11 @@ public class EditFile
     			}
     			reply = -1;
     		}
-    		currentFile = new File(newFileName);
     		try
     		{
-    			bufferedWriter = new BufferedWriter(new FileWriter(currentFile.getAbsolutePath()));
     			message = "Do you want to add the row number into the file?";
 			reply = JOptionPane.showConfirmDialog(null, message, "Add Row Number", JOptionPane.YES_NO_OPTION);
-			if(getMyFileExtension().equals("xlsx"))
+			if(getMyFileExtension().equals("xlsx") || rename.equals("xlsx"))
 	    		{
 				if(reply == JOptionPane.YES_OPTION)
 				{
@@ -518,7 +561,7 @@ public class EditFile
 					fileArrayToXLSXFile(DONT_ADD_ROW_NUMBER_OPTION);
 				}
 	    		}
-	    		else if(getMyFileExtension().equals("xls"))
+	    		else if(getMyFileExtension().equals("xls") || rename.equals("xls"))
 	    		{
 	    			if(reply == JOptionPane.YES_OPTION)
 				{
@@ -526,11 +569,12 @@ public class EditFile
 				}
 				else
 				{
-						fileArrayToXLSFile(DONT_ADD_ROW_NUMBER_OPTION);
+					fileArrayToXLSFile(DONT_ADD_ROW_NUMBER_OPTION);
 				}
 	    		}
 	    		else
-	    		{
+	    		{	
+	    			bufferedWriter = new BufferedWriter(new FileWriter(currentFile.getAbsolutePath()));
 	    			if(reply == JOptionPane.YES_OPTION)
 	    			{
 	    				fileArrayToFileString(ADD_ROW_NUMBER_OPTION);
@@ -540,8 +584,18 @@ public class EditFile
 	    				fileArrayToFileString(DONT_ADD_ROW_NUMBER_OPTION);
 	    			}
 	    			bufferedWriter.write(fileString);
+	    			bufferedWriter.close();
 	    		}
-			bufferedWriter.close();
+			if(!rename.equals(""))
+			{
+				File newFile = new File(newFileName);
+	    			File tempFile = new File("temp");
+	    			Files.copy(currentFile, tempFile);
+	    			currentFile.delete();
+	    			Files.copy(tempFile, newFile);
+	    			tempFile.delete();
+	    			currentFile = newFile;
+			}
     		}
     		catch (IOException e)
     		{
@@ -553,118 +607,146 @@ public class EditFile
     //write the fileArray back to the original xlsx file
     public void fileArrayToXLSXFile(int keepRowIndex) 
     {
-    		XSSFWorkbook workbook = new XSSFWorkbook();
-    		FileInputStream file = null;
-    		FileOutputStream outFile;
     		try 
     		{
-    			file = new FileInputStream(currentFile.getAbsolutePath());
-			XSSFSheet spreedsheet = workbook.createSheet(sheetName);
-			int start = 0;
-			if(keepRowIndex == DONT_ADD_ROW_NUMBER_OPTION)
-			{
-				start = 1;
-			}
-			for(int i = 0; i < fileArray.size();i++)
-			{
-				XSSFRow row = spreedsheet.createRow(i);
-				for(int j = start; j < fileArray.get(i).size(); j++)
-				{
-					XSSFCell cell = row.createCell(j-start);
-					String cellValue = fileArray.get(i).get(j);
-					try
+    			FileInputStream fileInput = new FileInputStream(currentFile);
+    			if(fileInput.available()>0)
+    			{
+    				try
+    				{
+		    			XSSFWorkbook workbook = new XSSFWorkbook(fileInput);
+					XSSFSheet spreedsheet = workbook.getSheet(sheetName);
+					int start = 0;
+					if(keepRowIndex == DONT_ADD_ROW_NUMBER_OPTION)
 					{
-						int cellInt = Integer.parseInt(cellValue);
-						cell.setCellValue(cellInt);
+						start = 1;
 					}
-					catch(NumberFormatException er)
+					int length = fileArray.size();
+					int lastRow = spreedsheet.getLastRowNum();
+					for(int i = 0; i <= lastRow;i++)
 					{
-						try
+						XSSFRow row = spreedsheet.getRow(i);
+						if(row != null)
 						{
-							double cellDouble = Double.parseDouble(cellValue);
-							cell.setCellValue(cellDouble);
+							spreedsheet.removeRow(row);
 						}
-						catch(NumberFormatException e)
+						if(i<length)
 						{
-							cell.setCellValue(cellValue);
+							row = spreedsheet.createRow(i);
+							for(int j = start; j < fileArray.get(i).size(); j++)
+							{
+								XSSFCell cell = row.createCell(j-start);
+								String cellValue = fileArray.get(i).get(j);
+								try
+								{
+									int cellInt = Integer.parseInt(cellValue);
+									cell.setCellValue(cellInt);
+								}
+								catch(NumberFormatException er)
+								{
+									try
+									{
+										double cellDouble = Double.parseDouble(cellValue);
+										cell.setCellValue(cellDouble);
+									}
+									catch(NumberFormatException e)
+									{
+										cell.setCellValue(cellValue);
+									}
+								}
+							}
 						}
 					}
-				}
-			}
-    		} 
-    		catch (FileNotFoundException e) 
+					FileOutputStream outFile = new FileOutputStream(currentFile);
+					workbook.write(outFile);
+					outFile.close();
+					workbook.close();
+    				}
+    				catch(Exception e)
+    				{
+    					JOptionPane.showConfirmDialog(null,
+    			    			"Can't open the file!\nPlease click \"Open \" or \"Locate\" to edit the file", 
+    			                    "Error008", JOptionPane.CLOSED_OPTION); 
+    				}
+    				fileInput.close();
+    			}
+		} 
+    		catch (IOException e1) 
     		{
-			e.printStackTrace();
-		}
-    		try 
-    		{
-    			outFile = new FileOutputStream(currentFile);
-			workbook.write(outFile);
-			outFile.close();
-			file.close();
-		}
-    		catch (IOException e) 
-    		{
-			e.printStackTrace();
+			e1.printStackTrace();
 		}	
     }
     
     //write the fileArray back to the original xls file
     public void fileArrayToXLSFile(int keepRowIndex)
     {
-    		HSSFWorkbook workbook = new HSSFWorkbook();
-		FileInputStream file = null;
-		FileOutputStream outFile;
-		try 
+	    	try 
 		{
-			file = new FileInputStream(currentFile.getAbsolutePath());
-			HSSFSheet spreedsheet = workbook.createSheet(sheetName);
-			int start = 0;
-			if(keepRowIndex == DONT_ADD_ROW_NUMBER_OPTION)
+			FileInputStream fileInput = new FileInputStream(currentFile);
+			if(fileInput.available()>0)
 			{
-				start = 1;
-			}
-			for(int i = 0; i < fileArray.size();i++)
-			{
-				HSSFRow row = spreedsheet.createRow(i);
-				for(int j = start; j < fileArray.get(i).size(); j++)
+				try
 				{
-					HSSFCell cell = row.createCell(j-start);
-					String cellValue = fileArray.get(i).get(j);
-					try
+		    			HSSFWorkbook workbook = new HSSFWorkbook(fileInput);
+					HSSFSheet spreedsheet = workbook.getSheet(sheetName);
+					int start = 0;
+					if(keepRowIndex == DONT_ADD_ROW_NUMBER_OPTION)
 					{
-						int cellInt = Integer.parseInt(cellValue);
-						cell.setCellValue(cellInt);
+						start = 1;
 					}
-					catch(NumberFormatException er)
+					int length = fileArray.size();
+					int lastRow = spreedsheet.getLastRowNum();
+					for(int i = 0; i <= lastRow;i++)
 					{
-						try
+						HSSFRow row = spreedsheet.getRow(i);
+						if(row != null)
 						{
-							double cellDouble = Double.parseDouble(cellValue);
-							cell.setCellValue(cellDouble);
+							spreedsheet.removeRow(row);
 						}
-						catch(NumberFormatException e)
+						if(i<length)
 						{
-							cell.setCellValue(cellValue);
+							row = spreedsheet.createRow(i);
+							for(int j = start; j < fileArray.get(i).size(); j++)
+							{
+								HSSFCell cell = row.createCell(j-start);
+								String cellValue = fileArray.get(i).get(j);
+								try
+								{
+									int cellInt = Integer.parseInt(cellValue);
+									cell.setCellValue(cellInt);
+								}
+								catch(NumberFormatException er)
+								{
+									try
+									{
+										double cellDouble = Double.parseDouble(cellValue);
+										cell.setCellValue(cellDouble);
+									}
+									catch(NumberFormatException e)
+									{
+										cell.setCellValue(cellValue);
+									}
+								}
+							}
 						}
 					}
+					FileOutputStream outFile = new FileOutputStream(currentFile);
+					workbook.write(outFile);
+					outFile.close();
+					workbook.close();
 				}
+				catch(Exception e)
+				{
+					JOptionPane.showConfirmDialog(null,
+			    			"Can't open the file!\nPlease click \"Open \" or \"Locate\" to edit the file", 
+			                    "Error009", JOptionPane.CLOSED_OPTION); 
+				}
+				fileInput.close();
 			}
 		} 
-		catch (FileNotFoundException e) 
+		catch (IOException e1) 
 		{
-			e.printStackTrace();
-		}
-		try 
-		{
-			outFile = new FileOutputStream(currentFile);
-			workbook.write(outFile);
-			outFile.close();
-			file.close();
-		}
-		catch (IOException e) 
-		{
-			e.printStackTrace();
+			e1.printStackTrace();
 		}	
     }
     
@@ -726,7 +808,6 @@ public class EditFile
     
     public void moveColumn(int columnPosition)
     {
-    		
     		keepChangedFile = true;
     		ArrayList<String> move = new ArrayList<String>();
     		for(int i = 0;i<fileArray.size();i++)
@@ -823,6 +904,37 @@ public class EditFile
 		return error;
     }
     
+    public boolean editHeadersFormat(int start, int end, int rowIndex)
+    {
+    		boolean error = false;
+    		int[] list = new int[end];
+    		int index = 0;
+    		rowIndex--;
+    		for(int i = start+1; i<=end;i = i+2)
+    		{
+    			list[index] = i;
+    			index++;
+    		}
+    		Arrays.sort(list);
+    		
+    		for(int i = list.length-1; i >= 0; i--)
+    		{
+    			if(list[i]!= 0 && list[i]<fileArray.get(rowIndex).size())
+    			{
+    				if(!(fileArray.get(rowIndex).get(list[i]-1).isEmpty()))
+    				{
+	    				fileArray.get(rowIndex).remove(list[i]);
+    				}
+    			}
+    		}
+    		return error;
+    }
+    
+    public void setCurrentFile(File currentFile)
+    {
+    		this.currentFile = currentFile;
+    }
+    
     public String getSplitExpression()
     {
     	 	return splitExpression;
@@ -876,6 +988,11 @@ public class EditFile
     public String getRename()
     {
     		return rename;
+    }
+    
+    public void setRename(String newName)
+    {
+    		rename = newName;
     }
     
     public void addRowLabel()
