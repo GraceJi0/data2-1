@@ -6,12 +6,18 @@ import java.io.InputStream;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
@@ -24,6 +30,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 
 
 public class FastConvert 
@@ -85,18 +92,14 @@ public class FastConvert
 				InputStream in = pros.getInputStream();
 				InputStream err = pros.getErrorStream();
 				String result = readInputStream(in);
-				
 				String resultMessage = readInputStream(err);
-				JButton showDetails = new JButton("Show Details");
-				showDetails.addActionListener(new ActionListener()
-                {
-					public void actionPerformed(ActionEvent ae) 
-					{
-						showPGDSpiderErrorMessage(result, resultMessage);
-					}
-				});
-				Object[] message = {showErrorMessage(result),showDetails};
-				JOptionPane.showConfirmDialog(null,message, "PGDSpider", JOptionPane.CLOSED_OPTION);
+				
+				JFrame errorMessageFrame = showPGDSpiderErrorMessage(result, resultMessage);
+				if(errorMessageFrame != null)
+				{
+					errorMessageFrame.setMinimumSize(new Dimension(700,300));
+					errorMessageFrame.setMaximumSize(new Dimension(900,600));
+				}
 				
 				if(result.contains("ERROR"))
 				{
@@ -104,6 +107,7 @@ public class FastConvert
 					spidFile.delete();
 					File output = new File(outputPath);
 					output.delete();
+					System.out.println("---------");
 				}
 				else
 				{
@@ -119,7 +123,6 @@ public class FastConvert
 	
 	public void runDetailConvert()
 	{
-		//String inputPath = currentFile.getAbsolutePath();
 		String commandLine = "java -Xmx1024m -Xms512m -jar /Users/dinghanji/Downloads/PGDSpider_2.1.1.3/PGDSpider2.jar";
 		try 
 		{
@@ -256,27 +259,74 @@ public class FastConvert
 		return option;
 	}
 	
-	public String showErrorMessage(String result)
-	{
-		String errorMessage = "Error Message:\n";
-		errorMessage+=result;
-		return errorMessage;
+	public String showConvertMessage(String result)
+	{	
+		String message = "";
+		if(result.contains("Usage: PGDSpiderCli"))
+		{
+			message = "ERROR:\nCan't convert the file from STRUCTURE to GENEPOP, please try \"convert\" in \"file\" menu.";
+		}
+		else if(result.contains("ERROR"))
+		{
+			message = "ERROR:\nThere're errors when converting, please check the file's format and type.";
+		}
+		else
+		{
+			message = "Successfull convert!";
+		}
+		return message;
 	}
 	
-	public JPanel showPGDSpiderErrorMessage(String result, String resultMessage)
+	public JFrame showPGDSpiderErrorMessage(String result, String resultMessage)
 	{
-		//JFrame errorMessageFrame = new JFrame();
+		String convertMessage =  showConvertMessage(result);
+		JFrame errorFrame = new JFrame("PGDSpider"); 
+		errorFrame.setLayout(new BorderLayout());
+		
 		JPanel errorMessagePanel = new JPanel();
-		errorMessagePanel.setMaximumSize(new Dimension(500,300));
+		errorMessagePanel.setLayout(new BorderLayout());
+		errorMessagePanel.setBorder(new EmptyBorder(0,20,10,20));
+		
 		JTextArea errorMessageTextArea = new JTextArea();
 		JScrollPane errorMessageScroll = new JScrollPane(errorMessageTextArea,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                 JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		result = "\n"+resultMessage;
-		errorMessageTextArea.setText(result);
+		String text = result+"\n"+resultMessage;
+		errorMessageTextArea.setText(text);
 		errorMessageTextArea.setEditable(false);
-		errorMessagePanel.add(errorMessageScroll);
-		errorMessagePanel.setVisible(true);
-		return errorMessagePanel;
+		errorMessageTextArea.setLineWrap(true);
+		errorMessageTextArea.setWrapStyleWord(true);
+		
+		JLabel convertMessageLabel = new JLabel(convertMessage);
+		convertMessageLabel.setBorder(new EmptyBorder(20,20,0,20));
+		//convertMessageLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
+		convertMessageLabel.setForeground(Color.red);
+		
+		JLabel detailsLabel = new JLabel("Details");
+		
+		JPanel titlePanel = new JPanel();
+		titlePanel.setLayout(new GridLayout(2,1));
+		titlePanel.add(convertMessageLabel);
+		
+		JPanel buttonPanel = new JPanel();
+		buttonPanel.setLayout(new FlowLayout(FlowLayout.TRAILING));
+		JButton okBtn = new JButton("OK");
+		okBtn.addActionListener(new ActionListener()
+        {
+			public void actionPerformed(ActionEvent ae) 
+			{	
+				errorFrame.dispose();
+			}
+		});
+		buttonPanel.add(okBtn);
+		
+		errorMessagePanel.add(detailsLabel, BorderLayout.NORTH);
+		errorMessagePanel.add(errorMessageScroll, BorderLayout.CENTER);
+		errorMessagePanel.add(buttonPanel, BorderLayout.SOUTH);
+		
+		errorFrame.add(titlePanel, BorderLayout.NORTH);
+		errorFrame.add(errorMessagePanel, BorderLayout.CENTER);
+		errorFrame.setVisible(true);
+		return errorFrame;
 	}
 	
 	public void setfastConvertLog()
