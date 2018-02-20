@@ -275,7 +275,7 @@ public class InterfaceDirectories
             editFile = new JButton("Editor");
             editFile.setSize(new Dimension(100, 50)); 
             editFile.addActionListener(new ActionListener()
-                                           {
+            {
                 public void actionPerformed(ActionEvent ae)
                 {
                     JFrame frame = new InterfaceMain(currentFile,gui,logFile).getMainFrame();
@@ -283,9 +283,27 @@ public class InterfaceDirectories
                     {
 	                    frame.setVisible(true);
 	                    frame.setPreferredSize(new Dimension(900, 700));
+	                    
+	                    /*frame.addWindowListener(new WindowAdapter() {
+	                        @Override
+	                        public void windowClosing(WindowEvent windowEvent) 
+	                        {
+	                        		showChildren(currentNode);
+	                            gui.repaint();
+	                        }
+	                        
+	                        @Override
+	                        public void windowLostFocus(WindowEvent w)
+	                        {
+	                        		System.out.println("---------");
+		    	                    	showChildren(currentNode);
+		    	                    	gui.repaint();
+	                        }
+	                    });*/
                     }
                 }
             });
+            
             toolBar.add(editFile);
             
             //*************extract a zip file*****************
@@ -344,6 +362,15 @@ public class InterfaceDirectories
             
             gui.add(simpleOutput, BorderLayout.SOUTH);
             mainFrame.add(gui);
+            mainFrame.addWindowListener(new WindowAdapter() { 
+                @Override
+                public void windowActivated(WindowEvent e)
+                {
+                		System.out.println("---------");
+	                showChildren(currentNode);
+	               	gui.repaint();
+                }
+            });
         }
         return gui;
     }
