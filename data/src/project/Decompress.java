@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.zip.GZIPInputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -23,35 +24,28 @@ import org.apache.commons.compress.utils.IOUtils;
 
 public class Decompress 
 {
-	private File currentFile;
 	
-	public Decompress(File currentFile) 
-	{
-		this.currentFile = currentFile;
-	}
+	public Decompress(File currentFile) {}
 
 	public void unTar(final File inputFile, String destinationFolder) throws FileNotFoundException, IOException, ArchiveException 
 	{
-		 FileInputStream fis = new FileInputStream(currentFile);
-	        TarArchiveInputStream tis = new TarArchiveInputStream(fis);
-	        TarArchiveEntry tarEntry = null;
-	        
-	        // tarIn is a TarArchiveInputStream
-	        while ((tarEntry = tis.getNextTarEntry()) != null) {
+		 FileInputStream fis = new FileInputStream(inputFile);
+	     TarArchiveInputStream tis = new TarArchiveInputStream(fis);
+	     TarArchiveEntry tarEntry = null;
+	     while ((tarEntry = tis.getNextTarEntry()) != null) 
+	     {
 	            File outputFile = new File(destinationFolder + File.separator + tarEntry.getName());
-	            
-	            if(tarEntry.isDirectory()){
-	                
-	                System.out.println("outputFile Directory ---- " 
-	                    + outputFile.getAbsolutePath());
-	                if(!outputFile.exists()){
+	            if(tarEntry.isDirectory())
+	            {
+	                if(!outputFile.exists())
+	                {
 	                    outputFile.mkdirs();
 	                }
-	            }else{
-	                //File outputFile = new File(destFile + File.separator + tarEntry.getName());
+	            }
+	            else
+	            {
 	                System.out.println("outputFile File ---- " + outputFile.getAbsolutePath());
 	                outputFile.getParentFile().mkdirs();
-	                //outputFile.createNewFile();
 	                FileOutputStream fos = new FileOutputStream(outputFile); 
 	                IOUtils.copy(tis, fos);
 	                fos.close();
@@ -60,7 +54,25 @@ public class Decompress
 	        tis.close();
 	}
 	
-	private void unzip(String destinationFolder, String zipFile)
+	public File unGZipFile(File gZippedFile, File tarFile) throws IOException
+	{
+        FileInputStream fis = new FileInputStream(gZippedFile);
+        GZIPInputStream gZIPInputStream = new GZIPInputStream(fis);
+        
+        FileOutputStream fos = new FileOutputStream(tarFile);
+        byte[] buffer = new byte[1024];
+        int len;
+        while((len = gZIPInputStream.read(buffer)) > 0)
+        {
+            fos.write(buffer, 0, len);
+        }
+        
+        fos.close();
+        gZIPInputStream.close();
+        return tarFile;        
+    }
+	
+	public void unzip(String destinationFolder, String zipFile)
     {
         File directory = new File(destinationFolder);
         if(!directory.exists()) 

@@ -303,7 +303,7 @@ public class InterfaceDirectories
                     String destinationFolder = currentFile.getParentFile().getAbsolutePath();
                     if(getMyFileExtension().equals("zip"))
                     {
-                    unzip(destinationFolder,zipFile);
+                    		decompress.unzip(destinationFolder,zipFile);
                     }
                     else if(getMyFileExtension().equals("tar"))
                     {
@@ -317,7 +317,14 @@ public class InterfaceDirectories
                     }
                     else if(getMyFileExtension().equals("gz"))
                     {
-                    	
+                    		try 
+                    		{
+							decompress.unGZipFile(currentFile, currentFile.getParentFile());
+						} 
+                    		catch (IOException e) 
+                    		{
+							e.printStackTrace();
+						}
                     }
                     showChildren(currentNode);
                 }
@@ -595,62 +602,6 @@ public class InterfaceDirectories
             readmeTextArea.setCaretPosition(0);
         }
         return found;
-    }
-    
-    private void unzip(String destinationFolder, String zipFile)
-    {
-        File directory = new File(destinationFolder);
-        if(!directory.exists()) 
-        {
-            directory.mkdirs();
-        }
-        byte[] buffer = new byte[100000];
-        try 
-        {
-            FileInputStream fInput = new FileInputStream(zipFile);
-            	ZipInputStream zipInput = new ZipInputStream(fInput);
-            
-            ZipEntry entry = zipInput.getNextEntry();
-            
-            while(entry != null)
-            {
-                String entryName = entry.getName();
-                File file = new File(destinationFolder + File.separator + entryName);
-                
-                if(entry.isDirectory()) 
-                {
-                    File newDir = new File(file.getAbsolutePath());
-                    if(!newDir.exists()) 
-                    {
-                        boolean success = newDir.mkdirs();
-                        if(success == false) 
-                        {
-                            System.out.println("Problem creating Folder");
-                        }
-                    }
-                }
-                else 
-                {
-                    FileOutputStream fOutput = new FileOutputStream(file);
-                    int count = 0;
-                    while ((count = zipInput.read(buffer)) > 0) 
-                    {
-                        fOutput.write(buffer, 0, count);
-                    }
-                    fOutput.close();
-                }
-                zipInput.closeEntry();
-                entry = zipInput.getNextEntry();
-            }
-            zipInput.closeEntry();
-            zipInput.close();
-            fInput.close();
-        } 
-        catch (IOException e) 
-        {
-            JOptionPane.showConfirmDialog(null, e.getMessage(), "Can't decomprass the file!", JOptionPane.CLOSED_OPTION); 
-            e.printStackTrace();
-        }
     }
     
     public void deleteDrectoriesAndFiles()
