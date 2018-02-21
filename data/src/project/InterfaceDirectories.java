@@ -310,6 +310,7 @@ public class InterfaceDirectories
 						decompress.unTar(currentFile, destinationFolder);
                     }
                     showChildren(currentNode);
+                    gui.repaint();
                 }
             });
             toolBar.add(unzipFile);

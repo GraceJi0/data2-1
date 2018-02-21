@@ -13,7 +13,6 @@ import org.apache.commons.compress.utils.IOUtils;
 
 public class Decompress 
 {
-
 	public void unTar(final File inputFile, String destinationFolder)
 	{
 		FileInputStream fis;
