@@ -18,5 +18,10 @@
 	<classpathentry kind="lib" path="/Users/dinghanji/Downloads/tika-app-1.17.jar"/>
 	<classpathentry kind="lib" path="/Users/dinghanji/Downloads/junit-4.12.jar"/>
 	<classpathentry kind="lib" path="/Users/dinghanji/Downloads/hamcrest-all-1.3.jar"/>
+	<classpathentry kind="lib" path="/Users/dinghanji/Downloads/commons-compress-1.16.1 2/commons-compress-1.16.1-javadoc.jar"/>
+	<classpathentry kind="lib" path="/Users/dinghanji/Downloads/commons-compress-1.16.1 2/commons-compress-1.16.1-sources.jar"/>
+	<classpathentry kind="lib" path="/Users/dinghanji/Downloads/commons-compress-1.16.1 2/commons-compress-1.16.1-test-sources.jar"/>
+	<classpathentry kind="lib" path="/Users/dinghanji/Downloads/commons-compress-1.16.1 2/commons-compress-1.16.1-tests.jar"/>
+	<classpathentry kind="lib" path="/Users/dinghanji/Downloads/commons-compress-1.16.1 2/commons-compress-1.16.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -14,6 +14,9 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.event.*;
 import javax.swing.filechooser.FileSystemView;
 import javax.swing.tree.*;
+
+import org.apache.commons.compress.archivers.ArchiveException;
+
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -283,27 +286,9 @@ public class InterfaceDirectories
                     {
 	                    frame.setVisible(true);
 	                    frame.setPreferredSize(new Dimension(900, 700));
-	                    
-	                    /*frame.addWindowListener(new WindowAdapter() {
-	                        @Override
-	                        public void windowClosing(WindowEvent windowEvent) 
-	                        {
-	                        		showChildren(currentNode);
-	                            gui.repaint();
-	                        }
-	                        
-	                        @Override
-	                        public void windowLostFocus(WindowEvent w)
-	                        {
-	                        		System.out.println("---------");
-		    	                    	showChildren(currentNode);
-		    	                    	gui.repaint();
-	                        }
-	                    });*/
                     }
                 }
             });
-            
             toolBar.add(editFile);
             
             //*************extract a zip file*****************
@@ -313,9 +298,27 @@ public class InterfaceDirectories
                                             {
                 public void actionPerformed(ActionEvent ae) 
                 {
+                		Decompress decompress = new Decompress(currentFile);
                     String zipFile = currentFile.getAbsolutePath();
                     String destinationFolder = currentFile.getParentFile().getAbsolutePath();
+                    if(getMyFileExtension().equals("zip"))
+                    {
                     unzip(destinationFolder,zipFile);
+                    }
+                    else if(getMyFileExtension().equals("tar"))
+                    {
+                    		try 
+                    		{
+							decompress.unTar(currentFile, destinationFolder);
+						} 
+                    		catch (FileNotFoundException e) {e.printStackTrace();} 
+                    		catch (IOException e) {e.printStackTrace();} 
+                    		catch (ArchiveException e) {e.printStackTrace();}
+                    }
+                    else if(getMyFileExtension().equals("gz"))
+                    {
+                    	
+                    }
                     showChildren(currentNode);
                 }
             });
@@ -366,7 +369,6 @@ public class InterfaceDirectories
                 @Override
                 public void windowActivated(WindowEvent e)
                 {
-                		System.out.println("---------");
 	                showChildren(currentNode);
 	               	gui.repaint();
                 }
@@ -489,15 +491,15 @@ public class InterfaceDirectories
                 editFile.setEnabled(false);
             }
             findMetaData(file);
-            if(currentFile.isDirectory() || !extension.equals("zip"))
-            {
-                unzipFile.setEnabled(false); 
-            }
-            /*if(currentFile.isDirectory() || (extension.equals("zip")||
-            		extension.equals("gz") || extension.equals("tar"))==false)
+            /*if(currentFile.isDirectory() || !extension.equals("zip"))
             {
                 unzipFile.setEnabled(false); 
             }*/
+            if(currentFile.isDirectory() || (extension.equals("zip")||
+            		extension.equals("gz") || extension.equals("tar"))==false)
+            {
+                unzipFile.setEnabled(false); 
+            }
         }
         gui.repaint();
     }
