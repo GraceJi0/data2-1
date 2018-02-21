@@ -298,7 +298,7 @@ public class InterfaceDirectories
                                             {
                 public void actionPerformed(ActionEvent ae) 
                 {
-                		Decompress decompress = new Decompress(currentFile);
+                		Decompress decompress = new Decompress();
                     String zipFile = currentFile.getAbsolutePath();
                     String destinationFolder = currentFile.getParentFile().getAbsolutePath();
                     if(getMyFileExtension().equals("zip"))
@@ -307,24 +307,7 @@ public class InterfaceDirectories
                     }
                     else if(getMyFileExtension().equals("tar"))
                     {
-                    		try 
-                    		{
-							decompress.unTar(currentFile, destinationFolder);
-						} 
-                    		catch (FileNotFoundException e) {e.printStackTrace();} 
-                    		catch (IOException e) {e.printStackTrace();} 
-                    		catch (ArchiveException e) {e.printStackTrace();}
-                    }
-                    else if(getMyFileExtension().equals("gz"))
-                    {
-                    		try 
-                    		{
-							decompress.unGZipFile(currentFile, currentFile.getParentFile());
-						} 
-                    		catch (IOException e) 
-                    		{
-							e.printStackTrace();
-						}
+						decompress.unTar(currentFile, destinationFolder);
                     }
                     showChildren(currentNode);
                 }
@@ -498,12 +481,7 @@ public class InterfaceDirectories
                 editFile.setEnabled(false);
             }
             findMetaData(file);
-            /*if(currentFile.isDirectory() || !extension.equals("zip"))
-            {
-                unzipFile.setEnabled(false); 
-            }*/
-            if(currentFile.isDirectory() || (extension.equals("zip")||
-            		extension.equals("gz") || extension.equals("tar"))==false)
+            if(currentFile.isDirectory() || (extension.equals("zip")||extension.equals("tar"))==false)
             {
                 unzipFile.setEnabled(false); 
             }
