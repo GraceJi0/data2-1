@@ -24,6 +24,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -69,13 +70,22 @@ public class FastConvert
 	public void runPGDSpider(String missingValue, String markerNum)
 	{
 		String inputPath = currentFile.getAbsolutePath();
-		inputPath = inputPath.replace(" ", "\\ ");
 		String outputPath = currentFile.getParentFile().getAbsolutePath()+"/GENEPOP"+currentFile.getName();
-		outputPath = outputPath.replace(" ", "\\ ");
+		if(inputPath.contains(" "))
+		{
+			inputPath = "\""+inputPath+"\"";
+		}
+		if(outputPath.contains(" "))
+		{
+			outputPath = "\""+outputPath+"\"";
+		}
 		String spidPath = currentFile.getParentFile().getAbsolutePath()+"/PGDSpiderSpidFile.spid";
-		spidPath = spidPath.replace(" ", "\\ ");
 		String currentFilePath = new File(".").getAbsolutePath();
 		String PGDSpiderPath = currentFilePath.substring(0, currentFilePath.length()-2)+"/PGDSpider_2.1.1.3/PGDSpider2-cli.jar";
+		
+		/*inputPath = inputPath.replace(" ", "\\ ");
+		outputPath = outputPath.replace(" ", "\\ ");
+		spidPath = spidPath.replace(" ", "\\ ");*/
 		
 		int option = checkFileFormat();
 		if(markerNumInt == -1)
@@ -89,31 +99,40 @@ public class FastConvert
 		if(option == JOptionPane.YES_OPTION)
 		{
 			creatSpidFile(missingValue, markerNum,spidPath);
-			String commandFastConvert = "java -Xmx1024m -Xms512m -jar "+PGDSpiderPath +
-					" -inputfile "+ inputPath + " -inputformat STRUCTURE -outputfile "+ outputPath +
-					" -outputformat GENEPOP -spid " + spidPath;
+			/*String[] commandFastConvertArray = {"java","-Xmx1024m","-Xms512m","-jar", PGDSpiderPath, "-inputfile", inputPath, 
+					 "-inputformat","STRUCTURE","-outputfile",outputPath,"-outputformat","GENEPOP","-spid",spidPath};*/
+			
+			String commandFastConvert = "java -Xmx1024m -Xms512m -jar " + PGDSpiderPath +" -inputfile "+ inputPath + 
+					" -inputformat STRUCTURE -outputfile "+ outputPath + " -outputformat GENEPOP -spid " + spidPath;
+			
+			
+			/*for(int i = 0 ; i < commandFastConvertArray.length; i++)
+			{
+				System.out.print(commandFastConvertArray[i]+" ");
+			}*/
 			try 
 			{
 				Process pros = Runtime.getRuntime().exec(commandFastConvert);
+				OutputStream out = pros.getOutputStream();
+				out.toString();
+				/*ProcessBuilder pb = new ProcessBuilder(commandFastConvertArray);
+				Process pros = pb.start();*/
 				InputStream in = pros.getInputStream();
 				InputStream err = pros.getErrorStream();
-				String result = readInputStream(in);
-				String resultMessage = readInputStream(err);
-				
-				JFrame errorMessageFrame = showPGDSpiderErrorMessage(result, resultMessage,commandFastConvert);
+				String result = readInputStream(in)+readInputStream(err);
+				JFrame errorMessageFrame = showPGDSpiderErrorMessage(result,commandFastConvert);
 				if(errorMessageFrame != null)
 				{
 					errorMessageFrame.setMinimumSize(new Dimension(700,300));
 					errorMessageFrame.setMaximumSize(new Dimension(900,600));
 				}
 				
-				if(result.contains("ERROR"))
+				if(result.contains("ERROR") || result.contains("Error") /*|| result.contains("Usage: PGDSpiderCli")*/)
 				{
 					File spidFile = new File(spidPath);
 					spidFile.delete();
 					File output = new File(outputPath);
 					output.delete();
-					System.out.println("---------");
 				}
 				else
 				{
@@ -122,6 +141,7 @@ public class FastConvert
 			} 
 			catch (IOException e) 
 			{
+				System.out.println(e);
 				JOptionPane.showConfirmDialog(null,"Can't open PGDSpider!", "Error", JOptionPane.CLOSED_OPTION);
 			}
 		}
@@ -130,8 +150,8 @@ public class FastConvert
 	public void runDetailConvert()
 	{
 		String currentFilePath = new File(".").getAbsolutePath();
-		String PGDSpiderPath = currentFilePath.substring(0, currentFilePath.length()-2)+"/PGDSpider_2.1.1.3/PGDSpider2.jar";
-		String commandLine = "java -Xmx1024m -Xms512m -jar "+PGDSpiderPath;
+		String PGDSpiderPath = currentFilePath.substring(0, currentFilePath.length()-2) + "/PGDSpider_2.1.1.3/PGDSpider2.jar";
+		String commandLine = "java -Xmx1024m -Xms512m -jar " + PGDSpiderPath;
 		try 
 		{
 			Runtime.getRuntime().exec(commandLine);
@@ -274,7 +294,7 @@ public class FastConvert
 		{
 			message = "ERROR:\nCan't convert the file, please remove all spaces in file's name or try \"convert\" in \"file\" menu.";
 		}
-		else if(result.contains("ERROR"))
+		else if(result.contains("ERROR") || result.contains("Error"))
 		{
 			message = "ERROR:\nThere're errors when converting, please check the file's format and type.";
 		}
@@ -285,7 +305,7 @@ public class FastConvert
 		return message;
 	}
 	
-	public JFrame showPGDSpiderErrorMessage(String result, String resultMessage, String commandLine)
+	public JFrame showPGDSpiderErrorMessage(String result, String commandLine)
 	{
 		String convertMessage =  showConvertMessage(result);
 		JFrame errorFrame = new JFrame("PGDSpider"); 
@@ -298,7 +318,7 @@ public class FastConvert
 		JTextArea errorMessageTextArea = new JTextArea();
 		JScrollPane errorMessageScroll = new JScrollPane(errorMessageTextArea,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                 JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		String text = "Command line: "+ commandLine + "\n\n"+ result+"\n"+resultMessage;
+		String text = "Command line: "+ commandLine + "\n\n"+ result;
 		errorMessageTextArea.setText(text);
 		errorMessageTextArea.setEditable(false);
 		errorMessageTextArea.setLineWrap(true);
