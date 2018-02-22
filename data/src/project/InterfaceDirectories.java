@@ -356,7 +356,8 @@ public class InterfaceDirectories
             
             gui.add(simpleOutput, BorderLayout.SOUTH);
             mainFrame.add(gui);
-            mainFrame.addWindowListener(new WindowAdapter() { 
+            mainFrame.addWindowListener(new WindowAdapter() 
+            { 
                 @Override
                 public void windowActivated(WindowEvent e)
                 {

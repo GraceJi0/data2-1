@@ -69,8 +69,14 @@ public class FastConvert
 	public void runPGDSpider(String missingValue, String markerNum)
 	{
 		String inputPath = currentFile.getAbsolutePath();
+		inputPath = inputPath.replace(" ", "\\ ");
 		String outputPath = currentFile.getParentFile().getAbsolutePath()+"/GENEPOP"+currentFile.getName();
+		outputPath = outputPath.replace(" ", "\\ ");
 		String spidPath = currentFile.getParentFile().getAbsolutePath()+"/PGDSpiderSpidFile.spid";
+		spidPath = spidPath.replace(" ", "\\ ");
+		String currentFilePath = new File(".").getAbsolutePath();
+		String PGDSpiderPath = currentFilePath.substring(0, currentFilePath.length()-2)+"/PGDSpider_2.1.1.3/PGDSpider2-cli.jar";
+		
 		int option = checkFileFormat();
 		if(markerNumInt == -1)
 		{
@@ -83,9 +89,9 @@ public class FastConvert
 		if(option == JOptionPane.YES_OPTION)
 		{
 			creatSpidFile(missingValue, markerNum,spidPath);
-			String commandFastConvert = "java -Xmx1024m -Xms512m -jar /Users/dinghanji/Downloads/PGDSpider_2.1.1.3/PGDSpider2-cli.jar "+
-										"-inputfile "+ inputPath + " -inputformat STRUCTURE -outputfile "+ outputPath +
-										" -outputformat GENEPOP -spid " + spidPath;
+			String commandFastConvert = "java -Xmx1024m -Xms512m -jar "+PGDSpiderPath +
+					" -inputfile "+ inputPath + " -inputformat STRUCTURE -outputfile "+ outputPath +
+					" -outputformat GENEPOP -spid " + spidPath;
 			try 
 			{
 				Process pros = Runtime.getRuntime().exec(commandFastConvert);
@@ -94,7 +100,7 @@ public class FastConvert
 				String result = readInputStream(in);
 				String resultMessage = readInputStream(err);
 				
-				JFrame errorMessageFrame = showPGDSpiderErrorMessage(result, resultMessage);
+				JFrame errorMessageFrame = showPGDSpiderErrorMessage(result, resultMessage,commandFastConvert);
 				if(errorMessageFrame != null)
 				{
 					errorMessageFrame.setMinimumSize(new Dimension(700,300));
@@ -123,7 +129,9 @@ public class FastConvert
 	
 	public void runDetailConvert()
 	{
-		String commandLine = "java -Xmx1024m -Xms512m -jar /Users/dinghanji/Downloads/PGDSpider_2.1.1.3/PGDSpider2.jar";
+		String currentFilePath = new File(".").getAbsolutePath();
+		String PGDSpiderPath = currentFilePath.substring(0, currentFilePath.length()-2)+"/PGDSpider_2.1.1.3/PGDSpider2.jar";
+		String commandLine = "java -Xmx1024m -Xms512m -jar "+PGDSpiderPath;
 		try 
 		{
 			Runtime.getRuntime().exec(commandLine);
@@ -264,7 +272,7 @@ public class FastConvert
 		String message = "";
 		if(result.contains("Usage: PGDSpiderCli"))
 		{
-			message = "ERROR:\nCan't convert the file from STRUCTURE to GENEPOP, please try \"convert\" in \"file\" menu.";
+			message = "ERROR:\nCan't convert the file, please remove all spaces in file's name or try \"convert\" in \"file\" menu.";
 		}
 		else if(result.contains("ERROR"))
 		{
@@ -277,7 +285,7 @@ public class FastConvert
 		return message;
 	}
 	
-	public JFrame showPGDSpiderErrorMessage(String result, String resultMessage)
+	public JFrame showPGDSpiderErrorMessage(String result, String resultMessage, String commandLine)
 	{
 		String convertMessage =  showConvertMessage(result);
 		JFrame errorFrame = new JFrame("PGDSpider"); 
@@ -290,7 +298,7 @@ public class FastConvert
 		JTextArea errorMessageTextArea = new JTextArea();
 		JScrollPane errorMessageScroll = new JScrollPane(errorMessageTextArea,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                 JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		String text = result+"\n"+resultMessage;
+		String text = "Command line: "+ commandLine + "\n\n"+ result+"\n"+resultMessage;
 		errorMessageTextArea.setText(text);
 		errorMessageTextArea.setEditable(false);
 		errorMessageTextArea.setLineWrap(true);
