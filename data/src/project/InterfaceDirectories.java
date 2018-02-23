@@ -309,6 +309,10 @@ public class InterfaceDirectories
                     {
 						decompress.unTar(currentFile, destinationFolder);
                     }
+                    else if(getMyFileExtension().equals("gz"))
+                    {
+                    		decompress.decompressGzip(currentFile,destinationFolder);
+                    }
                     showChildren(currentNode);
                     gui.repaint();
                 }
@@ -324,7 +328,7 @@ public class InterfaceDirectories
                 {
                 		logFile.setCurrentFile(currentFile);
                 		logFile.writeToLogDeleteFile();
-                    deleteDrectoriesAndFiles();
+                    deleteDrectoriesAndFiles(currentFile);
                     showChildren(currentNode);
                     gui.repaint();
                 }
@@ -483,7 +487,8 @@ public class InterfaceDirectories
                 editFile.setEnabled(false);
             }
             findMetaData(file);
-            if(currentFile.isDirectory() || (extension.equals("zip")||extension.equals("tar"))==false)
+            if(currentFile.isDirectory() || (extension.equals("zip")||extension.equals("tar") ||
+            		extension.equals("gz"))==false)
             {
                 unzipFile.setEnabled(false); 
             }
@@ -598,6 +603,23 @@ public class InterfaceDirectories
             }
         }
         currentFile.delete();
+    }
+    
+    public void deleteDrectoriesAndFiles(File theFile)
+    {
+        if(theFile!=null)
+        {
+            File[] contents = theFile.listFiles();
+            if (contents != null) 
+            {
+                for (File f : contents) 
+                {
+                		deleteDrectoriesAndFiles(f);
+                }
+            }
+            System.out.println(theFile.getName());
+            theFile.delete();
+        }
     }
     
     public String getMyFileExtension()
