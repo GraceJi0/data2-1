@@ -784,14 +784,10 @@ public class EditFile
     		{
 	    		for(int i = 0; i < fileArray.size(); i++)
 	    		{
-	    			if(fileArray.get(i)!= null)
+	    			if(fileArray.get(i)!= null && columnPosition<fileArray.get(i).size() && fileArray.get(i).get(columnPosition) != null)
 	    			{
-	    				if(columnPosition<fileArray.get(i).size() && fileArray.get(i).get(columnPosition) != null)
-	    				{
-			    			String data = fileArray.get(i).get(columnPosition).replaceAll(" ", "_");
-			    			fileArray.get(i).set(columnPosition,data);
-			    			System.out.println("----------"+i+data);
-	    				}
+			    		String data = fileArray.get(i).get(columnPosition).replaceAll(" ", "_");
+			    		fileArray.get(i).set(columnPosition,data);
 	    			}
 	    		}
 	    		keepChangedFile = true;
