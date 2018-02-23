@@ -36,6 +36,7 @@ import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
+import javax.swing.filechooser.FileFilter;
 
 import com.google.common.io.Files;
 
@@ -701,6 +702,8 @@ public class InterfaceMain
     public void saveAsFile()
     {
         JFileChooser chooser = new JFileChooser();
+        FileFilter filter1 = new ExtensionFileFilter(getFileExtension(currentFile),getFileExtension(currentFile));
+        chooser.setFileFilter(filter1);
         chooser.setDialogTitle("Save as");
         chooser.setSelectedFile(currentFile);
         if(chooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION)
@@ -708,26 +711,33 @@ public class InterfaceMain
         		try
         		{
         			File newFile = chooser.getSelectedFile();
-        			String newPath = newFile.getAbsolutePath();
-        			if(getFileExtension(newFile).equals(""))
+        			if(getFileExtension(newFile).equals("") || getFileExtension(newFile).equals(getFileExtension(currentFile)))
         			{
-        				 File tempFile = new File(newPath+"."+editFile.getMyFileExtension());
-        				 Files.copy(currentFile, tempFile);
-        				 currentFile = tempFile;
-        				 updateFile();
-        				 newFile.delete();
+	        			String newPath = newFile.getAbsolutePath();
+	        			if(getFileExtension(newFile).equals(""))
+	        			{
+	        				 File tempFile = new File(newPath+"."+editFile.getMyFileExtension());
+	        				 Files.copy(currentFile, tempFile);
+	        				 currentFile = tempFile;
+	        				 updateFile();
+	        				 newFile.delete();
+	        			}
+	        			else
+	        			{
+	        				Files.copy(currentFile, newFile);
+	        				currentFile = newFile;
+	        				updateFile();
+	        			}
+	        			logFile.setCurrentFile(currentFile);
+	        			logFile.initializelLogEditFile();
+	        			addLogFileString();
+	        			logFile.writeToLogEditFile();
         			}
         			else
         			{
-        				Files.copy(currentFile, newFile);
-        				currentFile = newFile;
-        				updateFile();
+        				JOptionPane.showConfirmDialog(null, "The file extension can not be changed.", 
+            					"Error", JOptionPane.CLOSED_OPTION);
         			}
-        			logFile.setCurrentFile(currentFile);
-        			logFile.initializelLogEditFile();
-        			addLogFileString();
-        			logFile.writeToLogEditFile();
-        			
             }
         		catch (Exception ex) 
         		{

@@ -290,7 +290,7 @@ public class FastConvert
 	public String showConvertMessage(String result)
 	{	
 		String message = "";
-		if(result.contains("Usage: PGDSpiderCli"))
+		if(result == null || result.trim().equals("") || result.contains("Usage: PGDSpiderCli") )
 		{
 			message = "ERROR:\nCan't convert the file, please remove all spaces in file's name or try \"convert\" in \"file\" menu.";
 		}
