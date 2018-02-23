@@ -86,6 +86,7 @@ public class InterfaceMain
     private JCheckBox replaceSpaceInColumn;
     private JCheckBox moveColumn;
     private JCheckBox editHeadersFormat;
+    private JCheckBox columnCheckBox;
     
     //variables at checkbox area
     private String replaceData;
@@ -165,6 +166,22 @@ public class InterfaceMain
         replaceSpaceInColumn = new JCheckBox("Edit column");
         moveColumn = new JCheckBox("Move column");
         editHeadersFormat = new JCheckBox("Edit Headers' Format");
+        columnCheckBox = new JCheckBox("Add text");
+        columnCheckBox.addItemListener(new ItemListener() 
+        {
+            @Override
+            public void itemStateChanged(ItemEvent e) 
+            {
+                if(e.getStateChange() == ItemEvent.SELECTED) 
+                {
+                		int option = showAddTextDialog();
+                		if(option != 0)
+                		{
+                			columnCheckBox.setSelected(false);
+                		}
+                }
+            }
+        });
         replaceCheckBox.addItemListener(new ItemListener() 
         {
             @Override
@@ -509,12 +526,13 @@ public class InterfaceMain
         
         //*****************set left side panel(check box, select row, select column)*****************
         JPanel checkboxPanel = new JPanel();
-        checkboxPanel.setLayout(new GridLayout(4, 1));
+        checkboxPanel.setLayout(new GridLayout(5, 1));
         checkboxPanel.setBorder(BorderFactory.createTitledBorder("Select"));
         checkboxPanel.add(replaceCheckBox);
         checkboxPanel.add(replaceSpaceInColumn);
         checkboxPanel.add(moveColumn);
         checkboxPanel.add(editHeadersFormat);
+        checkboxPanel.add(columnCheckBox);
         
         columnControlPanel = new JPanel();
         columnControlPanel.setLayout(new BorderLayout());
@@ -1023,7 +1041,7 @@ public class InterfaceMain
     public int showReplaceSpaceInColumnDialog()
     {
     		int option;
-    		if(selectedChoicesRow.isEmpty())
+    		if(selectedChoicesColumn.isEmpty())
 		{
 	        JTextField selectedHeaderRow = new JTextField();
 	        selectedHeaderRow.setText("1");
@@ -1134,6 +1152,44 @@ public class InterfaceMain
     					"Error", JOptionPane.CLOSED_OPTION);
     		}
         return option;
+    }
+    
+    public int showAddTextDialog()
+    {
+    		int option;
+		if(selectedChoicesColumn.isEmpty())
+		{
+			JTextField inputTextField = new JTextField();
+			JTextField columnTextField = new JTextField();
+			JCheckBox headerCheckBox = new JCheckBox("Is there a header in this column?");
+			Object[] message = {"Add text",inputTextField,"to the end of every cell in column",columnTextField,
+					"(column number)\n\n",headerCheckBox};
+			option = JOptionPane.showConfirmDialog(null, message, "Add text to column", JOptionPane.OK_CANCEL_OPTION);
+			if(option == 0)
+			{
+				try
+				{
+					int columnIndex = Integer.parseInt(columnTextField.getText());
+					if(editFile.addTextToColumn(columnIndex,inputTextField.getText(),headerCheckBox.isSelected()))
+					{
+						option = -1;
+					}
+					
+				}
+				catch(Exception e)
+				{
+					JOptionPane.showConfirmDialog(null, "Column number is not valid!", "Error", JOptionPane.CLOSED_OPTION);
+					option = -1;
+				}
+			}
+		}
+		else
+		{
+			option = -1;
+			JOptionPane.showConfirmDialog(null, "This function can not be used with \"Remove columns\".", 
+					"Error", JOptionPane.CLOSED_OPTION);
+		}
+		return option;
     }
     
     //set log file string for all kinds of functions

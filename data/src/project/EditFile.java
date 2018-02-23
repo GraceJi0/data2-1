@@ -925,6 +925,35 @@ public class EditFile
     		return error;
     }
     
+    public boolean addTextToColumn(int columnIndex, String text, boolean header)
+    {
+    		boolean error = false;
+    		if(columnIndex<=columnNum)
+    		{
+    			int start = 0;
+    			if(header)
+    			{
+    				start = 1;
+    			}
+	    		for(int i = start; i < fileArray.size(); i++)
+	    		{
+	    			if(fileArray.get(i)!= null && columnIndex<fileArray.get(i).size() && fileArray.get(i).get(columnIndex) != null)
+	    			{
+			    		String data = fileArray.get(i).get(columnIndex)+text;
+			    		fileArray.get(i).set(columnIndex,data);
+	    			}
+	    		}
+	    		keepChangedFile = true;
+	    		fileArrayToFileString(ADD_ROW_NUMBER_OPTION);
+    		}
+    		else
+    		{
+    			error = true;
+    			JOptionPane.showConfirmDialog(null,"This column is empty!", "Error", JOptionPane.CLOSED_OPTION); 
+    		}
+    		return error;
+    }
+    
     public void setCurrentFile(File currentFile)
     {
     		this.currentFile = currentFile;
