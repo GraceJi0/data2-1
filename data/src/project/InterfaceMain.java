@@ -83,14 +83,14 @@ public class InterfaceMain
 
     //checkbox variables 
     private JCheckBox replaceCheckBox;
-    private JCheckBox replaceSpaceInHeaders;
+    private JCheckBox replaceSpaceInColumn;
     private JCheckBox moveColumn;
     private JCheckBox editHeadersFormat;
     
     //variables at checkbox area
     private String replaceData;
     private String missingData;
-    private int selectedHeaderRowData;
+    private int selectedColumnData;
     private int moveColumnIndex;
     private int startColumnNumber;
 	private int endColumnNumber;
@@ -162,7 +162,7 @@ public class InterfaceMain
         
         //********************set components in checkbox panel(edit file operations)*******************
         replaceCheckBox = new JCheckBox("Replace Missing Data");
-        replaceSpaceInHeaders = new JCheckBox("Edit headers ");
+        replaceSpaceInColumn = new JCheckBox("Edit column");
         moveColumn = new JCheckBox("Move column");
         editHeadersFormat = new JCheckBox("Edit Headers' Format");
         replaceCheckBox.addItemListener(new ItemListener() 
@@ -185,17 +185,17 @@ public class InterfaceMain
                 	};
             }
         });
-        replaceSpaceInHeaders.addItemListener(new ItemListener() 
+        replaceSpaceInColumn.addItemListener(new ItemListener() 
         {
             @Override
             public void itemStateChanged(ItemEvent e) 
             {
                 if(e.getStateChange() == ItemEvent.SELECTED) 
                 {
-	                		int option = showReplaceSpaceInHeaderDialog();
+	                		int option = showReplaceSpaceInColumnDialog();
 	                		if(option != 0)
 	                		{
-	                			replaceSpaceInHeaders.setSelected(false);
+	                			replaceSpaceInColumn.setSelected(false);
 	                		}
                 };
             }
@@ -265,7 +265,7 @@ public class InterfaceMain
         {
             public void actionPerformed(ActionEvent ae) 
             {
-            		if(!moveColumn.isSelected())
+            		if(!moveColumn.isSelected() && !replaceSpaceInColumn.isSelected())
             		{
 	            		int columnStart;
 	            		int columnEnd;
@@ -291,7 +291,7 @@ public class InterfaceMain
             		}
             		else
             		{
-            			JOptionPane.showConfirmDialog(null, "This function can not be used with \"Move columns\".", 
+            			JOptionPane.showConfirmDialog(null, "This function can not be used with \"Move columns\" and \"Edit column\".", 
             					"Error", JOptionPane.CLOSED_OPTION);
             			columnStartTextField.setText("Integer");
             			columnEndTextField.setText("Integer");
@@ -368,7 +368,7 @@ public class InterfaceMain
         {
             public void actionPerformed(ActionEvent ae) 
             {
-            		if(!replaceSpaceInHeaders.isSelected() && !editHeadersFormat.isSelected())
+            		if(!editHeadersFormat.isSelected())
             		{
 	            		int rowStart;
 	            		int rowEnd;
@@ -394,7 +394,7 @@ public class InterfaceMain
             		}
             		else
             		{
-            			JOptionPane.showConfirmDialog(null, "This function can not be used with \"Edit headers\" and \"Edit headers' format\".", 
+            			JOptionPane.showConfirmDialog(null, "This function can not be used with and \"Edit headers' format\".", 
             					"Error", JOptionPane.CLOSED_OPTION);
             			rowStartTextField.setText("Integer");
             			rowEndTextField.setText("Integer");
@@ -512,7 +512,7 @@ public class InterfaceMain
         checkboxPanel.setLayout(new GridLayout(4, 1));
         checkboxPanel.setBorder(BorderFactory.createTitledBorder("Select"));
         checkboxPanel.add(replaceCheckBox);
-        checkboxPanel.add(replaceSpaceInHeaders);
+        checkboxPanel.add(replaceSpaceInColumn);
         checkboxPanel.add(moveColumn);
         checkboxPanel.add(editHeadersFormat);
         
@@ -691,7 +691,7 @@ public class InterfaceMain
         rowStartTextField.setText("Integer");
         rowEndTextField.setText("Integer");
         replaceCheckBox.setSelected(false);
-        replaceSpaceInHeaders.setSelected(false);
+        replaceSpaceInColumn.setSelected(false);
         editHeadersFormat.setSelected(false);
         moveColumn.setSelected(false);
         editFile.setMissingCh(""); //clear missing data and replace data
@@ -828,7 +828,7 @@ public class InterfaceMain
             {
                 if(e.getStateChange() == ItemEvent.SELECTED) 
                 {
-                		if(!moveColumn.isSelected())
+                		if(!replaceSpaceInColumn.isSelected() && !moveColumn.isSelected())
                 		{
 	                    String sColumn = columnCombo.getSelectedItem().toString();
 	                    if(selectedChoicesColumn.contains(sColumn))
@@ -844,7 +844,7 @@ public class InterfaceMain
                 		}
                 		else
                 		{
-                			JOptionPane.showConfirmDialog(null, "This function can not be used with \"Move columns\".", 
+                			JOptionPane.showConfirmDialog(null, "This function can not be used with \"Move columns\" and \"Edit column\".", 
                 					"Error", JOptionPane.CLOSED_OPTION);
                 		}
                 }
@@ -869,7 +869,7 @@ public class InterfaceMain
             {
                 if(e.getStateChange() == ItemEvent.SELECTED) 
                 {
-                		if(!replaceSpaceInHeaders.isSelected() && !editHeadersFormat.isSelected())
+                		if(!editHeadersFormat.isSelected())
                 		{
 	                    String sRow = rowCombo.getSelectedItem().toString();
 	                    if(selectedChoicesRow.contains(sRow))
@@ -885,7 +885,7 @@ public class InterfaceMain
                 		}
                 		else
                 		{
-                			JOptionPane.showConfirmDialog(null, "This function can not be used with \"Edit headers\" and \"Edit headers' format\".", 
+                			JOptionPane.showConfirmDialog(null, "This function can not be used with \"Edit headers' format\".", 
                 					"Error", JOptionPane.CLOSED_OPTION);
                 		}
                 }
@@ -951,9 +951,9 @@ public class InterfaceMain
 			editFile.setReplaceCh(replaceData);
 			editFile.replaceMissingData();
 		}
-		if(replaceSpaceInHeaders.isSelected())
+		if(replaceSpaceInColumn.isSelected())
 		{
-			editFile.replaceSpaceInHeader(selectedHeaderRowData);
+			editFile.replaceSpaceInColumn(selectedColumnData);
 		}
 		if(moveColumn.isSelected())
 		{
@@ -991,7 +991,7 @@ public class InterfaceMain
 	        		JOptionPane.showConfirmDialog(null,
 	    				"Can't replace the missing data!\nPlease make sure it's not empty and there's no space, coma and semicolon.", 
 	                    "Error", JOptionPane.CLOSED_OPTION);
-		        		option = -1;
+		        	option = -1;
 	        }
         }
         return option;
@@ -1020,19 +1020,19 @@ public class InterfaceMain
     }
     
     //replace the spaces in a specific header
-    public int showReplaceSpaceInHeaderDialog()
+    public int showReplaceSpaceInColumnDialog()
     {
     		int option;
     		if(selectedChoicesRow.isEmpty())
 		{
 	        JTextField selectedHeaderRow = new JTextField();
 	        selectedHeaderRow.setText("1");
-	        Object[] message = {"Replace spaces in header at row", selectedHeaderRow, "(row number, no space)","\nwith underscores"};
+	        Object[] message = {"Replace spaces in column ", selectedHeaderRow, "(column number, no space)","\nwith underscores"};
 	        option = JOptionPane.showConfirmDialog(null, message, "Headers", JOptionPane.OK_CANCEL_OPTION);
 	        if(option == 0)
 	        {
-	        		selectedHeaderRowData = Integer.parseInt(selectedHeaderRow.getText().trim())-1;
-	        		if(!(selectedHeaderRowData<rowNum)||(editFile.getFileArray().get(selectedHeaderRowData)== null))
+	        		selectedColumnData = Integer.parseInt(selectedHeaderRow.getText().trim());
+	        		if(!(selectedColumnData<rowNum)||(editFile.getFileArray().get(selectedColumnData)== null))
 	        		{
 	        			option = -1;
 	        		}
@@ -1145,9 +1145,9 @@ public class InterfaceMain
     		{
     			logFile.logMissingData(missingData, replaceData);
     		}
-    	    if(replaceSpaceInHeaders.isSelected())
+    	    if(replaceSpaceInColumn.isSelected())
     	    {
-    	    		logFile.logEditHeaders(selectedHeaderRowData);
+    	    		logFile.logEditColumn(selectedColumnData);
     	    }
     	    if(moveColumn.isSelected())
     	    {

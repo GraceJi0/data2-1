@@ -71,21 +71,21 @@ public class FastConvert
 	{
 		String inputPath = currentFile.getAbsolutePath();
 		String outputPath = currentFile.getParentFile().getAbsolutePath()+"/GENEPOP"+currentFile.getName();
-		if(inputPath.contains(" "))
+		/*if(inputPath.contains(" "))
 		{
 			inputPath = "\""+inputPath+"\"";
 		}
 		if(outputPath.contains(" "))
 		{
 			outputPath = "\""+outputPath+"\"";
-		}
+		}*/
 		String spidPath = currentFile.getParentFile().getAbsolutePath()+"/PGDSpiderSpidFile.spid";
 		String currentFilePath = new File(".").getAbsolutePath();
 		String PGDSpiderPath = currentFilePath.substring(0, currentFilePath.length()-2)+"/PGDSpider_2.1.1.3/PGDSpider2-cli.jar";
 		
-		/*inputPath = inputPath.replace(" ", "\\ ");
+		inputPath = inputPath.replace(" ", "\\ ");
 		outputPath = outputPath.replace(" ", "\\ ");
-		spidPath = spidPath.replace(" ", "\\ ");*/
+		spidPath = spidPath.replace(" ", "\\ ");
 		
 		int option = checkFileFormat();
 		if(markerNumInt == -1)

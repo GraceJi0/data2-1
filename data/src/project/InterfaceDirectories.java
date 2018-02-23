@@ -487,8 +487,8 @@ public class InterfaceDirectories
                 editFile.setEnabled(false);
             }
             findMetaData(file);
-            if(currentFile.isDirectory() || (extension.equals("zip")||extension.equals("tar") ||
-            		extension.equals("gz"))==false)
+            if(currentFile.isDirectory() || (extension.equals("zip")||extension.equals("tar") /*||
+            		extension.equals("gz")*/)==false)
             {
                 unzipFile.setEnabled(false); 
             }
@@ -589,22 +589,6 @@ public class InterfaceDirectories
         return found;
     }
     
-    public void deleteDrectoriesAndFiles()
-    {
-        if(currentFile.isDirectory())
-        {
-            File[] contents = currentFile.listFiles();
-            if (contents != null) 
-            {
-                for (File f : contents) 
-                {
-                    f.delete();
-                }
-            }
-        }
-        currentFile.delete();
-    }
-    
     public void deleteDrectoriesAndFiles(File theFile)
     {
         if(theFile!=null)
@@ -617,7 +601,6 @@ public class InterfaceDirectories
                 		deleteDrectoriesAndFiles(f);
                 }
             }
-            System.out.println(theFile.getName());
             theFile.delete();
         }
     }

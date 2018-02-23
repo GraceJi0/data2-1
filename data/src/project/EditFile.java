@@ -777,21 +777,20 @@ public class EditFile
     }
     
     //*********replace spaces in headers with underscores***********
-    public boolean replaceSpaceInHeader(int headerPosition)
+    public boolean replaceSpaceInColumn(int columnPosition)
     {
     		boolean error = false;
-    		if((headerPosition<rowNum)&&(fileArray.get(headerPosition)!= null))
+    		if(columnPosition<=columnNum)
     		{
-	    		for(int i = 0; i < fileArray.get(headerPosition).size(); i++)
+	    		for(int i = 0; i < fileArray.size(); i++)
 	    		{
-	    			String currentHeader = fileArray.get(headerPosition).get(i);
-	    			for(int j = 0; j < currentHeader.length(); j++)
+	    			if(fileArray.get(i)!= null)
 	    			{
-	    				if(currentHeader.charAt(j) == ' ')
+	    				if(columnPosition<fileArray.get(i).size() && fileArray.get(i).get(columnPosition) != null)
 	    				{
-	    					fileArray.get(headerPosition).set(i, 
-	    							currentHeader.substring(0, j)+"_"+currentHeader.substring(j+1,currentHeader.length()));
-	    					currentHeader = fileArray.get(headerPosition).get(i);
+			    			String data = fileArray.get(i).get(columnPosition).replaceAll(" ", "_");
+			    			fileArray.get(i).set(columnPosition,data);
+			    			System.out.println("----------"+i+data);
 	    				}
 	    			}
 	    		}
@@ -801,7 +800,7 @@ public class EditFile
     		else
     		{
     			error = true;
-    			JOptionPane.showConfirmDialog(null,"This row is empty!", "Error", JOptionPane.CLOSED_OPTION); 
+    			JOptionPane.showConfirmDialog(null,"This column is empty!", "Error", JOptionPane.CLOSED_OPTION); 
     		}
     		return error;
     }

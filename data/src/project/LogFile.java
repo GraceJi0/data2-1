@@ -174,9 +174,9 @@ public class LogFile
 		return editFileString;
 	}
 	
-	public String logEditHeaders(int rowIndex)
+	public String logEditColumn(int columnIndex)
 	{
-		String message = "\nReplace all spaces in headers(row"+ rowIndex +") with underscores";
+		String message = "\nReplace all spaces in column "+ columnIndex +" with underscores";
 		editFileString +=message;
 		return editFileString;
 	}
