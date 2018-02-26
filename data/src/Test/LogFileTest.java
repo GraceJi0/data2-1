@@ -56,6 +56,6 @@ public class LogFileTest {
 	@Test
 	public void testLogEditHeaders()
 	{
-		assertTrue(!(logFile.logEditHeaders(0)).equals(""));
+		assertTrue(!(logFile.logEditColumn(0)).equals(""));
 	}
 }

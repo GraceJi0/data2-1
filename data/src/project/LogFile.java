@@ -174,9 +174,9 @@ public class LogFile
 		return editFileString;
 	}
 	
-	public String logEditHeaders(int rowIndex)
+	public String logEditColumn(int columnIndex)
 	{
-		String message = "\nReplace all spaces in headers(row"+ rowIndex +") with underscores";
+		String message = "\nReplace all spaces in column "+ columnIndex +" with underscores";
 		editFileString +=message;
 		return editFileString;
 	}
@@ -184,6 +184,13 @@ public class LogFile
 	public String logEditHeadersFormat(int columnStart, int columnEnd, int row)
 	{
 		String message = "\nDelete every second cell frome column "+columnStart+" to "+columnEnd+" at row "+ row;
+		editFileString +=message;
+		return editFileString;
+	}
+	
+	public String logAddText(int columnIndex, String text)
+	{
+		String message = "\nAdd \""+text+"\" to the end of every cell in column " + columnIndex;
 		editFileString +=message;
 		return editFileString;
 	}

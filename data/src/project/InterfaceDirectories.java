@@ -14,6 +14,9 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.event.*;
 import javax.swing.filechooser.FileSystemView;
 import javax.swing.tree.*;
+
+import org.apache.commons.compress.archivers.ArchiveException;
+
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -275,7 +278,7 @@ public class InterfaceDirectories
             editFile = new JButton("Editor");
             editFile.setSize(new Dimension(100, 50)); 
             editFile.addActionListener(new ActionListener()
-                                           {
+            {
                 public void actionPerformed(ActionEvent ae)
                 {
                     JFrame frame = new InterfaceMain(currentFile,gui,logFile).getMainFrame();
@@ -295,10 +298,23 @@ public class InterfaceDirectories
                                             {
                 public void actionPerformed(ActionEvent ae) 
                 {
+                		Decompress decompress = new Decompress();
                     String zipFile = currentFile.getAbsolutePath();
                     String destinationFolder = currentFile.getParentFile().getAbsolutePath();
-                    unzip(destinationFolder,zipFile);
+                    if(getMyFileExtension().equals("zip"))
+                    {
+                    		decompress.unzip(destinationFolder,zipFile);
+                    }
+                    else if(getMyFileExtension().equals("tar"))
+                    {
+						decompress.unTar(currentFile, destinationFolder);
+                    }
+                    else if(getMyFileExtension().equals("gz"))
+                    {
+                    		decompress.decompressGzip(currentFile,destinationFolder);
+                    }
                     showChildren(currentNode);
+                    gui.repaint();
                 }
             });
             toolBar.add(unzipFile);
@@ -312,7 +328,7 @@ public class InterfaceDirectories
                 {
                 		logFile.setCurrentFile(currentFile);
                 		logFile.writeToLogDeleteFile();
-                    deleteDrectoriesAndFiles();
+                    deleteDrectoriesAndFiles(currentFile);
                     showChildren(currentNode);
                     gui.repaint();
                 }
@@ -344,6 +360,15 @@ public class InterfaceDirectories
             
             gui.add(simpleOutput, BorderLayout.SOUTH);
             mainFrame.add(gui);
+            mainFrame.addWindowListener(new WindowAdapter() 
+            { 
+                @Override
+                public void windowActivated(WindowEvent e)
+                {
+	                showChildren(currentNode);
+	               	gui.repaint();
+                }
+            });
         }
         return gui;
     }
@@ -462,15 +487,11 @@ public class InterfaceDirectories
                 editFile.setEnabled(false);
             }
             findMetaData(file);
-            if(currentFile.isDirectory() || !extension.equals("zip"))
+            if(currentFile.isDirectory() || (extension.equals("zip")||extension.equals("tar") /*||
+            		extension.equals("gz")*/)==false)
             {
                 unzipFile.setEnabled(false); 
             }
-            /*if(currentFile.isDirectory() || (extension.equals("zip")||
-            		extension.equals("gz") || extension.equals("tar"))==false)
-            {
-                unzipFile.setEnabled(false); 
-            }*/
         }
         gui.repaint();
     }
@@ -568,76 +589,20 @@ public class InterfaceDirectories
         return found;
     }
     
-    private void unzip(String destinationFolder, String zipFile)
+    public void deleteDrectoriesAndFiles(File theFile)
     {
-        File directory = new File(destinationFolder);
-        if(!directory.exists()) 
+        if(theFile!=null)
         {
-            directory.mkdirs();
-        }
-        byte[] buffer = new byte[100000];
-        try 
-        {
-            FileInputStream fInput = new FileInputStream(zipFile);
-            	ZipInputStream zipInput = new ZipInputStream(fInput);
-            
-            ZipEntry entry = zipInput.getNextEntry();
-            
-            while(entry != null)
-            {
-                String entryName = entry.getName();
-                File file = new File(destinationFolder + File.separator + entryName);
-                
-                if(entry.isDirectory()) 
-                {
-                    File newDir = new File(file.getAbsolutePath());
-                    if(!newDir.exists()) 
-                    {
-                        boolean success = newDir.mkdirs();
-                        if(success == false) 
-                        {
-                            System.out.println("Problem creating Folder");
-                        }
-                    }
-                }
-                else 
-                {
-                    FileOutputStream fOutput = new FileOutputStream(file);
-                    int count = 0;
-                    while ((count = zipInput.read(buffer)) > 0) 
-                    {
-                        fOutput.write(buffer, 0, count);
-                    }
-                    fOutput.close();
-                }
-                zipInput.closeEntry();
-                entry = zipInput.getNextEntry();
-            }
-            zipInput.closeEntry();
-            zipInput.close();
-            fInput.close();
-        } 
-        catch (IOException e) 
-        {
-            JOptionPane.showConfirmDialog(null, e.getMessage(), "Can't decomprass the file!", JOptionPane.CLOSED_OPTION); 
-            e.printStackTrace();
-        }
-    }
-    
-    public void deleteDrectoriesAndFiles()
-    {
-        if(currentFile.isDirectory())
-        {
-            File[] contents = currentFile.listFiles();
+            File[] contents = theFile.listFiles();
             if (contents != null) 
             {
                 for (File f : contents) 
                 {
-                    f.delete();
+                		deleteDrectoriesAndFiles(f);
                 }
             }
+            theFile.delete();
         }
-        currentFile.delete();
     }
     
     public String getMyFileExtension()

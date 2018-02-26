@@ -59,9 +59,9 @@ public class EditFileTest {
 	@Test
 	public void testReplaceSpaceInHeader()
 	{
-		assertTrue(editFile1.replaceSpaceInHeader(0));
-		assertTrue(editFile2.replaceSpaceInHeader(0));
-		assertTrue(editFile3.replaceSpaceInHeader(0));
+		assertTrue(editFile1.replaceSpaceInColumn(0));
+		assertTrue(editFile2.replaceSpaceInColumn(0));
+		assertTrue(editFile3.replaceSpaceInColumn(0));
 	}
 	
 	@Test
