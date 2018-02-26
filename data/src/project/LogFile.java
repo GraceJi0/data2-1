@@ -188,6 +188,13 @@ public class LogFile
 		return editFileString;
 	}
 	
+	public String logAddText(int columnIndex, String text)
+	{
+		String message = "\nAdd \""+text+"\" to the end of every cell in column " + columnIndex;
+		editFileString +=message;
+		return editFileString;
+	}
+	
 	public String logFastConvert(String content)
 	{
 		return editFileString += content;

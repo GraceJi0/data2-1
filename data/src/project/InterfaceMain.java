@@ -96,6 +96,8 @@ public class InterfaceMain
     private int startColumnNumber;
 	private int endColumnNumber;
 	private int rowNumber;
+	private int addTextColumnIndex;
+	private String addTextString;
     
     private String theSheetName;
     
@@ -846,7 +848,7 @@ public class InterfaceMain
             {
                 if(e.getStateChange() == ItemEvent.SELECTED) 
                 {
-                		if(!replaceSpaceInColumn.isSelected() && !moveColumn.isSelected())
+                		if(!replaceSpaceInColumn.isSelected() && !moveColumn.isSelected() && !columnCheckBox.isSelected())
                 		{
 	                    String sColumn = columnCombo.getSelectedItem().toString();
 	                    if(selectedChoicesColumn.contains(sColumn))
@@ -862,7 +864,7 @@ public class InterfaceMain
                 		}
                 		else
                 		{
-                			JOptionPane.showConfirmDialog(null, "This function can not be used with \"Move columns\" and \"Edit column\".", 
+                			JOptionPane.showConfirmDialog(null, "This function can not be used with \"Move columns\", \"Edit column\" and \"Add text\".", 
                 					"Error", JOptionPane.CLOSED_OPTION);
                 		}
                 }
@@ -1169,8 +1171,9 @@ public class InterfaceMain
 			{
 				try
 				{
-					int columnIndex = Integer.parseInt(columnTextField.getText());
-					if(editFile.addTextToColumn(columnIndex,inputTextField.getText(),headerCheckBox.isSelected()))
+					addTextColumnIndex = Integer.parseInt(columnTextField.getText());
+					addTextString = inputTextField.getText();
+					if(editFile.addTextToColumn(addTextColumnIndex,addTextString,headerCheckBox.isSelected()))
 					{
 						option = -1;
 					}
@@ -1212,6 +1215,10 @@ public class InterfaceMain
     	    if(editHeadersFormat.isSelected())
     	    {
     	    		logFile.logEditHeadersFormat(startColumnNumber, endColumnNumber, rowNumber);
+    	    }
+    	    if(columnCheckBox.isSelected())
+    	    {
+    	    		logFile.logAddText(addTextColumnIndex, addTextString);
     	    }
     }
     
