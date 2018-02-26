@@ -98,6 +98,7 @@ public class InterfaceMain
 	private int rowNumber;
 	private int addTextColumnIndex;
 	private String addTextString;
+	private JCheckBox headerCheckBox;
     
     private String theSheetName;
     
@@ -714,6 +715,7 @@ public class InterfaceMain
         replaceSpaceInColumn.setSelected(false);
         editHeadersFormat.setSelected(false);
         moveColumn.setSelected(false);
+        columnCheckBox.setSelected(false);
         editFile.setMissingCh(""); //clear missing data and replace data
 		editFile.setReplaceCh("");
     }
@@ -979,6 +981,10 @@ public class InterfaceMain
 		{
 			editFile.moveColumn(moveColumnIndex);
 		}
+		if(columnCheckBox.isSelected())
+		{
+			editFile.addTextToColumn(addTextColumnIndex, addTextString, headerCheckBox.isSelected());
+		}
 		if(!selectedChoicesRow.isEmpty())
 		{
 			editFile.deleteRow(selectedChoicesRow);
@@ -1051,10 +1057,17 @@ public class InterfaceMain
 	        option = JOptionPane.showConfirmDialog(null, message, "Headers", JOptionPane.OK_CANCEL_OPTION);
 	        if(option == 0)
 	        {
-	        		selectedColumnData = Integer.parseInt(selectedHeaderRow.getText().trim());
-	        		if(!(selectedColumnData<rowNum)||(editFile.getFileArray().get(selectedColumnData)== null))
+	        		try
 	        		{
-	        			option = -1;
+		        		selectedColumnData = Integer.parseInt(selectedHeaderRow.getText().trim());
+		        		if(!(selectedColumnData<rowNum)||(editFile.getFileArray().get(selectedColumnData)== null))
+		        		{
+		        			option = -1;
+		        		}
+	        		}
+	        		catch(Exception e)
+	        		{
+	        			JOptionPane.showConfirmDialog(null, "The column index is not valid", "Error", JOptionPane.CLOSED_OPTION);
 	        		}
 	        }
 	        else
@@ -1082,12 +1095,20 @@ public class InterfaceMain
 	        option = JOptionPane.showConfirmDialog(null, message, "Move Cloumn", JOptionPane.OK_CANCEL_OPTION);
 	        if(option == 0)
 	        {	
-	        		moveColumnIndex = Integer.parseInt(selectedColumn.getText().trim());
-	        		if(moveColumnIndex>columnNum)
+	        		try
 	        		{
-	        			JOptionPane.showConfirmDialog(null,
-	    	    				"The column number is not valid!", 
-	    	                    "Error", JOptionPane.CLOSED_OPTION);
+		        		moveColumnIndex = Integer.parseInt(selectedColumn.getText().trim());
+		        		if(moveColumnIndex>columnNum)
+		        		{
+		        			JOptionPane.showConfirmDialog(null,
+		    	    				"The column number is not valid!", 
+		    	                    "Error", JOptionPane.CLOSED_OPTION);
+		        			option = -1;
+		        		}
+	        		}
+	        		catch(Exception e)
+	        		{
+	        			JOptionPane.showConfirmDialog(null,"The column number is not valid!", "Error", JOptionPane.CLOSED_OPTION);
 	        			option = -1;
 	        		}
 	        }
@@ -1124,20 +1145,29 @@ public class InterfaceMain
 	        		String theRowNumberString = theRowNumber.getText();
 	        		if(!startColumnString.equals("") && !endColumnString.equals("") && !theRowNumberString.equals(""))
 	        		{
-		        		startColumnNumber = Integer.parseInt(startColumnString);
-		        		endColumnNumber = Integer.parseInt(endColumnString);
-		        		rowNumber = Integer.parseInt(theRowNumberString);
-		        		if(startColumnNumber>=1 && startColumnNumber<columnNum && endColumnNumber>=1 && endColumnNumber<columnNum 
-		        				&& rowNumber <= rowNum && endColumnNumber-startColumnNumber>0)
-		        		{
-		        			editFile.editHeadersFormat(startColumnNumber, endColumnNumber, rowNumber);
-			        }
-		        		else
-		        		{
-		        			JOptionPane.showConfirmDialog(null,"The column number or row number is not valid!", 
+	        			try
+	        			{
+			        		startColumnNumber = Integer.parseInt(startColumnString);
+			        		endColumnNumber = Integer.parseInt(endColumnString);
+			        		rowNumber = Integer.parseInt(theRowNumberString);
+			        		if(startColumnNumber>=1 && startColumnNumber<columnNum && endColumnNumber>=1 && endColumnNumber<columnNum 
+			        				&& rowNumber <= rowNum && endColumnNumber-startColumnNumber>0)
+			        		{
+			        			editFile.editHeadersFormat(startColumnNumber, endColumnNumber, rowNumber);
+				        }
+			        		else
+			        		{
+			        			JOptionPane.showConfirmDialog(null,"The column number or row number is not valid!", 
+			    	                    "Error", JOptionPane.CLOSED_OPTION);
+			    		        	option = -1;
+			        		}
+	        			}
+	        			catch(Exception e)
+	        			{
+	        				JOptionPane.showConfirmDialog(null,"The column number or row number is not valid!", 
 		    	                    "Error", JOptionPane.CLOSED_OPTION);
 		    		        	option = -1;
-		        		}
+	        			}
 	        		}
 	        		else
 	        		{
@@ -1156,6 +1186,7 @@ public class InterfaceMain
         return option;
     }
     
+    //add the given string to the end of every cell in a specific column
     public int showAddTextDialog()
     {
     		int option;
@@ -1163,7 +1194,7 @@ public class InterfaceMain
 		{
 			JTextField inputTextField = new JTextField();
 			JTextField columnTextField = new JTextField();
-			JCheckBox headerCheckBox = new JCheckBox("Is there a header in this column?");
+			headerCheckBox = new JCheckBox("Is there a header in this column?");
 			Object[] message = {"Add text",inputTextField,"to the end of every cell in column",columnTextField,
 					"(column number)\n\n",headerCheckBox};
 			option = JOptionPane.showConfirmDialog(null, message, "Add text to column", JOptionPane.OK_CANCEL_OPTION);
@@ -1173,10 +1204,15 @@ public class InterfaceMain
 				{
 					addTextColumnIndex = Integer.parseInt(columnTextField.getText());
 					addTextString = inputTextField.getText();
-					if(editFile.addTextToColumn(addTextColumnIndex,addTextString,headerCheckBox.isSelected()))
+					if(addTextColumnIndex>editFile.getColumnNum())
 					{
+		    				JOptionPane.showConfirmDialog(null,"This column is empty!", "Error", JOptionPane.CLOSED_OPTION); 
 						option = -1;
 					}
+					/*if(editFile.addTextToColumn(addTextColumnIndex,addTextString,headerCheckBox.isSelected()))
+					{
+						option = -1;
+					}*/
 					
 				}
 				catch(Exception e)
@@ -1222,6 +1258,7 @@ public class InterfaceMain
     	    }
     }
     
+    //get the given file's extension
     public String getFileExtension(File theFile)
     {
     		String extenssion = "";

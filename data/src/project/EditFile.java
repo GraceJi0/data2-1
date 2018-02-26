@@ -928,8 +928,7 @@ public class EditFile
     public boolean addTextToColumn(int columnIndex, String text, boolean header)
     {
     		boolean error = false;
-    		if(columnIndex<=columnNum)
-    		{
+    	
     			int start = 0;
     			if(header)
     			{
@@ -945,12 +944,6 @@ public class EditFile
 	    		}
 	    		keepChangedFile = true;
 	    		fileArrayToFileString(ADD_ROW_NUMBER_OPTION);
-    		}
-    		else
-    		{
-    			error = true;
-    			JOptionPane.showConfirmDialog(null,"This column is empty!", "Error", JOptionPane.CLOSED_OPTION); 
-    		}
     		return error;
     }
     
