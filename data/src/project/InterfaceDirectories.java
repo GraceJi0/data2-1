@@ -3,9 +3,7 @@ package project;
 import java.awt.event.*;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import javax.swing.*;
@@ -14,12 +12,7 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.event.*;
 import javax.swing.filechooser.FileSystemView;
 import javax.swing.tree.*;
-
-import org.apache.commons.compress.archivers.ArchiveException;
-
 import java.util.List;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
 import java.awt.*;
 
 public class InterfaceDirectories 
@@ -321,9 +314,7 @@ public class InterfaceDirectories
                     {
                     		decompress.decompressGzip(currentFile,destinationFolder);
                     }
-                    showChildren(currentNode);
-                    gui.repaint();
-                    updateFileTree();
+                    updateFileTreeAndTable();
                 }
             });
             toolBar.add(unzipFile);
@@ -338,9 +329,7 @@ public class InterfaceDirectories
                 		logFile.setCurrentFile(currentFile);
                 		logFile.writeToLogDeleteFile();
                     deleteDrectoriesAndFiles(currentFile);
-                    showChildren(currentNode);
-                    gui.repaint();
-                    updateFileTree();
+                    updateFileTreeAndTable();
                 }
             });
             toolBar.add(deleteBtn);
@@ -375,8 +364,7 @@ public class InterfaceDirectories
                 @Override
                 public void windowActivated(WindowEvent e)
                 {
-	                showChildren(currentNode);
-	               	gui.repaint();
+                		updateFileTreeAndTable();
                 }
             });
         }
@@ -685,12 +673,15 @@ public class InterfaceDirectories
                JOptionPane.CLOSED_OPTION, -1, null, closeMessage, null);
     }
     
-    public void updateFileTree()
-    {   
-        currentNode.removeAllChildren();
-        showChildren(currentNode);
-        treeModel.reload(currentNode);   
-        treeScroll.repaint();
+    public void updateFileTreeAndTable()
+    {     
+    		if(!currentNode.toString().equals("/")) //if the path is empty, that means we are first time to open the program, no need to refresh gui
+    		{
+	        currentNode.removeAllChildren();
+	        showChildren(currentNode);
+	        treeModel.reload(currentNode);
+	        gui.repaint();
+    		}
     }
     
     public JFrame getMainFrame()
