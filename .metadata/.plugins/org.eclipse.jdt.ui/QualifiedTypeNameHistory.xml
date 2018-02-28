@@ -1,8 +1,41 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="java.io.InputStream"/>
 <fullyQualifiedTypeName name="java.io.FileWriter"/>
 <fullyQualifiedTypeName name="javax.swing.plaf.FileChooserUI"/>
 <fullyQualifiedTypeName name="java.lang.reflect.Method"/>
+<fullyQualifiedTypeName name="java.awt.Image"/>
+<fullyQualifiedTypeName name="javax.swing.ImageIcon"/>
+<fullyQualifiedTypeName name="javax.swing.JOptionPane"/>
+<fullyQualifiedTypeName name="javax.swing.JFrame"/>
+<fullyQualifiedTypeName name="javax.swing.JPanel"/>
+<fullyQualifiedTypeName name="javax.swing.JTextArea"/>
+<fullyQualifiedTypeName name="javax.swing.JScrollPane"/>
+<fullyQualifiedTypeName name="javax.swing.JButton"/>
+<fullyQualifiedTypeName name="java.awt.GridLayout"/>
+<fullyQualifiedTypeName name="javax.swing.JLabel"/>
+<fullyQualifiedTypeName name="java.awt.BorderLayout"/>
+<fullyQualifiedTypeName name="javax.swing.border.EmptyBorder"/>
+<fullyQualifiedTypeName name="java.awt.FlowLayout"/>
+<fullyQualifiedTypeName name="java.io.FileInputStream"/>
+<fullyQualifiedTypeName name="java.io.File"/>
+<fullyQualifiedTypeName name="org.apache.commons.compress.archivers.ArchiveStreamFactory"/>
+<fullyQualifiedTypeName name="org.apache.commons.compress.archivers.ArchiveInputStream"/>
+<fullyQualifiedTypeName name="java.util.zip.ZipEntry"/>
+<fullyQualifiedTypeName name="java.io.FileOutputStream"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="java.util.LinkedList"/>
+<fullyQualifiedTypeName name="org.apache.commons.compress.archivers.tar.TarArchiveInputStream"/>
+<fullyQualifiedTypeName name="org.apache.commons.compress.archivers.tar.TarArchiveEntry"/>
+<fullyQualifiedTypeName name="org.apache.commons.compress.utils.IOUtils"/>
+<fullyQualifiedTypeName name="java.io.OutputStream"/>
+<fullyQualifiedTypeName name="project.FastConvert"/>
+<fullyQualifiedTypeName name="java.io.FileFilter"/>
+<fullyQualifiedTypeName name="javax.swing.filechooser.FileFilter"/>
+<fullyQualifiedTypeName name="java.util.zip.GZIPInputStream"/>
+<fullyQualifiedTypeName name="org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream"/>
+<fullyQualifiedTypeName name="org.apache.commons.compress.archivers.ArchiveEntry"/>
+<fullyQualifiedTypeName name="java.io.InputStream"/>
+<fullyQualifiedTypeName name="java.io.BufferedInputStream"/>
 <fullyQualifiedTypeName name="com.google.common.io.Files"/>
+<fullyQualifiedTypeName name="org.apache.commons.compress.archivers.tar.TarArchiveOutputStream"/>
 </qualifiedTypeNameHistroy>
