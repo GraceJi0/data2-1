@@ -292,11 +292,11 @@ public class FastConvert
 		String message = "";
 		if(result == null || result.trim().equals("") || result.contains("Usage: PGDSpiderCli") )
 		{
-			message = "ERROR:\nCan't convert the file, please remove all spaces in file's name or try \"convert\" in \"file\" menu.";
+			message = "ERROR: \nCan't convert the file, please remove all spaces in file's name or try \"convert\" in \"file\" menu.";
 		}
 		else if(result.contains("ERROR") || result.contains("Error"))
 		{
-			message = "ERROR:\nThere're errors when converting, please check the file's format and type.";
+			message = "ERROR: \nThere're errors when converting, please check the file's format and type.";
 		}
 		else
 		{

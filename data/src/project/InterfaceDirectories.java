@@ -648,7 +648,7 @@ public class InterfaceDirectories
 				if(!logDeleteFilePath.equals(""))
 				{
 					logDeleteBtn.setText("logDelete.txt");
-					logDeleteBtn.setIcon(new ImageIcon("checkmark.png"));
+					logDeleteBtn.setIcon(new ImageIcon("/checkmark.png"));
 				}
 			}
     		});
@@ -663,7 +663,7 @@ public class InterfaceDirectories
 				if(!logChangesFilePath.equals(""))
 				{
 					logChangeBtn.setText("logEdit.txt");
-					logChangeBtn.setIcon(new ImageIcon("checkmark.png"));
+					logChangeBtn.setIcon(new ImageIcon("/checkmark.png"));
 				}
 			}
     		});
