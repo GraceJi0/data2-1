@@ -36,7 +36,7 @@ public class FileTreeCellRenderer extends DefaultTreeCellRenderer {
         File file = (File)node.getUserObject();
         label.setIcon(fileSystemView.getSystemIcon(file));
         label.setText(fileSystemView.getSystemDisplayName(file));
-        label.setToolTipText(file.getPath());
+        //label.setToolTipText(file.getPath());
         
         if (selected) 
         {

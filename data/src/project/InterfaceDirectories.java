@@ -3,9 +3,7 @@ package project;
 import java.awt.event.*;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import javax.swing.*;
@@ -14,12 +12,7 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.event.*;
 import javax.swing.filechooser.FileSystemView;
 import javax.swing.tree.*;
-
-import org.apache.commons.compress.archivers.ArchiveException;
-
 import java.util.List;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
 import java.awt.*;
 
 public class InterfaceDirectories 
@@ -36,6 +29,10 @@ public class InterfaceDirectories
     private JPanel gui;
     private JTree tree;
     private DefaultTreeModel treeModel;
+    private JScrollPane treeScroll;
+    
+    private JSplitPane splitPane;
+    private JPanel fileView;
     
     /** Directory listing */
     private JTable table;
@@ -131,6 +128,7 @@ public class InterfaceDirectories
                     setFileDetails((File)node.getUserObject());
                     gui.revalidate();
                     gui.repaint();
+                    
                 }
             };
             
@@ -138,6 +136,7 @@ public class InterfaceDirectories
             File[] roots = fileSystemView.getRoots();
             for (File fileSystemRoot : roots) 
             {
+            		
                 DefaultMutableTreeNode node = new DefaultMutableTreeNode(fileSystemRoot);
                 root.add( node );
                 File[] files = fileSystemView.getFiles(fileSystemRoot, true);
@@ -150,12 +149,14 @@ public class InterfaceDirectories
                 }
             }
             
+            
             tree = new JTree(treeModel);
             tree.setRootVisible(false);
+            tree.setShowsRootHandles(true);//////
             tree.addTreeSelectionListener(treeSelectionListener);
             tree.setCellRenderer(new FileTreeCellRenderer());
             tree.expandRow(0);
-            JScrollPane treeScroll = new JScrollPane(tree);
+            treeScroll = new JScrollPane(tree);
             
             tree.setVisibleRowCount(15);
             
@@ -313,8 +314,7 @@ public class InterfaceDirectories
                     {
                     		decompress.decompressGzip(currentFile,destinationFolder);
                     }
-                    showChildren(currentNode);
-                    gui.repaint();
+                    updateFileTreeAndTable();
                 }
             });
             toolBar.add(unzipFile);
@@ -329,8 +329,7 @@ public class InterfaceDirectories
                 		logFile.setCurrentFile(currentFile);
                 		logFile.writeToLogDeleteFile();
                     deleteDrectoriesAndFiles(currentFile);
-                    showChildren(currentNode);
-                    gui.repaint();
+                    updateFileTreeAndTable();
                 }
             });
             toolBar.add(deleteBtn);
@@ -346,11 +345,11 @@ public class InterfaceDirectories
             tableAndFileDetails.add(tablePanel, BorderLayout.CENTER);
             tableAndFileDetails.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
             
-            JPanel fileView = new JPanel(new GridLayout(2,1));
+            fileView = new JPanel(new GridLayout(2,1));
             fileView.add(tableAndFileDetails);
             fileView.add(fileMetaDataPanel);
             
-            JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,treeScroll, fileView);
+            splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,treeScroll, fileView);
             gui.add(splitPane, BorderLayout.CENTER);
             
             JPanel simpleOutput = new JPanel(new BorderLayout(3,3));
@@ -365,8 +364,7 @@ public class InterfaceDirectories
                 @Override
                 public void windowActivated(WindowEvent e)
                 {
-	                showChildren(currentNode);
-	               	gui.repaint();
+                		updateFileTreeAndTable();
                 }
             });
         }
@@ -673,6 +671,17 @@ public class InterfaceDirectories
         	Object[] closeMessage= {"Close"};
         	JOptionPane.showOptionDialog(null,message, "Set location for log files",
                JOptionPane.CLOSED_OPTION, -1, null, closeMessage, null);
+    }
+    
+    public void updateFileTreeAndTable()
+    {     
+    		if(!currentNode.toString().equals("/")) //if the path is empty, that means we are first time to open the program, no need to refresh gui
+    		{
+	        currentNode.removeAllChildren();
+	        showChildren(currentNode);
+	        treeModel.reload(currentNode);
+	        gui.repaint();
+    		}
     }
     
     public JFrame getMainFrame()
