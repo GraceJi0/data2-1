@@ -12,6 +12,9 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.event.*;
 import javax.swing.filechooser.FileSystemView;
 import javax.swing.tree.*;
+
+import org.apache.log4j.chainsaw.Main;
+
 import java.util.List;
 import java.awt.*;
 
@@ -648,7 +651,7 @@ public class InterfaceDirectories
 				if(!logDeleteFilePath.equals(""))
 				{
 					logDeleteBtn.setText("logDelete.txt");
-					logDeleteBtn.setIcon(new ImageIcon("/checkmark.png"));
+					logDeleteBtn.setIcon(new ImageIcon(Main.class.getResource("/Resources/checkmark.png")));
 				}
 			}
     		});
@@ -663,7 +666,7 @@ public class InterfaceDirectories
 				if(!logChangesFilePath.equals(""))
 				{
 					logChangeBtn.setText("logEdit.txt");
-					logChangeBtn.setIcon(new ImageIcon("/checkmark.png"));
+					logChangeBtn.setIcon(new ImageIcon(Main.class.getResource("/Resources/checkmark.png")));
 				}
 			}
     		});

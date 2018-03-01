@@ -25,6 +25,8 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.net.URI;
+import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -32,6 +34,7 @@ import java.util.List;
 
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+
 
 
 public class FastConvert 
@@ -71,14 +74,14 @@ public class FastConvert
 	{
 		String inputPath = currentFile.getAbsolutePath();
 		String outputPath = currentFile.getParentFile().getAbsolutePath()+"/GENEPOP"+currentFile.getName();
-		/*if(inputPath.contains(" "))
+		if(inputPath.contains(" "))
 		{
 			inputPath = "\""+inputPath+"\"";
 		}
 		if(outputPath.contains(" "))
 		{
 			outputPath = "\""+outputPath+"\"";
-		}*/
+		}
 		String spidPath = currentFile.getParentFile().getAbsolutePath()+"/PGDSpiderSpidFile.spid";
 		String currentFilePath = new File(".").getAbsolutePath();
 		String PGDSpiderPath = currentFilePath.substring(0, currentFilePath.length()-2)+"/PGDSpider_2.1.1.3/PGDSpider2-cli.jar";
@@ -99,12 +102,11 @@ public class FastConvert
 		if(option == JOptionPane.YES_OPTION)
 		{
 			creatSpidFile(missingValue, markerNum,spidPath);
-			/*String[] commandFastConvertArray = {"java","-Xmx1024m","-Xms512m","-jar", PGDSpiderPath, "-inputfile", inputPath, 
-					 "-inputformat","STRUCTURE","-outputfile",outputPath,"-outputformat","GENEPOP","-spid",spidPath};*/
+			String[] commandFastConvertArray = {"java","-Xmx1024m","-Xms512m","-jar", PGDSpiderPath, "-inputfile",inputPath, 
+					 "-inputformat","STRUCTURE","-outputfile",outputPath,"-outputformat","GENEPOP","-spid",spidPath};
 			
 			String commandFastConvert = "java -Xmx1024m -Xms512m -jar " + PGDSpiderPath +" -inputfile "+ inputPath + 
 					" -inputformat STRUCTURE -outputfile "+ outputPath + " -outputformat GENEPOP -spid " + spidPath;
-			
 			
 			/*for(int i = 0 ; i < commandFastConvertArray.length; i++)
 			{
@@ -113,6 +115,7 @@ public class FastConvert
 			try 
 			{
 				Process pros = Runtime.getRuntime().exec(commandFastConvert);
+				
 				OutputStream out = pros.getOutputStream();
 				out.toString();
 				/*ProcessBuilder pb = new ProcessBuilder(commandFastConvertArray);

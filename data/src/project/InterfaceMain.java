@@ -36,6 +36,9 @@ import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
+
+import org.apache.log4j.chainsaw.Main;
+
 import javax.swing.filechooser.FileFilter;
 
 import com.google.common.io.Files;
@@ -460,20 +463,20 @@ public class InterfaceMain
         //*****************set components in bottom panel*****************
         JButton saveBtn = new JButton("Save");
         saveBtn.setPreferredSize(new Dimension(160, 40));
-        saveBtn.setIcon(new ImageIcon("save.png"));
+        saveBtn.setIcon(new ImageIcon(Main.class.getResource("/Resources/save.png")));
         saveBtn.setToolTipText("Click to save the file");
         JButton clearBtn = new JButton("Clear");
         clearBtn.setPreferredSize(new Dimension(160, 40));
-        clearBtn.setIcon(new ImageIcon("clear.png"));
+        clearBtn.setIcon(new ImageIcon(Main.class.getResource("/Resources/clear.png")));
         JButton saveAsBtn = new JButton("Save as");
         saveAsBtn.setPreferredSize(new Dimension(160, 40));
-        saveAsBtn.setIcon(new ImageIcon("saveAs.png"));
+        saveAsBtn.setIcon(new ImageIcon(Main.class.getResource("/Resources/saveAs.png")));
         JButton fastConvertBtn = new JButton("Fast convert");
         fastConvertBtn.setPreferredSize(new Dimension(160, 40));
-        fastConvertBtn.setIcon(new ImageIcon("fastConvert.png"));
+        fastConvertBtn.setIcon(new ImageIcon(Main.class.getResource("/Resources/fastConvert.png")));
         JButton closeBtn = new JButton("Close");
         closeBtn.setPreferredSize(new Dimension(160, 40));
-        closeBtn.setIcon(new ImageIcon("close.png"));
+        closeBtn.setIcon(new ImageIcon(Main.class.getResource("/Resources/close.png")));
         
         saveBtn.addActionListener(new ActionListener()
         {
