@@ -74,19 +74,19 @@ public class FastConvert
 	//delete the output file and spid file.
 	public void runPGDSpider(String missingValue, String markerNum)
 	{
+		String commandFastConvert = "";
 		String inputPath = currentFile.getAbsolutePath();
 		String outputPath = currentFile.getParentFile().getAbsolutePath()+"/GENEPOP"+currentFile.getName();
-		if(inputPath.contains(" "))
+		/*if(inputPath.contains(" "))
 		{
 			inputPath = "\""+inputPath+"\"";
 		}
 		if(outputPath.contains(" "))
 		{
 			outputPath = "\""+outputPath+"\"";
-		}
+		}*/
 		String spidPath = currentFile.getParentFile().getAbsolutePath()+"/PGDSpiderSpidFile.spid";
-		//String currentFilePath = new File(".").getAbsolutePath();
-		String PGDSpiderPath = (Main.class.getResource("/Resources/PGDSpider_2.1.1.3/PGDSpider2-cli.jar")).toString().substring(5);
+		String PGDSpiderPath = (Main.class.getResource("/Resources/PGDSpider2-cli.jar")).getPath();
 		System.out.println(PGDSpiderPath);
 		inputPath = inputPath.replace(" ", "\\ ");
 		outputPath = outputPath.replace(" ", "\\ ");
@@ -107,7 +107,7 @@ public class FastConvert
 			String[] commandFastConvertArray = {"java","-Xmx1024m","-Xms512m","-jar", PGDSpiderPath, "-inputfile",inputPath, 
 					 "-inputformat","STRUCTURE","-outputfile",outputPath,"-outputformat","GENEPOP","-spid",spidPath};
 			
-			String commandFastConvert = "java -Xmx1024m -Xms512m -jar " + PGDSpiderPath +" -inputfile "+ inputPath + 
+			commandFastConvert = "java -Xmx1024m -Xms512m -jar " + PGDSpiderPath +" -inputfile "+ inputPath + 
 					" -inputformat STRUCTURE -outputfile "+ outputPath + " -outputformat GENEPOP -spid " + spidPath;
 			
 			/*for(int i = 0 ; i < commandFastConvertArray.length; i++)
@@ -125,6 +125,7 @@ public class FastConvert
 				InputStream in = pros.getInputStream();
 				InputStream err = pros.getErrorStream();
 				String result = readInputStream(in)+readInputStream(err);
+				commandFastConvert += "\n\n\n"+PGDSpiderPath;/////////////////////////
 				JFrame errorMessageFrame = showPGDSpiderErrorMessage(result,commandFastConvert);
 				if(errorMessageFrame != null)
 				{
