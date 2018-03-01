@@ -3225,3 +3225,9 @@ INFO  01-03 13:54:14,054 (PGDSpiderConfig.java:loadConfig:64)  -load PGDSpider c
 DEBUG 01-03 13:54:14,120 (ParserFactory.java:getParserInstance:173)  -New StructureParser instance
 INFO  01-03 13:54:57,813 (PGDSpiderConfig.java:loadConfig:64)  -load PGDSpider configuration from: /Users/dinghanji/Documents/data1.1/project-dataManagement/data/PGDSpider_2.1.1.3/spider.conf.xml
 DEBUG 01-03 13:54:57,858 (ParserFactory.java:getParserInstance:173)  -New StructureParser instance
+INFO  01-03 14:35:58,628 (PGDSpiderConfig.java:loadConfig:64)  -load PGDSpider configuration from: /Users/dinghanji/Documents/data1.1/project-dataManagement/data/src/Resources/PGDSpider_2.1.1.3/spider.conf.xml
+DEBUG 01-03 14:35:58,703 (ParserFactory.java:getParserInstance:173)  -New StructureParser instance
+DEBUG 01-03 14:35:58,724 (ParserFactory.java:getParserInstance:173)  -New StructureParser instance
+INFO  01-03 14:43:54,829 (PGDSpiderConfig.java:loadConfig:64)  -load PGDSpider configuration from: /Users/dinghanji/Documents/data1.1/project-dataManagement/data/bin/Resources/PGDSpider_2.1.1.3/spider.conf.xml
+DEBUG 01-03 14:43:54,987 (ParserFactory.java:getParserInstance:173)  -New StructureParser instance
+DEBUG 01-03 14:43:55,018 (ParserFactory.java:getParserInstance:173)  -New StructureParser instance

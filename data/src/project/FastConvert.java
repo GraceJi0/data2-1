@@ -35,6 +35,8 @@ import java.util.List;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import org.apache.log4j.chainsaw.Main;
+
 
 
 public class FastConvert 
@@ -83,9 +85,9 @@ public class FastConvert
 			outputPath = "\""+outputPath+"\"";
 		}
 		String spidPath = currentFile.getParentFile().getAbsolutePath()+"/PGDSpiderSpidFile.spid";
-		String currentFilePath = new File(".").getAbsolutePath();
-		String PGDSpiderPath = currentFilePath.substring(0, currentFilePath.length()-2)+"/PGDSpider_2.1.1.3/PGDSpider2-cli.jar";
-		
+		//String currentFilePath = new File(".").getAbsolutePath();
+		String PGDSpiderPath = (Main.class.getResource("/Resources/PGDSpider_2.1.1.3/PGDSpider2-cli.jar")).toString().substring(5);
+		System.out.println(PGDSpiderPath);
 		inputPath = inputPath.replace(" ", "\\ ");
 		outputPath = outputPath.replace(" ", "\\ ");
 		spidPath = spidPath.replace(" ", "\\ ");
