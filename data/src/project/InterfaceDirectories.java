@@ -577,8 +577,7 @@ public class InterfaceDirectories
                 		{
                 			readmeFile+="*****"+
                 					"The README file can't be displayed at this area, please click \"open\" or \"loacate\" to open the file."
-                					+"*****";
-                			break;
+                					+"*****" + "<br><br>----------------------------------------------------------------------------<br><br>";
                 		}
                 }
             }
