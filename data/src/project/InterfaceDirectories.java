@@ -620,6 +620,8 @@ public class InterfaceDirectories
         JMenu fileMenu = new JMenu("File");
         JMenu helpMenu = new JMenu("Help");
         JMenuItem logFile = new JMenuItem("Log file");
+        JMenuItem helpMenuItem = new JMenuItem("Help...");
+        helpMenu.add(helpMenuItem);
         fileMenu.add(logFile);
         menuBar.add(fileMenu);
         menuBar.add(helpMenu);
@@ -630,6 +632,14 @@ public class InterfaceDirectories
 			public void actionPerformed(ActionEvent e) 
 			{
 				setLogFile();
+			}
+		});
+        helpMenuItem.addActionListener(new MenuItemListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) 
+			{
+				HelpWindow help = new HelpWindow("directory");
 			}
 		});
     }
