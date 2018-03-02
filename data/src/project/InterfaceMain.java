@@ -171,7 +171,7 @@ public class InterfaceMain
         replaceCheckBox = new JCheckBox("Replace Missing Data");
         replaceSpaceInColumn = new JCheckBox("Edit column");
         moveColumn = new JCheckBox("Move column");
-        editHeadersFormat = new JCheckBox("Edit Headers' Format");
+        editHeadersFormat = new JCheckBox("Edit Headers' Format       ");
         columnCheckBox = new JCheckBox("Add text");
         columnCheckBox.addItemListener(new ItemListener() 
         {

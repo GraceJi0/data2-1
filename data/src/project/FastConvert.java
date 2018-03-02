@@ -77,22 +77,22 @@ public class FastConvert
 		String commandFastConvert = "";
 		String inputPath = currentFile.getAbsolutePath();
 		String outputPath = currentFile.getParentFile().getAbsolutePath()+"/GENEPOP"+currentFile.getName();
-		/*if(inputPath.contains(" "))
+		if(inputPath.contains(" "))
 		{
 			inputPath = "\""+inputPath+"\"";
 		}
 		if(outputPath.contains(" "))
 		{
 			outputPath = "\""+outputPath+"\"";
-		}*/
+		}
 		String spidPath = currentFile.getParentFile().getAbsolutePath()+"/PGDSpiderSpidFile.spid";
 		//String PGDSpiderPath = (Main.class.getResource("/Resources/PGDSpider2-cli.jar")).getPath();
 		String currentFilePath = new File(".").getAbsolutePath();
 		String PGDSpiderPath = currentFilePath.substring(0, currentFilePath.lastIndexOf("/"))+"/PGDSpider_2.1.1.3/PGDSpider2-cli.jar";
 		//System.out.println(PGDSpiderPath);
-		inputPath = inputPath.replace(" ", "\\ ");
+		/*inputPath = inputPath.replace(" ", "\\ ");
 		outputPath = outputPath.replace(" ", "\\ ");
-		spidPath = spidPath.replace(" ", "\\ ");
+		spidPath = spidPath.replace(" ", "\\ ");*/
 		
 		int option = checkFileFormat();
 		if(markerNumInt == -1)
@@ -106,11 +106,13 @@ public class FastConvert
 		if(option == JOptionPane.YES_OPTION)
 		{
 			creatSpidFile(missingValue, markerNum,spidPath);
-			String[] commandFastConvertArray = {"java","-Xmx1024m","-Xms512m","-jar", PGDSpiderPath, "-inputfile",inputPath, 
+			String[] commandFastConvertArray = {"java", "-Xmx1024m", "-Xms512m", "-jar", PGDSpiderPath, "-inputfile", inputPath, 
 					 "-inputformat","STRUCTURE","-outputfile",outputPath,"-outputformat","GENEPOP","-spid",spidPath};
 			
 			commandFastConvert = "java -Xmx1024m -Xms512m -jar " + PGDSpiderPath +" -inputfile "+ inputPath + 
 					" -inputformat STRUCTURE -outputfile "+ outputPath + " -outputformat GENEPOP -spid " + spidPath;
+			
+			//commandFastConvert = "java -Xmx1024m -Xms512m -jar /Users/dinghanji/Documents/data1.1/project-dataManagement/data/PGDSpider_2.1.1.3/PGDSpider2-cli.jar -inputfile /Users/dinghanji/Desktop/projectFile/saveas/00001622-Microsatellite\\ genotypes\\ Zosterops\\ hybrid\\ zone\\ Dryad.txt -inputformat STRUCTURE -outputfile /Users/dinghanji/Desktop/projectFile/saveas/GENEPOP00001622-Microsatellite\\ genotypes\\ Zosterops\\ hybrid\\ zone\\ Dryad.txt -outputformat GENEPOP -spid /Users/dinghanji/Desktop/projectFile/saveas/PGDSpiderSpidFile.spid";
 			
 			/*for(int i = 0 ; i < commandFastConvertArray.length; i++)
 			{
@@ -119,13 +121,14 @@ public class FastConvert
 			try 
 			{
 				Process pros = Runtime.getRuntime().exec(commandFastConvert);
-				
 				OutputStream out = pros.getOutputStream();
-				out.toString();
 				/*ProcessBuilder pb = new ProcessBuilder(commandFastConvertArray);
 				Process pros = pb.start();*/
 				InputStream in = pros.getInputStream();
 				InputStream err = pros.getErrorStream();
+				
+				
+				
 				String result = readInputStream(in)+readInputStream(err);
 				//commandFastConvert += "\n\n\n"+PGDSpiderPath;/////////////////////////
 				JFrame errorMessageFrame = showPGDSpiderErrorMessage(result,commandFastConvert);
@@ -146,6 +149,7 @@ public class FastConvert
 				{
 					setfastConvertLog();
 				}
+				
 			} 
 			catch (IOException e) 
 			{
@@ -326,7 +330,7 @@ public class FastConvert
 		JTextArea errorMessageTextArea = new JTextArea();
 		JScrollPane errorMessageScroll = new JScrollPane(errorMessageTextArea,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                 JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		String text = "Command line: "+ commandLine + "\n\n"+ result;
+		String text = "Command line:\n"+ commandLine + "\n\n"+ result;
 		errorMessageTextArea.setText(text);
 		errorMessageTextArea.setEditable(false);
 		errorMessageTextArea.setLineWrap(true);
