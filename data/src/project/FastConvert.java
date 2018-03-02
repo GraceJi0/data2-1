@@ -86,8 +86,10 @@ public class FastConvert
 			outputPath = "\""+outputPath+"\"";
 		}*/
 		String spidPath = currentFile.getParentFile().getAbsolutePath()+"/PGDSpiderSpidFile.spid";
-		String PGDSpiderPath = (Main.class.getResource("/Resources/PGDSpider2-cli.jar")).getPath();
-		System.out.println(PGDSpiderPath);
+		//String PGDSpiderPath = (Main.class.getResource("/Resources/PGDSpider2-cli.jar")).getPath();
+		String currentFilePath = new File(".").getAbsolutePath();
+		String PGDSpiderPath = currentFilePath.substring(0, currentFilePath.lastIndexOf("/"))+"/PGDSpider_2.1.1.3/PGDSpider2-cli.jar";
+		//System.out.println(PGDSpiderPath);
 		inputPath = inputPath.replace(" ", "\\ ");
 		outputPath = outputPath.replace(" ", "\\ ");
 		spidPath = spidPath.replace(" ", "\\ ");
@@ -125,7 +127,7 @@ public class FastConvert
 				InputStream in = pros.getInputStream();
 				InputStream err = pros.getErrorStream();
 				String result = readInputStream(in)+readInputStream(err);
-				commandFastConvert += "\n\n\n"+PGDSpiderPath;/////////////////////////
+				//commandFastConvert += "\n\n\n"+PGDSpiderPath;/////////////////////////
 				JFrame errorMessageFrame = showPGDSpiderErrorMessage(result,commandFastConvert);
 				if(errorMessageFrame != null)
 				{
@@ -156,7 +158,7 @@ public class FastConvert
 	public void runDetailConvert()
 	{
 		String currentFilePath = new File(".").getAbsolutePath();
-		String PGDSpiderPath = currentFilePath.substring(0, currentFilePath.length()-2) + "/PGDSpider_2.1.1.3/PGDSpider2.jar";
+		String PGDSpiderPath = currentFilePath.substring(0, currentFilePath.lastIndexOf("/"))+"/PGDSpider_2.1.1.3/PGDSpider2.jar";
 		String commandLine = "java -Xmx1024m -Xms512m -jar " + PGDSpiderPath;
 		try 
 		{
