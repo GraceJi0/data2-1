@@ -159,8 +159,8 @@ public class InterfaceMain
         fileNameLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
         JLabel splitLabel = new JLabel(splitInformation);
         splitLabel.setForeground(Color.red);
-        fileInformation.add(fileNameLabel);
         fileInformation.add(splitLabel);
+        fileInformation.add(fileNameLabel);
         
         //*******************set file panel************************
         textPanel = new JPanel();
@@ -185,6 +185,10 @@ public class InterfaceMain
                 		{
                 			columnCheckBox.setSelected(false);
                 		}
+                		else
+                		{
+                			columnCheckBox.setSelected(true);
+                		}
                 }
             }
         });
@@ -199,6 +203,10 @@ public class InterfaceMain
                 		if(option != 0)
                 		{
                 			replaceCheckBox.setSelected(false);
+                		}
+                		else
+                		{
+                			replaceCheckBox.setSelected(true);
                 		}
                 }
                 else
@@ -220,6 +228,10 @@ public class InterfaceMain
 	                		{
 	                			replaceSpaceInColumn.setSelected(false);
 	                		}
+	                		else
+	                		{
+	                			replaceSpaceInColumn.setSelected(true);
+	                		}
                 };
             }
         });
@@ -235,6 +247,10 @@ public class InterfaceMain
 	                		{
 	                			moveColumn.setSelected(false);
 	                		}
+	                		else
+	                		{
+	                			moveColumn.setSelected(true);
+	                		}
                 };
             }
         });
@@ -249,6 +265,10 @@ public class InterfaceMain
                 		if(option != 0)
                 		{
                 			editHeadersFormat.setSelected(false);
+                		}
+                		else
+                		{
+                			editHeadersFormat.setSelected(true);
                 		}
                 };
             }
@@ -282,7 +302,7 @@ public class InterfaceMain
         JButton addColumnBtn = new JButton("Add");
         JPanel columnAddBtnPanel = new JPanel();
         columnAddBtnPanel.setLayout(new GridLayout(1,1));
-        columnAddBtnPanel.setPreferredSize(new Dimension(40,40));
+        columnAddBtnPanel.setPreferredSize(new Dimension(50,40));
         columnAddBtnPanel.add(addColumnBtn);
         addColumnBtn.addActionListener(new ActionListener()
         {
@@ -385,7 +405,7 @@ public class InterfaceMain
         JButton addRowBtn = new JButton("Add");
         JPanel rowAddBtnPanel = new JPanel();
         rowAddBtnPanel.setLayout(new GridLayout(1,1));
-        rowAddBtnPanel.setPreferredSize(new Dimension(40,40));
+        rowAddBtnPanel.setPreferredSize(new Dimension(50,40));
         rowAddBtnPanel.add(addRowBtn);
         addRowBtn.addActionListener(new ActionListener()
         {
