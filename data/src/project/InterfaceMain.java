@@ -205,7 +205,7 @@ public class InterfaceMain
                 	{
                 		editFile.setMissingCh(null);
                 		editFile.setReplaceCh(null);
-                	};
+                	}
             }
         });
         replaceSpaceInColumn.addItemListener(new ItemListener() 
@@ -220,7 +220,7 @@ public class InterfaceMain
 	                		{
 	                			replaceSpaceInColumn.setSelected(false);
 	                		}
-                };
+                }
             }
         });
         moveColumn.addItemListener(new ItemListener() 
@@ -228,14 +228,18 @@ public class InterfaceMain
             @Override
             public void itemStateChanged(ItemEvent e) 
             {
-                if(e.getStateChange() == ItemEvent.SELECTED) 
-                {
+                //if(e.getStateChange() == ItemEvent.SELECTED) 
+                //{
 	                		int option = showMoveCloumnDialog();
 	                		if(option != 0)
 	                		{
 	                			moveColumn.setSelected(false);
 	                		}
-                };
+	                		else
+	                		{
+	                			moveColumn.setSelected(true);
+	                		}
+                //}
             }
         });
         editHeadersFormat.addItemListener(new ItemListener() 
@@ -250,7 +254,11 @@ public class InterfaceMain
                 		{
                 			editHeadersFormat.setSelected(false);
                 		}
-                };
+                		/*else
+                		{
+                			editHeadersFormat.setSelected(true);
+                		}*/
+                }
             }
         });
         

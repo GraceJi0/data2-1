@@ -75,24 +75,11 @@ public class FastConvert
 	public void runPGDSpider(String missingValue, String markerNum)
 	{
 		String commandFastConvert = "";
-		String inputPath = currentFile.getAbsolutePath();
-		String outputPath = currentFile.getParentFile().getAbsolutePath()+"/GENEPOP"+currentFile.getName();
-		if(inputPath.contains(" "))
-		{
-			inputPath = "\""+inputPath+"\"";
-		}
-		if(outputPath.contains(" "))
-		{
-			outputPath = "\""+outputPath+"\"";
-		}
-		String spidPath = currentFile.getParentFile().getAbsolutePath()+"/PGDSpiderSpidFile.spid";
-		//String PGDSpiderPath = (Main.class.getResource("/Resources/PGDSpider2-cli.jar")).getPath();
-		String currentFilePath = new File(".").getAbsolutePath();
-		String PGDSpiderPath = currentFilePath.substring(0, currentFilePath.lastIndexOf("/"))+"/PGDSpider_2.1.1.3/PGDSpider2-cli.jar";
-		//System.out.println(PGDSpiderPath);
-		/*inputPath = inputPath.replace(" ", "\\ ");
-		outputPath = outputPath.replace(" ", "\\ ");
-		spidPath = spidPath.replace(" ", "\\ ");*/
+		String inputPath = "";
+		String outputPath = "";
+		String spidPath = "";
+		String currentFilePath = "";
+		String PGDSpiderPath = "";
 		
 		int option = checkFileFormat();
 		if(markerNumInt == -1)
@@ -105,19 +92,54 @@ public class FastConvert
 		}
 		if(option == JOptionPane.YES_OPTION)
 		{
-			creatSpidFile(missingValue, markerNum,spidPath);
-			String[] commandFastConvertArray = {"java", "-Xmx1024m", "-Xms512m", "-jar", PGDSpiderPath, "-inputfile", inputPath, 
-					 "-inputformat","STRUCTURE","-outputfile",outputPath,"-outputformat","GENEPOP","-spid",spidPath};
-			
-			commandFastConvert = "java -Xmx1024m -Xms512m -jar " + PGDSpiderPath +" -inputfile "+ inputPath + 
-					" -inputformat STRUCTURE -outputfile "+ outputPath + " -outputformat GENEPOP -spid " + spidPath;
-			
-			//commandFastConvert = "java -Xmx1024m -Xms512m -jar /Users/dinghanji/Documents/data1.1/project-dataManagement/data/PGDSpider_2.1.1.3/PGDSpider2-cli.jar -inputfile /Users/dinghanji/Desktop/projectFile/saveas/00001622-Microsatellite\\ genotypes\\ Zosterops\\ hybrid\\ zone\\ Dryad.txt -inputformat STRUCTURE -outputfile /Users/dinghanji/Desktop/projectFile/saveas/GENEPOP00001622-Microsatellite\\ genotypes\\ Zosterops\\ hybrid\\ zone\\ Dryad.txt -outputformat GENEPOP -spid /Users/dinghanji/Desktop/projectFile/saveas/PGDSpiderSpidFile.spid";
-			
-			/*for(int i = 0 ; i < commandFastConvertArray.length; i++)
+			if(isMac())
 			{
-				System.out.print(commandFastConvertArray[i]+" ");
-			}*/
+				inputPath = currentFile.getAbsolutePath();
+				outputPath = currentFile.getParentFile().getAbsolutePath()+"/GENEPOP"+currentFile.getName();
+				/*if(inputPath.contains(" "))
+				{
+					inputPath = "\""+inputPath+"\"";
+				}
+				if(outputPath.contains(" "))
+				{
+					outputPath = "\""+outputPath+"\"";
+				}*/
+				 spidPath = currentFile.getParentFile().getAbsolutePath()+"/PGDSpiderSpidFile.spid";
+				//String PGDSpiderPath = (Main.class.getResource("/Resources/PGDSpider2-cli.jar")).getPath();
+				 currentFilePath = new File(".").getAbsolutePath();
+				 PGDSpiderPath = currentFilePath.substring(0, currentFilePath.lastIndexOf("/"))+"/PGDSpider_2.1.1.3/PGDSpider2-cli.jar";
+				//System.out.println(PGDSpiderPath);
+				inputPath = inputPath.replace(" ", "\\ ");
+				outputPath = outputPath.replace(" ", "\\ ");
+				spidPath = spidPath.replace(" ", "\\ ");
+				creatSpidFile(missingValue, markerNum,spidPath);
+				String[] commandFastConvertArray = {"java", "-Xmx1024m", "-Xms512m", "-jar", PGDSpiderPath, "-inputfile", inputPath, 
+						 "-inputformat","STRUCTURE","-outputfile",outputPath,"-outputformat","GENEPOP","-spid",spidPath};
+				
+				commandFastConvert = "java -Xmx1024m -Xms512m -jar " + PGDSpiderPath +" -inputfile "+ inputPath + 
+						" -inputformat STRUCTURE -outputfile "+ outputPath + " -outputformat GENEPOP -spid " + spidPath;
+				
+				//commandFastConvert = "java -Xmx1024m -Xms512m -jar /Users/dinghanji/Documents/data1.1/project-dataManagement/data/PGDSpider_2.1.1.3/PGDSpider2-cli.jar -inputfile /Users/dinghanji/Desktop/projectFile/saveas/00001622-Microsatellite\\ genotypes\\ Zosterops\\ hybrid\\ zone\\ Dryad.txt -inputformat STRUCTURE -outputfile /Users/dinghanji/Desktop/projectFile/saveas/GENEPOP00001622-Microsatellite\\ genotypes\\ Zosterops\\ hybrid\\ zone\\ Dryad.txt -outputformat GENEPOP -spid /Users/dinghanji/Desktop/projectFile/saveas/PGDSpiderSpidFile.spid";
+				
+				/*for(int i = 0 ; i < commandFastConvertArray.length; i++)
+				{
+					System.out.print(commandFastConvertArray[i]+" ");
+				}*/
+			}
+			else if(isWindows())
+			{
+				inputPath = currentFile.getAbsolutePath();
+				outputPath = currentFile.getParentFile().getAbsolutePath()+"\\GENEPOP"+currentFile.getName();
+				spidPath = currentFile.getParentFile().getAbsolutePath()+"\\PGDSpiderSpidFile.spid";
+				currentFilePath = new File(".").getAbsolutePath();
+				PGDSpiderPath = currentFilePath.substring(0, currentFilePath.lastIndexOf("\\"))+"\\PGDSpider_2.1.1.3\\PGDSpider2-cli.exe";
+				inputPath = inputPath.replace(" ", "\\ ");
+				outputPath = outputPath.replace(" ", "\\ ");
+				spidPath = spidPath.replace(" ", "\\ ");
+				creatSpidFile(missingValue, markerNum,spidPath);
+				commandFastConvert = PGDSpiderPath +" -inputfile "+ inputPath + 
+						" -inputformat STRUCTURE -outputfile "+ outputPath + " -outputformat GENEPOP -spid " + spidPath;
+			}
 			try 
 			{
 				Process pros = Runtime.getRuntime().exec(commandFastConvert);
@@ -126,8 +148,6 @@ public class FastConvert
 				Process pros = pb.start();*/
 				InputStream in = pros.getInputStream();
 				InputStream err = pros.getErrorStream();
-				
-				
 				
 				String result = readInputStream(in)+readInputStream(err);
 				//commandFastConvert += "\n\n\n"+PGDSpiderPath;/////////////////////////
@@ -367,6 +387,22 @@ public class FastConvert
 		errorFrame.add(errorMessagePanel, BorderLayout.CENTER);
 		errorFrame.setVisible(true);
 		return errorFrame;
+	}
+	
+	public boolean isWindows()
+	{
+		return System.getProperty("os.name").toLowerCase().indexOf("win")>=0;
+	}
+	
+	public boolean isMac()
+	{
+		return System.getProperty("os.name").toLowerCase().indexOf("mac")>=0;
+	}
+	
+	public boolean isUnix()
+	{
+		String os = System.getProperty("os.name").toLowerCase();
+		return os.indexOf("nux")>=0 || os.indexOf("nix")>=0 ||os.indexOf("aix")>=0 ;
 	}
 	
 	public void setfastConvertLog()
