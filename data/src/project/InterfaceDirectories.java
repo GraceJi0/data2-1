@@ -12,6 +12,9 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.event.*;
 import javax.swing.filechooser.FileSystemView;
 import javax.swing.tree.*;
+
+import org.apache.log4j.chainsaw.Main;
+
 import java.util.List;
 import java.awt.*;
 
@@ -574,8 +577,7 @@ public class InterfaceDirectories
                 		{
                 			readmeFile+="*****"+
                 					"The README file can't be displayed at this area, please click \"open\" or \"loacate\" to open the file."
-                					+"*****";
-                			break;
+                					+"*****" + "<br><br>----------------------------------------------------------------------------<br><br>";
                 		}
                 }
             }
@@ -617,6 +619,8 @@ public class InterfaceDirectories
         JMenu fileMenu = new JMenu("File");
         JMenu helpMenu = new JMenu("Help");
         JMenuItem logFile = new JMenuItem("Log file");
+        JMenuItem helpMenuItem = new JMenuItem("Help...");
+        helpMenu.add(helpMenuItem);
         fileMenu.add(logFile);
         menuBar.add(fileMenu);
         menuBar.add(helpMenu);
@@ -627,6 +631,14 @@ public class InterfaceDirectories
 			public void actionPerformed(ActionEvent e) 
 			{
 				setLogFile();
+			}
+		});
+        helpMenuItem.addActionListener(new MenuItemListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) 
+			{
+				//HelpWindow help = new HelpWindow("directory");
 			}
 		});
     }
@@ -648,7 +660,7 @@ public class InterfaceDirectories
 				if(!logDeleteFilePath.equals(""))
 				{
 					logDeleteBtn.setText("logDelete.txt");
-					logDeleteBtn.setIcon(new ImageIcon("checkmark.png"));
+					logDeleteBtn.setIcon(new ImageIcon(Main.class.getResource("/Resources/checkmark.png")));
 				}
 			}
     		});
@@ -663,7 +675,7 @@ public class InterfaceDirectories
 				if(!logChangesFilePath.equals(""))
 				{
 					logChangeBtn.setText("logEdit.txt");
-					logChangeBtn.setIcon(new ImageIcon("checkmark.png"));
+					logChangeBtn.setIcon(new ImageIcon(Main.class.getResource("/Resources/checkmark.png")));
 				}
 			}
     		});
