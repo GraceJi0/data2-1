@@ -3282,3 +3282,52 @@ DEBUG 06-03 11:00:49,340 (ParserFactory.java:getParserInstance:173)  -New Struct
 DEBUG 06-03 11:00:49,367 (StructureParser.java:parse:698)  -java.lang.ArrayIndexOutOfBoundsException: 1
 ERROR 06-03 11:00:49,369 (StructureParser.java:parse:699)  -input file error at line: 2
 ERROR 06-03 11:00:49,423 (GenepopWriter.java:write:161)  -No Microsat, Standard, SNP or AFLP data in the input file. GENEPOP can only handle these data types!!!
+INFO  07-03 13:35:25,701 (PGDSpiderConfig.java:loadConfig:64)  -load PGDSpider configuration from: /Users/dinghanji/Documents/data1.1/project-dataManagement/data/PGDSpider_2.1.1.3/spider.conf.xml
+DEBUG 07-03 13:35:25,796 (ParserFactory.java:getParserInstance:173)  -New StructureParser instance
+DEBUG 07-03 13:35:25,827 (ParserFactory.java:getParserInstance:173)  -New StructureParser instance
+INFO  07-03 15:34:15,806 (PGDSpiderConfig.java:loadConfig:64)  -load PGDSpider configuration from: /Users/dinghanji/Documents/data1.1/project-dataManagement/data/PGDSpider_2.1.1.3/spider.conf.xml
+ERROR 07-03 15:34:15,877 (SpidFileHandlerImpl.java:loadSpidFile:108)  -Missing parser for Format 'null'
+DEBUG 07-03 15:34:15,877 (SpidFileHandlerImpl.java:loadSpidFile:109)  -
+java.lang.NullPointerException
+	at ch.unibe.iee.cmpg.pgdspider.model.parser.util.ParserFactory.getParserInstance(ParserFactory.java:51)
+	at ch.unibe.iee.cmpg.pgdspider.model.spid.SpidFileHandlerImpl.loadSpidFile(SpidFileHandlerImpl.java:105)
+	at ch.unibe.iee.cmpg.pgdspider.cli.CLIController.<init>(CLIController.java:61)
+	at ch.unibe.iee.cmpg.pgdspider.PGDSpiderCli.main(PGDSpiderCli.java:30)
+DEBUG 07-03 15:34:15,880 (ParserFactory.java:getParserInstance:173)  -New StructureParser instance
+DEBUG 07-03 15:34:15,909 (StructureParser.java:parse:698)  -java.lang.RuntimeException: not implemented!
+ERROR 07-03 15:34:15,910 (StructureParser.java:parse:699)  -input file error at line: 0
+ERROR 07-03 15:34:15,954 (GenepopWriter.java:write:161)  -No Microsat, Standard, SNP or AFLP data in the input file. GENEPOP can only handle these data types!!!
+INFO  07-03 15:34:49,458 (PGDSpiderConfig.java:loadConfig:64)  -load PGDSpider configuration from: /Users/dinghanji/Documents/data1.1/project-dataManagement/data/PGDSpider_2.1.1.3/spider.conf.xml
+ERROR 07-03 15:34:49,520 (SpidFileHandlerImpl.java:loadSpidFile:108)  -Missing parser for Format 'null'
+DEBUG 07-03 15:34:49,520 (SpidFileHandlerImpl.java:loadSpidFile:109)  -
+java.lang.NullPointerException
+	at ch.unibe.iee.cmpg.pgdspider.model.parser.util.ParserFactory.getParserInstance(ParserFactory.java:51)
+	at ch.unibe.iee.cmpg.pgdspider.model.spid.SpidFileHandlerImpl.loadSpidFile(SpidFileHandlerImpl.java:105)
+	at ch.unibe.iee.cmpg.pgdspider.cli.CLIController.<init>(CLIController.java:61)
+	at ch.unibe.iee.cmpg.pgdspider.PGDSpiderCli.main(PGDSpiderCli.java:30)
+DEBUG 07-03 15:34:49,523 (ParserFactory.java:getParserInstance:173)  -New StructureParser instance
+DEBUG 07-03 15:34:49,555 (StructureParser.java:parse:698)  -java.lang.RuntimeException: not implemented!
+ERROR 07-03 15:34:49,556 (StructureParser.java:parse:699)  -input file error at line: 0
+ERROR 07-03 15:34:49,599 (GenepopWriter.java:write:161)  -No Microsat, Standard, SNP or AFLP data in the input file. GENEPOP can only handle these data types!!!
+INFO  07-03 15:35:23,840 (PGDSpiderConfig.java:loadConfig:64)  -load PGDSpider configuration from: /Users/dinghanji/Documents/data1.1/project-dataManagement/data/PGDSpider_2.1.1.3/spider.conf.xml
+ERROR 07-03 15:35:23,911 (SpidFileHandlerImpl.java:loadSpidFile:108)  -Missing parser for Format 'null'
+DEBUG 07-03 15:35:23,911 (SpidFileHandlerImpl.java:loadSpidFile:109)  -
+java.lang.NullPointerException
+	at ch.unibe.iee.cmpg.pgdspider.model.parser.util.ParserFactory.getParserInstance(ParserFactory.java:51)
+	at ch.unibe.iee.cmpg.pgdspider.model.spid.SpidFileHandlerImpl.loadSpidFile(SpidFileHandlerImpl.java:105)
+	at ch.unibe.iee.cmpg.pgdspider.cli.CLIController.<init>(CLIController.java:61)
+	at ch.unibe.iee.cmpg.pgdspider.PGDSpiderCli.main(PGDSpiderCli.java:30)
+DEBUG 07-03 15:35:23,913 (ParserFactory.java:getParserInstance:173)  -New StructureParser instance
+DEBUG 07-03 15:35:23,943 (StructureParser.java:parse:698)  -java.lang.RuntimeException: not implemented!
+ERROR 07-03 15:35:23,944 (StructureParser.java:parse:699)  -input file error at line: 0
+ERROR 07-03 15:35:23,987 (GenepopWriter.java:write:161)  -No Microsat, Standard, SNP or AFLP data in the input file. GENEPOP can only handle these data types!!!
+INFO  07-03 15:36:54,735 (PGDSpiderConfig.java:loadConfig:64)  -load PGDSpider configuration from: /Users/dinghanji/Documents/data1.1/project-dataManagement/data/PGDSpider_2.1.1.3/spider.conf.xml
+DEBUG 07-03 15:36:54,802 (ParserFactory.java:getParserInstance:173)  -New StructureParser instance
+DEBUG 07-03 15:36:54,826 (ParserFactory.java:getParserInstance:173)  -New StructureParser instance
+INFO  07-03 15:38:31,998 (PGDSpiderConfig.java:loadConfig:64)  -load PGDSpider configuration from: /Users/dinghanji/Documents/data1.1/project-dataManagement/data/PGDSpider_2.1.1.3/spider.conf.xml
+DEBUG 07-03 15:38:32,058 (ParserFactory.java:getParserInstance:173)  -New StructureParser instance
+INFO  07-03 15:41:51,087 (PGDSpiderConfig.java:loadConfig:64)  -load PGDSpider configuration from: /Users/dinghanji/Documents/data1.1/project-dataManagement/data/PGDSpider_2.1.1.3/spider.conf.xml
+DEBUG 07-03 15:41:51,146 (ParserFactory.java:getParserInstance:173)  -New StructureParser instance
+DEBUG 07-03 15:41:51,167 (ParserFactory.java:getParserInstance:173)  -New StructureParser instance
+INFO  07-03 15:44:28,852 (PGDSpiderConfig.java:loadConfig:64)  -load PGDSpider configuration from: /Users/dinghanji/Documents/data1.1/project-dataManagement/data/PGDSpider_2.1.1.3/spider.conf.xml
+DEBUG 07-03 15:44:28,951 (ParserFactory.java:getParserInstance:173)  -New StructureParser instance

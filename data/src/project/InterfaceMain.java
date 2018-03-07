@@ -215,11 +215,11 @@ public class InterfaceMain
             {
                 if(e.getStateChange() == ItemEvent.SELECTED) 
                 {
-	                		int option = showReplaceSpaceInColumnDialog();
-	                		if(option != 0)
-	                		{
-	                			replaceSpaceInColumn.setSelected(false);
-	                		}
+	                	int option = showReplaceSpaceInColumnDialog();
+	                	if(option != 0)
+	                	{
+	                		replaceSpaceInColumn.setSelected(false);
+	                	}
                 }
             }
         });
@@ -228,18 +228,22 @@ public class InterfaceMain
             @Override
             public void itemStateChanged(ItemEvent e) 
             {
-                //if(e.getStateChange() == ItemEvent.SELECTED) 
-                //{
-	                		int option = showMoveCloumnDialog();
-	                		if(option != 0)
-	                		{
-	                			moveColumn.setSelected(false);
-	                		}
-	                		else
-	                		{
-	                			moveColumn.setSelected(true);
-	                		}
-                //}
+            		if(moveColumn.isSelected())
+            		{
+            			int option = showMoveCloumnDialog();
+	                	if(option != 0)
+	                	{
+	                		moveColumn.setSelected(false);
+	                	}
+            		}
+                /*if(e.getStateChange() == ItemEvent.SELECTED) 
+                {
+	                	int option = showMoveCloumnDialog();
+	                	if(option != 0)
+	                	{
+	                		moveColumn.setSelected(false);
+	                	}
+                }*/
             }
         });
         editHeadersFormat.addItemListener(new ItemListener() 
