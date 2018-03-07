@@ -38,4 +38,7 @@
 <fullyQualifiedTypeName name="java.io.BufferedInputStream"/>
 <fullyQualifiedTypeName name="com.google.common.io.Files"/>
 <fullyQualifiedTypeName name="org.apache.commons.compress.archivers.tar.TarArchiveOutputStream"/>
+<fullyQualifiedTypeName name="org.apache.sis.internal.converter.StringConverter.URL"/>
+<fullyQualifiedTypeName name="java.net.URL"/>
+<fullyQualifiedTypeName name="org.apache.log4j.chainsaw.Main"/>
 </qualifiedTypeNameHistroy>

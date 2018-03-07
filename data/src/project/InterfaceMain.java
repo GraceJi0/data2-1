@@ -36,6 +36,9 @@ import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
+
+import org.apache.log4j.chainsaw.Main;
+
 import javax.swing.filechooser.FileFilter;
 
 import com.google.common.io.Files;
@@ -156,8 +159,8 @@ public class InterfaceMain
         fileNameLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
         JLabel splitLabel = new JLabel(splitInformation);
         splitLabel.setForeground(Color.red);
-        fileInformation.add(fileNameLabel);
         fileInformation.add(splitLabel);
+        fileInformation.add(fileNameLabel);
         
         //*******************set file panel************************
         textPanel = new JPanel();
@@ -168,7 +171,7 @@ public class InterfaceMain
         replaceCheckBox = new JCheckBox("Replace Missing Data");
         replaceSpaceInColumn = new JCheckBox("Edit column");
         moveColumn = new JCheckBox("Move column");
-        editHeadersFormat = new JCheckBox("Edit Headers' Format");
+        editHeadersFormat = new JCheckBox("Edit Headers' Format       ");
         columnCheckBox = new JCheckBox("Add text");
         columnCheckBox.addItemListener(new ItemListener() 
         {
@@ -202,7 +205,7 @@ public class InterfaceMain
                 	{
                 		editFile.setMissingCh(null);
                 		editFile.setReplaceCh(null);
-                	};
+                	}
             }
         });
         replaceSpaceInColumn.addItemListener(new ItemListener() 
@@ -217,7 +220,7 @@ public class InterfaceMain
 	                		{
 	                			replaceSpaceInColumn.setSelected(false);
 	                		}
-                };
+                }
             }
         });
         moveColumn.addItemListener(new ItemListener() 
@@ -225,14 +228,18 @@ public class InterfaceMain
             @Override
             public void itemStateChanged(ItemEvent e) 
             {
-                if(e.getStateChange() == ItemEvent.SELECTED) 
-                {
+                //if(e.getStateChange() == ItemEvent.SELECTED) 
+                //{
 	                		int option = showMoveCloumnDialog();
 	                		if(option != 0)
 	                		{
 	                			moveColumn.setSelected(false);
 	                		}
-                };
+	                		else
+	                		{
+	                			moveColumn.setSelected(true);
+	                		}
+                //}
             }
         });
         editHeadersFormat.addItemListener(new ItemListener() 
@@ -247,7 +254,11 @@ public class InterfaceMain
                 		{
                 			editHeadersFormat.setSelected(false);
                 		}
-                };
+                		/*else
+                		{
+                			editHeadersFormat.setSelected(true);
+                		}*/
+                }
             }
         });
         
@@ -279,7 +290,7 @@ public class InterfaceMain
         JButton addColumnBtn = new JButton("Add");
         JPanel columnAddBtnPanel = new JPanel();
         columnAddBtnPanel.setLayout(new GridLayout(1,1));
-        columnAddBtnPanel.setPreferredSize(new Dimension(40,40));
+        columnAddBtnPanel.setPreferredSize(new Dimension(60,40));
         columnAddBtnPanel.add(addColumnBtn);
         addColumnBtn.addActionListener(new ActionListener()
         {
@@ -382,7 +393,7 @@ public class InterfaceMain
         JButton addRowBtn = new JButton("Add");
         JPanel rowAddBtnPanel = new JPanel();
         rowAddBtnPanel.setLayout(new GridLayout(1,1));
-        rowAddBtnPanel.setPreferredSize(new Dimension(40,40));
+        rowAddBtnPanel.setPreferredSize(new Dimension(60,40));
         rowAddBtnPanel.add(addRowBtn);
         addRowBtn.addActionListener(new ActionListener()
         {
@@ -460,20 +471,20 @@ public class InterfaceMain
         //*****************set components in bottom panel*****************
         JButton saveBtn = new JButton("Save");
         saveBtn.setPreferredSize(new Dimension(160, 40));
-        saveBtn.setIcon(new ImageIcon("save.png"));
+        saveBtn.setIcon(new ImageIcon(Main.class.getResource("/Resources/save.png")));
         saveBtn.setToolTipText("Click to save the file");
         JButton clearBtn = new JButton("Clear");
         clearBtn.setPreferredSize(new Dimension(160, 40));
-        clearBtn.setIcon(new ImageIcon("clear.png"));
+        clearBtn.setIcon(new ImageIcon(Main.class.getResource("/Resources/clear.png")));
         JButton saveAsBtn = new JButton("Save as");
         saveAsBtn.setPreferredSize(new Dimension(160, 40));
-        saveAsBtn.setIcon(new ImageIcon("saveAs.png"));
+        saveAsBtn.setIcon(new ImageIcon(Main.class.getResource("/Resources/saveAs.png")));
         JButton fastConvertBtn = new JButton("Fast convert");
         fastConvertBtn.setPreferredSize(new Dimension(160, 40));
-        fastConvertBtn.setIcon(new ImageIcon("fastConvert.png"));
+        fastConvertBtn.setIcon(new ImageIcon(Main.class.getResource("/Resources/fastConvert.png")));
         JButton closeBtn = new JButton("Close");
         closeBtn.setPreferredSize(new Dimension(160, 40));
-        closeBtn.setIcon(new ImageIcon("close.png"));
+        closeBtn.setIcon(new ImageIcon(Main.class.getResource("/Resources/close.png")));
         
         saveBtn.addActionListener(new ActionListener()
         {

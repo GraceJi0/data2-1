@@ -30,7 +30,7 @@ public class LogFile
 	public String saveLogFile(String fileContent)
     {
     		String logFilePath="";
-    		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH:mm");
+    		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
 		Date date = new Date();
     	    JFileChooser chooser = new JFileChooser();
     	    chooser.setCurrentDirectory(new java.io.File("."));
@@ -69,7 +69,7 @@ public class LogFile
 			try 
 			{
 				BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(logDelete,true));
-				DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+				DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
 				Date date = new Date();
 				String logMessage = dateFormat.format(date)+"\tDelete file: "+currentFile.getName()+"\nPath:"+currentFile.getPath()+"\n\n";
 				bufferedWriter.write(logMessage);
