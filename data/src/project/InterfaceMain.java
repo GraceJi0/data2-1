@@ -169,10 +169,10 @@ public class InterfaceMain
         
         //********************set components in checkbox panel(edit file operations)*******************
         replaceCheckBox = new JCheckBox("Replace Missing Data");
-        replaceSpaceInColumn = new JCheckBox("Edit column");
+        replaceSpaceInColumn = new JCheckBox("Replace spaces in column");
         moveColumn = new JCheckBox("Move column");
-        editHeadersFormat = new JCheckBox("Edit Headers' Format       ");
-        columnCheckBox = new JCheckBox("Add text");
+        editHeadersFormat = new JCheckBox("Delete every second headers");
+        columnCheckBox = new JCheckBox("Add text to column");
         columnCheckBox.addItemListener(new ItemListener() 
         {
             @Override
@@ -258,10 +258,10 @@ public class InterfaceMain
                 		{
                 			editHeadersFormat.setSelected(false);
                 		}
-                		/*else
+                		else
                 		{
                 			editHeadersFormat.setSelected(true);
-                		}*/
+                		}
                 }
             }
         });

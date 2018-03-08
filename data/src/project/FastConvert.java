@@ -101,11 +101,13 @@ public class FastConvert
 				//String PGDSpiderPath = (Main.class.getResource("/Resources/PGDSpider2-cli.jar")).getPath();
 				currentFilePath = new File(".").getAbsolutePath();
 				PGDSpiderPath = currentFilePath.substring(0, currentFilePath.lastIndexOf("/"))+"/PGDSpider_2.1.1.3/PGDSpider2-cli.jar";
+				
+				creatSpidFile(missingValue, markerNum,spidPath);
+				
 				/*inputPath = inputPath.replace(" ", "\\ ");
 				outputPath = outputPath.replace(" ", "\\ ");
 				PGDSpiderPath = PGDSpiderPath.replace(" ", "\\ ");
 				spidPath = spidPath.replace(" ", "\\ ");*/
-				creatSpidFile(missingValue, markerNum,spidPath);
 				
 				if(inputPath.contains(" "))
 				{
@@ -206,9 +208,20 @@ public class FastConvert
 	
 	public void runDetailConvert()
 	{
-		String currentFilePath = new File(".").getAbsolutePath();
-		String PGDSpiderPath = currentFilePath.substring(0, currentFilePath.lastIndexOf("/"))+"/PGDSpider_2.1.1.3/PGDSpider2.jar";
-		String commandLine = "java -Xmx1024m -Xms512m -jar " + PGDSpiderPath;
+		String currentFilePath = "";
+		String PGDSpiderPath = "";
+		String commandLine = "";
+		if(isMac())
+		{
+			currentFilePath = new File(".").getAbsolutePath();
+			PGDSpiderPath = currentFilePath.substring(0, currentFilePath.lastIndexOf("/"))+"/PGDSpider_2.1.1.3/PGDSpider2.jar";
+			commandLine = "java -Xmx1024m -Xms512m -jar " + PGDSpiderPath;
+		}
+		else if(isWindows())
+		{
+			currentFilePath = new File(".").getAbsolutePath();
+			commandLine = currentFilePath.substring(0, currentFilePath.lastIndexOf("\\"))+"\\PGDSpider_2.1.1.3\\PGDSpider2.exe";
+		}
 		try 
 		{
 			Runtime.getRuntime().exec(commandLine);
