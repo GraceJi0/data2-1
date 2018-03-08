@@ -93,27 +93,36 @@ public class FastConvert
 		}
 		if(option == JOptionPane.YES_OPTION)
 		{
-			if(isMac())
+			if(isMac()) //if operation system is mac
 			{
 				inputPath = currentFile.getAbsolutePath();
 				outputPath = currentFile.getParentFile().getAbsolutePath()+"/GENEPOP"+currentFile.getName();
-				/*if(inputPath.contains(" "))
+				spidPath = currentFile.getParentFile().getAbsolutePath()+"/PGDSpiderSpidFile.spid";
+				//String PGDSpiderPath = (Main.class.getResource("/Resources/PGDSpider2-cli.jar")).getPath();
+				currentFilePath = new File(".").getAbsolutePath();
+				PGDSpiderPath = currentFilePath.substring(0, currentFilePath.lastIndexOf("/"))+"/PGDSpider_2.1.1.3/PGDSpider2-cli.jar";
+				/*inputPath = inputPath.replace(" ", "\\ ");
+				outputPath = outputPath.replace(" ", "\\ ");
+				PGDSpiderPath = PGDSpiderPath.replace(" ", "\\ ");
+				spidPath = spidPath.replace(" ", "\\ ");*/
+				creatSpidFile(missingValue, markerNum,spidPath);
+				
+				if(inputPath.contains(" "))
 				{
 					inputPath = "\""+inputPath+"\"";
 				}
 				if(outputPath.contains(" "))
 				{
 					outputPath = "\""+outputPath+"\"";
-				}*/
-				 spidPath = currentFile.getParentFile().getAbsolutePath()+"/PGDSpiderSpidFile.spid";
-				//String PGDSpiderPath = (Main.class.getResource("/Resources/PGDSpider2-cli.jar")).getPath();
-				 currentFilePath = new File(".").getAbsolutePath();
-				 PGDSpiderPath = currentFilePath.substring(0, currentFilePath.lastIndexOf("/"))+"/PGDSpider_2.1.1.3/PGDSpider2-cli.jar";
-				//System.out.println(PGDSpiderPath);
-				/*inputPath = inputPath.replace(" ", "\\ ");
-				outputPath = outputPath.replace(" ", "\\ ");
-				spidPath = spidPath.replace(" ", "\\ ");*/
-				creatSpidFile(missingValue, markerNum,spidPath);
+				}
+				if(spidPath.contains(" "))
+				{
+					spidPath = "\""+spidPath+"\"";
+				}
+				if(PGDSpiderPath.contains(" "))
+				{
+					PGDSpiderPath = "\""+outputPath+"\"";
+				}
 				String[] commandFastConvertArray = {"java", "-Xmx1024m", "-Xms512m", "-jar", PGDSpiderPath, "-inputfile", inputPath, 
 						 "-inputformat","STRUCTURE","-outputfile",outputPath,"-outputformat","GENEPOP","-spid",spidPath};
 				
@@ -127,7 +136,7 @@ public class FastConvert
 					System.out.print(commandFastConvertArray[i]+" ");
 				}*/
 			}
-			else if(isWindows())
+			else if(isWindows()) //if operation system is Windows
 			{
 				inputPath = currentFile.getAbsolutePath();
 				outputPath = currentFile.getParentFile().getAbsolutePath()+"\\GENEPOP"+currentFile.getName();
@@ -149,7 +158,7 @@ public class FastConvert
 				
 				creatSpidFile(missingValue, markerNum,spidPath);
 				
-				if(spidPath.contains(" "))
+				if(spidPath.contains(" "))   //escape spaces in file path after created the spid file.
 				{
 					spidPath = "\""+spidPath+"\"";
 	
@@ -186,7 +195,6 @@ public class FastConvert
 				{
 					setfastConvertLog();
 				}
-				
 			} 
 			catch (IOException e) 
 			{
@@ -236,7 +244,6 @@ public class FastConvert
 	public String creatSpidFile(String missingValue, String marksNum, String spidPath)
 	{
 		String file = "";
-		FileWriter fileWriter = null;
 		BufferedWriter bw = null;
 		if(missingValue == null || missingValue.equals(""))
 		{
