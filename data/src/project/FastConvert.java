@@ -100,7 +100,7 @@ public class FastConvert
 				spidPath = currentFile.getParentFile().getAbsolutePath()+"/PGDSpiderSpidFile.spid";
 				//String PGDSpiderPath = (Main.class.getResource("/Resources/PGDSpider2-cli.jar")).getPath();
 				currentFilePath = new File(".").getAbsolutePath();
-				PGDSpiderPath = currentFilePath.substring(0, currentFilePath.lastIndexOf("/"))+"/PGDSpider_2.1.1.3/PGDSpider2-cli.jar";
+				PGDSpiderPath = currentFilePath.substring(0, currentFilePath.lastIndexOf("/"))+"/PGDSpider2-cli.jar";
 				
 				creatSpidFile(missingValue, markerNum,spidPath);
 				
@@ -144,7 +144,7 @@ public class FastConvert
 				outputPath = currentFile.getParentFile().getAbsolutePath()+"\\GENEPOP"+currentFile.getName();
 				spidPath = currentFile.getParentFile().getAbsolutePath()+"\\PGDSpiderSpidFile.spid";
 				currentFilePath = new File(".").getAbsolutePath();
-				PGDSpiderPath = currentFilePath.substring(0, currentFilePath.lastIndexOf("\\"))+"\\PGDSpider_2.1.1.3\\PGDSpider2-cli.exe";
+				PGDSpiderPath = currentFilePath.substring(0, currentFilePath.lastIndexOf("\\"))+"\\PGDSpider2-cli.exe";
 				if(inputPath.contains(" "))
 				{
 					inputPath = "\""+inputPath+"\"";   
@@ -214,13 +214,14 @@ public class FastConvert
 		if(isMac())
 		{
 			currentFilePath = new File(".").getAbsolutePath();
-			PGDSpiderPath = currentFilePath.substring(0, currentFilePath.lastIndexOf("/"))+"/PGDSpider_2.1.1.3/PGDSpider2.jar";
+			PGDSpiderPath = currentFilePath.substring(0, currentFilePath.lastIndexOf("/"))+"/PGDSpider2.jar";
 			commandLine = "java -Xmx1024m -Xms512m -jar " + PGDSpiderPath;
+			System.out.println(PGDSpiderPath);
 		}
 		else if(isWindows())
 		{
 			currentFilePath = new File(".").getAbsolutePath();
-			commandLine = currentFilePath.substring(0, currentFilePath.lastIndexOf("\\"))+"\\PGDSpider_2.1.1.3\\PGDSpider2.exe";
+			commandLine = currentFilePath.substring(0, currentFilePath.lastIndexOf("\\"))+"\\PGDSpider2.exe";
 		}
 		try 
 		{

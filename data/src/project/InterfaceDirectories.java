@@ -550,7 +550,7 @@ public class InterfaceDirectories
                     {
                     		metaDataFile += readTheFile(child)+
                             "----------------------------------------------------------------------------<br>";
-                    } 
+                    }
                     catch (FileNotFoundException e) 
                     {
                         e.printStackTrace();

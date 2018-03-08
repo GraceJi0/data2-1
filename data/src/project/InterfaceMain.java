@@ -168,7 +168,7 @@ public class InterfaceMain
         textPanel.setBorder(BorderFactory.createEmptyBorder(8, 0, 0, 8)); 
         
         //********************set components in checkbox panel(edit file operations)*******************
-        replaceCheckBox = new JCheckBox("Replace Missing Data");
+        replaceCheckBox = new JCheckBox("Replace missing data");
         replaceSpaceInColumn = new JCheckBox("Replace spaces in column");
         moveColumn = new JCheckBox("Move column");
         editHeadersFormat = new JCheckBox("Delete every second headers");
@@ -619,6 +619,7 @@ public class InterfaceMain
         JMenuItem splitByTabMenuItem = new JMenuItem("Tab");
         JMenuItem splitBySemicolonMenuitem = new JMenuItem("Semicolon");
         JMenuItem splitByLineMenuItem = new JMenuItem("Line");
+        JMenuItem helpMenuItem = new JMenuItem("Help...");
         
         //**********add menu items to menus**********
         fileMenu.add(convertMenuItem);
@@ -629,6 +630,7 @@ public class InterfaceMain
         splitMenu.add(splitByTabMenuItem);
         splitMenu.add(splitBySemicolonMenuitem);
         splitMenu.add(splitByLineMenuItem);
+        helpMenu.add(helpMenuItem);
         
         //**********add menu to menu bar**********
         menuBar.add(fileMenu);
@@ -696,6 +698,15 @@ public class InterfaceMain
 			{
 				FastConvert detailConvert = new FastConvert(currentFile, editFile.getFileArray());
 				detailConvert.runDetailConvert();
+			}
+		});
+        
+        helpMenuItem.addActionListener(new MenuItemListener()
+        {
+			@Override
+			public void actionPerformed(ActionEvent e) 
+			{
+				HelpWindow help = new HelpWindow("editor");
 			}
 		});
     }
