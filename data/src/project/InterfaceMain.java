@@ -173,96 +173,63 @@ public class InterfaceMain
         moveColumn = new JCheckBox("Move column");
         editHeadersFormat = new JCheckBox("Delete every second headers");
         columnCheckBox = new JCheckBox("Add text to column");
-        columnCheckBox.addItemListener(new ItemListener() 
+        columnCheckBox.addActionListener(new ActionListener()
         {
             @Override
-            public void itemStateChanged(ItemEvent e) 
-            {
-                if(e.getStateChange() == ItemEvent.SELECTED) 
-                {
-                		int option = showAddTextDialog();
-                		if(option != 0)
-                		{
-                			columnCheckBox.setSelected(false);
-                		}
-                }
+            public void actionPerformed(ActionEvent e) {
+            	int option = showAddTextDialog();
+        		if(option != 0)
+        		{
+        			columnCheckBox.setSelected(false);
+        		}
             }
         });
-        replaceCheckBox.addItemListener(new ItemListener() 
+        
+        replaceCheckBox.addActionListener(new ActionListener()
         {
             @Override
-            public void itemStateChanged(ItemEvent e) 
-            {
-                if(e.getStateChange() == ItemEvent.SELECTED) 
-                {
-                		int option = showReplaceDataDialog();
-                		if(option != 0)
-                		{
-                			replaceCheckBox.setSelected(false);
-                		}
-                }
-                else
-                	{
-                		editFile.setMissingCh(null);
-                		editFile.setReplaceCh(null);
-                	}
+            public void actionPerformed(ActionEvent e) {
+            	int option = showReplaceDataDialog();
+        		if(option != 0)
+        		{
+        			replaceCheckBox.setSelected(false);
+        		}
             }
         });
-        replaceSpaceInColumn.addItemListener(new ItemListener() 
+        
+        replaceSpaceInColumn.addActionListener(new ActionListener()
         {
             @Override
-            public void itemStateChanged(ItemEvent e) 
-            {
-                if(e.getStateChange() == ItemEvent.SELECTED) 
-                {
-	                	int option = showReplaceSpaceInColumnDialog();
-	                	if(option != 0)
-	                	{
-	                		replaceSpaceInColumn.setSelected(false);
-	                	}
-                }
+            public void actionPerformed(ActionEvent e) {
+            	int option = showReplaceSpaceInColumnDialog();
+        		if(option != 0)
+        		{
+        			replaceSpaceInColumn.setSelected(false);
+        		}
             }
         });
-        moveColumn.addItemListener(new ItemListener() 
+        
+        moveColumn.addActionListener(new ActionListener()
         {
             @Override
-            public void itemStateChanged(ItemEvent e) 
-            {
-            		if(moveColumn.isSelected())
-            		{
-            			int option = showMoveCloumnDialog();
-	                	if(option != 0)
-	                	{
-	                		moveColumn.setSelected(false);
-	                	}
-            		}
-                /*if(e.getStateChange() == ItemEvent.SELECTED) 
-                {
-	                	int option = showMoveCloumnDialog();
-	                	if(option != 0)
-	                	{
-	                		moveColumn.setSelected(false);
-	                	}
-                }*/
+            public void actionPerformed(ActionEvent e) {
+            	int option = showMoveCloumnDialog();
+        		if(option != 0)
+        		{
+        			moveColumn.setSelected(false);
+        		}
             }
         });
-        editHeadersFormat.addItemListener(new ItemListener() 
+        
+        editHeadersFormat.addActionListener(new ActionListener()
         {
             @Override
-            public void itemStateChanged(ItemEvent e) 
-            {
-                if(e.getStateChange() == ItemEvent.SELECTED) 
-                {
-                		int option = editHeadersFormatDialog();
-                		if(option != 0)
-                		{
-                			editHeadersFormat.setSelected(false);
-                		}
-                		else
-                		{
-                			editHeadersFormat.setSelected(true);
-                		}
-                }
+            public void actionPerformed(ActionEvent e) {
+            	int option = editHeadersFormatDialog();
+        		if(option != 0)
+        		{
+        			editHeadersFormat.setSelected(false);
+        		}
             }
         });
         
