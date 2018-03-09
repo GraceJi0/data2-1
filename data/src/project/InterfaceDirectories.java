@@ -550,7 +550,7 @@ public class InterfaceDirectories
                     {
                     		metaDataFile += readTheFile(child)+
                             "----------------------------------------------------------------------------<br>";
-                    } 
+                    }
                     catch (FileNotFoundException e) 
                     {
                         e.printStackTrace();
@@ -638,7 +638,7 @@ public class InterfaceDirectories
 			@Override
 			public void actionPerformed(ActionEvent e) 
 			{
-				//HelpWindow help = new HelpWindow("directory");
+				HelpWindow help = new HelpWindow("directory");
 			}
 		});
     }

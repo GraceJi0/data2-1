@@ -168,97 +168,68 @@ public class InterfaceMain
         textPanel.setBorder(BorderFactory.createEmptyBorder(8, 0, 0, 8)); 
         
         //********************set components in checkbox panel(edit file operations)*******************
-        replaceCheckBox = new JCheckBox("Replace Missing Data");
-        replaceSpaceInColumn = new JCheckBox("Edit column");
+        replaceCheckBox = new JCheckBox("Replace missing data");
+        replaceSpaceInColumn = new JCheckBox("Replace spaces in column");
         moveColumn = new JCheckBox("Move column");
-        editHeadersFormat = new JCheckBox("Edit Headers' Format       ");
-        columnCheckBox = new JCheckBox("Add text");
-        columnCheckBox.addItemListener(new ItemListener() 
+        editHeadersFormat = new JCheckBox("Delete every second headers");
+        columnCheckBox = new JCheckBox("Add text to column");
+        columnCheckBox.addActionListener(new ActionListener()
         {
             @Override
-            public void itemStateChanged(ItemEvent e) 
-            {
-                if(e.getStateChange() == ItemEvent.SELECTED) 
-                {
-                		int option = showAddTextDialog();
-                		if(option != 0)
-                		{
-                			columnCheckBox.setSelected(false);
-                		}
-                }
+            public void actionPerformed(ActionEvent e) {
+            	int option = showAddTextDialog();
+        		if(option != 0)
+        		{
+        			columnCheckBox.setSelected(false);
+        		}
             }
         });
-        replaceCheckBox.addItemListener(new ItemListener() 
+        
+        replaceCheckBox.addActionListener(new ActionListener()
         {
             @Override
-            public void itemStateChanged(ItemEvent e) 
-            {
-                if(e.getStateChange() == ItemEvent.SELECTED) 
-                {
-                		int option = showReplaceDataDialog();
-                		if(option != 0)
-                		{
-                			replaceCheckBox.setSelected(false);
-                		}
-                }
-                else
-                	{
-                		editFile.setMissingCh(null);
-                		editFile.setReplaceCh(null);
-                	}
+            public void actionPerformed(ActionEvent e) {
+            	int option = showReplaceDataDialog();
+        		if(option != 0)
+        		{
+        			replaceCheckBox.setSelected(false);
+        		}
             }
         });
-        replaceSpaceInColumn.addItemListener(new ItemListener() 
+        
+        replaceSpaceInColumn.addActionListener(new ActionListener()
         {
             @Override
-            public void itemStateChanged(ItemEvent e) 
-            {
-                if(e.getStateChange() == ItemEvent.SELECTED) 
-                {
-	                		int option = showReplaceSpaceInColumnDialog();
-	                		if(option != 0)
-	                		{
-	                			replaceSpaceInColumn.setSelected(false);
-	                		}
-                }
+            public void actionPerformed(ActionEvent e) {
+            	int option = showReplaceSpaceInColumnDialog();
+        		if(option != 0)
+        		{
+        			replaceSpaceInColumn.setSelected(false);
+        		}
             }
         });
-        moveColumn.addItemListener(new ItemListener() 
+        
+        moveColumn.addActionListener(new ActionListener()
         {
             @Override
-            public void itemStateChanged(ItemEvent e) 
-            {
-                //if(e.getStateChange() == ItemEvent.SELECTED) 
-                //{
-	                		int option = showMoveCloumnDialog();
-	                		if(option != 0)
-	                		{
-	                			moveColumn.setSelected(false);
-	                		}
-	                		else
-	                		{
-	                			moveColumn.setSelected(true);
-	                		}
-                //}
+            public void actionPerformed(ActionEvent e) {
+            	int option = showMoveCloumnDialog();
+        		if(option != 0)
+        		{
+        			moveColumn.setSelected(false);
+        		}
             }
         });
-        editHeadersFormat.addItemListener(new ItemListener() 
+        
+        editHeadersFormat.addActionListener(new ActionListener()
         {
             @Override
-            public void itemStateChanged(ItemEvent e) 
-            {
-                if(e.getStateChange() == ItemEvent.SELECTED) 
-                {
-                		int option = editHeadersFormatDialog();
-                		if(option != 0)
-                		{
-                			editHeadersFormat.setSelected(false);
-                		}
-                		/*else
-                		{
-                			editHeadersFormat.setSelected(true);
-                		}*/
-                }
+            public void actionPerformed(ActionEvent e) {
+            	int option = editHeadersFormatDialog();
+        		if(option != 0)
+        		{
+        			editHeadersFormat.setSelected(false);
+        		}
             }
         });
         
@@ -615,6 +586,7 @@ public class InterfaceMain
         JMenuItem splitByTabMenuItem = new JMenuItem("Tab");
         JMenuItem splitBySemicolonMenuitem = new JMenuItem("Semicolon");
         JMenuItem splitByLineMenuItem = new JMenuItem("Line");
+        JMenuItem helpMenuItem = new JMenuItem("Help...");
         
         //**********add menu items to menus**********
         fileMenu.add(convertMenuItem);
@@ -625,6 +597,7 @@ public class InterfaceMain
         splitMenu.add(splitByTabMenuItem);
         splitMenu.add(splitBySemicolonMenuitem);
         splitMenu.add(splitByLineMenuItem);
+        helpMenu.add(helpMenuItem);
         
         //**********add menu to menu bar**********
         menuBar.add(fileMenu);
@@ -692,6 +665,15 @@ public class InterfaceMain
 			{
 				FastConvert detailConvert = new FastConvert(currentFile, editFile.getFileArray());
 				detailConvert.runDetailConvert();
+			}
+		});
+        
+        helpMenuItem.addActionListener(new MenuItemListener()
+        {
+			@Override
+			public void actionPerformed(ActionEvent e) 
+			{
+				HelpWindow help = new HelpWindow("editor");
 			}
 		});
     }
@@ -832,7 +814,7 @@ public class InterfaceMain
         return error;
     }
     
-    //add a group of column or row index to the selected table
+    //given a range of column or row index, add all index that in the range to the given table(column table or row table)
     public void addIndexGroup(int start, int end, List<String> selectedIndexList, JTable table, String title)
     {
     		for(int i = start; i<=end; i++)
@@ -844,7 +826,7 @@ public class InterfaceMain
     		}
     }
     
-    //********dynamically set the column combo box(select the column)*********
+    //********dynamically set the column combo box(select the column), when a element has been selected, add it to the table*********
     public void setColumnComoboBox()
     {
         choices1 = new String[columnNum-1];
@@ -885,7 +867,7 @@ public class InterfaceMain
         }); 
     }
     
-  //********dynamically set the row combo box(select the row)*********
+  //********dynamically set the row combo box(select the row),  when a element has been selected, add it to the table*********
     public void setRowComboBox()
     {
         choices2 = new String[rowNum];
@@ -1083,7 +1065,7 @@ public class InterfaceMain
 	        }
 	        else
 	        {
-	        		editFile.setKeepChangedFile(false);
+	        		editFile.setKeepChangedFile(false); 
 	        }
 		}
     		else

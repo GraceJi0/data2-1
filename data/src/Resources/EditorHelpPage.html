@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<body>
+	<div style="position: relative;font-family:Arial;font-size: 12px;">
+		<p>1. File: the "Convert" in "File" menu will open PGDSpider for users to conver the file type.</p>
+		<p>2. Split: there are several split methods provided in "Split" menu if the file is not in proper format, the file could be split into columns by comma, space, tab, semicolon, line ( "Line" allow users to display the file by line).</p>
+		<p>3. General functions:</p>
+		<ul>
+			<li>Replace missing data: replace the missing data with the given data.</li>
+			<li>Replace spaces in column: replaces all spaces with underscores in the given column.</li>
+			<li>Move column: move the given column to the end of current file.</li>
+			<li>Delete every second headers: delete every second cell in the given row.</li>
+			<li>Add text to column: add the given text to the end of every cell in the given column.</li>
+		</ul>
+		<p>4.Remove columns/rows: the drop down boxes allow users to select one column/row each time. The two input boxes below allow users to select all columns/rows in the given range. All the selected columns/rows will show in the table ("Columns/Rows to remove"). Click "Delete" to remove the selected column/row from the table("Columns/Rows to remove").</p>
+		<P>5. Execute buttons</P>
+		<ul>
+			<li>Save: save the file and all the changes will be execeted.</li>
+			<li>Save as: save the file with a new name and the original file will be keeped, but the file's type can't be changed.</li>
+			<li>Clear: clear all changes(at the left side of editor window) that haven't been saved yet.</li>
+			<li>Fast convert: convert the current file from STRUCTURE to GENEPOP without opening the PGDSpider graphic user interface. This function will ask users to provide the missing data as well as the number of markers(loci), if the user didn't input anything, the missing value will be 0 by default and the program will calculate the number of markers(loci) using the number of columns.</li>
+			<li>Close: close the editor window, please make sure all changes have been saved before closing.</li>
+		</ul>
+		<br>
+		<p>* values in every cell can be selected and edited by double clicking the cell, but the value after edited won't be saved. This function is only used for copy.</p>
+		<p>* If the log file location has been setted, all the changes happened in the file will be recored in the "logEdit.txt".</p>
+	</div>
+	<br><br>
+	<img src="editor.jpg" alt="editor" width="800" height="600"  max-width: 100%;
+    max-height: 100%;">
+    <br><br><br>
+</body>
+</html>

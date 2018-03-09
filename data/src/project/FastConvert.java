@@ -26,6 +26,7 @@ import java.io.FileWriter;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -60,7 +61,7 @@ public class FastConvert
 		String fileName =  currentFile.getName();
 		JTextField missingValueInput = new JTextField();
 		JTextField marksNumInput = new JTextField();
-	    Object[] message = {"Convert: "+fileName, "From STRUCTURE to GENEPOP","\nEnter the missing value(default is -9):",
+	    Object[] message = {"Convert: "+fileName, "From STRUCTURE to GENEPOP","\nEnter the missing value(default is 0):",
 	    		missingValueInput,"Enter the number of markers (loci) listed in the file:",marksNumInput,"\n\n", 
 	    		"(Fast convert will generate a spid file automatically.)\nFor more file format options, please go to the \"convert\" in File menu"};
 	    int option = JOptionPane.showConfirmDialog(null, message, "Fast convert", JOptionPane.OK_CANCEL_OPTION);
@@ -92,27 +93,38 @@ public class FastConvert
 		}
 		if(option == JOptionPane.YES_OPTION)
 		{
-			if(isMac())
+			if(isMac()) //if operation system is mac
 			{
 				inputPath = currentFile.getAbsolutePath();
 				outputPath = currentFile.getParentFile().getAbsolutePath()+"/GENEPOP"+currentFile.getName();
-				/*if(inputPath.contains(" "))
+				spidPath = currentFile.getParentFile().getAbsolutePath()+"/PGDSpiderSpidFile.spid";
+				//String PGDSpiderPath = (Main.class.getResource("/Resources/PGDSpider2-cli.jar")).getPath();
+				currentFilePath = new File(".").getAbsolutePath();
+				PGDSpiderPath = currentFilePath.substring(0, currentFilePath.lastIndexOf("/"))+"/PGDSpider2-cli.jar";
+				
+				creatSpidFile(missingValue, markerNum,spidPath);
+				
+				/*inputPath = inputPath.replace(" ", "\\ ");
+				outputPath = outputPath.replace(" ", "\\ ");
+				PGDSpiderPath = PGDSpiderPath.replace(" ", "\\ ");
+				spidPath = spidPath.replace(" ", "\\ ");*/
+				
+				if(inputPath.contains(" "))
 				{
 					inputPath = "\""+inputPath+"\"";
 				}
 				if(outputPath.contains(" "))
 				{
 					outputPath = "\""+outputPath+"\"";
-				}*/
-				 spidPath = currentFile.getParentFile().getAbsolutePath()+"/PGDSpiderSpidFile.spid";
-				//String PGDSpiderPath = (Main.class.getResource("/Resources/PGDSpider2-cli.jar")).getPath();
-				 currentFilePath = new File(".").getAbsolutePath();
-				 PGDSpiderPath = currentFilePath.substring(0, currentFilePath.lastIndexOf("/"))+"/PGDSpider_2.1.1.3/PGDSpider2-cli.jar";
-				//System.out.println(PGDSpiderPath);
-				inputPath = inputPath.replace(" ", "\\ ");
-				outputPath = outputPath.replace(" ", "\\ ");
-				spidPath = spidPath.replace(" ", "\\ ");
-				creatSpidFile(missingValue, markerNum,spidPath);
+				}
+				if(spidPath.contains(" "))
+				{
+					spidPath = "\""+spidPath+"\"";
+				}
+				if(PGDSpiderPath.contains(" "))
+				{
+					PGDSpiderPath = "\""+outputPath+"\"";
+				}
 				String[] commandFastConvertArray = {"java", "-Xmx1024m", "-Xms512m", "-jar", PGDSpiderPath, "-inputfile", inputPath, 
 						 "-inputformat","STRUCTURE","-outputfile",outputPath,"-outputformat","GENEPOP","-spid",spidPath};
 				
@@ -126,17 +138,33 @@ public class FastConvert
 					System.out.print(commandFastConvertArray[i]+" ");
 				}*/
 			}
-			else if(isWindows())
+			else if(isWindows()) //if operation system is Windows
 			{
 				inputPath = currentFile.getAbsolutePath();
 				outputPath = currentFile.getParentFile().getAbsolutePath()+"\\GENEPOP"+currentFile.getName();
 				spidPath = currentFile.getParentFile().getAbsolutePath()+"\\PGDSpiderSpidFile.spid";
 				currentFilePath = new File(".").getAbsolutePath();
-				PGDSpiderPath = currentFilePath.substring(0, currentFilePath.lastIndexOf("\\"))+"\\PGDSpider_2.1.1.3\\PGDSpider2-cli.exe";
-				inputPath = inputPath.replace(" ", "\\ ");
-				outputPath = outputPath.replace(" ", "\\ ");
-				spidPath = spidPath.replace(" ", "\\ ");
+				PGDSpiderPath = currentFilePath.substring(0, currentFilePath.lastIndexOf("\\"))+"\\PGDSpider2-cli.exe";
+				if(inputPath.contains(" "))
+				{
+					inputPath = "\""+inputPath+"\"";   
+				}
+				if(outputPath.contains(" "))
+				{
+					outputPath = "\""+outputPath+"\"";
+				}
+				if(PGDSpiderPath.contains(" "))
+				{
+					PGDSpiderPath = "\""+PGDSpiderPath+"\"";
+				}
+				
 				creatSpidFile(missingValue, markerNum,spidPath);
+				
+				if(spidPath.contains(" "))   //escape spaces in file path after created the spid file.
+				{
+					spidPath = "\""+spidPath+"\"";
+	
+				}
 				commandFastConvert = PGDSpiderPath +" -inputfile "+ inputPath + 
 						" -inputformat STRUCTURE -outputfile "+ outputPath + " -outputformat GENEPOP -spid " + spidPath;
 			}
@@ -169,7 +197,6 @@ public class FastConvert
 				{
 					setfastConvertLog();
 				}
-				
 			} 
 			catch (IOException e) 
 			{
@@ -181,9 +208,21 @@ public class FastConvert
 	
 	public void runDetailConvert()
 	{
-		String currentFilePath = new File(".").getAbsolutePath();
-		String PGDSpiderPath = currentFilePath.substring(0, currentFilePath.lastIndexOf("/"))+"/PGDSpider_2.1.1.3/PGDSpider2.jar";
-		String commandLine = "java -Xmx1024m -Xms512m -jar " + PGDSpiderPath;
+		String currentFilePath = "";
+		String PGDSpiderPath = "";
+		String commandLine = "";
+		if(isMac())
+		{
+			currentFilePath = new File(".").getAbsolutePath();
+			PGDSpiderPath = currentFilePath.substring(0, currentFilePath.lastIndexOf("/"))+"/PGDSpider2.jar";
+			commandLine = "java -Xmx1024m -Xms512m -jar " + PGDSpiderPath;
+			System.out.println(PGDSpiderPath);
+		}
+		else if(isWindows())
+		{
+			currentFilePath = new File(".").getAbsolutePath();
+			commandLine = currentFilePath.substring(0, currentFilePath.lastIndexOf("\\"))+"\\PGDSpider2.exe";
+		}
 		try 
 		{
 			Runtime.getRuntime().exec(commandLine);
@@ -219,9 +258,10 @@ public class FastConvert
 	public String creatSpidFile(String missingValue, String marksNum, String spidPath)
 	{
 		String file = "";
+		BufferedWriter bw = null;
 		if(missingValue == null || missingValue.equals(""))
 		{
-			missingValue = "-9";
+			missingValue = "0";
 		}
 		DateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd G 'at' HH:mm:ss z");
 		Date date = new Date();
@@ -258,14 +298,15 @@ public class FastConvert
 				"GENEPOP_WRITER_LOCUS_COMBINATION_QUESTION=";
 		try 
 		{
-			BufferedWriter bw = new BufferedWriter(new FileWriter(spidPath));
-			bw.write(file);
-			bw.close();
-		}
-		catch (IOException e) 
-		{
-			e.printStackTrace();
+				bw = new BufferedWriter(new FileWriter(spidPath));
+				bw.write(file);
+				bw.close();
 		} 
+		catch (IOException e1) 
+		{
+				System.out.println("can't creat file writer!");
+				e1.printStackTrace();
+		}
 		return file;
 	}
 	
@@ -329,6 +370,10 @@ public class FastConvert
 		else if(result.contains("ERROR") || result.contains("Error"))
 		{
 			message = "ERROR: \nThere're errors when converting, please check the file's format and type.";
+		}
+		else if(result.contains("Java Runtime Environment"))
+		{
+			message = "ERROR:  \n Can't run PGDSPider, please install Java Runtime Environment!";
 		}
 		else
 		{
@@ -413,5 +458,23 @@ public class FastConvert
 	public String getfastConvertLog()
 	{
 		return fastConvertLogString;
+	}
+	
+	public String escapeSpaces(String path)
+	{
+		String[] pathArray = path.split("\\\\");
+		path = "";
+		for(int i = 0 ; i < pathArray.length; i++)
+		{
+			if(pathArray[i].contains(" "))
+			{
+				pathArray[i] = "\""+pathArray[i]+"\"";
+			}
+		}
+		for(int i = 0 ; i < pathArray.length; i++)
+		{
+			path += pathArray[i]+"\\";
+		}
+		return path;
 	}
 }
