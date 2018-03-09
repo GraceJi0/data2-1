@@ -94,11 +94,15 @@ public class EditFile
 		            else if(extenssion.equals("gff") || extenssion.equals("tped") || 
 		            		extenssion.equals("bayescan") || extenssion.equals("hmp") || 
 		            		extenssion.equals("pdf") || extenssion.equals("mts") || 
-		            		extenssion.equals("doc"))
+		            		extenssion.equals("doc") || extenssion.equals("jar"))
 		            {
 		            		JOptionPane.showConfirmDialog(null,  "Can't open the file!\nPlease click \"Open \" or \"Locate\" to edit the file", 
 		            			"Error001", JOptionPane.CLOSED_OPTION);
 		            		error = true;
+		            }
+		            else if(extenssion.equals("txt") || extenssion.equals("csv"))
+		            {
+		            		error = separateFile(expression);
 		            }
 		            else if(extenssion.equals(""))
 		            {
@@ -175,7 +179,12 @@ public class EditFile
 		            }
 		            else
 		            {
-		                error = separateFile(expression);
+		            		int option = JOptionPane.showConfirmDialog(null,  "Open this file might cause the program crash, do you still want to open it?", 
+		            			"Warning", JOptionPane.OK_CANCEL_OPTION);
+		            		if(option == 0)
+		            		{
+		            			error = separateFile(expression);
+		            		}
 		            }
 		        } 
 		        catch (IOException e) 
