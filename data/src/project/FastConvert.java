@@ -61,7 +61,7 @@ public class FastConvert
 		String fileName =  currentFile.getName();
 		JTextField missingValueInput = new JTextField();
 		JTextField marksNumInput = new JTextField();
-	    Object[] message = {"Convert: "+fileName, "From STRUCTURE to GENEPOP","\nEnter the missing value(default is -9):",
+	    Object[] message = {"Convert: "+fileName, "From STRUCTURE to GENEPOP","\nEnter the missing value(default is 0):",
 	    		missingValueInput,"Enter the number of markers (loci) listed in the file:",marksNumInput,"\n\n", 
 	    		"(Fast convert will generate a spid file automatically.)\nFor more file format options, please go to the \"convert\" in File menu"};
 	    int option = JOptionPane.showConfirmDialog(null, message, "Fast convert", JOptionPane.OK_CANCEL_OPTION);
@@ -261,7 +261,7 @@ public class FastConvert
 		BufferedWriter bw = null;
 		if(missingValue == null || missingValue.equals(""))
 		{
-			missingValue = "-9";
+			missingValue = "0";
 		}
 		DateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd G 'at' HH:mm:ss z");
 		Date date = new Date();
