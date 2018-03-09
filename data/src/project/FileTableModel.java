@@ -33,7 +33,7 @@ public class FileTableModel extends AbstractTableModel
             case 1:
                 return fileSystemView.getSystemDisplayName(file);
             default:
-                System.err.println("Logic Error");
+                System.out.println("***ERROR****");
         }
         return "";
     }

@@ -814,7 +814,7 @@ public class InterfaceMain
         return error;
     }
     
-    //add a group of column or row index to the selected table
+    //given a range of column or row index, add all index that in the range to the given table(column table or row table)
     public void addIndexGroup(int start, int end, List<String> selectedIndexList, JTable table, String title)
     {
     		for(int i = start; i<=end; i++)
@@ -826,7 +826,7 @@ public class InterfaceMain
     		}
     }
     
-    //********dynamically set the column combo box(select the column)*********
+    //********dynamically set the column combo box(select the column), when a element has been selected, add it to the table*********
     public void setColumnComoboBox()
     {
         choices1 = new String[columnNum-1];
@@ -867,7 +867,7 @@ public class InterfaceMain
         }); 
     }
     
-  //********dynamically set the row combo box(select the row)*********
+  //********dynamically set the row combo box(select the row),  when a element has been selected, add it to the table*********
     public void setRowComboBox()
     {
         choices2 = new String[rowNum];
@@ -1065,7 +1065,7 @@ public class InterfaceMain
 	        }
 	        else
 	        {
-	        		editFile.setKeepChangedFile(false);
+	        		editFile.setKeepChangedFile(false); 
 	        }
 		}
     		else
