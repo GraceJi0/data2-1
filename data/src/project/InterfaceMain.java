@@ -731,11 +731,12 @@ public class InterfaceMain
         			if(getFileExtension(newFile).equals("") || getFileExtension(newFile).equals(getFileExtension(currentFile)))
         			{
 	        			String newPath = newFile.getAbsolutePath();
-	        			if(getFileExtension(newFile).equals(""))
+	        			if(getFileExtension(newFile).equals("")) //if user didn't type the file extension
 	        			{
 	        				 File tempFile = new File(newPath+"."+editFile.getMyFileExtension());
 	        				 Files.copy(currentFile, tempFile);
 	        				 currentFile = tempFile;
+	        				 logFile.logSaveAs(currentFile.getName());
 	        				 updateFile();
 	        				 newFile.delete();
 	        			}
@@ -743,8 +744,10 @@ public class InterfaceMain
 	        			{
 	        				Files.copy(currentFile, newFile);
 	        				currentFile = newFile;
+	        				logFile.logSaveAs(currentFile.getName());
 	        				updateFile();
 	        			}
+	        			
 	        			logFile.setCurrentFile(currentFile);
 	        			logFile.initializelLogEditFile();
 	        			addLogFileString();
@@ -1199,6 +1202,7 @@ public class InterfaceMain
 			headerCheckBox = new JCheckBox("Is there a header in this column?");
 			Object[] message = {"Add text",inputTextField,"to the end of every cell in column",columnTextField,
 					"(column number)\n\n",headerCheckBox};
+			System.out.println(inputTextField.getText());
 			option = JOptionPane.showConfirmDialog(null, message, "Add text to column", JOptionPane.OK_CANCEL_OPTION);
 			if(option == 0)
 			{
@@ -1211,10 +1215,6 @@ public class InterfaceMain
 		    				JOptionPane.showConfirmDialog(null,"This column is empty!", "Error", JOptionPane.CLOSED_OPTION); 
 						option = -1;
 					}
-					/*if(editFile.addTextToColumn(addTextColumnIndex,addTextString,headerCheckBox.isSelected()))
-					{
-						option = -1;
-					}*/
 					
 				}
 				catch(Exception e)

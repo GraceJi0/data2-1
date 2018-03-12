@@ -195,6 +195,13 @@ public class LogFile
 		return editFileString;
 	}
 	
+	public String logSaveAs(String newFileName)
+	{
+		String message = "\nSave as a new file: "+newFileName;
+		editFileString += message;
+		return editFileString;
+	}
+	
 	public String logFastConvert(String content)
 	{
 		return editFileString += content;
