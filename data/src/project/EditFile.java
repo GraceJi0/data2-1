@@ -849,11 +849,12 @@ public class EditFile
 	    			}
 	    		}
 	    		Arrays.sort(rowIndex);
+	    		removeDuplicate(rowIndex);
 	    		for(int k = length-1; k>=0; k--)
 	    		{
 		    		for(int i = 0; i < fileArray.size(); i++)
 		    		{
-		    			if(rowIndex[k]==i)
+		    			if(rowIndex[k]==i && rowIndex[k] != -1)
 		    			{
 		    				fileArray.remove(i);
 		    			}
@@ -888,13 +889,14 @@ public class EditFile
 	    			}
 	    		}
 	    		Arrays.sort(columnIndex);
+	    		removeDuplicate(columnIndex);
 	    		for(int k = length-1; k>=0; k--)
 	    		{
 		    		for(int i = 0; i< fileArray.size();i++)
 		    		{
 		    			for(int p = 0; p<fileArray.get(i).size(); p++)
 		    			{
-		    				if(columnIndex[k]==p)
+		    				if(columnIndex[k]==p && columnIndex[k] != -1) 
 			    			{
 		    					fileArray.get(i).remove(p);
 			    			}
@@ -904,6 +906,23 @@ public class EditFile
 	    		columnNum -= columnIndex.length;
 		}
 		return error;
+    }
+    
+    public int[] removeDuplicate(int[] indexArray)
+    {
+    		for(int j = 0; j < indexArray.length-1; j++)
+        {
+           if(indexArray[j] == indexArray[j+1])
+           {
+               int index = j+1;
+               while(indexArray[index] == indexArray[j] && index<indexArray.length)
+               {
+            	   indexArray[index] = -1;
+                   index++;
+               }
+           }
+        }
+    		return indexArray;
     }
     
     public boolean editHeadersFormat(int start, int end, int rowIndex)

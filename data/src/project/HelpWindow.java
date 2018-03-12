@@ -27,8 +27,8 @@ public class HelpWindow
 	public void setUpHelpWindow(String type)
 	{
 		mainFrame.setLayout(new GridLayout(1,1));
-		mainFrame.setMinimumSize(new Dimension(700,300));
-		mainFrame.setMaximumSize(new Dimension(900,600));
+		mainFrame.setPreferredSize(new Dimension(900, 600));
+		mainFrame.setMinimumSize(new Dimension(700,500));
 		
 		JEditorPane helpTextPane = new JEditorPane();
 		helpTextPane.setBorder(new EmptyBorder(0,10,10,10));
