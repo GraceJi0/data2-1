@@ -185,8 +185,8 @@ public class FastConvert
 					JFrame errorMessageFrame = showPGDSpiderErrorMessage(result,commandFastConvert);
 					if(errorMessageFrame != null)
 					{
-						errorMessageFrame.setMinimumSize(new Dimension(700,300));
-						errorMessageFrame.setMaximumSize(new Dimension(900,600));
+						errorMessageFrame.setMinimumSize(new Dimension(800,600));
+						errorMessageFrame.setMaximumSize(new Dimension(1000,700));
 					}
 					
 					if(result.contains("ERROR") || result.contains("Error") /*|| result.contains("Usage: PGDSpiderCli")*/)
@@ -372,7 +372,10 @@ public class FastConvert
 		}
 		else if(result.contains("ERROR") || result.contains("Error"))
 		{
-			message = "ERROR: \nThere're errors when converting, please check the file's format and type.";
+			message = "ERROR: \nThere're errors when converting, please try the following ways: <br>"
+		+"1. Check the file's format and type<br>"
+		+"2. Delete the headers and split it into a proper format.<br>"
+		+"3. Specifiy the number of markers (loci) listed in the file when converting.";
 		}
 		else if(result.contains("Java Runtime Environment"))
 		{
@@ -404,7 +407,7 @@ public class FastConvert
 		errorMessageTextArea.setLineWrap(true);
 		errorMessageTextArea.setWrapStyleWord(true);
 		
-		JLabel convertMessageLabel = new JLabel(convertMessage);
+		JLabel convertMessageLabel = new JLabel("<html>"+convertMessage+"</html>");
 		convertMessageLabel.setBorder(new EmptyBorder(20,20,0,20));
 		//convertMessageLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
 		convertMessageLabel.setForeground(Color.red);
