@@ -285,12 +285,14 @@ public class InterfaceDirectories
             {
                 public void actionPerformed(ActionEvent ae)
                 {
+                		gui.setCursor(new Cursor(Cursor.WAIT_CURSOR));
                     JFrame frame = new InterfaceMain(currentFile,gui,logFile).getMainFrame();
                     if(frame != null)
                     {
 	                    frame.setVisible(true);
 	                    frame.setPreferredSize(new Dimension(900, 700));
                     }
+                    gui.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
                 }
             });
             toolBar.add(editFile);
@@ -302,6 +304,7 @@ public class InterfaceDirectories
                                             {
                 public void actionPerformed(ActionEvent ae) 
                 {
+					gui.setCursor(new Cursor(Cursor.WAIT_CURSOR));
                 		Decompress decompress = new Decompress();
                     String zipFile = currentFile.getAbsolutePath();
                     String destinationFolder = currentFile.getParentFile().getAbsolutePath();
@@ -318,6 +321,7 @@ public class InterfaceDirectories
                     		decompress.decompressGzip(currentFile,destinationFolder);
                     }
                     updateFileTreeAndTable();
+                    gui.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
                 }
             });
             toolBar.add(unzipFile);
@@ -619,9 +623,11 @@ public class InterfaceDirectories
         JMenu fileMenu = new JMenu("File");
         JMenu helpMenu = new JMenu("Help");
         JMenuItem logFile = new JMenuItem("Log file");
+        JMenuItem runAllFiles = new JMenuItem("Run all files"); //test how long does it take to open a file using editor.
         JMenuItem helpMenuItem = new JMenuItem("Help...");
         helpMenu.add(helpMenuItem);
         fileMenu.add(logFile);
+        //fileMenu.add(runAllFiles);
         menuBar.add(fileMenu);
         menuBar.add(helpMenu);
         mainFrame.setJMenuBar(menuBar);
@@ -639,6 +645,14 @@ public class InterfaceDirectories
 			public void actionPerformed(ActionEvent e) 
 			{
 				HelpWindow help = new HelpWindow("directory");
+			}
+		});
+        runAllFiles.addActionListener(new MenuItemListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) 
+			{
+				RunAllFiles r = new RunAllFiles();
 			}
 		});
     }

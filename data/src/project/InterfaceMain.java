@@ -923,6 +923,7 @@ public class InterfaceMain
     //*****refresh the GUI after make changes to the file or switch the split model.*****
     public void refreshGUI(String expression)
     {
+    		mainFrame.setCursor(new Cursor(Cursor.WAIT_CURSOR));
     		fileInformation.remove(fileNameLabel);
     		textPanel.remove(fileInformation);
         textPanel.remove(fileScroll); 
@@ -963,15 +964,16 @@ public class InterfaceMain
         //mainFrame.setVisible(true);
         mainFrame.revalidate();
         mainFrame.repaint();
+        mainFrame.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
     }
     
     //after save or save as, update the file and refresh GUI.
     public void updateFile()
     {
+    		mainFrame.setCursor(new Cursor(Cursor.WAIT_CURSOR));
     		editFile.setCurrentFile(currentFile);
     		addLogFileString();
 		logFile.writeToLogEditFile();
-		mainFrame.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 		if(replaceCheckBox.isSelected())
 		{
 			editFile.setMissingCh(missingData);

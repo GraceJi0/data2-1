@@ -83,10 +83,12 @@ public class EditFile
 		        {
 		            if(extenssion.equals("xlsx"))
 		            {
+		            		System.out.println(currentFile.length());
 		                error = editXLSXfile(gui,theSheetName);
 		            }
 		            else if(extenssion.equals("xls"))
 		            {
+		            		System.out.println(currentFile.length());
 		            		error = editXLSfile(gui,theSheetName);
 		            }
 		            else if(extenssion.equals("gff") || extenssion.equals("tped") || 
@@ -100,9 +102,10 @@ public class EditFile
 		            }
 		            else if(extenssion.equals("txt") || extenssion.equals("csv"))
 		            {
+		            		System.out.println(currentFile.length());
 		            		error = separateFile(expression);
 		            }
-		            else if(extenssion.equals(""))
+		            else if(extenssion.equals("")) //if current file doesn't have extension
 		            {
 		            		String message = null;
 		            		FileTypeDetector detector = new TikaFileTypeDetector();
@@ -117,6 +120,7 @@ public class EditFile
 		                		}
 		                		if(option == 0)
 		                		{
+		                			//if(currentFile.length)
 			                		if(!editXLSfile(gui,theSheetName)) //If no error
 			                		{
 			                			rename = "xls";
@@ -181,7 +185,12 @@ public class EditFile
 		            			"Warning", JOptionPane.OK_CANCEL_OPTION);
 		            		if(option == 0)
 		            		{
+		            			System.out.println(currentFile.length());
 		            			error = separateFile(expression);
+		            		}
+		            		else
+		            		{
+		            			error = true;
 		            		}
 		            }
 		        } 
@@ -324,18 +333,14 @@ public class EditFile
 	        
 	    if(fip.available() > 0)
 	    {
-	        	if(gui != null)
+	        	/*if(gui != null)
 	        	{
 	   			gui.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-	        	}
+	        	}*/
 	        	try
 	        	{
 		        XSSFWorkbook workbook = new XSSFWorkbook(fip);
 			    String sheets[] = getAllXLSXSheet(workbook);
-				if(gui != null)
-			    {
-			    		gui.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-			    }
 				String sheetSelected;
 				if(theSheetName.equals(""))
 				{
@@ -348,10 +353,17 @@ public class EditFile
 				}
 				if(sheetSelected != null)
 				{
-					//gui.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+					if(gui != null)
+					{
+						gui.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+					}
 					sheetName = sheetSelected;
 					XSSFSheet sheet = workbook.getSheet(sheetSelected);
 					readTheXLSXSheet(sheet);
+					if(gui != null)
+					{
+						gui.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));					
+					}
 				}
 				else
 				{
@@ -430,18 +442,14 @@ public class EditFile
 			FileInputStream fip = new FileInputStream(currentFile);
 			if(fip.available() > 0)
 		    {
-				if(gui != null)
+				/*if(gui != null)
 				{
 					gui.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-				}
+				}*/
 				try
 				{
 				    HSSFWorkbook workbook = new HSSFWorkbook(fip);
 					String sheets[] = getAllXLSSheet(workbook);
-					if(gui != null)
-					{
-						gui.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-					}
 					String sheetSelected;
 					if(theSheetName.equals(""))
 				    {
@@ -454,9 +462,17 @@ public class EditFile
 				    }
 					if(sheetSelected != null)
 					{
+						if(gui != null)
+						{
+							gui.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+						}
 						sheetName = sheetSelected;
 						HSSFSheet sheet = workbook.getSheet(sheetSelected);
 						readTheXLSSheet(sheet);
+						if(gui != null)
+						{
+							gui.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+						}
 					}
 					else
 					{
