@@ -3,7 +3,6 @@ package project;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -11,12 +10,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,9 +22,6 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -35,8 +29,6 @@ import java.util.List;
 
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
-
-import org.apache.log4j.chainsaw.Main;
 
 
 
@@ -58,17 +50,27 @@ public class FastConvert
 	//set the fast convert dialog and allow users to input the missing value
 	public void fastConvertDialog() 
 	{
+		
 		String fileName =  currentFile.getName();
-		JTextField missingValueInput = new JTextField();
-		JTextField marksNumInput = new JTextField();
-	    Object[] message = {"Convert: "+fileName, "From STRUCTURE to GENEPOP","\nEnter the missing value(default is 0):",
-	    		missingValueInput,"Enter the number of markers (loci) listed in the file:",marksNumInput,"\n\n", 
-	    		"(Fast convert will generate a spid file automatically.)\nFor more file format options, please go to the \"convert\" in File menu"};
-	    int option = JOptionPane.showConfirmDialog(null, message, "Fast convert", JOptionPane.OK_CANCEL_OPTION);
-	    if(option == 0)
-	    {	
-	    		runPGDSpider(missingValueInput.getText(), marksNumInput.getText());
-	    }
+		if(isMac() && fileName.contains(" ")) //when there are spaces in file path, the command line doesn't work for Mac, only works for Windows
+		{
+			JOptionPane.showConfirmDialog(null,
+					"The current file's name has spaces in it, please use \"save as\" to rename it!",
+					"Error", JOptionPane.CLOSED_OPTION);
+		}
+		else
+		{
+			JTextField missingValueInput = new JTextField();
+			JTextField marksNumInput = new JTextField();
+		    Object[] message = {"Convert: "+fileName, "From STRUCTURE to GENEPOP","\nEnter the missing value(default is 0):",
+		    		missingValueInput,"Enter the number of markers (loci) listed in the file:",marksNumInput,"\n\n", 
+		    		"(Fast convert will generate a spid file automatically.)\nFor more file format options, please go to the \"convert\" in File menu"};
+		    int option = JOptionPane.showConfirmDialog(null, message, "Fast convert", JOptionPane.OK_CANCEL_OPTION);
+		    if(option == 0)
+		    {	
+		    		runPGDSpider(missingValueInput.getText(), marksNumInput.getText());
+		    }
+		}
 	}
 	
 	//run PGDSpider using command line, creat spid file and output file for converting, if convert is not successful, 
@@ -125,8 +127,9 @@ public class FastConvert
 				{
 					PGDSpiderPath = "\""+outputPath+"\"";
 				}
-				String[] commandFastConvertArray = {"java", "-Xmx1024m", "-Xms512m", "-jar", PGDSpiderPath, "-inputfile", inputPath, 
-						 "-inputformat","STRUCTURE","-outputfile",outputPath,"-outputformat","GENEPOP","-spid",spidPath};
+				
+				/*String[] commandFastConvertArray = {"java", "-Xmx1024m", "-Xms512m", "-jar", PGDSpiderPath, "-inputfile", inputPath, 
+						 "-inputformat","STRUCTURE","-outputfile",outputPath,"-outputformat","GENEPOP","-spid",spidPath};*/
 				
 				commandFastConvert = "java -Xmx1024m -Xms512m -jar " + PGDSpiderPath +" -inputfile "+ inputPath + 
 						" -inputformat STRUCTURE -outputfile "+ outputPath + " -outputformat GENEPOP -spid " + spidPath;
@@ -170,33 +173,33 @@ public class FastConvert
 			}
 			try 
 			{
-				Process pros = Runtime.getRuntime().exec(commandFastConvert);
-				OutputStream out = pros.getOutputStream();
-				/*ProcessBuilder pb = new ProcessBuilder(commandFastConvertArray);
-				Process pros = pb.start();*/
-				InputStream in = pros.getInputStream();
-				InputStream err = pros.getErrorStream();
-				
-				String result = readInputStream(in)+readInputStream(err);
-				//commandFastConvert += "\n\n\n"+PGDSpiderPath;/////////////////////////
-				JFrame errorMessageFrame = showPGDSpiderErrorMessage(result,commandFastConvert);
-				if(errorMessageFrame != null)
-				{
-					errorMessageFrame.setMinimumSize(new Dimension(700,300));
-					errorMessageFrame.setMaximumSize(new Dimension(900,600));
-				}
-				
-				if(result.contains("ERROR") || result.contains("Error") /*|| result.contains("Usage: PGDSpiderCli")*/)
-				{
-					File spidFile = new File(spidPath);
-					spidFile.delete();
-					File output = new File(outputPath);
-					output.delete();
-				}
-				else
-				{
-					setfastConvertLog();
-				}
+					Process pros = Runtime.getRuntime().exec(commandFastConvert);
+					OutputStream out = pros.getOutputStream();
+					/*ProcessBuilder pb = new ProcessBuilder(commandFastConvertArray);
+					Process pros = pb.start();*/
+					InputStream in = pros.getInputStream();
+					InputStream err = pros.getErrorStream();
+					
+					String result = readInputStream(in)+readInputStream(err);
+					//commandFastConvert += "\n\n\n"+PGDSpiderPath;/////////////////////////
+					JFrame errorMessageFrame = showPGDSpiderErrorMessage(result,commandFastConvert);
+					if(errorMessageFrame != null)
+					{
+						errorMessageFrame.setMinimumSize(new Dimension(700,300));
+						errorMessageFrame.setMaximumSize(new Dimension(900,600));
+					}
+					
+					if(result.contains("ERROR") || result.contains("Error") /*|| result.contains("Usage: PGDSpiderCli")*/)
+					{
+						File spidFile = new File(spidPath);
+						spidFile.delete();
+						File output = new File(outputPath);
+						output.delete();
+					}
+					else
+					{
+						setfastConvertLog();
+					}
 			} 
 			catch (IOException e) 
 			{

@@ -896,7 +896,7 @@ public class EditFile
 		    		{
 		    			for(int p = 0; p<fileArray.get(i).size(); p++)
 		    			{
-		    				if(columnIndex[k]==p && columnIndex[k] != -1) 
+		    				if(columnIndex[k]==p && columnIndex[k] != -1)
 			    			{
 		    					fileArray.get(i).remove(p);
 			    			}
