@@ -125,6 +125,10 @@ public class EditFile
 			                		{
 			                			rename = "xls";
 			                		}
+			                		else
+			                		{
+			                			error = true;
+			                		}
 		                		}
 		                		else
 		                		{
@@ -144,6 +148,10 @@ public class EditFile
 			                		if(!editXLSXfile(gui,theSheetName)) // if no error
 			                		{
 			                			rename = "xlsx";
+			                		}
+			                		else
+			                		{
+			                			error = true;
 			                		}
 			            		}
 			            		else

@@ -372,10 +372,10 @@ public class FastConvert
 		}
 		else if(result.contains("ERROR") || result.contains("Error"))
 		{
-			message = "ERROR: \nThere're errors when converting, please try the following ways: <br>"
-		+"1. Check the file's format and type<br>"
-		+"2. Delete the headers and split it into a proper format.<br>"
-		+"3. Specifiy the number of markers (loci) listed in the file when converting.";
+			message = "ERROR: \nThere're errors when converting, please try the following ways:<br>"
+			+"1. Check the file's format and type.<br>"
+			+"2. Delete the headers and split the file into a proper format.<br>"
+			+"3. Specifiy the number of markers (loci) listed in the file when converting.";
 		}
 		else if(result.contains("Java Runtime Environment"))
 		{
