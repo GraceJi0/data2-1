@@ -30,26 +30,31 @@ public class RunAllFiles {
 		                	File[] childrenfiles = child.listFiles();
 		                	for(File document : childrenfiles)
 		                	{		
-		                		String information = "";
 		                		String fileName = document.getName();
 		                		if((document.getName().contains("txt")||document.getName().contains("csv")||
 		                					document.getName().contains("xlsx")||document.getName().contains("xls"))
 		                					&& (!document.getName().contains("metaData") && !document.getName().contains("README") && document.getName().contains(".")))
 		                		{
-		                				information+=fileName+"\n";
+		                				
 		                				//System.out.println(fileName+"    ---");
-		                				Thread t1 = new Thread("wait");
-		                				Thread t2 = new Thread("run_files");
-				                		long startTime = System.nanoTime();
-				                		EditFile editFile = new EditFile( document);
-				           			long endTime   = System.nanoTime();
-				            			long totalTime = endTime - startTime;
-				            			double seconds = (double)totalTime/1000000000.0;
-				           			information+= "Time: "+seconds+"\n";
-				            			information+="Size: "+document.length()+"\n\n";
+		                				RunableThread t2 = new RunableThread("run_files",document);
+		                				t2.start();
+		                				try 
+		                				{
+											Thread.sleep(5000);
+									} 
+		                				catch (InterruptedException e) 
+		                				{
+											e.printStackTrace();
+									}
+		                				if(t2.t.isAlive())
+		                				{
+		                					t2.change();
+		                					t2.stopThread();
+		                				}
+		                				System.out.println(t2.getInformation());
+				                		
 		            			}
-		                			result+=information;
-			                		System.out.println(information);
 		                	}
 	                		
 	                }
@@ -109,4 +114,60 @@ public class RunAllFiles {
 	     }
 		 
 	  }*/
+}
+
+class RunableThread implements Runnable
+{
+	public Thread t;
+	private String threadName;
+	private String fileName;
+	private File document;
+	private String information;
+	
+	public RunableThread(String newName, File file)
+	{
+		threadName = newName;
+		document = file;
+		this.fileName = file.getName();
+	}
+	
+	@Override
+	public void run() 
+	{
+		information ="";
+		information = fileName+"\n";
+		long startTime = System.nanoTime();
+		EditFile editFile = new EditFile( document);
+		long endTime   = System.nanoTime();
+		long totalTime = endTime - startTime;
+		double seconds = (double)totalTime/1000000000.0;
+		information+= "Time: "+seconds+"\n";
+		information+="Size: "+document.length()+"\n\n";
+	}
+	
+	public void change()
+	{
+		information+= "Time: too long\n";
+		information+="Size: "+document.length()+"\n\n";
+	}
+	
+	public void stopThread()
+	{
+		t.interrupt();
+	}
+	
+	public String getInformation()
+	{
+		return information;
+	}
+	
+	public void start()
+	{
+	    if (t == null) 
+	    {
+	         t = new Thread (this, threadName);
+	         t.start ();
+	    }
+	}
+	
 }

@@ -627,7 +627,7 @@ public class InterfaceDirectories
         JMenuItem helpMenuItem = new JMenuItem("Help...");
         helpMenu.add(helpMenuItem);
         fileMenu.add(logFile);
-        //fileMenu.add(runAllFiles);
+        fileMenu.add(runAllFiles);
         menuBar.add(fileMenu);
         menuBar.add(helpMenu);
         mainFrame.setJMenuBar(menuBar);
