@@ -34,8 +34,7 @@ public class RunAllFiles {
 		                		if((document.getName().contains("txt")||document.getName().contains("csv")||
 		                					document.getName().contains("xlsx")||document.getName().contains("xls"))
 		                					&& (!document.getName().contains("metaData") && !document.getName().contains("README") && document.getName().contains(".")))
-		                		{
-		                				
+		                		{		
 		                				//System.out.println(fileName+"    ---");
 		                				RunableThread t2 = new RunableThread("run_files",document);
 		                				t2.start();

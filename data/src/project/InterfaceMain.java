@@ -183,6 +183,7 @@ public class InterfaceMain
             }
         });
         
+        //addItemListener
         replaceCheckBox.addActionListener(new ActionListener()
         {
             @Override
@@ -984,10 +985,6 @@ public class InterfaceMain
 		{
 			editFile.replaceSpaceInColumn(selectedColumnData);
 		}
-		if(moveColumn.isSelected())
-		{
-			editFile.moveColumn(moveColumnIndex);
-		}
 		if(columnCheckBox.isSelected())
 		{
 			editFile.addTextToColumn(addTextColumnIndex, addTextString, headerCheckBox.isSelected());
@@ -999,6 +996,10 @@ public class InterfaceMain
 		if(!selectedChoicesColumn.isEmpty())
 		{
 			editFile.deleteColumn(selectedChoicesColumn);
+		}
+		if(moveColumn.isSelected())
+		{
+			editFile.moveColumn(moveColumnIndex);
 		}
 		String expression = editFile.getSplitExpression();
 		theSheetName = editFile.getSheetName();
