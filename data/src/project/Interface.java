@@ -21,7 +21,7 @@ public class Interface
         
     		InterfaceDirectories fileBrowser = new InterfaceDirectories();
     		JFrame f = fileBrowser.getMainFrame();
-        f.setPreferredSize(new Dimension(900, 700));
+        f.setPreferredSize(new Dimension(1000, 700));
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //f.setContentPane(fileBrowser.getGui());
         

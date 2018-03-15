@@ -24,9 +24,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.tika.Tika;
 import org.apache.tika.mime.MimeTypes;
-
 import com.google.common.io.Files;
-
 import org.apache.poi.hssf.usermodel.*;
 
 public class EditFile 
@@ -104,7 +102,7 @@ public class EditFile
 		            {
 		            		error = separateFile(expression);
 		            }
-		            else if(extenssion.equals(""))
+		            else if(extenssion.equals("")) //if current file doesn't have an extension
 		            {
 		            		String message = null;
 		            		FileTypeDetector detector = new TikaFileTypeDetector();
@@ -122,6 +120,10 @@ public class EditFile
 			                		if(!editXLSfile(gui,theSheetName)) //If no error
 			                		{
 			                			rename = "xls";
+			                		}
+			                		else
+			                		{
+			                			error = true;
 			                		}
 		                		}
 		                		else
@@ -142,6 +144,10 @@ public class EditFile
 			                		if(!editXLSXfile(gui,theSheetName)) // if no error
 			                		{
 			                			rename = "xlsx";
+			                		}
+			                		else
+			                		{
+			                			error = true;
 			                		}
 			            		}
 			            		else
@@ -177,13 +183,18 @@ public class EditFile
 		            			error = true;
 		            		}
 		            }
-		            else
+		            else //if file's type is unusual.
 		            {
 		            		int option = JOptionPane.showConfirmDialog(null,  "Open this file might cause the program crash, do you still want to open it?", 
 		            			"Warning", JOptionPane.OK_CANCEL_OPTION);
 		            		if(option == 0)
 		            		{
+		            			System.out.println(currentFile.length());
 		            			error = separateFile(expression);
+		            		}
+		            		else
+		            		{
+		            			error = true;
 		            		}
 		            }
 		        } 
@@ -230,12 +241,10 @@ public class EditFile
 		         {
 		        	 	fileArray.add(new ArrayList<String>());
 		            fileArray.get(lineNum).add(dataLine[i].trim());
-		            //System.out.println(dataLine[i].trim());
 		         }
 		         lineNum++;
-		         if(dataLine.length > columnNum)
+		         if(dataLine.length > columnNum) //keep the biggest columnNum in different rows to be the columnNum
 		         {
-		               //keep the biggest columnNum in different rows to be the columnNum
 		                	columnNum = dataLine.length;
 		         }  
 		     }
@@ -326,18 +335,14 @@ public class EditFile
 	        
 	    if(fip.available() > 0)
 	    {
-	        	if(gui != null)
+	        	/*if(gui != null)
 	        	{
 	   			gui.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-	        	}
+	        	}*/
 	        	try
 	        	{
 		        XSSFWorkbook workbook = new XSSFWorkbook(fip);
 			    String sheets[] = getAllXLSXSheet(workbook);
-				if(gui != null)
-			    {
-			    		gui.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-			    }
 				String sheetSelected;
 				if(theSheetName.equals(""))
 				{
@@ -350,10 +355,17 @@ public class EditFile
 				}
 				if(sheetSelected != null)
 				{
-					//gui.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+					if(gui != null)
+					{
+						gui.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+					}
 					sheetName = sheetSelected;
 					XSSFSheet sheet = workbook.getSheet(sheetSelected);
 					readTheXLSXSheet(sheet);
+					if(gui != null)
+					{
+						gui.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));					
+					}
 				}
 				else
 				{
@@ -432,18 +444,10 @@ public class EditFile
 			FileInputStream fip = new FileInputStream(currentFile);
 			if(fip.available() > 0)
 		    {
-				if(gui != null)
-				{
-					gui.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-				}
 				try
 				{
 				    HSSFWorkbook workbook = new HSSFWorkbook(fip);
 					String sheets[] = getAllXLSSheet(workbook);
-					if(gui != null)
-					{
-						gui.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-					}
 					String sheetSelected;
 					if(theSheetName.equals(""))
 				    {
@@ -456,9 +460,17 @@ public class EditFile
 				    }
 					if(sheetSelected != null)
 					{
+						if(gui != null)
+						{
+							gui.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+						}
 						sheetName = sheetSelected;
 						HSSFSheet sheet = workbook.getSheet(sheetSelected);
 						readTheXLSSheet(sheet);
+						if(gui != null)
+						{
+							gui.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+						}
 					}
 					else
 					{
@@ -537,14 +549,13 @@ public class EditFile
 	    }
     }
     
-    //***********save all changes that happens on the file*************
+    //***********save all changes that happens on the file(write back to the original file)*************
     public File writeBack(String rename)
     {
     		String newFileName = currentFile.getAbsolutePath();
     		int reply = -1;
     		String message;
     		BufferedWriter bufferedWriter;
-    		//System.out.println("-----"+currentFile.getName());
     		if(!rename.equals(""))
     		{
     			message = "The file is open as an "+rename+" file. Do you want to add the extension?";
@@ -810,6 +821,7 @@ public class EditFile
     		return error;
     }
     
+    //move the given column to the end of the file
     public void moveColumn(int columnPosition)
     {
     		keepChangedFile = true;
@@ -835,6 +847,7 @@ public class EditFile
     		fileArrayToFileString(ADD_ROW_NUMBER_OPTION);
     }
     
+    //delete given rows in the file
     public boolean deleteRow(List<String> selectedChoicesRow)
     {
     		boolean error = false;
@@ -851,11 +864,12 @@ public class EditFile
 	    			}
 	    		}
 	    		Arrays.sort(rowIndex);
+	    		removeDuplicate(rowIndex);
 	    		for(int k = length-1; k>=0; k--)
 	    		{
 		    		for(int i = 0; i < fileArray.size(); i++)
 		    		{
-		    			if(rowIndex[k]==i)
+		    			if(rowIndex[k]==i && rowIndex[k] != -1)
 		    			{
 		    				fileArray.remove(i);
 		    			}
@@ -874,6 +888,7 @@ public class EditFile
     		return error;
     }
     
+    //delete given column in the file
     public boolean deleteColumn(List<String> selectedChoicesColumn)
     {
     		boolean error = false;
@@ -890,13 +905,14 @@ public class EditFile
 	    			}
 	    		}
 	    		Arrays.sort(columnIndex);
+	    		removeDuplicate(columnIndex);
 	    		for(int k = length-1; k>=0; k--)
 	    		{
 		    		for(int i = 0; i< fileArray.size();i++)
 		    		{
 		    			for(int p = 0; p<fileArray.get(i).size(); p++)
 		    			{
-		    				if(columnIndex[k]==p)
+		    				if(columnIndex[k]==p && columnIndex[k] != -1)
 			    			{
 		    					fileArray.get(i).remove(p);
 			    			}
@@ -908,6 +924,25 @@ public class EditFile
 		return error;
     }
     
+    //remove the duplicate selected rows or columns
+    public int[] removeDuplicate(int[] indexArray)
+    {
+    		for(int j = 0; j < indexArray.length-1; j++)
+        {
+           if(indexArray[j] == indexArray[j+1])
+           {
+               int index = j+1;
+               while(indexArray[index] == indexArray[j] && index<indexArray.length)
+               {
+            	   indexArray[index] = -1;
+                   index++;
+               }
+           }
+        }
+    		return indexArray;
+    }
+    
+    //delete the every second headers in the given row.
     public boolean editHeadersFormat(int start, int end, int rowIndex)
     {
     		boolean error = false;
@@ -934,6 +969,7 @@ public class EditFile
     		return error;
     }
     
+    //add the given text to the end of every cell in the given column
     public boolean addTextToColumn(int columnIndex, String text, boolean header)
     {
     		boolean error = false;
@@ -1021,6 +1057,7 @@ public class EditFile
     		rename = newName;
     }
     
+    //add the label to every row (row1, row2, row3......)
     public void addRowLabel()
     {
         for(int i = 0; i < rowNum; i++)
@@ -1030,6 +1067,7 @@ public class EditFile
         columnNum++;
     }
     
+    //get the current file extension
     public String getMyFileExtension()
     {
     		String extenssion = "";
@@ -1052,6 +1090,7 @@ public class EditFile
     }
 }
 
+//library: detect the file's type by content for files lack of extension
 class TikaFileTypeDetector extends FileTypeDetector 
 {
     private final Tika tika = new Tika();
