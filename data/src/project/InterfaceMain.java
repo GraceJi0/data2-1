@@ -38,39 +38,23 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
 import org.apache.log4j.chainsaw.Main;
-
 import javax.swing.filechooser.FileFilter;
-
 import com.google.common.io.Files;
 
-public class InterfaceMain 
+public class InterfaceMain
 {
     private JFrame mainFrame;
     private JPanel controlPanel;
     private String fileName;
     private File currentFile;
+    private String theSheetName; 
+    private LogFile logFile;
+    private FastConvert fastConvert;
     
     private JLabel fileNameLabel;
     private JPanel fileInformation;
     
-    private List<String> selectedChoicesRow;
-    private List<String> selectedChoicesColumn;
-    private int columnNum;
-    private int rowNum;
-    private JTextField columnStartTextField;
-    private JTextField columnEndTextField;
-    private JTextField rowStartTextField;
-    private JTextField rowEndTextField;
-    private JTable rowTable;
-    private JTable columnTable;
-    private JTable fileTable;
-    
-    private EditFile editFile;
-    private String[][] fileData;
-    private String[] columnLabel;
-    private JScrollPane fileScroll;
-    private JPanel textPanel;
-    
+    //select rows or columns
     private String[] choices1;
     private String[] choices2;
     private JComboBox<String> columnCombo;
@@ -83,6 +67,24 @@ public class InterfaceMain
     private JPanel leftPanel;
     private JPanel columnControlPanel;
     private JPanel rowControlPanel;
+    private List<String> selectedChoicesRow;
+    private List<String> selectedChoicesColumn;
+    private int columnNum;
+    private int rowNum;
+    private JTextField columnStartTextField;
+    private JTextField columnEndTextField;
+    private JTextField rowStartTextField;
+    private JTextField rowEndTextField;
+    private JTable rowTable;
+    private JTable columnTable;
+    private JTable fileTable;
+    
+    //variable about file table
+    private EditFile editFile;
+    private String[][] fileData;
+    private String[] columnLabel;
+    private JScrollPane fileScroll;
+    private JPanel textPanel;
 
     //checkbox variables 
     private JCheckBox replaceCheckBox;
@@ -102,11 +104,6 @@ public class InterfaceMain
 	private int addTextColumnIndex;
 	private String addTextString;
 	private JCheckBox headerCheckBox;
-    
-    private String theSheetName;
-    
-    private LogFile logFile;
-    private FastConvert fastConvert;
     
     public InterfaceMain(File currentFile, JPanel gui, LogFile logFile) 
     {
@@ -146,7 +143,7 @@ public class InterfaceMain
         String extenssion = editFile.getMyFileExtension();
         if(extenssion.equals("xlsx") || extenssion.equals("xls") || editFile.getRename().equals("xlsx")|| editFile.getRename().equals("xls"))
         {
-        		splitInformation = editFile.getSheetName();
+        		splitInformation = editFile.getSheetName();  //if the file's type is xlsx or xls, hide the split menu.
         }
         else
         {
@@ -168,97 +165,74 @@ public class InterfaceMain
         textPanel.setBorder(BorderFactory.createEmptyBorder(8, 0, 0, 8)); 
         
         //********************set components in checkbox panel(edit file operations)*******************
-        replaceCheckBox = new JCheckBox("Replace Missing Data");
-        replaceSpaceInColumn = new JCheckBox("Edit column");
+        replaceCheckBox = new JCheckBox("Replace missing data");
+        replaceSpaceInColumn = new JCheckBox("Replace spaces in column");
         moveColumn = new JCheckBox("Move column");
-        editHeadersFormat = new JCheckBox("Edit Headers' Format       ");
-        columnCheckBox = new JCheckBox("Add text");
-        columnCheckBox.addItemListener(new ItemListener() 
+        editHeadersFormat = new JCheckBox("Delete every second headers");
+        columnCheckBox = new JCheckBox("Add text to column");
+        columnCheckBox.addActionListener(new ActionListener()
         {
             @Override
-            public void itemStateChanged(ItemEvent e) 
+            public void actionPerformed(ActionEvent e)
             {
-                if(e.getStateChange() == ItemEvent.SELECTED) 
-                {
-                		int option = showAddTextDialog();
-                		if(option != 0)
-                		{
-                			columnCheckBox.setSelected(false);
-                		}
-                }
+	            	int option = showAddTextDialog();
+	        		if(option != 0)
+	        		{
+	        			columnCheckBox.setSelected(false);
+	        		}
             }
         });
-        replaceCheckBox.addItemListener(new ItemListener() 
+        
+        //addItemListener
+        replaceCheckBox.addActionListener(new ActionListener()
         {
             @Override
-            public void itemStateChanged(ItemEvent e) 
+            public void actionPerformed(ActionEvent e)
             {
-                if(e.getStateChange() == ItemEvent.SELECTED) 
-                {
-                		int option = showReplaceDataDialog();
-                		if(option != 0)
-                		{
-                			replaceCheckBox.setSelected(false);
-                		}
-                }
-                else
-                	{
-                		editFile.setMissingCh(null);
-                		editFile.setReplaceCh(null);
-                	}
+	            	int option = showReplaceDataDialog();
+	        		if(option != 0)
+	        		{
+	        			replaceCheckBox.setSelected(false);
+	        		}
             }
         });
-        replaceSpaceInColumn.addItemListener(new ItemListener() 
+        
+        replaceSpaceInColumn.addActionListener(new ActionListener()
         {
             @Override
-            public void itemStateChanged(ItemEvent e) 
+            public void actionPerformed(ActionEvent e)
             {
-                if(e.getStateChange() == ItemEvent.SELECTED) 
-                {
-	                		int option = showReplaceSpaceInColumnDialog();
-	                		if(option != 0)
-	                		{
-	                			replaceSpaceInColumn.setSelected(false);
-	                		}
-                }
+	            	int option = showReplaceSpaceInColumnDialog();
+	        		if(option != 0)
+	        		{
+	        			replaceSpaceInColumn.setSelected(false);
+	        		}
             }
         });
-        moveColumn.addItemListener(new ItemListener() 
+        
+        moveColumn.addActionListener(new ActionListener()
         {
             @Override
-            public void itemStateChanged(ItemEvent e) 
+            public void actionPerformed(ActionEvent e)
             {
-                //if(e.getStateChange() == ItemEvent.SELECTED) 
-                //{
-	                		int option = showMoveCloumnDialog();
-	                		if(option != 0)
-	                		{
-	                			moveColumn.setSelected(false);
-	                		}
-	                		else
-	                		{
-	                			moveColumn.setSelected(true);
-	                		}
-                //}
+	            	int option = showMoveCloumnDialog();
+	        		if(option != 0)
+	        		{
+	        			moveColumn.setSelected(false);
+	        		}
             }
         });
-        editHeadersFormat.addItemListener(new ItemListener() 
+        
+        editHeadersFormat.addActionListener(new ActionListener()
         {
             @Override
-            public void itemStateChanged(ItemEvent e) 
+            public void actionPerformed(ActionEvent e)
             {
-                if(e.getStateChange() == ItemEvent.SELECTED) 
-                {
-                		int option = editHeadersFormatDialog();
-                		if(option != 0)
-                		{
-                			editHeadersFormat.setSelected(false);
-                		}
-                		/*else
-                		{
-                			editHeadersFormat.setSelected(true);
-                		}*/
-                }
+	            	int option = editHeadersFormatDialog();
+	        		if(option != 0)
+	        		{
+	        			editHeadersFormat.setSelected(false);
+	        		}
             }
         });
         
@@ -615,6 +589,7 @@ public class InterfaceMain
         JMenuItem splitByTabMenuItem = new JMenuItem("Tab");
         JMenuItem splitBySemicolonMenuitem = new JMenuItem("Semicolon");
         JMenuItem splitByLineMenuItem = new JMenuItem("Line");
+        JMenuItem helpMenuItem = new JMenuItem("Help...");
         
         //**********add menu items to menus**********
         fileMenu.add(convertMenuItem);
@@ -625,6 +600,7 @@ public class InterfaceMain
         splitMenu.add(splitByTabMenuItem);
         splitMenu.add(splitBySemicolonMenuitem);
         splitMenu.add(splitByLineMenuItem);
+        helpMenu.add(helpMenuItem);
         
         //**********add menu to menu bar**********
         menuBar.add(fileMenu);
@@ -694,6 +670,15 @@ public class InterfaceMain
 				detailConvert.runDetailConvert();
 			}
 		});
+        
+        helpMenuItem.addActionListener(new MenuItemListener()
+        {
+			@Override
+			public void actionPerformed(ActionEvent e) 
+			{
+				HelpWindow help = new HelpWindow("editor");
+			}
+		});
     }
     
     public JFrame getMainFrame() 
@@ -747,11 +732,12 @@ public class InterfaceMain
         			if(getFileExtension(newFile).equals("") || getFileExtension(newFile).equals(getFileExtension(currentFile)))
         			{
 	        			String newPath = newFile.getAbsolutePath();
-	        			if(getFileExtension(newFile).equals(""))
+	        			if(getFileExtension(newFile).equals("")) //if user didn't type the file extension
 	        			{
 	        				 File tempFile = new File(newPath+"."+editFile.getMyFileExtension());
 	        				 Files.copy(currentFile, tempFile);
 	        				 currentFile = tempFile;
+	        				 logFile.logSaveAs(currentFile.getName());
 	        				 updateFile();
 	        				 newFile.delete();
 	        			}
@@ -759,8 +745,10 @@ public class InterfaceMain
 	        			{
 	        				Files.copy(currentFile, newFile);
 	        				currentFile = newFile;
+	        				logFile.logSaveAs(currentFile.getName());
 	        				updateFile();
 	        			}
+	        			
 	        			logFile.setCurrentFile(currentFile);
 	        			logFile.initializelLogEditFile();
 	        			addLogFileString();
@@ -790,15 +778,22 @@ public class InterfaceMain
 	        columnNum = editFile.getColumnNum();
 	        List<List<String>> fileArray = editFile.getFileArray();
 	        columnLabel = new String[columnNum];
-	        columnLabel[0] = "";
-	        for(int i = 1; i < columnNum; i++)
+	        if(columnLabel.length>0)
 	        {
-	            columnLabel[i] = "column" + i;
+		        columnLabel[0] = "";
+		        for(int i = 1; i < columnNum; i++)
+		        {
+		            columnLabel[i] = "column" + i;
+		        }
+		        fileData = new String[rowNum][columnNum];
+		        for(int i = 0; i < rowNum; i++ )//copy data from ArrayList to Array 
+		        {
+		            fileArray.get(i).toArray(fileData[i]);
+		        }
 	        }
-	        fileData = new String[rowNum][columnNum];
-	        for(int i = 0; i < rowNum; i++ )//copy data from ArrayList to Array 
+	        else
 	        {
-	            fileArray.get(i).toArray(fileData[i]);
+	        		error = false;
 	        }
         }
         return error;
@@ -832,7 +827,7 @@ public class InterfaceMain
         return error;
     }
     
-    //add a group of column or row index to the selected table
+    //given a range of column or row index, add all index that in the range to the given table(column table or row table)
     public void addIndexGroup(int start, int end, List<String> selectedIndexList, JTable table, String title)
     {
     		for(int i = start; i<=end; i++)
@@ -844,7 +839,7 @@ public class InterfaceMain
     		}
     }
     
-    //********dynamically set the column combo box(select the column)*********
+    //********dynamically set the column combo box(select the column), when a element has been selected, add it to the table*********
     public void setColumnComoboBox()
     {
         choices1 = new String[columnNum-1];
@@ -885,7 +880,7 @@ public class InterfaceMain
         }); 
     }
     
-  //********dynamically set the row combo box(select the row)*********
+  //********dynamically set the row combo box(select the row),  when a element has been selected, add it to the table*********
     public void setRowComboBox()
     {
         choices2 = new String[rowNum];
@@ -929,6 +924,7 @@ public class InterfaceMain
     //*****refresh the GUI after make changes to the file or switch the split model.*****
     public void refreshGUI(String expression)
     {
+    		mainFrame.setCursor(new Cursor(Cursor.WAIT_CURSOR));
     		fileInformation.remove(fileNameLabel);
     		textPanel.remove(fileInformation);
         textPanel.remove(fileScroll); 
@@ -969,15 +965,16 @@ public class InterfaceMain
         //mainFrame.setVisible(true);
         mainFrame.revalidate();
         mainFrame.repaint();
+        mainFrame.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
     }
     
     //after save or save as, update the file and refresh GUI.
     public void updateFile()
     {
+    		mainFrame.setCursor(new Cursor(Cursor.WAIT_CURSOR));
     		editFile.setCurrentFile(currentFile);
     		addLogFileString();
 		logFile.writeToLogEditFile();
-		mainFrame.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 		if(replaceCheckBox.isSelected())
 		{
 			editFile.setMissingCh(missingData);
@@ -987,10 +984,6 @@ public class InterfaceMain
 		if(replaceSpaceInColumn.isSelected())
 		{
 			editFile.replaceSpaceInColumn(selectedColumnData);
-		}
-		if(moveColumn.isSelected())
-		{
-			editFile.moveColumn(moveColumnIndex);
 		}
 		if(columnCheckBox.isSelected())
 		{
@@ -1003,6 +996,10 @@ public class InterfaceMain
 		if(!selectedChoicesColumn.isEmpty())
 		{
 			editFile.deleteColumn(selectedChoicesColumn);
+		}
+		if(moveColumn.isSelected())
+		{
+			editFile.moveColumn(moveColumnIndex);
 		}
 		String expression = editFile.getSplitExpression();
 		theSheetName = editFile.getSheetName();
@@ -1083,7 +1080,7 @@ public class InterfaceMain
 	        }
 	        else
 	        {
-	        		editFile.setKeepChangedFile(false);
+	        		editFile.setKeepChangedFile(false); 
 	        }
 		}
     		else
@@ -1208,6 +1205,7 @@ public class InterfaceMain
 			headerCheckBox = new JCheckBox("Is there a header in this column?");
 			Object[] message = {"Add text",inputTextField,"to the end of every cell in column",columnTextField,
 					"(column number)\n\n",headerCheckBox};
+			System.out.println(inputTextField.getText());
 			option = JOptionPane.showConfirmDialog(null, message, "Add text to column", JOptionPane.OK_CANCEL_OPTION);
 			if(option == 0)
 			{
@@ -1220,10 +1218,6 @@ public class InterfaceMain
 		    				JOptionPane.showConfirmDialog(null,"This column is empty!", "Error", JOptionPane.CLOSED_OPTION); 
 						option = -1;
 					}
-					/*if(editFile.addTextToColumn(addTextColumnIndex,addTextString,headerCheckBox.isSelected()))
-					{
-						option = -1;
-					}*/
 					
 				}
 				catch(Exception e)
