@@ -285,14 +285,14 @@ public class InterfaceDirectories
             {
                 public void actionPerformed(ActionEvent ae)
                 {
-                		gui.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-                    JFrame frame = new InterfaceMain(currentFile,gui,logFile).getMainFrame();
-                    if(frame != null)
-                    {
-	                    frame.setVisible(true);
-	                    frame.setPreferredSize(new Dimension(900, 700));
-                    }
-                    gui.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+	                	gui.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+	            	    JFrame frame = new InterfaceMain(currentFile,gui,logFile).getMainFrame();
+	            	    if(frame != null)
+	            	    {
+	            	        frame.setVisible(true);
+	            	        frame.setPreferredSize(new Dimension(900, 700));
+	            	    }
+	            	    gui.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
                 }
             });
             toolBar.add(editFile);
@@ -715,3 +715,55 @@ public class InterfaceDirectories
     		return mainFrame;
     }
 }
+
+/*class FileThread implements Runnable
+{
+	private Thread thread;
+	private File currentFile;
+	private JPanel gui;
+	private LogFile logFile;
+	
+	public FileThread(File currentFile,JPanel gui, LogFile logFile)
+	{
+		thread = new Thread();
+		this.currentFile = currentFile;
+		this.gui = gui;
+		this.logFile = logFile;
+	}
+
+	@Override
+	public void run() 
+	{
+		
+	}
+	
+	public void start()
+	{
+		if(thread!= null)
+		{
+			thread.start();
+		}
+	}
+	
+	public void join(long time)
+	{
+		try 
+		{
+			thread.join(time);
+		} 
+		catch (InterruptedException e) 
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	public void interrupt()
+	{
+		thread.interrupt();
+	}
+	
+	public boolean isAlive()
+	{
+		return thread.isAlive();
+	}
+}*/

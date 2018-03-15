@@ -4006,3 +4006,9 @@ DEBUG 13-03 15:32:37,897 (ParserFactory.java:getParserInstance:173)  -New Struct
 DEBUG 13-03 15:32:37,910 (StructureParser.java:parse:698)  -java.lang.ArrayIndexOutOfBoundsException: -9
 ERROR 13-03 15:32:37,912 (StructureParser.java:parse:699)  -input file error at line: 1
 ERROR 13-03 15:32:37,963 (GenepopWriter.java:write:161)  -No Microsat, Standard, SNP or AFLP data in the input file. GENEPOP can only handle these data types!!!
+INFO  15-03 12:14:09,210 (PGDSpiderConfig.java:loadConfig:64)  -load PGDSpider configuration from: /Users/dinghanji/Documents/data1.1/project-dataManagement/data/spider.conf.xml
+DEBUG 15-03 12:14:09,276 (ParserFactory.java:getParserInstance:173)  -New StructureParser instance
+DEBUG 15-03 12:14:09,296 (ParserFactory.java:getParserInstance:173)  -New StructureParser instance
+DEBUG 15-03 12:14:09,317 (StructureParser.java:parse:698)  -java.lang.ArrayIndexOutOfBoundsException: 1
+ERROR 15-03 12:14:09,319 (StructureParser.java:parse:699)  -input file error at line: 12
+ERROR 15-03 12:14:09,359 (GenepopWriter.java:write:161)  -No Microsat, Standard, SNP or AFLP data in the input file. GENEPOP can only handle these data types!!!
