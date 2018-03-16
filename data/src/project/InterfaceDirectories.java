@@ -287,6 +287,12 @@ public class InterfaceDirectories
                 public void actionPerformed(ActionEvent ae)
                 {
 	                	gui.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+	                	
+	                	
+	                	
+	                	
+	                	
+	                	
 	            	    JFrame frame = new InterfaceMain(currentFile,gui,logFile).getMainFrame();
 	            	    if(frame != null)
 	            	    {
