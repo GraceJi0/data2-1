@@ -663,12 +663,12 @@ public class InterfaceDirectories
     {
     		String title = "Please set the locations that you want to save the log file.";
     		JButton logDeleteBtn = new JButton("Log file that records all the deleted file.");
-    		if(!logDeleteFilePath.equals(""))
+    		if(!logDeleteFilePath.equals("")) //if the log file location has already been set.
     		{
     			logDeleteBtn.setIcon(new ImageIcon(Main.class.getResource("/Resources/checkmark.png")));
     		}
     		JButton logChangeBtn = new JButton("Log file that records all the changes that happens on a file.");
-    		if(!logChangesFilePath.equals(""))
+    		if(!logChangesFilePath.equals("")) //if the log file location has already been set.
     		{
     			logChangeBtn.setIcon(new ImageIcon(Main.class.getResource("/Resources/checkmark.png")));
     		}
