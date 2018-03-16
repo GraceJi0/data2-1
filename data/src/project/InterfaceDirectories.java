@@ -13,6 +13,7 @@ import javax.swing.event.*;
 import javax.swing.filechooser.FileSystemView;
 import javax.swing.tree.*;
 
+import org.apache.cxf.helpers.FileUtils;
 import org.apache.log4j.chainsaw.Main;
 
 import java.util.List;
@@ -662,7 +663,15 @@ public class InterfaceDirectories
     {
     		String title = "Please set the locations that you want to save the log file.";
     		JButton logDeleteBtn = new JButton("Log file that records all the deleted file.");
+    		if(!logDeleteFilePath.equals(""))
+    		{
+    			logDeleteBtn.setIcon(new ImageIcon(Main.class.getResource("/Resources/checkmark.png")));
+    		}
     		JButton logChangeBtn = new JButton("Log file that records all the changes that happens on a file.");
+    		if(!logChangesFilePath.equals(""))
+    		{
+    			logChangeBtn.setIcon(new ImageIcon(Main.class.getResource("/Resources/checkmark.png")));
+    		}
     		logDeleteBtn.addActionListener(new ActionListener()
     		{
 			@Override
