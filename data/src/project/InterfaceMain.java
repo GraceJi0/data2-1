@@ -119,7 +119,7 @@ public class InterfaceMain
         fileName = this.currentFile.getName();
         selectedChoicesColumn = new ArrayList<String>();
         selectedChoicesRow = new ArrayList<String>();
-        if(!setFileTable("\t",gui)) //if there's no error when set the file table
+        if(setFileTable("\t",gui)==false) //if there's no error when set the file table
         {
 	        setInterface();
 	        addMenuToFrame();
@@ -140,7 +140,7 @@ public class InterfaceMain
         
         //***************set components at the top contain file name and split help information
         String splitInformation;
-        String extenssion = editFile.getMyFileExtension();
+        String extenssion = editFile.getCurrentFileExtension();
         if(extenssion.equals("xlsx") || extenssion.equals("xls") || editFile.getRename().equals("xlsx")|| editFile.getRename().equals("xls"))
         {
         		splitInformation = editFile.getSheetName();  //if the file's type is xlsx or xls, hide the split menu.
@@ -480,7 +480,7 @@ public class InterfaceMain
                 }
             }
         });
-        if(editFile.getMyFileExtension().equals(""))
+        if(editFile.getCurrentFileExtension().equals(""))
         {
         		saveAsBtn.setEnabled(false);
         }
@@ -604,7 +604,7 @@ public class InterfaceMain
         
         //**********add menu to menu bar**********
         menuBar.add(fileMenu);
-        String extenssion = editFile.getMyFileExtension();
+        String extenssion = editFile.getCurrentFileExtension();
         if(!extenssion.equals("xlsx") && !extenssion.equals("xls") && !editFile.getRename().equals("xlsx") && !editFile.getRename().equals("xls"))
         {
         		menuBar.add(splitMenu);
@@ -734,7 +734,7 @@ public class InterfaceMain
 	        			String newPath = newFile.getAbsolutePath();
 	        			if(getFileExtension(newFile).equals("")) //if user didn't type the file extension
 	        			{
-	        				 File tempFile = new File(newPath+"."+editFile.getMyFileExtension());
+	        				 File tempFile = new File(newPath+"."+editFile.getCurrentFileExtension());
 	        				 Files.copy(currentFile, tempFile);
 	        				 currentFile = tempFile;
 	        				 logFile.logSaveAs(currentFile.getName());
@@ -771,7 +771,7 @@ public class InterfaceMain
     public boolean getTableFileData(String expression, JPanel gui)
     {
         boolean error = editFile.editTheFile(expression, gui, theSheetName);
-        if(!error)
+        if(error == false)
         {
 	        //gui.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 	        rowNum = editFile.getRowNum();
@@ -803,7 +803,7 @@ public class InterfaceMain
     public boolean setFileTable(String expression, JPanel gui)
     {
         boolean error = getTableFileData(expression, gui);
-        if(!error)
+        if(error == false)
         {
 	        fileTable = new JTable();
 	        fileTable.setModel(new DefaultTableModel(fileData, columnLabel));

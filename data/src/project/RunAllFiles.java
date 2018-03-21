@@ -3,6 +3,7 @@ package project;
 import java.io.File;
 import java.io.FileNotFoundException;
 
+import javax.swing.JPanel;
 import javax.swing.filechooser.FileSystemView;
 
 public class RunAllFiles {
@@ -16,7 +17,7 @@ public class RunAllFiles {
 		File file = new File("/Users/dinghanji/Desktop/projectFile/noncoop_ex");
 		run(file);
 		//runFiles(file);
-		//runAfile(new File("/Users/dinghanji/Desktop/projectFile/noncoop_ex/Melospiza%20melodia/00002159-AdultOffspringData.csv"));
+		//runAfile(new File("/Users/dinghanji/Desktop/projectFile/noncoop_ex/Geospiza/00004340-MLM_GLM_FortMag.xlsx"));
 		System.out.println("end");
 	}
 	
@@ -89,7 +90,16 @@ public class RunAllFiles {
 		                					&& (!document.getName().contains("metaData") && !document.getName().contains("README") && document.getName().contains("."))
 		                					&& document.length()>0)
 		                		{		
+		                			if(fileName.equals("00004340-83Hapmap_simple2_filtered.xlsx") 
+		                					|| fileName.equals("00003349-data_genotypes.csv")
+		                					|| fileName.equals("00004815-UK_genotypes_PED.txt"))
+		                			{
+		                				System.out.println(fileName+"\nTime: run out of memory"+"\nSize: "+document.length()+"\n\n");
+		                			}
+		                			else
+		                			{
 		                			runAfile(document);	
+		                			}
 		            			}
 		                	}
 	                		
@@ -102,10 +112,11 @@ public class RunAllFiles {
 	{
 		EditFile editFile = null;
 		String fileName = file.getName();
-		 String information ="";
-		 System.out.println("\n"+fileName);
+		String information ="";
+		System.out.println("\n"+fileName);
 		long startTime = System.nanoTime();
-		 editFile = new EditFile( file);
+		editFile = new EditFile( file);
+		editFile.editTheFile( "\t", null, null);
 		long endTime   = System.nanoTime();
 		long totalTime = endTime - startTime;
 		double seconds = (double)totalTime/1000000000.0;
