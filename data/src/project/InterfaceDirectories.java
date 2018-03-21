@@ -605,6 +605,7 @@ public class InterfaceDirectories
                 for (File f : contents) 
                 {
                 		deleteDrectoriesAndFiles(f);
+                		//desktop.moveToTrash(f);
                 }
             }
             theFile.delete();
@@ -667,11 +668,13 @@ public class InterfaceDirectories
     		if(!logDeleteFilePath.equals("")) //if the log file location has already been set.
     		{
     			logDeleteBtn.setIcon(new ImageIcon(Main.class.getResource("/Resources/checkmark.png")));
+    			logDeleteBtn.setText("logDelete.txt");
     		}
     		JButton logChangeBtn = new JButton("Log file that records all the changes that happens on a file.");
     		if(!logChangesFilePath.equals("")) //if the log file location has already been set.
     		{
     			logChangeBtn.setIcon(new ImageIcon(Main.class.getResource("/Resources/checkmark.png")));
+    			logChangeBtn.setText("logEdit.txt");
     		}
     		logDeleteBtn.addActionListener(new ActionListener()
     		{

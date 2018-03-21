@@ -244,7 +244,7 @@ public class EditFile
     		{
     			error = true;
     		}
-    		else // if user still want to open the file or the file is not big 
+    		else //if user still want to open the file or the file is not big 
     		{
     			if(gui != null)
     			{

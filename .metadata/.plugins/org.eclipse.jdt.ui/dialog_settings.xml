@@ -2,20 +2,15 @@
 <section name="Workbench">
 	<item value="/Users/dinghanji/Downloads/commons-compress-1.16.1 2" key="org.eclipse.jdt.ui.lastextjar"/>
 	<item value="filter_imports;" key="filters_last_used"/>
-	<section name="FatJarPackageWizard">
-		<item value="/Users/dinghanji/Documents/data1.1/project-dataManagement" key="FatJarPackageWizardPage.ANTSCRIPT_LOCATION"/>
-		<item value="Interface - data" key="FatJarPackageWizardPage.LAUNCH_CONFIGURATION_SELECTION_NAME"/>
-		<item value="/Users/dinghanji/Desktop/jarData1.1/data1-0.jar" key="FatJarPackageWizardPage.DESTINATION_PATH_SELECTION"/>
-		<item value="false" key="FatJarPackageWizardPage.ANTSCRIPT_SAVE"/>
-		<item value="1" key="FatJarPackageWizardPage.LIBRARY_HANDLING"/>
-		<list key="FatJarPackageWizardPage.DESTINATION_NAMES_ID">
-			<item value="/Users/dinghanji/Desktop/jarData1.1/data1-0.jar"/>
-			<item value="/Users/dinghanji/Desktop/jarData1.1/data1-1.jar"/>
-		</list>
-		<list key="FatJarPackageWizardPage.ANTSCRIPT_LOCATION_HISTORY">
-			<item value="/Users/dinghanji/Documents/data1.1/project-dataManagement"/>
-			<item value=".xml"/>
-		</list>
+	<section name="ProblemSeveritiesConfigurationBlock">
+		<item value="false" key="expanded2"/>
+		<item value="false" key="expanded1"/>
+		<item value="false" key="expanded4"/>
+		<item value="false" key="expanded3"/>
+		<item value="false" key="expanded6"/>
+		<item value="false" key="expanded5"/>
+		<item value="false" key="expanded7"/>
+		<item value="true" key="expanded0"/>
 	</section>
 	<section name="org.eclipse.jdt.internal.ui.packageview.PackageExplorerPart">
 		<item value="2" key="layout"/>
@@ -30,6 +25,27 @@
 	</section>
 	<section name="OptionalMessageDialog.hide.">
 		<item value="true" key="org.eclipse.jdt.ui.typecomment.deprecated"/>
+	</section>
+	<section name="FatJarPackageWizard">
+		<item value="/Users/dinghanji/Documents/data1.1/project-dataManagement" key="FatJarPackageWizardPage.ANTSCRIPT_LOCATION"/>
+		<item value="Interface - data" key="FatJarPackageWizardPage.LAUNCH_CONFIGURATION_SELECTION_NAME"/>
+		<item value="/Users/dinghanji/Desktop/jarData1.0/data1-0.jar" key="FatJarPackageWizardPage.DESTINATION_PATH_SELECTION"/>
+		<item value="false" key="FatJarPackageWizardPage.ANTSCRIPT_SAVE"/>
+		<item value="1" key="FatJarPackageWizardPage.LIBRARY_HANDLING"/>
+		<list key="FatJarPackageWizardPage.DESTINATION_NAMES_ID">
+			<item value="/Users/dinghanji/Desktop/jarData1.0/data1-0.jar"/>
+			<item value="/Users/dinghanji/Desktop/jarData1.1/data1-0.jar"/>
+			<item value="/Users/dinghanji/Desktop/jarData1.1/data1-1.jar"/>
+		</list>
+		<list key="FatJarPackageWizardPage.ANTSCRIPT_LOCATION_HISTORY">
+			<item value="/Users/dinghanji/Documents/data1.1/project-dataManagement"/>
+			<item value=".xml"/>
+		</list>
+	</section>
+	<section name="JavaBuildConfigurationBlock">
+		<item value="false" key="expanded2"/>
+		<item value="false" key="expanded1"/>
+		<item value="true" key="expanded0"/>
 	</section>
 	<section name="quick_assist_proposal_size">
 	</section>
