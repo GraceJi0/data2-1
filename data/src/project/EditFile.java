@@ -224,7 +224,7 @@ public class EditFile
     {
     		boolean error = false;
     		int option = -1;
-    		System.out.println(currentFile.getName()+"\nSize: "+currentFile.length());
+    		System.out.println(currentFile.getName()+"\n"+currentFile.length()+"\n");
     		if(currentFile.length()>10000000) 
     		{
     			if(currentFile.length()>30000000)

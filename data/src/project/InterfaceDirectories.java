@@ -604,8 +604,7 @@ public class InterfaceDirectories
             {
                 for (File f : contents) 
                 {
-                		deleteDrectoriesAndFiles(f);
-                		//desktop.moveToTrash(f);
+                	deleteDrectoriesAndFiles(f);
                 }
             }
             theFile.delete();
