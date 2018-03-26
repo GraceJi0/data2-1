@@ -1205,7 +1205,6 @@ public class InterfaceMain
 			headerCheckBox = new JCheckBox("Is there a header in this column?");
 			Object[] message = {"Add text",inputTextField,"to the end of every cell in column",columnTextField,
 					"(column number)\n\n",headerCheckBox};
-			System.out.println(inputTextField.getText());
 			option = JOptionPane.showConfirmDialog(null, message, "Add text to column", JOptionPane.OK_CANCEL_OPTION);
 			if(option == 0)
 			{
@@ -1266,17 +1265,17 @@ public class InterfaceMain
     //get the given file's extension
     public String getFileExtension(File theFile)
     {
-    		String extenssion = "";
-    		if(theFile != null)
-    		{
-	        String fileName = theFile.getName();
-	        int index = -1;
-	        index = fileName.lastIndexOf('.');
-	        if(index > -1)
-	        {
-	        		extenssion = fileName.substring(index + 1);
-	        }
-    		}
+    	String extenssion = "";
+    	if(theFile != null)
+    	{
+	       String fileName = theFile.getName();
+	       int index = -1;
+	       index = fileName.lastIndexOf('.');
+	       if(index > -1)
+	       {
+	    		extenssion = fileName.substring(index + 1);
+	       }
+    	}
         return extenssion;
     }
 }

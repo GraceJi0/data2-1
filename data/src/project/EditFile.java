@@ -192,7 +192,6 @@ public class EditFile
 		            			"Warning", JOptionPane.OK_CANCEL_OPTION);
 		            		if(option == 0)
 		            		{
-		            			System.out.println(currentFile.length());
 		            			error = separateFile(gui, expression);
 		            		}
 		            		else
@@ -224,7 +223,6 @@ public class EditFile
     {
     		boolean error = false;
     		int option = -1;
-    		System.out.println(currentFile.getName()+"\n"+currentFile.length()+"\n");
     		if(currentFile.length()>10000000) 
     		{
     			if(currentFile.length()>30000000)
@@ -388,7 +386,6 @@ public class EditFile
 	    {
 	        	try
 	        	{
-	        		//System.out.println(currentFile.getName()+"\nSize: "+currentFile.length());
 	        		if(currentFile.length()>6000000) 
 	        		{
 	        			if(currentFile.length()>8600000)
@@ -537,7 +534,6 @@ public class EditFile
 		    {
 				try
 				{
-					//System.out.println(currentFile.getName()+"\nSize: "+currentFile.length());
 		        		if(currentFile.length()>6000000) 
 		        		{
 		        			if(currentFile.length()>8600000)

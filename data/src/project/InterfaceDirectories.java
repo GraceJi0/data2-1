@@ -11,6 +11,9 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.event.*;
 import javax.swing.filechooser.FileSystemView;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 import javax.swing.tree.*;
 
 import org.apache.cxf.helpers.FileUtils;
@@ -90,7 +93,6 @@ public class InterfaceDirectories
             table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
             table.setAutoCreateRowSorter(true);
             table.setShowVerticalLines(false);
-            
             listSelectionListener = new ListSelectionListener() 
             {
                 @Override
@@ -115,6 +117,8 @@ public class InterfaceDirectories
             tableScroll.setPreferredSize(new Dimension((int)d.getWidth(), (int)d.getHeight()/2));
             tablePanel.add(tableScroll);
             
+            
+            
             //********************the File tree**********************
             DefaultMutableTreeNode root = new DefaultMutableTreeNode();
             treeModel = new DefaultTreeModel(root);
@@ -131,8 +135,7 @@ public class InterfaceDirectories
                     showChildren(node);
                     setFileDetails((File)node.getUserObject());
                     gui.revalidate();
-                    gui.repaint();
-                    
+                    gui.repaint(); 
                 }
             };
             
@@ -140,7 +143,6 @@ public class InterfaceDirectories
             File[] roots = fileSystemView.getRoots();
             for (File fileSystemRoot : roots) 
             {
-            		
                 DefaultMutableTreeNode node = new DefaultMutableTreeNode(fileSystemRoot);
                 root.add( node );
                 File[] files = fileSystemView.getFiles(fileSystemRoot, true);
@@ -310,15 +312,16 @@ public class InterfaceDirectories
                 		Decompress decompress = new Decompress();
                     String zipFile = currentFile.getAbsolutePath();
                     String destinationFolder = currentFile.getParentFile().getAbsolutePath();
-                    if(getMyFileExtension().equals("zip"))
+                    String extension = getFileExtension(currentFile);
+                    if(extension.equals("zip"))
                     {
                     		decompress.unzip(destinationFolder,zipFile);
                     }
-                    else if(getMyFileExtension().equals("tar"))
+                    else if(extension.equals("tar"))
                     {
 						decompress.unTar(currentFile, destinationFolder);
                     }
-                    else if(getMyFileExtension().equals("gz"))
+                    else if(extension.equals("gz"))
                     {
                     		decompress.decompressGzip(currentFile,destinationFolder);
                     }
@@ -395,7 +398,7 @@ public class InterfaceDirectories
         gui.repaint();
     }
     
-    //set directory table on the right side of interface
+    //set file table on the right side of gui 
     private void setTableData(final File[] files) 
     {
         SwingUtilities.invokeLater(new Runnable() 
@@ -420,13 +423,41 @@ public class InterfaceDirectories
                     table.getColumnModel().getColumn(0).setMaxWidth(30);;
                     table.getColumnModel().getColumn(1).setPreferredWidth(400);
                     
+                    if(table.getColumnModel().getColumnCount()>0)
+                    {
+                    	table.getColumnModel().getColumn(1).setCellRenderer(new TableCellRenderer()  //if the file is not editable, change the font color to light gray
+                    	{
+                    		@Override
+                    	    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row,
+                    	            int column) 
+                    	    {
+                    			Component component=null;
+        		            	String extenssion = getExtenssion((String)value);
+        		            	component = table.getTableHeader().getDefaultRenderer().getTableCellRendererComponent(table, value, false, false, -1, -2);
+        		            	component.setBackground(Color.white);
+        		            	if(!extenssion.equals(""))
+        		                {
+        		            		 if(!extenssion.equals("txt") && !extenssion.equals("csv") && !extenssion.equals("xlsx")
+        		        	        		&& !extenssion.equals("xls") && !extenssion.equals("zip") && !extenssion.equals("tar"))
+        		        	        {
+        		        	        	component.setForeground(Color.LIGHT_GRAY);
+        		        	        }
+        		                }
+        		            	else
+        		            	{
+        		            		component.setForeground(Color.blue);
+        		            	}
+        		                return component;
+                    	    }
+                    	});
+                    }
                     cellSizesSet = true;
                 }
             }
         });
     }
     
-    /*Add the files that are contained within the directory of this node.*/
+    /*Add the files that are contained within the directory of this node.(for the left side file tree)*/
     private void showChildren(final DefaultMutableTreeNode node) 
     {
         tree.setEnabled(false);
@@ -476,7 +507,7 @@ public class InterfaceDirectories
         worker.execute();
     }
     
-    /*Update the File details view.*/
+    /*Update the File details view includes icon and buttons like "Edit" are able to click or not.*/
     private void setFileDetails(File file) 
     {
         currentFile = file;
@@ -487,7 +518,7 @@ public class InterfaceDirectories
         if (f!=null) 
         {
             String fName = file.getName();
-            String extension = getMyFileExtension();
+            String extension = getFileExtension(currentFile);
             if (fName.contains("metaData") || file.isDirectory() || fName.contains("README") || 
             		extension.equals("zip") || extension.equals("gz") || extension.equals("tar")) 
             {
@@ -611,11 +642,32 @@ public class InterfaceDirectories
         }
     }
     
-    public String getMyFileExtension()
+    public String getFileExtension(File file)
     {
-	       String fileName = currentFile.getName();
-	       int index = fileName.lastIndexOf('.');
-	       return fileName.substring(index + 1);
+    	String extenssion = "";
+    	if(file != null)
+    	{
+	       String fileName = file.getName();
+	       int index = -1;
+	       index = fileName.lastIndexOf('.');
+	       if(index > -1)
+	       {
+	    		extenssion = fileName.substring(index + 1);
+	       }
+    	}
+        return extenssion;
+    }
+    
+    public String getExtenssion(String value)
+    {
+    	String extenssion = "";
+    	int index = -1;
+	    index = value.lastIndexOf('.');
+	    if(index > -1)
+	    {
+	    	extenssion = value.substring(index + 1);
+	    }
+	    return extenssion;
     }
     
     public void addMenu()

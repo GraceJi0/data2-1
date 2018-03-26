@@ -1,9 +1,13 @@
 package project;
 
+import java.awt.Color;
+import java.awt.Component;
 import java.io.File;
 import javax.swing.ImageIcon;
+import javax.swing.JTable;
 import javax.swing.filechooser.FileSystemView;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableCellRenderer;
 
 /** A TableModel to hold File[]. */
 public class FileTableModel extends AbstractTableModel 
