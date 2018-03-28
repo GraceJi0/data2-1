@@ -440,13 +440,10 @@ public class InterfaceDirectories
         		            		 if(!extenssion.equals("txt") && !extenssion.equals("csv") && !extenssion.equals("xlsx")
         		        	        		&& !extenssion.equals("xls") && !extenssion.equals("zip") && !extenssion.equals("tar"))
         		        	        {
-        		        	        	component.setForeground(Color.LIGHT_GRAY);
+        		            			component.setForeground(new Color(155,155,155));
+        		        	        	//component.setForeground(Color.LIGHT_GRAY);
         		        	        }
         		                }
-        		            	else
-        		            	{
-        		            		component.setForeground(Color.blue);
-        		            	}
         		                return component;
                     	    }
                     	});
