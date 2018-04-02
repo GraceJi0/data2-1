@@ -143,7 +143,7 @@ public class InterfaceMain
         String extenssion = editFile.getCurrentFileExtension();
         if(extenssion.equals("xlsx") || extenssion.equals("xls") || editFile.getRename().equals("xlsx")|| editFile.getRename().equals("xls"))
         {
-        		splitInformation = editFile.getSheetName();  //if the file's type is xlsx or xls, hide the split menu.
+        		splitInformation = "Sheet: "+ editFile.getSheetName();  //if the file's type is xlsx or xls, show the sheet name instead of slipt information.
         }
         else
         {

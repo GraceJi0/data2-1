@@ -314,9 +314,9 @@ public class EditFile
     		    		}
     		    }
     		    if(gui != null)
-			{
-    		    		gui.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));	
-			}
+				{
+	    		    		gui.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));	
+				}
     		}
          return error;
     }
@@ -524,9 +524,9 @@ public class EditFile
     //**********************edit xls files**************************
     public boolean editXLSfile(JPanel gui,String theSheetName)
     {
-    		Boolean error = false;
-    		HSSFWorkbook workbook = null;
-    		int option = -1;
+    	Boolean error = false;
+    	HSSFWorkbook workbook = null;
+    	int option = -1;
 		try 
 		{
 			FileInputStream fip = new FileInputStream(currentFile);
@@ -534,28 +534,28 @@ public class EditFile
 		    {
 				try
 				{
-		        		if(currentFile.length()>6000000) 
+		        	if(currentFile.length()>6000000) 
+		        	{
+		        		if(currentFile.length()>8600000)
 		        		{
-		        			if(currentFile.length()>8600000)
-		        			{
-		        				option = JOptionPane.showConfirmDialog (null, 
-		            					"The file is too big, the program might not be able to open it, do you still want to try to open it?", 
-		            					"Warning", JOptionPane.YES_NO_OPTION);
-		        			}
-		        			else
-		        			{
-		        				option = JOptionPane.showConfirmDialog (null, 
-		            					"The file is big and it may takes long to open, do you still want to open it?", 
-		            					"Warning", JOptionPane.YES_NO_OPTION);
-		        			}
+		        			option = JOptionPane.showConfirmDialog (null, 
+		        					"The file is too big, the program might not be able to open it, do you still want to try to open it?", 
+		        					"Warning", JOptionPane.YES_NO_OPTION);
 		        		}
-		        		if(option == JOptionPane.NO_OPTION) //if user don't want to keep open the file
+		        		else
 		        		{
-		        			error = true;
+		        			option = JOptionPane.showConfirmDialog (null, 
+		        					"The file is big and it may takes long to open, do you still want to open it?", 
+		        					"Warning", JOptionPane.YES_NO_OPTION);
 		        		}
-		        		else // if user still want to open the file or the file is not big 
-		        		{
-					    workbook = new HSSFWorkbook(fip);
+		        	}
+		        	if(option == JOptionPane.NO_OPTION) //if user don't want to keep open the file
+		        	{
+		        		error = true;
+		        	}
+		        	else // if user still want to open the file or the file is not big 
+		        	{
+		        		workbook = new HSSFWorkbook(fip);
 						String sheets[] = getAllXLSSheet(workbook);
 						String sheetSelected;
 						if(theSheetName != null && theSheetName.equals(""))
@@ -586,7 +586,7 @@ public class EditFile
 							error = true;
 						}
 						addRowLabel();
-		        		}
+		        	}
 				}
 				catch(Exception e)
 				{

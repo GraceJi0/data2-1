@@ -236,6 +236,27 @@ public class InterfaceDirectories
             //***********************set tools panel***********************
             JPanel toolBar = new JPanel();
             toolBar.setLayout(new FlowLayout(FlowLayout.LEFT));
+
+            //************If the "Edit" button has been clicked, open the editor window.*********
+            editFile = new JButton("Editor");
+            editFile.setSize(new Dimension(100, 50)); 
+            editFile.addActionListener(new ActionListener()
+            {
+                public void actionPerformed(ActionEvent ae)
+                {
+	                	gui.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+
+	            	    JFrame frame = new InterfaceMain(currentFile,gui,logFile).getMainFrame();
+	            	    if(frame != null)
+	            	    {
+	            	        frame.setVisible(true);
+	            	        frame.setPreferredSize(new Dimension(900, 700));
+	            	    }
+	            	    gui.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+                }
+            });
+            toolBar.add(editFile);
+            
             
             //***************open the current file or directory****************
             openFile = new JButton("Open");
@@ -280,26 +301,6 @@ public class InterfaceDirectories
                 }
             });
             toolBar.add(locateFile);
-            
-            //************If the "Edit" button has been clicked, open the editor window.*********
-            editFile = new JButton("Editor");
-            editFile.setSize(new Dimension(100, 50)); 
-            editFile.addActionListener(new ActionListener()
-            {
-                public void actionPerformed(ActionEvent ae)
-                {
-	                	gui.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-
-	            	    JFrame frame = new InterfaceMain(currentFile,gui,logFile).getMainFrame();
-	            	    if(frame != null)
-	            	    {
-	            	        frame.setVisible(true);
-	            	        frame.setPreferredSize(new Dimension(900, 700));
-	            	    }
-	            	    gui.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-                }
-            });
-            toolBar.add(editFile);
             
             //*************extract a zip file*****************
             unzipFile = new JButton("Decompress");
@@ -640,7 +641,8 @@ public class InterfaceDirectories
                 	deleteDrectoriesAndFiles(f);
                 }
             }
-            theFile.delete();
+            //theFile.delete();
+            desktop.moveToTrash(theFile);
         }
     }
     
