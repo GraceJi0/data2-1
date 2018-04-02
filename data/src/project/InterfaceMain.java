@@ -1214,7 +1214,7 @@ public class InterfaceMain
 					addTextString = inputTextField.getText();
 					if(addTextColumnIndex>editFile.getColumnNum())
 					{
-		    				JOptionPane.showConfirmDialog(null,"This column is empty!", "Error", JOptionPane.CLOSED_OPTION); 
+		    			JOptionPane.showConfirmDialog(null,"This column is empty!", "Error", JOptionPane.CLOSED_OPTION); 
 						option = -1;
 					}
 					
