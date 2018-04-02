@@ -71,7 +71,7 @@ public class LogFile
 				BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(logDelete,true));
 				DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
 				Date date = new Date();
-				String logMessage = dateFormat.format(date)+"\tDelete file: "+currentFile.getName()+"\nPath:"+currentFile.getPath()+"\n\n";
+				String logMessage = dateFormat.format(date)+"\tMove to trash: "+currentFile.getName()+"\nPath:"+currentFile.getPath()+"\n\n";
 				bufferedWriter.write(logMessage);
 				bufferedWriter.close();
 			} 

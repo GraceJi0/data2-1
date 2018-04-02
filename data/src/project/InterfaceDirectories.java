@@ -333,14 +333,14 @@ public class InterfaceDirectories
             toolBar.add(unzipFile);
             
             //****************delete a file or directory******************
-            deleteBtn = new JButton("Delete");
+            deleteBtn = new JButton("Move to Trash");
             deleteBtn.setSize(new Dimension(100, 50)); 
             deleteBtn.addActionListener(new ActionListener()
                                             {
                 public void actionPerformed(ActionEvent ae) 
                 {
-                		logFile.setCurrentFile(currentFile);
-                		logFile.writeToLogDeleteFile();
+                	logFile.setCurrentFile(currentFile);
+                	logFile.writeToLogDeleteFile();
                     deleteDrectoriesAndFiles(currentFile);
                     updateFileTreeAndTable();
                 }
