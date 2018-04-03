@@ -47,16 +47,16 @@ public class LogFile
     	    		{
     	    			logFilePath += chooser.getSelectedFile()+"/logEdit"+dateFormat.format(date)+".txt";
     	    		}
-			try 
-			{	
-				FileWriter fw = new FileWriter(new File(logFilePath));
-				fw.write(fileContent);
-	            fw.close();
-			} 
-			catch (IOException e) 
-			{
-				e.printStackTrace();
-			}
+					try 
+					{	
+						FileWriter fw = new FileWriter(new File(logFilePath));
+						fw.write(fileContent);
+			            fw.close();
+					} 
+					catch (IOException e) 
+					{
+						e.printStackTrace();
+					}
     	    } 
     	    return logFilePath;
     }

@@ -968,7 +968,7 @@ public class InterfaceMain
         mainFrame.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
     }
     
-    //after save or save as, update the file and refresh GUI.
+    //after save or save as, update the file's content and refresh GUI.
     public void updateFile()
     {
     		mainFrame.setCursor(new Cursor(Cursor.WAIT_CURSOR));

@@ -438,10 +438,11 @@ public class InterfaceDirectories
         		            	component.setBackground(Color.white);
         		            	if(!extenssion.equals(""))
         		                {
-        		            		 if(!extenssion.equals("txt") && !extenssion.equals("csv") && !extenssion.equals("xlsx")
-        		        	        		&& !extenssion.equals("xls") && !extenssion.equals("zip") && !extenssion.equals("tar"))
+        		            		 if((!extenssion.equals("txt") && !extenssion.equals("csv") && !extenssion.equals("xlsx")
+        		        	        		&& !extenssion.equals("xls") && !extenssion.equals("tar") )
+        		        	        		|| ((String)value).contains("metaData") || ((String)value).contains("README")|| ((String)value).contains("readme"))
         		        	        {
-        		            			component.setForeground(new Color(155,155,155));
+        		            			component.setForeground(new Color(155,155,155)); //
         		        	        	//component.setForeground(Color.LIGHT_GRAY);
         		        	        }
         		                }
