@@ -47,31 +47,31 @@ public class LogFile
     	    		{
     	    			logFilePath += chooser.getSelectedFile()+"/logEdit"+dateFormat.format(date)+".txt";
     	    		}
-			try 
-			{	
-				FileWriter fw = new FileWriter(new File(logFilePath));
-				fw.write(fileContent);
-	            fw.close();
-			} 
-			catch (IOException e) 
-			{
-				e.printStackTrace();
-			}
+					try 
+					{	
+						FileWriter fw = new FileWriter(new File(logFilePath));
+						fw.write(fileContent);
+			            fw.close();
+					} 
+					catch (IOException e) 
+					{
+						e.printStackTrace();
+					}
     	    } 
     	    return logFilePath;
     }
 	
-	public void writeToLogDeleteFile()
+	public void writeToLogDeleteFile(String message)
     {
-    		if(!logDeleteFilePath.equals(""))
-    		{
+    	if(!logDeleteFilePath.equals(""))
+    	{
 			File logDelete = new File(logDeleteFilePath);
 			try 
 			{
 				BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(logDelete,true));
 				DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
 				Date date = new Date();
-				String logMessage = dateFormat.format(date)+"\tDelete file: "+currentFile.getName()+"\nPath:"+currentFile.getPath()+"\n\n";
+				String logMessage = dateFormat.format(date)+"\t"+message+currentFile.getName()+"\nPath:"+currentFile.getPath()+"\n\n";
 				bufferedWriter.write(logMessage);
 				bufferedWriter.close();
 			} 
@@ -79,7 +79,7 @@ public class LogFile
 			{	
 				e.printStackTrace();
 			}
-    		}
+    	}
     }
 	
 	public void initializelLogEditFile()

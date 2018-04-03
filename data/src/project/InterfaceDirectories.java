@@ -11,6 +11,9 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.event.*;
 import javax.swing.filechooser.FileSystemView;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 import javax.swing.tree.*;
 
 import org.apache.cxf.helpers.FileUtils;
@@ -52,6 +55,7 @@ public class InterfaceDirectories
     private JButton editFile;
     private JButton unzipFile;
     private JButton deleteBtn;
+    private JButton moveToTrashBtn;
     private JLabel fileName;
     
     private LogFile logFile;
@@ -90,7 +94,6 @@ public class InterfaceDirectories
             table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
             table.setAutoCreateRowSorter(true);
             table.setShowVerticalLines(false);
-            
             listSelectionListener = new ListSelectionListener() 
             {
                 @Override
@@ -115,6 +118,8 @@ public class InterfaceDirectories
             tableScroll.setPreferredSize(new Dimension((int)d.getWidth(), (int)d.getHeight()/2));
             tablePanel.add(tableScroll);
             
+            
+            
             //********************the File tree**********************
             DefaultMutableTreeNode root = new DefaultMutableTreeNode();
             treeModel = new DefaultTreeModel(root);
@@ -131,8 +136,7 @@ public class InterfaceDirectories
                     showChildren(node);
                     setFileDetails((File)node.getUserObject());
                     gui.revalidate();
-                    gui.repaint();
-                    
+                    gui.repaint(); 
                 }
             };
             
@@ -140,7 +144,6 @@ public class InterfaceDirectories
             File[] roots = fileSystemView.getRoots();
             for (File fileSystemRoot : roots) 
             {
-            		
                 DefaultMutableTreeNode node = new DefaultMutableTreeNode(fileSystemRoot);
                 root.add( node );
                 File[] files = fileSystemView.getFiles(fileSystemRoot, true);
@@ -234,6 +237,27 @@ public class InterfaceDirectories
             //***********************set tools panel***********************
             JPanel toolBar = new JPanel();
             toolBar.setLayout(new FlowLayout(FlowLayout.LEFT));
+
+            //************If the "Edit" button has been clicked, open the editor window.*********
+            editFile = new JButton("Editor");
+            editFile.setSize(new Dimension(100, 50)); 
+            editFile.addActionListener(new ActionListener()
+            {
+                public void actionPerformed(ActionEvent ae)
+                {
+	                	gui.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+
+	            	    JFrame frame = new InterfaceMain(currentFile,gui,logFile).getMainFrame();
+	            	    if(frame != null)
+	            	    {
+	            	        frame.setVisible(true);
+	            	        frame.setPreferredSize(new Dimension(900, 700));
+	            	    }
+	            	    gui.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+                }
+            });
+            toolBar.add(editFile);
+            
             
             //***************open the current file or directory****************
             openFile = new JButton("Open");
@@ -279,25 +303,6 @@ public class InterfaceDirectories
             });
             toolBar.add(locateFile);
             
-            //************If the "Edit" button has been clicked, open the editor window.*********
-            editFile = new JButton("Editor");
-            editFile.setSize(new Dimension(100, 50)); 
-            editFile.addActionListener(new ActionListener()
-            {
-                public void actionPerformed(ActionEvent ae)
-                {
-	                	gui.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-	            	    JFrame frame = new InterfaceMain(currentFile,gui,logFile).getMainFrame();
-	            	    if(frame != null)
-	            	    {
-	            	        frame.setVisible(true);
-	            	        frame.setPreferredSize(new Dimension(900, 700));
-	            	    }
-	            	    gui.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-                }
-            });
-            toolBar.add(editFile);
-            
             //*************extract a zip file*****************
             unzipFile = new JButton("Decompress");
             unzipFile.setSize(new Dimension(100, 50)); 
@@ -309,15 +314,16 @@ public class InterfaceDirectories
                 		Decompress decompress = new Decompress();
                     String zipFile = currentFile.getAbsolutePath();
                     String destinationFolder = currentFile.getParentFile().getAbsolutePath();
-                    if(getMyFileExtension().equals("zip"))
+                    String extension = getFileExtension(currentFile);
+                    if(extension.equals("zip"))
                     {
                     		decompress.unzip(destinationFolder,zipFile);
                     }
-                    else if(getMyFileExtension().equals("tar"))
+                    else if(extension.equals("tar"))
                     {
 						decompress.unTar(currentFile, destinationFolder);
                     }
-                    else if(getMyFileExtension().equals("gz"))
+                    else if(extension.equals("gz"))
                     {
                     		decompress.decompressGzip(currentFile,destinationFolder);
                     }
@@ -334,13 +340,28 @@ public class InterfaceDirectories
                                             {
                 public void actionPerformed(ActionEvent ae) 
                 {
-                		logFile.setCurrentFile(currentFile);
-                		logFile.writeToLogDeleteFile();
+                	logFile.setCurrentFile(currentFile);
+                	logFile.writeToLogDeleteFile("Delete File: ");
                     deleteDrectoriesAndFiles(currentFile);
                     updateFileTreeAndTable();
                 }
             });
             toolBar.add(deleteBtn);
+            
+          //****************delete a file or directory******************
+            moveToTrashBtn = new JButton("Move to Trash");
+            moveToTrashBtn.setSize(new Dimension(100, 50)); 
+            moveToTrashBtn.addActionListener(new ActionListener()
+                                            {
+                public void actionPerformed(ActionEvent ae) 
+                {
+                	logFile.setCurrentFile(currentFile);
+                	logFile.writeToLogDeleteFile("Move to Trash: ");
+                	moveDrectoriesAndFilesToTrash(currentFile);
+                    updateFileTreeAndTable();
+                }
+            });
+            toolBar.add(moveToTrashBtn);
             
             //***********************set up main panel*************************
             JPanel details = new JPanel();
@@ -394,7 +415,7 @@ public class InterfaceDirectories
         gui.repaint();
     }
     
-    //set directory table on the right side of interface
+    //set file table on the right side of gui 
     private void setTableData(final File[] files) 
     {
         SwingUtilities.invokeLater(new Runnable() 
@@ -419,13 +440,43 @@ public class InterfaceDirectories
                     table.getColumnModel().getColumn(0).setMaxWidth(30);;
                     table.getColumnModel().getColumn(1).setPreferredWidth(400);
                     
+                    if(table.getColumnModel().getColumnCount()>0)
+                    {
+                    	table.getColumnModel().getColumn(1).setCellRenderer(new TableCellRenderer()  //if the file is not editable, change the font color to light gray
+                    	{
+                    		@Override
+                    	    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row,
+                    	            int column) 
+                    	    {
+                    			Component component=null;
+        		            	String extenssion = getExtenssion((String)value);
+        		            	component = table.getTableHeader().getDefaultRenderer().getTableCellRendererComponent(table, value, false, false, -1, -2);
+        		            	component.setBackground(Color.white);
+        		            	if(!extenssion.equals(""))
+        		                {
+        		            		 if((!extenssion.equals("txt") && !extenssion.equals("csv") && !extenssion.equals("xlsx")
+        		        	        		&& !extenssion.equals("xls") && !extenssion.equals("tar") )
+        		        	        		|| ((String)value).contains("metaData") || ((String)value).contains("README")|| ((String)value).contains("readme"))
+        		        	        {
+        		            			component.setForeground(new Color(155,155,155)); // change the font color to gray if the file is not editable
+        		        	        }
+        		                }
+        		                if (isSelected)  //if the cell is selected, change the background color to blue
+        		                {
+        		                	component.setBackground(new Color(0, 82, 204));
+        		                	component.setForeground(Color.white);
+        		                }
+        		                return component;
+                    	    }
+                    	});
+                    }
                     cellSizesSet = true;
                 }
             }
         });
     }
     
-    /*Add the files that are contained within the directory of this node.*/
+    /*Add the files that are contained within the directory of this node.(for the left side file tree)*/
     private void showChildren(final DefaultMutableTreeNode node) 
     {
         tree.setEnabled(false);
@@ -475,7 +526,7 @@ public class InterfaceDirectories
         worker.execute();
     }
     
-    /*Update the File details view.*/
+    /*Update the File details view includes icon and buttons like "Edit" are able to click or not.*/
     private void setFileDetails(File file) 
     {
         currentFile = file;
@@ -486,7 +537,7 @@ public class InterfaceDirectories
         if (f!=null) 
         {
             String fName = file.getName();
-            String extension = getMyFileExtension();
+            String extension = getFileExtension(currentFile);
             if (fName.contains("metaData") || file.isDirectory() || fName.contains("README") || 
             		extension.equals("zip") || extension.equals("gz") || extension.equals("tar")) 
             {
@@ -603,18 +654,55 @@ public class InterfaceDirectories
             {
                 for (File f : contents) 
                 {
-                		deleteDrectoriesAndFiles(f);
+                	deleteDrectoriesAndFiles(f);
                 }
             }
             theFile.delete();
         }
     }
     
-    public String getMyFileExtension()
+    public void moveDrectoriesAndFilesToTrash(File theFile)
     {
-	       String fileName = currentFile.getName();
-	       int index = fileName.lastIndexOf('.');
-	       return fileName.substring(index + 1);
+        if(theFile!=null)
+        {
+            File[] contents = theFile.listFiles();
+            if (contents != null) 
+            {
+                for (File f : contents) 
+                {
+                	deleteDrectoriesAndFiles(f);
+                }
+            }
+            desktop.moveToTrash(theFile);
+        }
+    }
+    
+    public String getFileExtension(File file)
+    {
+    	String extenssion = "";
+    	if(file != null)
+    	{
+	       String fileName = file.getName();
+	       int index = -1;
+	       index = fileName.lastIndexOf('.');
+	       if(index > -1)
+	       {
+	    		extenssion = fileName.substring(index + 1);
+	       }
+    	}
+        return extenssion;
+    }
+    
+    public String getExtenssion(String value)
+    {
+    	String extenssion = "";
+    	int index = -1;
+	    index = value.lastIndexOf('.');
+	    if(index > -1)
+	    {
+	    	extenssion = value.substring(index + 1);
+	    }
+	    return extenssion;
     }
     
     public void addMenu()
@@ -628,7 +716,7 @@ public class InterfaceDirectories
         JMenuItem helpMenuItem = new JMenuItem("Help...");
         helpMenu.add(helpMenuItem);
         fileMenu.add(logFile);
-        fileMenu.add(runAllFiles);
+        //fileMenu.add(runAllFiles);
         menuBar.add(fileMenu);
         menuBar.add(helpMenu);
         mainFrame.setJMenuBar(menuBar);
@@ -666,11 +754,13 @@ public class InterfaceDirectories
     		if(!logDeleteFilePath.equals("")) //if the log file location has already been set.
     		{
     			logDeleteBtn.setIcon(new ImageIcon(Main.class.getResource("/Resources/checkmark.png")));
+    			logDeleteBtn.setText("logDelete.txt");
     		}
     		JButton logChangeBtn = new JButton("Log file that records all the changes that happens on a file.");
     		if(!logChangesFilePath.equals("")) //if the log file location has already been set.
     		{
     			logChangeBtn.setIcon(new ImageIcon(Main.class.getResource("/Resources/checkmark.png")));
+    			logChangeBtn.setText("logEdit.txt");
     		}
     		logDeleteBtn.addActionListener(new ActionListener()
     		{
@@ -724,55 +814,3 @@ public class InterfaceDirectories
     		return mainFrame;
     }
 }
-
-/*class FileThread implements Runnable
-{
-	private Thread thread;
-	private File currentFile;
-	private JPanel gui;
-	private LogFile logFile;
-	
-	public FileThread(File currentFile,JPanel gui, LogFile logFile)
-	{
-		thread = new Thread();
-		this.currentFile = currentFile;
-		this.gui = gui;
-		this.logFile = logFile;
-	}
-
-	@Override
-	public void run() 
-	{
-		
-	}
-	
-	public void start()
-	{
-		if(thread!= null)
-		{
-			thread.start();
-		}
-	}
-	
-	public void join(long time)
-	{
-		try 
-		{
-			thread.join(time);
-		} 
-		catch (InterruptedException e) 
-		{
-			e.printStackTrace();
-		}
-	}
-	
-	public void interrupt()
-	{
-		thread.interrupt();
-	}
-	
-	public boolean isAlive()
-	{
-		return thread.isAlive();
-	}
-}*/

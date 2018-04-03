@@ -83,6 +83,7 @@ public class FastConvert
 		String spidPath = "";
 		String currentFilePath = "";
 		String PGDSpiderPath = "";
+		boolean noError = true;
 		
 		int option = checkFileFormat();
 		if(markerNumInt == -1)
@@ -171,15 +172,23 @@ public class FastConvert
 				commandFastConvert = PGDSpiderPath +" -inputfile "+ inputPath + 
 						" -inputformat STRUCTURE -outputfile "+ outputPath + " -outputformat GENEPOP -spid " + spidPath;
 			}
-			try 
+			else
 			{
+				JOptionPane.showConfirmDialog(null,"Can't open PGDSpider under current operating system!", "Error", JOptionPane.CLOSED_OPTION);
+				noError = false;
+			}
+			
+			if(noError == true)
+			{
+				try 
+				{
 					Process pros = Runtime.getRuntime().exec(commandFastConvert);
 					OutputStream out = pros.getOutputStream();
 					/*ProcessBuilder pb = new ProcessBuilder(commandFastConvertArray);
 					Process pros = pb.start();*/
 					InputStream in = pros.getInputStream();
 					InputStream err = pros.getErrorStream();
-					
+						
 					String result = readInputStream(in)+readInputStream(err);
 					//commandFastConvert += "\n\n\n"+PGDSpiderPath;/////////////////////////
 					JFrame errorMessageFrame = showPGDSpiderErrorMessage(result,commandFastConvert);
@@ -200,11 +209,12 @@ public class FastConvert
 					{
 						setfastConvertLog();
 					}
-			} 
-			catch (IOException e) 
-			{
-				System.out.println(e);
-				JOptionPane.showConfirmDialog(null,"Can't open PGDSpider!", "Error", JOptionPane.CLOSED_OPTION);
+				} 
+				catch (IOException e) 
+				{
+					System.out.println(e);
+					JOptionPane.showConfirmDialog(null,"Can't open PGDSpider!", "Error", JOptionPane.CLOSED_OPTION);
+				}
 			}
 		}
 	}

@@ -119,7 +119,7 @@ public class InterfaceMain
         fileName = this.currentFile.getName();
         selectedChoicesColumn = new ArrayList<String>();
         selectedChoicesRow = new ArrayList<String>();
-        if(!setFileTable("\t",gui)) //if there's no error when set the file table
+        if(setFileTable("\t",gui)==false) //if there's no error when set the file table
         {
 	        setInterface();
 	        addMenuToFrame();
@@ -140,10 +140,10 @@ public class InterfaceMain
         
         //***************set components at the top contain file name and split help information
         String splitInformation;
-        String extenssion = editFile.getMyFileExtension();
+        String extenssion = editFile.getCurrentFileExtension();
         if(extenssion.equals("xlsx") || extenssion.equals("xls") || editFile.getRename().equals("xlsx")|| editFile.getRename().equals("xls"))
         {
-        		splitInformation = editFile.getSheetName();  //if the file's type is xlsx or xls, hide the split menu.
+        		splitInformation = "Sheet: "+ editFile.getSheetName();  //if the file's type is xlsx or xls, show the sheet name instead of slipt information.
         }
         else
         {
@@ -480,7 +480,7 @@ public class InterfaceMain
                 }
             }
         });
-        if(editFile.getMyFileExtension().equals(""))
+        if(editFile.getCurrentFileExtension().equals(""))
         {
         		saveAsBtn.setEnabled(false);
         }
@@ -604,7 +604,7 @@ public class InterfaceMain
         
         //**********add menu to menu bar**********
         menuBar.add(fileMenu);
-        String extenssion = editFile.getMyFileExtension();
+        String extenssion = editFile.getCurrentFileExtension();
         if(!extenssion.equals("xlsx") && !extenssion.equals("xls") && !editFile.getRename().equals("xlsx") && !editFile.getRename().equals("xls"))
         {
         		menuBar.add(splitMenu);
@@ -734,7 +734,7 @@ public class InterfaceMain
 	        			String newPath = newFile.getAbsolutePath();
 	        			if(getFileExtension(newFile).equals("")) //if user didn't type the file extension
 	        			{
-	        				 File tempFile = new File(newPath+"."+editFile.getMyFileExtension());
+	        				 File tempFile = new File(newPath+"."+editFile.getCurrentFileExtension());
 	        				 Files.copy(currentFile, tempFile);
 	        				 currentFile = tempFile;
 	        				 logFile.logSaveAs(currentFile.getName());
@@ -771,7 +771,7 @@ public class InterfaceMain
     public boolean getTableFileData(String expression, JPanel gui)
     {
         boolean error = editFile.editTheFile(expression, gui, theSheetName);
-        if(!error)
+        if(error == false)
         {
 	        //gui.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 	        rowNum = editFile.getRowNum();
@@ -803,7 +803,7 @@ public class InterfaceMain
     public boolean setFileTable(String expression, JPanel gui)
     {
         boolean error = getTableFileData(expression, gui);
-        if(!error)
+        if(error == false)
         {
 	        fileTable = new JTable();
 	        fileTable.setModel(new DefaultTableModel(fileData, columnLabel));
@@ -968,7 +968,7 @@ public class InterfaceMain
         mainFrame.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
     }
     
-    //after save or save as, update the file and refresh GUI.
+    //after save or save as, update the file's content and refresh GUI.
     public void updateFile()
     {
     		mainFrame.setCursor(new Cursor(Cursor.WAIT_CURSOR));
@@ -1205,7 +1205,6 @@ public class InterfaceMain
 			headerCheckBox = new JCheckBox("Is there a header in this column?");
 			Object[] message = {"Add text",inputTextField,"to the end of every cell in column",columnTextField,
 					"(column number)\n\n",headerCheckBox};
-			System.out.println(inputTextField.getText());
 			option = JOptionPane.showConfirmDialog(null, message, "Add text to column", JOptionPane.OK_CANCEL_OPTION);
 			if(option == 0)
 			{
@@ -1215,7 +1214,7 @@ public class InterfaceMain
 					addTextString = inputTextField.getText();
 					if(addTextColumnIndex>editFile.getColumnNum())
 					{
-		    				JOptionPane.showConfirmDialog(null,"This column is empty!", "Error", JOptionPane.CLOSED_OPTION); 
+		    			JOptionPane.showConfirmDialog(null,"This column is empty!", "Error", JOptionPane.CLOSED_OPTION); 
 						option = -1;
 					}
 					
@@ -1266,17 +1265,17 @@ public class InterfaceMain
     //get the given file's extension
     public String getFileExtension(File theFile)
     {
-    		String extenssion = "";
-    		if(theFile != null)
-    		{
-	        String fileName = theFile.getName();
-	        int index = -1;
-	        index = fileName.lastIndexOf('.');
-	        if(index > -1)
-	        {
-	        		extenssion = fileName.substring(index + 1);
-	        }
-    		}
+    	String extenssion = "";
+    	if(theFile != null)
+    	{
+	       String fileName = theFile.getName();
+	       int index = -1;
+	       index = fileName.lastIndexOf('.');
+	       if(index > -1)
+	       {
+	    		extenssion = fileName.substring(index + 1);
+	       }
+    	}
         return extenssion;
     }
 }
