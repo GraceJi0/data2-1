@@ -61,17 +61,17 @@ public class LogFile
     	    return logFilePath;
     }
 	
-	public void writeToLogDeleteFile()
+	public void writeToLogDeleteFile(String message)
     {
-    		if(!logDeleteFilePath.equals(""))
-    		{
+    	if(!logDeleteFilePath.equals(""))
+    	{
 			File logDelete = new File(logDeleteFilePath);
 			try 
 			{
 				BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(logDelete,true));
 				DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
 				Date date = new Date();
-				String logMessage = dateFormat.format(date)+"\tMove to trash: "+currentFile.getName()+"\nPath:"+currentFile.getPath()+"\n\n";
+				String logMessage = dateFormat.format(date)+"\t"+message+currentFile.getName()+"\nPath:"+currentFile.getPath()+"\n\n";
 				bufferedWriter.write(logMessage);
 				bufferedWriter.close();
 			} 
@@ -79,7 +79,7 @@ public class LogFile
 			{	
 				e.printStackTrace();
 			}
-    		}
+    	}
     }
 	
 	public void initializelLogEditFile()

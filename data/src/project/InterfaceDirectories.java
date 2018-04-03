@@ -55,6 +55,7 @@ public class InterfaceDirectories
     private JButton editFile;
     private JButton unzipFile;
     private JButton deleteBtn;
+    private JButton moveToTrashBtn;
     private JLabel fileName;
     
     private LogFile logFile;
@@ -333,19 +334,34 @@ public class InterfaceDirectories
             toolBar.add(unzipFile);
             
             //****************delete a file or directory******************
-            deleteBtn = new JButton("Move to Trash");
+            deleteBtn = new JButton("Delete");
             deleteBtn.setSize(new Dimension(100, 50)); 
             deleteBtn.addActionListener(new ActionListener()
                                             {
                 public void actionPerformed(ActionEvent ae) 
                 {
                 	logFile.setCurrentFile(currentFile);
-                	logFile.writeToLogDeleteFile();
+                	logFile.writeToLogDeleteFile("Delete File: ");
                     deleteDrectoriesAndFiles(currentFile);
                     updateFileTreeAndTable();
                 }
             });
             toolBar.add(deleteBtn);
+            
+          //****************delete a file or directory******************
+            moveToTrashBtn = new JButton("Move to Trash");
+            moveToTrashBtn.setSize(new Dimension(100, 50)); 
+            moveToTrashBtn.addActionListener(new ActionListener()
+                                            {
+                public void actionPerformed(ActionEvent ae) 
+                {
+                	logFile.setCurrentFile(currentFile);
+                	logFile.writeToLogDeleteFile("Move to Trash: ");
+                	moveDrectoriesAndFilesToTrash(currentFile);
+                    updateFileTreeAndTable();
+                }
+            });
+            toolBar.add(moveToTrashBtn);
             
             //***********************set up main panel*************************
             JPanel details = new JPanel();
@@ -442,11 +458,10 @@ public class InterfaceDirectories
         		        	        		&& !extenssion.equals("xls") && !extenssion.equals("tar") )
         		        	        		|| ((String)value).contains("metaData") || ((String)value).contains("README")|| ((String)value).contains("readme"))
         		        	        {
-        		            			component.setForeground(new Color(155,155,155)); //
-        		        	        	//component.setForeground(Color.LIGHT_GRAY);
+        		            			component.setForeground(new Color(155,155,155)); // change the font color to gray if the file is not editable
         		        	        }
         		                }
-        		                if (isSelected)
+        		                if (isSelected)  //if the cell is selected, change the background color to blue
         		                {
         		                	component.setBackground(new Color(0, 82, 204));
         		                	component.setForeground(Color.white);
@@ -642,7 +657,22 @@ public class InterfaceDirectories
                 	deleteDrectoriesAndFiles(f);
                 }
             }
-            //theFile.delete();
+            theFile.delete();
+        }
+    }
+    
+    public void moveDrectoriesAndFilesToTrash(File theFile)
+    {
+        if(theFile!=null)
+        {
+            File[] contents = theFile.listFiles();
+            if (contents != null) 
+            {
+                for (File f : contents) 
+                {
+                	deleteDrectoriesAndFiles(f);
+                }
+            }
             desktop.moveToTrash(theFile);
         }
     }
