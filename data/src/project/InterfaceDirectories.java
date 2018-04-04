@@ -352,7 +352,7 @@ public class InterfaceDirectories
             moveToTrashBtn = new JButton("Move to Trash");
             moveToTrashBtn.setSize(new Dimension(100, 50)); 
             moveToTrashBtn.addActionListener(new ActionListener()
-                                            {
+            {
                 public void actionPerformed(ActionEvent ae) 
                 {
                 	logFile.setCurrentFile(currentFile);
@@ -455,7 +455,7 @@ public class InterfaceDirectories
         		            	if(!extenssion.equals(""))
         		                {
         		            		 if((!extenssion.equals("txt") && !extenssion.equals("csv") && !extenssion.equals("xlsx")
-        		        	        		&& !extenssion.equals("xls") && !extenssion.equals("tar") )
+        		        	        		&& !extenssion.equals("xls") && !extenssion.equals("tar")&& !extenssion.equals("zip") )
         		        	        		|| ((String)value).contains("metaData") || ((String)value).contains("README")|| ((String)value).contains("readme"))
         		        	        {
         		            			component.setForeground(new Color(155,155,155)); // change the font color to gray if the file is not editable

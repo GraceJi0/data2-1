@@ -6,7 +6,7 @@ import java.io.FileNotFoundException;
 import javax.swing.JPanel;
 import javax.swing.filechooser.FileSystemView;
 
-public class RunAllFiles {
+public class RunAllFiles {  // a class just for test how long does the program take to run all files.
 
 	String result;
 	FileSystemView fileSystemView;

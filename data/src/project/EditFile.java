@@ -1125,6 +1125,17 @@ public class EditFile
     		return error;
     }
     
+  //search the given text sequences in the given row, if found, add the row number to the "selected row table"
+    public int addFoundRowsToTable(String text, int columnIndex, int index)
+    {
+    	int result = -1;
+    	if(fileArray.get(index).get(columnIndex).equals(text))
+    	{
+    		result = index;
+    	}
+    	return result;
+    }
+    
     public void setCurrentFile(File currentFile)
     {
     		this.currentFile = currentFile;

@@ -60,6 +60,7 @@ public class FastConvert
 		}
 		else
 		{
+			//JButton chooseDestinationFolder = new JButton("Destination Folder(Optional)");
 			JTextField missingValueInput = new JTextField();
 			JTextField marksNumInput = new JTextField();
 		    Object[] message = {"Convert: "+fileName, "From STRUCTURE to GENEPOP","\nEnter the missing value(default is 0):",

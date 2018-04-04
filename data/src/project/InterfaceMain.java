@@ -406,12 +406,26 @@ public class InterfaceMain
             		}
             }
         });
+        
+        //new feature***************************
+        JPanel rowTextsequencesBtnPanel = new JPanel();
+        JButton rowTextsequencesBtn = new JButton("Select rows by text sequences");
+        rowTextsequencesBtn.addActionListener(new ActionListener()
+        {
+					@Override
+					public void actionPerformed(ActionEvent arg0) 
+					{
+						DeleteRowsByTextSequences();
+						//setRowComboBox();
+					}
+        });
+        rowTextsequencesBtnPanel.add(rowTextsequencesBtn);
        
         JPanel rowInput = new JPanel();
-        rowInput.setLayout(new BorderLayout(6,6));
-        rowInput.setBorder(new EmptyBorder(10,0,10,10));
+        rowInput.setLayout(new BorderLayout(0,0));
         rowInput.add(rowInputPanel,BorderLayout.CENTER);
         rowInput.add(rowAddBtnPanel,BorderLayout.EAST);
+        rowInput.add(rowTextsequencesBtnPanel, BorderLayout.SOUTH);//new feature//////////////////////
         
         setRowComboBox();
         
@@ -426,7 +440,6 @@ public class InterfaceMain
         rowOperationPanel.add(rowInputAndCombo);
 
         JButton deleteRowButton = new JButton("Delete");
-        
         deleteRowButton.addActionListener(new ActionListener()
                                                  {
             public void actionPerformed(ActionEvent ae) 
@@ -466,7 +479,12 @@ public class InterfaceMain
             {
                 if(showConfirmBox("Do you want to save the changes?", "Save") == JOptionPane.YES_OPTION)
                 {
+                	/*for(int i = 0 ; i < selectedChoicesRow.size();i++)
+            		{
+            			System.out.println(selectedChoicesRow.get(i));
+            		}*/
                 		updateFile();
+                		
                 }
             }
         });
@@ -540,7 +558,7 @@ public class InterfaceMain
         columnRowPanel.setLayout(new GridLayout(2,1));
         columnRowPanel.add(columnControlPanel);
         columnRowPanel.add(rowControlPanel);
-        leftPanel.setBorder(BorderFactory.createEmptyBorder(2, 8, 10, 0));
+        leftPanel.setBorder(BorderFactory.createEmptyBorder(2, 8, 0, 0));
         leftPanel.add(checkboxPanel,BorderLayout.NORTH);
         leftPanel.add(columnRowPanel, BorderLayout.CENTER);
         
@@ -856,9 +874,9 @@ public class InterfaceMain
             {
                 if(e.getStateChange() == ItemEvent.SELECTED) 
                 {
-                		if(!replaceSpaceInColumn.isSelected() && !moveColumn.isSelected() && !columnCheckBox.isSelected())
-                		{
-	                    String sColumn = columnCombo.getSelectedItem().toString();
+                	if(!replaceSpaceInColumn.isSelected() && !moveColumn.isSelected() && !columnCheckBox.isSelected())
+                	{
+                		String sColumn = columnCombo.getSelectedItem().toString();
 	                    if(selectedChoicesColumn.contains(sColumn))
 	                    {
 	                        duplicatSelectedAlert("This column has already been selected!");
@@ -869,12 +887,12 @@ public class InterfaceMain
 	                        model.addRow(new String[]{sColumn});
 	                        selectedChoicesColumn.add(sColumn);
 	                    }
-                		}
-                		else
-                		{
-                			JOptionPane.showConfirmDialog(null, "This function can not be used with \"Move columns\", \"Edit column\" and \"Add text\".", 
-                					"Error", JOptionPane.CLOSED_OPTION);
-                		}
+                	}
+                	else
+               		{
+               			JOptionPane.showConfirmDialog(null, "This function can not be used with \"Move columns\", \"Edit column\" and \"Add text\".", 
+               					"Error", JOptionPane.CLOSED_OPTION);
+               		}
                 }
             }
         }); 
@@ -890,6 +908,10 @@ public class InterfaceMain
         }
         rowCombo = new JComboBox<String>(choices2);
         rowCombo.setSelectedIndex(-1);
+        for(int i = 0; i < choices2.length; i++)
+		{
+			System.out.println(choices2[i]);
+		}
         rowCombo.addItemListener(new ItemListener() 
         {
             @Override
@@ -897,25 +919,25 @@ public class InterfaceMain
             {
                 if(e.getStateChange() == ItemEvent.SELECTED) 
                 {
-                		if(!editHeadersFormat.isSelected())
-                		{
-	                    String sRow = rowCombo.getSelectedItem().toString();
+                	if(!editHeadersFormat.isSelected())
+                	{
+                		Object object = rowCombo.getSelectedItem();
+	                    String sRow = object.toString();
 	                    if(selectedChoicesRow.contains(sRow))
 	                    {
 	                        duplicatSelectedAlert("This row has already been selected!");
 	                    }
 	                    else
 	                    {
-	                        DefaultTableModel model = (DefaultTableModel) rowTable.getModel();
-	                        model.addRow(new String[]{sRow});
+	                    	((DefaultTableModel) rowTable.getModel()).addRow(new String[]{sRow});
 	                        selectedChoicesRow.add(sRow);
 	                    }
-                		}
-                		else
-                		{
-                			JOptionPane.showConfirmDialog(null, "This function can not be used with \"Edit headers' format\".", 
-                					"Error", JOptionPane.CLOSED_OPTION);
-                		}
+                	}
+                	else
+                	{
+                		JOptionPane.showConfirmDialog(null, "This function can not be used with \"Edit headers' format\".", 
+                			"Error", JOptionPane.CLOSED_OPTION);
+                	}
                 }
             }
         });
@@ -1034,10 +1056,10 @@ public class InterfaceMain
     //check if the missing data and replace data are valid
     public boolean validReplaceData(String data)
     {
-    		boolean valid = true;
-    		if(data != null && !data.equals(""))
-    		{
-    			for(int i = 0; i < data.length(); i++)
+    	boolean valid = true;
+    	if(data != null && !data.equals(""))
+   		{
+    		for(int i = 0; i < data.length(); i++)
     			{
     				char ch = data.charAt(i);
     				if(ch == ',' || ch == ';' || ch ==' ')
@@ -1045,11 +1067,11 @@ public class InterfaceMain
     					valid = false;
     				}
     			}
-    		}
-    		else
-    		{
-    			valid = false;
-    		}
+    	}
+    	else
+    	{
+    		valid = false;
+   		}
     		return valid;
     }
     
@@ -1235,31 +1257,88 @@ public class InterfaceMain
 		return option;
     }
     
+    //add the rows to the selected table base on text sequences
+    public int DeleteRowsByTextSequences()
+    {
+    	int option;
+    	JTextField textSequencesInput = new JTextField();
+		JTextField columnInput = new JTextField();
+		Object[] message = {"select rows that has",textSequencesInput,"(text sequences)","\nat the column",columnInput,
+				"(column number)\n\n"};
+		option = JOptionPane.showConfirmDialog(null, message, "Select Rows by Text Sequences", JOptionPane.OK_CANCEL_OPTION);
+		if(option == 0)
+		{
+			try
+			{
+				String textSequences = textSequencesInput.getText();
+				int columnIndex = Integer.parseInt(columnInput.getText());
+				if(columnIndex>0 && columnIndex<columnNum)
+				{
+						if(addTextColumnIndex>editFile.getColumnNum())
+						{
+			    			JOptionPane.showConfirmDialog(null,"This column is empty!", "Error", JOptionPane.CLOSED_OPTION); 
+							option = -1;
+						}
+						else
+						{
+							 addFoundRowsToTable( textSequences, columnIndex);
+						}
+				}
+				else
+				{
+					JOptionPane.showConfirmDialog(null, "Column number is not valid!", "Error", JOptionPane.CLOSED_OPTION);
+					option = -1;
+				}
+
+			}
+			catch(Exception e)
+			{
+				JOptionPane.showConfirmDialog(null, "Column number is not valid!", "Error", JOptionPane.CLOSED_OPTION);
+				option = -1;
+			}
+		}
+		return option;
+    }
+    
+  //search the given text sequences in the given row, if found, add the row number to the "selected row table"
+    public void addFoundRowsToTable(String text, int columnIndex)
+    {
+    	for(int i = 0; i < rowNum; i++)
+    	{
+    		int row = editFile.addFoundRowsToTable(text, columnIndex, i);
+    		if(row != -1)
+    		{
+    			((DefaultTableModel) rowTable.getModel()).addRow(new String[]{"row"+Integer.toString(row+1)});
+    			selectedChoicesRow.add("row"+Integer.toString(row+1));
+    		}
+    	}
+    }
+    
     //set log file string for all kinds of functions
     public void addLogFileString()
     {
-    		logFile.logSelectRows(selectedChoicesRow);
-    		logFile.logSelectColumn(selectedChoicesColumn);
-    		if(replaceCheckBox.isSelected())
-    		{
-    			logFile.logMissingData(missingData, replaceData);
-    		}
-    	    if(replaceSpaceInColumn.isSelected())
-    	    {
-    	    		logFile.logEditColumn(selectedColumnData);
-    	    }
-    	    if(moveColumn.isSelected())
-    	    {
-    	    		logFile.logMoveColumn(moveColumnIndex);
-    	    }
-    	    if(editHeadersFormat.isSelected())
-    	    {
-    	    		logFile.logEditHeadersFormat(startColumnNumber, endColumnNumber, rowNumber);
-    	    }
-    	    if(columnCheckBox.isSelected())
-    	    {
-    	    		logFile.logAddText(addTextColumnIndex, addTextString);
-    	    }
+	    logFile.logSelectRows(selectedChoicesRow);
+		logFile.logSelectColumn(selectedChoicesColumn);
+		if(replaceCheckBox.isSelected())
+		{
+			logFile.logMissingData(missingData, replaceData);
+		}
+		if(replaceSpaceInColumn.isSelected())
+		{
+			logFile.logEditColumn(selectedColumnData);
+		}
+		if(moveColumn.isSelected())
+		{
+			logFile.logMoveColumn(moveColumnIndex);
+		}
+		if(editHeadersFormat.isSelected())
+		{
+			logFile.logEditHeadersFormat(startColumnNumber, endColumnNumber, rowNumber);
+		}
+		if(columnCheckBox.isSelected())
+		{
+			logFile.logAddText(addTextColumnIndex, addTextString);
+		}
     }
     
     //get the given file's extension
