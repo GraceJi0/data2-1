@@ -1258,7 +1258,7 @@ public class InterfaceMain
     	int option;
     	JTextField textSequencesInput = new JTextField();
 		JTextField columnInput = new JTextField();
-		Object[] message = {"select rows that has",textSequencesInput,"(text sequences)","\nat the column",columnInput,
+		Object[] message = {"select rows that equals",textSequencesInput,"(text sequences)","\nat the column",columnInput,
 				"(column number)\n\n"};
 		option = JOptionPane.showConfirmDialog(null, message, "Select Rows by Text Sequences", JOptionPane.OK_CANCEL_OPTION);
 		if(option == 0)
