@@ -3,6 +3,8 @@ package project;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -27,12 +29,13 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-
-
+/*
+ * This class is for fast convert and detail convert(open the PGDSpider gui)
+ * Includes set the fast convert gui, create spid file, run PGDSpider by commond and by opening the gui.
+ */
 public class FastConvert 
 {
 	private File currentFile;
@@ -53,9 +56,8 @@ public class FastConvert
 	//set the fast convert dialog and allow users to input the missing value
 	public void fastConvertDialog() 
 	{
-		
 		String fileName =  currentFile.getName();
-		if(isMac() && fileName.contains(" ")) //when there are spaces in file path, the command line doesn't work for Mac, only works for Windows
+		if(isMac() && fileName.contains(" ")) //if there are spaces in file path, the command line won't work for Mac, only work for Windows
 		{
 			JOptionPane.showConfirmDialog(null,
 					"The current file's name has spaces in it, please use \"save as\" to rename it!",
@@ -70,7 +72,6 @@ public class FastConvert
 				public void actionPerformed(ActionEvent arg0) 
 				{
 					destinationFolderPath = chooseDestinationFolder();
-					System.out.println("-----"+destinationFolderPath);
 				}
 			});
 			JTextField missingValueInput = new JTextField();
@@ -102,8 +103,7 @@ public class FastConvert
 	    return folderPath;
 	}
 	
-	//run PGDSpider using command line, creat spid file and output file for converting, if convert is not successful, 
-	//delete the output file and spid file.
+	//Run PGDSpider using command line, creat spid file and output file for converting, show the convert result and detail informations
 	public void runPGDSpider(String missingValue, String markerNum, String destinationFolderPath)
 	{
 		String commandFastConvert = "";
@@ -219,9 +219,10 @@ public class FastConvert
 					OutputStream out = pros.getOutputStream();
 					InputStream in = pros.getInputStream();
 					InputStream err = pros.getErrorStream();
-						
-					String result = readInputStream(in)+readInputStream(err);
-					JFrame errorMessageFrame = showPGDSpiderErrorMessage(result,commandFastConvert);
+					String result = "Output file location: "+outputPath+readInputStream(in)+readInputStream(err);
+					
+					//open the fast convert error message window
+					JFrame errorMessageFrame = showPGDSpiderErrorMessage(result,commandFastConvert); 
 					if(errorMessageFrame != null)
 					{
 						errorMessageFrame.setMinimumSize(new Dimension(800,600));
@@ -250,7 +251,7 @@ public class FastConvert
 		}
 	}
 	
-	//Open the PGDSpider gui
+	//Open the PGDSpider gui (detail convert)
 	public void runDetailConvert()
 	{
 		String currentFilePath = "";
@@ -278,7 +279,7 @@ public class FastConvert
 		}
 	}
 	
-	//Read the log message after convert from PGDSpider.
+	//Read the feedback from PGDSpider after convert.
 	public String readInputStream(InputStream stream)
 	{
 		BufferedReader text = new BufferedReader(new InputStreamReader(stream));
@@ -453,7 +454,6 @@ public class FastConvert
 		
 		JLabel convertMessageLabel = new JLabel("<html>"+convertMessage+"</html>");
 		convertMessageLabel.setBorder(new EmptyBorder(20,20,0,20));
-		//convertMessageLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
 		convertMessageLabel.setForeground(Color.red);
 		
 		JLabel detailsLabel = new JLabel("Details");
