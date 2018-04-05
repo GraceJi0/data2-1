@@ -356,7 +356,9 @@ public class FastConvert
 		return file;
 	}
 	
-	//Check the file's format and get the number of marks of this file at the same time.
+	//Check the file's format and get the number of loci of this file at the same time.
+	//Check the file's format: go through the file, if there's a row's length is different from other rows, then the format is not correct;
+	//Get the number of loci: go through the file, suppose the file is in correct format, in each row, calculate how many digit elements, then divide the result by 2. 
 	public int checkFileFormat()
 	{
 		int count = 0;

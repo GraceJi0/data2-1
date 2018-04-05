@@ -4,7 +4,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.zip.GZIPInputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import javax.swing.JOptionPane;
@@ -12,6 +11,9 @@ import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 import org.apache.commons.compress.utils.IOUtils;
 
+/*
+ * This class include 2 methods for extracting zip and tar files. 
+ */
 public class Decompress 
 {
 	public void unTar(final File inputFile, String destinationFolder)
@@ -44,51 +46,16 @@ public class Decompress
 				 }
 				tis.close();
 			} 
-		     catch (IOException e) 
-		     {
+		    catch (IOException e) 
+		    {
 		    	 	JOptionPane.showConfirmDialog(null, e.getMessage(), "Can't decomprass the file!", JOptionPane.CLOSED_OPTION); 			
-		    	 } 
+		    } 
 		} 
 		catch (FileNotFoundException e) 
 		{
 			JOptionPane.showConfirmDialog(null, e.getMessage(), "Can't decomprass the file!", JOptionPane.CLOSED_OPTION); 
 		}
 	}
-	
-	public void decompressGzip(File inputFile, String destinationFolder)
-	{
-		File outFile = new File(destinationFolder);
-		GZIPInputStream gin;
-		try 
-		{
-			gin = new GZIPInputStream(new FileInputStream(inputFile));
-			FileOutputStream fos = null;
-		    try 
-		    {
-		        fos = new FileOutputStream(outFile);
-		        byte[] buf = new byte[100000];
-		        int len;
-		        while ((len = gin.read(buf)) > 0) 
-		        {
-		            fos.write(buf, 0, len);
-		        }
-		        fos.close();
-		        if (gin != null) 
-		        {
-		            gin.close();    
-		        }
-		    } 
-		    catch(Exception e) {}
-		} 
-		catch (FileNotFoundException e) 
-		{
-			e.printStackTrace();
-		} 
-		catch (IOException e) 
-		{
-			e.printStackTrace();
-		}          
-    }
 	
 	
 	public void unzip(String destinationFolder, String zipFile)
