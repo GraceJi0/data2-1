@@ -323,10 +323,6 @@ public class InterfaceDirectories
                     {
 						decompress.unTar(currentFile, destinationFolder);
                     }
-                    else if(extension.equals("gz"))
-                    {
-                    		decompress.decompressGzip(currentFile,destinationFolder);
-                    }
                     updateFileTreeAndTable();
                     gui.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
                 }
@@ -539,13 +535,12 @@ public class InterfaceDirectories
             String fName = file.getName();
             String extension = getFileExtension(currentFile);
             if (fName.contains("metaData") || file.isDirectory() || fName.contains("README") || 
-            		extension.equals("zip") || extension.equals("gz") || extension.equals("tar")) 
+            		extension.equals("zip") || extension.equals("tar") || extension.equals("gz")) 
             {
                 editFile.setEnabled(false);
             }
             findMetaData(file);
-            if(currentFile.isDirectory() || (extension.equals("zip")||extension.equals("tar") /*||
-            		extension.equals("gz")*/)==false)
+            if(currentFile.isDirectory() || (extension.equals("zip")||extension.equals("tar"))==false)
             {
                 unzipFile.setEnabled(false); 
             }

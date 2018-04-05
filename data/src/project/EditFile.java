@@ -25,13 +25,15 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.tika.Tika;
 import org.apache.tika.mime.MimeTypes;
 import com.google.common.io.Files;
-
-import org.apache.poi.POIXMLDocument;
 import org.apache.poi.hssf.usermodel.*;
 
+/*
+ * Implement functions in the Editor (not include GUI things) like read the file and put strings into ArrayList(fileArray), 
+ * delete column, delete row, replace missing data, move column......
+ */
 public class EditFile 
 {
-	private static final int ADD_ROW_NUMBER_OPTION = 1;
+	private static final int ADD_ROW_NUMBER_OPTION = 1; 
 	private static final int DONT_ADD_ROW_NUMBER_OPTION = 0;
     private File currentFile;
     private String fileString;
@@ -48,17 +50,17 @@ public class EditFile
     
     public EditFile(File file) 
     {
-    		fileArray = new ArrayList<List<String>>();
-    		fileString = "";
-    		if(file != null)
-    		{
-    			currentFile = file;
-    		}
-    		else
-    		{
-    			JOptionPane.showConfirmDialog(null,  "Can't edit the file", 
-            			"Error", JOptionPane.CLOSED_OPTION);
-    		}
+    	fileArray = new ArrayList<List<String>>();
+    	fileString = "";
+    	if(file != null)
+    	{
+    		currentFile = file;
+   		}
+    	else
+    	{
+    		JOptionPane.showConfirmDialog(null,  "Can't edit the file", 
+    				"Error", JOptionPane.CLOSED_OPTION);
+    	}
         missingCh = null;
         replaceCh = null;
         rowNum = 0;
@@ -70,18 +72,20 @@ public class EditFile
         //getFileString();  //Don't remember why I put this line here so I comment it, and seems every thing still works good.
     }
     
+    //Check the file's type and decide which method we should use to open(edit) the file.
+    //If the file doesn't have extension, detect the file's type by file's content.
     public boolean editTheFile(String expression, JPanel gui, String theSheetName)
     {
-    		String extenssion = getCurrentFileExtension();
-    		boolean error = false;
-    		if(currentFile != null)
-    		{
-	    		if(keepChangedFile == false)
+    	String extenssion = getCurrentFileExtension();
+    	boolean error = false;
+   		if(currentFile != null)
+   		{
+   			if(keepChangedFile == false)
 	        {
-	            	fileArray.removeAll(fileArray);
-	            	rowNum =0;
-	            	columnNum = 0;
-		        try 
+	            fileArray.removeAll(fileArray);
+	           	rowNum =0;
+	           	columnNum = 0;
+	           	try 
 		        {
 		            if(extenssion.equals("xlsx"))
 		            {
@@ -103,101 +107,100 @@ public class EditFile
 		            else if(extenssion.equals("txt") || extenssion.equals("csv"))
 		            {
 		            		error = separateFile(gui, expression);
-		            		///////////////////////////////
 		            }
 		            else if(extenssion.equals("")) //if current file doesn't have an extension
 		            {
-		            		String message = null;
-		            		FileTypeDetector detector = new TikaFileTypeDetector();
+		            	String message = null;
+		            	FileTypeDetector detector = new TikaFileTypeDetector();
 		                String contentType = detector.probeContentType(currentFile.toPath());
-		                if(contentType.equals("application/vnd.ms-excel"))
+		                if(contentType.equals("application/vnd.ms-excel")) //if the file's type is xls
 		                {
-		                		int option = 0;
-		                		if(rename.equals(""))
+		                	int option = 0;
+		                	if(rename.equals(""))
+		                	{
+			                	message = "This file doesn't have an extenssion. Do you want to try to open it as an xls file?";
+			               		option = JOptionPane.showConfirmDialog(null, message, "Error", JOptionPane.OK_CANCEL_OPTION);
+		                	}
+		                	if(option == 0)
+		                	{
+		                		if(!editXLSfile(gui,theSheetName)) //If no error
 		                		{
-			                		message = "This file doesn't have an extenssion. Do you want to try to open it as an xls file?";
-			                		option = JOptionPane.showConfirmDialog(null, message, "Error", JOptionPane.OK_CANCEL_OPTION);
-		                		}
-		                		if(option == 0)
-		                		{
-			                		if(!editXLSfile(gui,theSheetName)) //If no error
-			                		{
-			                			rename = "xls";
-			                		}
-			                		else
-			                		{
-			                			error = true;
-			                		}
-		                		}
+		                			rename = "xls";
+			                	}
 		                		else
 		                		{
 		                			error = true;
-		                		}
+			                	}
+		                	}
+		                	else
+		                	{
+		                		error = true;
+		               		}
 		                }
-		                else if(contentType.equals("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
+		                else if(contentType.equals("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))//if the file's type is xlsx
 		                {
-			                	int option = 0;
-		                		if(rename.equals(""))
-		                		{
-				                	message = "This file doesn't have an extenssion. Do you want to try to open it as an xlsx file?";
-				            		option = JOptionPane.showConfirmDialog(null, message, "Error", JOptionPane.OK_CANCEL_OPTION);
+			                int option = 0;
+		                	if(rename.equals(""))
+		               		{
+				               	message = "This file doesn't have an extenssion. Do you want to try to open it as an xlsx file?";
+				           		option = JOptionPane.showConfirmDialog(null, message, "Error", JOptionPane.OK_CANCEL_OPTION);
+		               		}
+			           		if(option == 0)
+			           		{
+			               		if(!editXLSXfile(gui,theSheetName)) // if no error
+			               		{
+			               			rename = "xlsx";
+			               		}
+			               		else
+			               		{
+		                			error = true;
 		                		}
-			            		if(option == 0)
-			            		{
-			                		if(!editXLSXfile(gui,theSheetName)) // if no error
-			                		{
-			                			rename = "xlsx";
-			                		}
-			                		else
-			                		{
-			                			error = true;
-			                		}
-			            		}
-			            		else
-			            		{
-			            			error = true;
-			            		}
+		            		}
+			            	else
+			           		{
+			           			error = true;
+			           		}
 		                }
-		                else if(contentType.equals("text/plain"))
+		                else if(contentType.equals("text/plain")) //if the file's type is txt
 		                {
-			                	int option = 0;
-		                		if(rename.equals(""))
-		                		{
-				                	message = "This file doesn't have an extenssion. Do you want to try to open it as an txt file?";
-				            		option = JOptionPane.showConfirmDialog(null, message, "Error", JOptionPane.OK_CANCEL_OPTION);
-		                		}
-			            		if(option == 0)
-			            		{
-			                		if(!separateFile(gui, expression))  //if no error
-			                		{
-			                			rename = "txt";
-			                		}
-			            		}
-			            		else
-			            		{
-			            			error = true;
-			            		}
+			                int option = 0;
+		                	if(rename.equals(""))
+		                	{
+				               	message = "This file doesn't have an extenssion. Do you want to try to open it as an txt file?";
+				           		option = JOptionPane.showConfirmDialog(null, message, "Error", JOptionPane.OK_CANCEL_OPTION);
+		               		}
+			           		if(option == 0)
+			           		{
+			               		if(!separateFile(gui, expression))  //if no error
+			               		{
+			               			rename = "txt";
+			               		}
+			           		}
+			           		else
+			           		{
+			           			error = true;
+			           		}
 		                }
 		                else
 		                {
-		            			JOptionPane.showConfirmDialog
-		            								(null, "Can't open the file!\nPlease click \"Open \" or \"Locate\" to edit the file", 
-		                                         "Error", JOptionPane.CLOSED_OPTION);
-		            			error = true;
-		            		}
+		            		JOptionPane.showConfirmDialog
+		   						(null, "Can't open the file!\nPlease click \"Open \" or \"Locate\" to edit the file", 
+	                                "Error", JOptionPane.CLOSED_OPTION);
+	            			error = true;
+		           		}
 		            }
-		            else //if file's type is unusual.
+		            else //if file's type is unusual, open it as an txt file
 		            {
-		            		int option = JOptionPane.showConfirmDialog(null,  "Open this file might cause the program crash, do you still want to open it?", 
-		            			"Warning", JOptionPane.OK_CANCEL_OPTION);
-		            		if(option == 0)
-		            		{
-		            			error = separateFile(gui, expression);
-		            		}
-		            		else
-		            		{
-		            			error = true;
-		            		}
+		            	int option = JOptionPane.showConfirmDialog(null,  "Open this file might cause the program crash, do you still want to open it?", 
+		            		"Warning", JOptionPane.OK_CANCEL_OPTION);
+		           		if(option == 0)
+		           		{
+		           			error = separateFile(gui, expression);
+		           		}
+		           		else
+		          		{
+		           			error = true;
+		           		}
 		            }
 		        } 
 		        catch (IOException e) 
@@ -206,130 +209,130 @@ public class EditFile
 		                                          "Error002", JOptionPane.CLOSED_OPTION);
 		        }
 	        }
-	    		else
-	    		{
-	    			keepChangedFile = false;
-	    		}
-    		}
-    		else
-    		{
-    			error = true;
-    		}
+	    	else
+	    	{
+	   			keepChangedFile = false;
+	   		}
+    	}
+    	else
+    	{
+   			error = true;
+   		}
         return error;
     }
     
-    //*********************edit txt files***************************
+    //Seperate txt and csv file string and put them into an ArrayList (fileArray)
     public boolean separateFile(JPanel gui, String expression) throws FileNotFoundException
     {
-    		boolean error = false;
-    		int option = -1;
-    		if(currentFile.length()>10000000) 
+    	boolean error = false;
+    	int option = -1;
+    	if(currentFile.length()>10000000)  //if the file is too big
+    	{
+    		if(currentFile.length()>30000000)
     		{
-    			if(currentFile.length()>30000000)
-    			{
-    				option = JOptionPane.showConfirmDialog (null, 
-        					"The file is too big, the program might not be able to open it, do you still want to try to open it?", 
-        					"Warning", JOptionPane.YES_NO_OPTION);
-    			}
-    			else
-    			{
-    				option = JOptionPane.showConfirmDialog (null, 
-        					"The file is big and it may takes long to open, do you still want to open it?", 
-        					"Warning", JOptionPane.YES_NO_OPTION);
-    			}
+    			option = JOptionPane.showConfirmDialog (null, 
+        			"The file is too big, the program might not be able to open it, do you still want to try to open it?", 
+   					"Warning", JOptionPane.YES_NO_OPTION);
     		}
-    		if(option == JOptionPane.NO_OPTION) //if user don't want to keep open the file
+    		else
     		{
-    			error = true;
+    			option = JOptionPane.showConfirmDialog (null, 
+        			"The file is big and it may takes long to open, do you still want to open it?", 
+        			"Warning", JOptionPane.YES_NO_OPTION);
     		}
-    		else //if user still want to open the file or the file is not big 
+    	}
+    	if(option == JOptionPane.NO_OPTION) //if user don't want to keep open the file
+    	{
+    		error = true;
+    	}
+    	else //if user still want to open the file or the file is not big 
+    	{
+    		if(gui != null)
     		{
-    			if(gui != null)
-    			{
-    				gui.setCursor(new Cursor(Cursor.WAIT_CURSOR));	
-    			}
-    			getFileString();  //get the file string from original file 
-    		    String lines[] = fileString.split("\n");
-    		    int lineNum = 0;
-    		    try
+    			gui.setCursor(new Cursor(Cursor.WAIT_CURSOR));	
+   			}
+    		getFileString();  //get the file string from original file 
+    	    String lines[] = fileString.split("\n");
+    	    int lineNum = 0;
+   		    try
+    		{
+    		    while(lineNum<lines.length && lines[lineNum] != null)
     		    {
-    			    while(lineNum<lines.length && lines[lineNum] != null)
-    			    {
-    			    		String line = lines[lineNum];
-    			        line.trim();
-    			        String[] dataLine = line.split(expression);
+    		   		String line = lines[lineNum];
+    		        line.trim();
+    		        String[] dataLine = line.split(expression);
     			        
-    			        int start = 0;
-    			        if(expression.equals("line")) // if it split by line, just display the data by line
-    			        {
-    			        		dataLine = new String[1];
-    			        		dataLine[0] = line;
-    			         }
-    			         for(int i = start; i < dataLine.length; i++)
-    			         {
-    			        	 	fileArray.add(new ArrayList<String>());
+   			        int start = 0;
+    			    if(expression.equals("line")) // if it is split by line, just display the data by line
+    		        {
+    	        		dataLine = new String[1];
+    		       		dataLine[0] = line;
+    		         }
+    		         for(int i = start; i < dataLine.length; i++)
+    		         {
+    			       	 	fileArray.add(new ArrayList<String>());
     			            fileArray.get(lineNum).add(dataLine[i].trim());
-    			         }
-    			         lineNum++;
-    			         if(dataLine.length > columnNum) //keep the biggest columnNum in different rows to be the columnNum
-    			         {
-    			                	columnNum = dataLine.length;
-    			         }  
     			     }
-    			     if(fileArray.size() == 0)
+    			     lineNum++;
+    			     if(dataLine.length > columnNum) //keep the biggest columnNum in different rows to be the columnNum
     			     {
-    			           JOptionPane.showConfirmDialog(null, 
-    			           		"Can't open the file!\nPlease click \"Open \" or \"Locate\" to edit the file", 
-    			           		"Error003", JOptionPane.CLOSED_OPTION); 
-    			           error = true;
-    			     }
-    			     else
-    			     {
-    			           columnNum = fileArray.get(0).size();
-    			           rowNum = lineNum;
-    			           splitExpression = expression;
-    			           addRowLabel();
-    			     }
+    			    	 columnNum = dataLine.length;
+    			     }  
     		    }
-    		    catch(Exception e)
+    		    if(fileArray.size() == 0) //if the file is empty
     		    {
-    		    		JOptionPane.showConfirmDialog(null, 
-    		           		"Can't open the file!\nPlease click \"Open \" or \"Locate\" to edit the file", 
-    		           		"Error003-1", JOptionPane.CLOSED_OPTION); 
-    		    		error = true;
-    		    		if(gui != null)
-    		    		{
-    		    			gui.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));	
-    		    		}
+    		    	JOptionPane.showConfirmDialog(null, 
+    		    			"Can't open the file!\nPlease click \"Open \" or \"Locate\" to edit the file", 
+    		    			"Error003", JOptionPane.CLOSED_OPTION); 
+    			    error = true;
     		    }
-    		    catch(OutOfMemoryError e)
+    		    else
     		    {
-    		    		JOptionPane.showConfirmDialog(null, 
-    		           		"The memory is not enough to open this file!\nPlease click \"Open \" or \"Locate\" to edit the file", 
-    		           		"Error003-2", JOptionPane.CLOSED_OPTION); 
-    		    		error = true;
-    		    		if(gui != null)
-    		    		{
-    		    			gui.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));	
-    		    		}
+    		    	columnNum = fileArray.get(0).size();
+    		    	rowNum = lineNum;
+    		    	splitExpression = expression;
+    		    	addRowLabel();
     		    }
-    		    if(gui != null)
-				{
-	    		    		gui.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));	
-				}
     		}
-         return error;
+   		    catch(Exception e)
+   		    {
+    		    JOptionPane.showConfirmDialog(null, 
+    		    		"Can't open the file!\nPlease click \"Open \" or \"Locate\" to edit the file", 
+    		    		"Error003-1", JOptionPane.CLOSED_OPTION); 
+    		    error = true;
+    		    if(gui != null)
+    		    {
+    		    	gui.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));	
+    		    }
+   		    }
+   		    catch(OutOfMemoryError e)
+   		    {
+   		    	JOptionPane.showConfirmDialog(null, 
+   		    			"The memory is not enough to open this file!\nPlease click \"Open \" or \"Locate\" to edit the file", 
+   		    			"Error003-2", JOptionPane.CLOSED_OPTION); 
+    		    error = true;
+    		    if(gui != null)
+    		    {
+    		    	gui.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));	
+    		    }
+    		 }
+   		    if(gui != null)
+   		    {
+   		    	gui.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));	
+   		    }
+    	}
+        return error;
     }
     
-    //read the file from original file and put them in variable "fileString"
+    //Read the file from original file and put them in variable "fileString"
     public String getFileString()
     {
-    		fileString = "";
-    		if(currentFile != null)
-    		{
-	        try
+    	fileString = "";
+    	if(currentFile != null)
+   		{
+    		try
 	        {
-	        		BufferedReader br = new BufferedReader(new FileReader(currentFile));
+	       		BufferedReader br = new BufferedReader(new FileReader(currentFile));
 	            String line = br.readLine();
 	            while(line != null)
 	            {
@@ -344,15 +347,15 @@ public class EditFile
 	                "Can't open the file!\nPlease click \"Open \" or \"Locate\"", "Error 004", 
 	                 JOptionPane.CLOSED_OPTION);   
 	        }
-    		}
-    		return fileString;
+    	}
+    	return fileString;
     }
     
-    //go through the fileArray and add all strings to a long string for writing back.
+    //Go through the fileArray and add all strings to a long string (for writing back).
     public String fileArrayToFileString(int keepRowNumber)
     {
-    		fileString = "";
-    		int start = 0;
+    	fileString = "";
+    	int start = 0;
 		for(int i = 0; i< fileArray.size(); i++)
 		{
 			int length = fileArray.get(i).size();
@@ -368,52 +371,52 @@ public class EditFile
 				}
 				else
 				{
-					fileString+=fileArray.get(i).get(j)+	splitExpression;
+					fileString+=fileArray.get(i).get(j)+splitExpression;
 				}
 			}	
 		}
 		return fileString;
     }
     
-    //**********************edit xlsx files**************************
+    //Open an xlsx file, let users to select a sheet, and read it.
     public boolean editXLSXfile(JPanel gui, String theSheetName) throws IOException
     {   
-	    	Boolean error = false;
-	    	XSSFWorkbook workbook = null;
+	    Boolean error = false;
+	    XSSFWorkbook workbook = null;
 	    FileInputStream fip = new FileInputStream(currentFile);
 	    int option = -1;
 	    if(fip.available() > 0)
 	    {
-	        	try
+	        try
+	       	{
+	        	if(currentFile.length()>6000000)  //if the file is too big
 	        	{
-	        		if(currentFile.length()>6000000) 
+	        		if(currentFile.length()>8600000)
 	        		{
-	        			if(currentFile.length()>8600000)
-	        			{
-	        				option = JOptionPane.showConfirmDialog (null, 
-	            					"The file is too big, the program might not be able to open it, do you still want to try to open it?", 
-	            					"Warning", JOptionPane.YES_NO_OPTION);
-	        			}
-	        			else
-	        			{
-	        				option = JOptionPane.showConfirmDialog (null, 
-	            					"The file is big and it may takes long to open, do you still want to open it?", 
-	            					"Warning", JOptionPane.YES_NO_OPTION);
-	        			}
+	        			option = JOptionPane.showConfirmDialog (null, 
+	        					"The file is too big, the program might not be able to open it, do you still want to try to open it?", 
+	        					"Warning", JOptionPane.YES_NO_OPTION);
 	        		}
-	        		if(option == JOptionPane.NO_OPTION) //if user don't want to keep open the file
+	        		else
 	        		{
-	        			error = true;
+	        			option = JOptionPane.showConfirmDialog (null, 
+	        					"The file is big and it may takes long to open, do you still want to open it?", 
+	        					"Warning", JOptionPane.YES_NO_OPTION);
 	        		}
-	        		else // if user still want to open the file or the file is not big 
-	        		{
-	        			workbook = new XSSFWorkbook(fip);
+	        	}
+	        	if(option == JOptionPane.NO_OPTION) //if user don't want to keep open the file
+	        	{
+	        		error = true;
+	        	}
+	        	else // if user still want to open the file or the file is not big 
+	        	{
+	        		workbook = new XSSFWorkbook(fip);
 				    String sheets[] = getAllXLSXSheet(workbook);
 					String sheetSelected;
-					if(theSheetName != null && theSheetName.equals(""))
+					if(theSheetName != null && theSheetName.equals("")) //select a sheet
 					{
 						 sheetSelected = (String)JOptionPane.showInputDialog(null, "Select a sheet to edit:",
-			        						"Select a sheet", JOptionPane.PLAIN_MESSAGE,null, sheets,null);
+			        			"Select a sheet", JOptionPane.PLAIN_MESSAGE,null, sheets,null);
 					}
 					else
 					{
@@ -427,7 +430,7 @@ public class EditFile
 						}
 						sheetName = sheetSelected;
 						XSSFSheet sheet = workbook.getSheet(sheetSelected);
-						readTheXLSXSheet(sheet);
+						readTheXLSXSheet(sheet); 
 						if(gui != null)
 						{
 							gui.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));					
@@ -438,90 +441,92 @@ public class EditFile
 						error = true;
 					}
 					addRowLabel();
-	        		}
 	        	}
-	        	catch(Exception e)
-	        	{
-	        		JOptionPane.showConfirmDialog
+	        }
+	        catch(Exception e)
+	        {
+	        	JOptionPane.showConfirmDialog
 					(null, "Can't open the file!\nPlease click \"Open \" or \"Locate\" to edit the file", 
-		         "Error8", JOptionPane.CLOSED_OPTION);
-	        		error = true;
-	        		if(gui != null)
-	        		{
-	        			gui.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));	
-	        		}
-	        	}
-	        	catch(OutOfMemoryError e)
+							"Error8", JOptionPane.CLOSED_OPTION);
+	        	error = true;
+	        	if(gui != null)
 	        	{
-	        		JOptionPane.showConfirmDialog
-					(null, "Can't open the file!\nPlease click \"Open \" or \"Locate\" to edit the file", 
-		         "Error8", JOptionPane.CLOSED_OPTION);
-	        		error = true;
-	        		if(gui != null)
-	        		{
-	        			gui.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));	
-	        		}
+	        		gui.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));	
 	        	}
+	        }
+	        catch(OutOfMemoryError e)
+	        {
+	        	JOptionPane.showConfirmDialog
+	        	(null, "Can't open the file!\nPlease click \"Open \" or \"Locate\" to edit the file", 
+		         "Error8", JOptionPane.CLOSED_OPTION);
+	        	error = true;
+	        	if(gui != null)
+	        	{
+	        		gui.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));	
+	        	}
+	        }
 			fip.close();
 	    }
 	    else
 	    {
-	        		JOptionPane.showConfirmDialog(null,
-	        			"Can't open the file!\nPlease click \"Open \" or \"Locate\" to edit the file", 
-	                    "Error005", JOptionPane.CLOSED_OPTION); 
-	        		error = true;
-	        		if(gui != null)
-	        		{
-	        			gui.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));	
-	        		}
+	        JOptionPane.showConfirmDialog(null,
+	        		"Can't open the file!\nPlease click \"Open \" or \"Locate\" to edit the file", 
+	        		"Error005", JOptionPane.CLOSED_OPTION); 
+	        error = true;
+	        if(gui != null)
+	        {
+	        	gui.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));	
+	        }
 	    }
         return error;
     }
     
+    //get all xlsx sheets' name
     public String[] getAllXLSXSheet(XSSFWorkbook workbook)
     {
-    		int length = workbook.getNumberOfSheets();
-    		String sheets[] = new String[length];
-    		for(int i = 0 ; i < length; i++)
-    		{
-    			sheets[i] = workbook.getSheetAt(i).getSheetName();
-    		}
-    		return sheets;
+    	int length = workbook.getNumberOfSheets();
+    	String sheets[] = new String[length];
+    	for(int i = 0 ; i < length; i++)
+    	{
+    		sheets[i] = workbook.getSheetAt(i).getSheetName();
+    	}
+    	return sheets;
     }
     
+    //Read the sheet in xlsx files and put all Strings into an ArrayList(fileArray)
 	public void readTheXLSXSheet(XSSFSheet spreadsheet)
     {
-    		DataFormatter dataFormatter = new DataFormatter();
-    		Iterator < Row >  rowIterator = spreadsheet.iterator();
-    		XSSFRow row;
-    		int index = 0;
+    	DataFormatter dataFormatter = new DataFormatter();
+    	Iterator < Row >  rowIterator = spreadsheet.iterator();
+    	XSSFRow row;
+    	int index = 0;
         while (rowIterator.hasNext()) 
         {
-        		rowNum++;
-        		fileArray.add(new ArrayList<String>());
-        		row = (XSSFRow) rowIterator.next();
+        	rowNum++;
+        	fileArray.add(new ArrayList<String>());
+        	row = (XSSFRow) rowIterator.next();
         		
-        		int lastColumn = row.getLastCellNum();
-        		for(int cn = 0; cn < lastColumn;cn++)
+        	int lastColumn = row.getLastCellNum();
+        	for(int cn = 0; cn < lastColumn;cn++)
+        	{
+        		Cell cell = row.getCell(cn);
+        		String cellValue = " ";
+        		if(cell != null)
         		{
-        			Cell cell = row.getCell(cn);
-        			String cellValue = " ";
-        			if(cell != null)
-        			{
-        				cellValue = dataFormatter.formatCellValue(cell);
-        			}
-        			index++;
-        			fileArray.get(rowNum-1).add(cellValue);
+        			cellValue = dataFormatter.formatCellValue(cell);
         		}
-        		if(index > columnNum)
-        		{
-        			columnNum = index;
-        		}
-        		index = 0;
+        		index++;
+        		fileArray.get(rowNum-1).add(cellValue);
+        	}
+        	if(index > columnNum)
+        	{
+        		columnNum = index;
+        	}
+        	index = 0;
         }
     }
     
-    //**********************edit xls files**************************
+    ////Open an xls file, let users to select a sheet, and read it.
     public boolean editXLSfile(JPanel gui,String theSheetName)
     {
     	Boolean error = false;
@@ -534,7 +539,7 @@ public class EditFile
 		    {
 				try
 				{
-		        	if(currentFile.length()>6000000) 
+		        	if(currentFile.length()>6000000) //if the file is too big
 		        	{
 		        		if(currentFile.length()>8600000)
 		        		{
@@ -595,22 +600,22 @@ public class EditFile
 				         "Error9", JOptionPane.CLOSED_OPTION);
 					error = true;
 					if(gui != null)
-		        		{
-		        			gui.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));	
-		        		}
+		        	{
+						gui.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));	
+		        	}
 				}
 				fip.close();
 			}
 			else
 			{
 				JOptionPane.showConfirmDialog(null,
-			    			"Can't open the file!\nPlease click \"Open \" or \"Locate\" to edit the file", 
-			                    "Error006", JOptionPane.CLOSED_OPTION); 
-			    	error = true;
-			    	if(gui != null)
-	        		{
-	        			gui.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));	
-	        		}
+		 			"Can't open the file!\nPlease click \"Open \" or \"Locate\" to edit the file", 
+		                   "Error006", JOptionPane.CLOSED_OPTION); 
+			    error = true;
+			    if(gui != null)
+			    {
+			    	gui.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));	
+	        	}
 			}
 		} 
 		catch ( Exception e) 
@@ -621,9 +626,9 @@ public class EditFile
 	                    "Error007", JOptionPane.CLOSED_OPTION); 
 	   		error = true;
 	   		if(gui != null)
-	    		{
-	    			gui.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));	
-	    		}
+	    	{
+	   			gui.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));	
+	    	}
 		}
 		catch(OutOfMemoryError e)
 		{
@@ -631,17 +636,17 @@ public class EditFile
 			(null, "Can't open the file!\nPlease click \"Open \" or \"Locate\" to edit the file", 
 		         "Error7", JOptionPane.CLOSED_OPTION);
 		    	error = true;
-		    	if(gui != null)
-        		{
-        			gui.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));	
-        		}
+		    if(gui != null)
+		    {
+		    	gui.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));	
+        	}
 		}
         return error;
     }
     
     public String[] getAllXLSSheet(HSSFWorkbook workbook)
     {
-    		int length = workbook.getNumberOfSheets();
+    	int length = workbook.getNumberOfSheets();
 		String sheets[] = new String[length];
 		for(int i = 0 ; i < length; i++)
 		{
@@ -652,122 +657,122 @@ public class EditFile
     
     public void readTheXLSSheet(HSSFSheet spreadsheet)
     {
-    		DataFormatter dataFormatter = new DataFormatter();
+    	DataFormatter dataFormatter = new DataFormatter();
 		Iterator < Row >  rowIterator = spreadsheet.iterator();
 		HSSFRow row;
 		int index = 0;
 	    while (rowIterator.hasNext()) 
 	    {
-	    		rowNum++;
-	    		fileArray.add(new ArrayList<String>());
-	    		row = (HSSFRow) rowIterator.next();
+	    	rowNum++;
+	    	fileArray.add(new ArrayList<String>());
+	    	row = (HSSFRow) rowIterator.next();
 	    		
-	    		int lastColumn = row.getLastCellNum();
-        		for(int cn = 0; cn < lastColumn;cn++)
-        		{
-        			Cell cell = row.getCell(cn);
-        			String cellValue = " ";
-        			if(cell != null)
-        			{
-        				cellValue = dataFormatter.formatCellValue(cell);
-        			}
-        			index++;
-        			fileArray.get(rowNum-1).add(cellValue);
-        		}
-	    		if(index > columnNum)
+	    	int lastColumn = row.getLastCellNum();
+	    	for(int cn = 0; cn < lastColumn;cn++)
+	    	{
+	    		Cell cell = row.getCell(cn);
+	    		String cellValue = " ";
+	    		if(cell != null)
 	    		{
-	    			columnNum = index;
-	    		}
-	    		index = 0;
+	    			cellValue = dataFormatter.formatCellValue(cell);
+        		}
+	    		index++;
+	    		fileArray.get(rowNum-1).add(cellValue);
+        	}
+	    	if(index > columnNum)
+	    	{
+	    		columnNum = index;
+	    	}
+	    	index = 0;
 	    }
     }
     
-    //***********save all changes that happens on the file(write back to the original file)*************
+    //Save all changes that happens on the file(write back to the original file)
     public File writeBack(String rename)
     {
-    		String newFileName = currentFile.getAbsolutePath();
-    		int reply = -1;
-    		String message;
-    		BufferedWriter bufferedWriter;
-    		if(!rename.equals(""))
+    	String newFileName = currentFile.getAbsolutePath();
+    	int reply = -1;
+    	String message;
+    	BufferedWriter bufferedWriter;
+    	if(!rename.equals("")) //if the original file doesn't have an extension, ask users if they want to add one
+    	{
+    		message = "The file is open as an "+rename+" file. Do you want to add the extension?";
+    		reply = JOptionPane.showConfirmDialog(null, message, "Rename", JOptionPane.YES_NO_OPTION);
+    		if(reply == JOptionPane.YES_OPTION)
     		{
-    			message = "The file is open as an "+rename+" file. Do you want to add the extension?";
-    			reply = JOptionPane.showConfirmDialog(null, message, "Rename", JOptionPane.YES_NO_OPTION);
-    			if(reply == JOptionPane.YES_OPTION)
-    			{
-    				newFileName += "."+rename;
-    			}
-    			reply = -1;
+    			newFileName += "."+rename;
     		}
-    		try
-    		{
-    			message = "Do you want to add the row number into the file?";
+    		reply = -1;
+    	}
+    	try
+    	{
+    		message = "Do you want to add the row number into the file?";
 			reply = JOptionPane.showConfirmDialog(null, message, "Add Row Number", JOptionPane.YES_NO_OPTION);
 			if(getCurrentFileExtension().equals("xlsx") || rename.equals("xlsx"))
-	    		{
+			{
 				if(reply == JOptionPane.YES_OPTION)
 				{
-	    				fileArrayToXLSXFile(ADD_ROW_NUMBER_OPTION);
+	    				fileArrayToXLSXFile(ADD_ROW_NUMBER_OPTION); //write back xlsx file, add the row number into the file
 				}
 				else
 				{
-					fileArrayToXLSXFile(DONT_ADD_ROW_NUMBER_OPTION);
+					fileArrayToXLSXFile(DONT_ADD_ROW_NUMBER_OPTION); //write back xlsx file
 				}
-	    		}
-	    		else if(getCurrentFileExtension().equals("xls") || rename.equals("xls"))
+	    	}
+			else if(getCurrentFileExtension().equals("xls") || rename.equals("xls"))
+			{
+				if(reply == JOptionPane.YES_OPTION)
+				{
+	    				fileArrayToXLSFile(ADD_ROW_NUMBER_OPTION); //write back xls file, add the row number into the file
+				}
+				else
+				{
+					fileArrayToXLSFile(DONT_ADD_ROW_NUMBER_OPTION);//write back xls file
+				}
+	    	}
+			else
+			{	
+				bufferedWriter = new BufferedWriter(new FileWriter(currentFile.getAbsolutePath()));
+	    		if(reply == JOptionPane.YES_OPTION)
 	    		{
-	    			if(reply == JOptionPane.YES_OPTION)
-				{
-	    				fileArrayToXLSFile(ADD_ROW_NUMBER_OPTION);
-				}
-				else
-				{
-					fileArrayToXLSFile(DONT_ADD_ROW_NUMBER_OPTION);
-				}
+	    			fileArrayToFileString(ADD_ROW_NUMBER_OPTION);  //write back txt or csv file, add the row number into the file
 	    		}
 	    		else
-	    		{	
-	    			bufferedWriter = new BufferedWriter(new FileWriter(currentFile.getAbsolutePath()));
-	    			if(reply == JOptionPane.YES_OPTION)
-	    			{
-	    				fileArrayToFileString(ADD_ROW_NUMBER_OPTION);
-	    			}
-	    			else
-	    			{
-	    				fileArrayToFileString(DONT_ADD_ROW_NUMBER_OPTION);
-	    			}
-	    			bufferedWriter.write(fileString);
-	    			bufferedWriter.close();
+	    		{
+	    			fileArrayToFileString(DONT_ADD_ROW_NUMBER_OPTION); //write back txt or csv file
 	    		}
-			if(!rename.equals(""))
+	    		bufferedWriter.write(fileString);
+	    		bufferedWriter.close();
+	    	}
+			if(!rename.equals("")) //if we add the extension to a file, we need to create a new file with a new name and delete the old file.
 			{
 				File newFile = new File(newFileName);
-	    			File tempFile = new File("temp");
-	    			Files.copy(currentFile, tempFile);
-	    			currentFile.delete();
-	    			Files.copy(tempFile, newFile);
-	    			tempFile.delete();
-	    			currentFile = newFile;
+	    		File tempFile = new File("temp");  //creat a temp file for copy
+	    		Files.copy(currentFile, tempFile);
+	    		currentFile.delete();
+	    		Files.copy(tempFile, newFile);
+	    		tempFile.delete();
+	    		currentFile = newFile;
 			}
-    		}
-    		catch (IOException e)
-    		{
+    	}
+    	catch (IOException e)
+    	{
 			e.printStackTrace();
 		}
-    		return currentFile;
+    	return currentFile;
     }
     
     //write the fileArray back to the original xlsx file
     public void fileArrayToXLSXFile(int keepRowIndex) 
     {
-    		try 
+    	try 
+    	{
+    		FileInputStream fileInput = new FileInputStream(currentFile);
+    		if(fileInput.available()>0)
     		{
-    			FileInputStream fileInput = new FileInputStream(currentFile);
-    			if(fileInput.available()>0)
+    			try
     			{
-    				try
-    				{
-		    			XSSFWorkbook workbook = new XSSFWorkbook(fileInput);
+    				XSSFWorkbook workbook = new XSSFWorkbook(fileInput);
 					XSSFSheet spreedsheet = workbook.getSheet(sheetName);
 					int start = 0;
 					if(keepRowIndex == DONT_ADD_ROW_NUMBER_OPTION)
@@ -814,18 +819,18 @@ public class EditFile
 					workbook.write(outFile);
 					outFile.close();
 					workbook.close();
-    				}
-    				catch(Exception e)
-    				{
-    					JOptionPane.showConfirmDialog(null,
-    			    			"Can't open the file!\nPlease click \"Open \" or \"Locate\" to edit the file", 
-    			                    "Error008", JOptionPane.CLOSED_OPTION); 
-    				}
-    				fileInput.close();
     			}
+    			catch(Exception e)
+    			{
+    				JOptionPane.showConfirmDialog(null,
+    						"Can't open the file!\nPlease click \"Open \" or \"Locate\" to edit the file", 
+    						"Error008", JOptionPane.CLOSED_OPTION); 
+    			}
+    			fileInput.close();
+    		}
 		} 
-    		catch (IOException e1) 
-    		{
+    	catch (IOException e1) 
+    	{
 			e1.printStackTrace();
 		}	
     }
@@ -833,14 +838,14 @@ public class EditFile
     //write the fileArray back to the original xls file
     public void fileArrayToXLSFile(int keepRowIndex)
     {
-	    	try 
+	    try 
 		{
 			FileInputStream fileInput = new FileInputStream(currentFile);
 			if(fileInput.available()>0)
 			{
 				try
 				{
-		    			HSSFWorkbook workbook = new HSSFWorkbook(fileInput);
+					HSSFWorkbook workbook = new HSSFWorkbook(fileInput);
 					HSSFSheet spreedsheet = workbook.getSheet(sheetName);
 					int start = 0;
 					if(keepRowIndex == DONT_ADD_ROW_NUMBER_OPTION)
@@ -903,164 +908,164 @@ public class EditFile
 		}	
     }
     
-  //*************find the missing data and replace them with new characters************
+  //Find the missing data and replace them with new characters
     public boolean replaceMissingData()
     {
-    		boolean error = false;
-    		if(!fileArray.isEmpty())
+    	boolean error = false;
+    	if(!fileArray.isEmpty())
+    	{
+    		for(int i = 0; i < fileArray.size(); i++)
     		{
-	        	for(int i = 0; i < fileArray.size(); i++)
-	        	{
-	        		for(int j = 0; j < fileArray.get(i).size(); j++)
-	        		{
-	        			if ((fileArray.get(i).get(j)).equals(missingCh))
-	        			{
-	        				fileArray.get(i).set(j, replaceCh);
-	        			}
+    			for(int j = 0; j < fileArray.get(i).size(); j++)
+    			{
+    				if ((fileArray.get(i).get(j)).equals(missingCh))
+    				{
+    					fileArray.get(i).set(j, replaceCh);
 	        		}
 	        	}
-	        	fileArrayToFileString(ADD_ROW_NUMBER_OPTION);
-	        	keepChangedFile = true;
-    		}
-    		else 
-    		{
-    			error = true;
-    		}
-    		return error;
+	        }
+    		fileArrayToFileString(ADD_ROW_NUMBER_OPTION);
+    		keepChangedFile = true;
+    	}
+    	else 
+    	{
+    		error = true;
+    	}
+    	return error;
     }
     
-    //*********replace spaces in headers with underscores***********
+    //Replace spaces in headers with underscores
     public boolean replaceSpaceInColumn(int columnPosition)
     {
-    		boolean error = false;
-    		if(columnPosition<=columnNum)
+    	boolean error = false;
+    	if(columnPosition<=columnNum)
+    	{
+    		for(int i = 0; i < fileArray.size(); i++)
     		{
-	    		for(int i = 0; i < fileArray.size(); i++)
-	    		{
-	    			if(fileArray.get(i)!= null && columnPosition<fileArray.get(i).size() && fileArray.get(i).get(columnPosition) != null)
-	    			{
-			    		String data = fileArray.get(i).get(columnPosition).replaceAll(" ", "_");
-			    		fileArray.get(i).set(columnPosition,data);
-	    			}
+    			if(fileArray.get(i)!= null && columnPosition<fileArray.get(i).size() && fileArray.get(i).get(columnPosition) != null)
+    			{
+    				String data = fileArray.get(i).get(columnPosition).replaceAll(" ", "_");
+    				fileArray.get(i).set(columnPosition,data);
 	    		}
-	    		keepChangedFile = true;
-	    		fileArrayToFileString(ADD_ROW_NUMBER_OPTION);
-    		}
-    		else
-    		{
-    			error = true;
-    			JOptionPane.showConfirmDialog(null,"This column is empty!", "Error", JOptionPane.CLOSED_OPTION); 
-    		}
-    		return error;
+	    	}
+    		keepChangedFile = true;
+    		fileArrayToFileString(ADD_ROW_NUMBER_OPTION);
+    	}
+    	else
+    	{
+    		error = true;
+    		JOptionPane.showConfirmDialog(null,"This column is empty!", "Error", JOptionPane.CLOSED_OPTION); 
+    	}
+    	return error;
     }
     
-    //move the given column to the end of the file
+    //Move the given column to the end of the file
     public void moveColumn(int columnPosition)
     {
-    		keepChangedFile = true;
-    		ArrayList<String> move = new ArrayList<String>();
-    		for(int i = 0;i<fileArray.size();i++)
+    	keepChangedFile = true;
+    	ArrayList<String> move = new ArrayList<String>();
+    	for(int i = 0;i<fileArray.size();i++)
+    	{
+    		for(int j = 1; j < fileArray.get(i).size(); j++)
     		{
-    			for(int j = 1; j < fileArray.get(i).size(); j++)
+    			if(j == columnPosition)
     			{
-    				if(j == columnPosition)
+    				if(fileArray.get(i).get(j)!= null)
     				{
-    					if(fileArray.get(i).get(j)!= null)
-    					{
-    						move.add(fileArray.get(i).get(j));
-    						fileArray.get(i).remove(j);
-    					}
+    					move.add(fileArray.get(i).get(j));
+    					fileArray.get(i).remove(j);
     				}
     			}
     		}
-    		for(int i = 0; i< move.size(); i++)
-    		{
-    			fileArray.get(i).add(move.get(i));
-    		}
-    		fileArrayToFileString(ADD_ROW_NUMBER_OPTION);
+    	}
+    	for(int i = 0; i< move.size(); i++)
+    	{
+    		fileArray.get(i).add(move.get(i));
+    	}
+    	fileArrayToFileString(ADD_ROW_NUMBER_OPTION);
     }
     
-    //delete given rows in the file
+    //Delete given rows in the file
     public boolean deleteRow(List<String> selectedChoicesRow)
     {
-    		boolean error = false;
-    		int length = selectedChoicesRow.size();
-    		int[] rowIndex = new int[length];
-    		if(!selectedChoicesRow.isEmpty())
+    	boolean error = false;
+    	int length = selectedChoicesRow.size();
+   		int[] rowIndex = new int[length];
+    	if(!selectedChoicesRow.isEmpty())
+    	{
+    		resetLabel = true;
+    		for(int j = 0; j < length;j++)
     		{
-    			resetLabel = true;
-	    		for(int j = 0; j < length;j++)
-	    		{
-	    			if(selectedChoicesRow.get(j)!= null &&!(selectedChoicesRow.get(j)).equals(""))
-	    			{
-	    				rowIndex[j] = (Integer.parseInt(selectedChoicesRow.get(j).substring(3)))-1;
-	    			}
+    			if(selectedChoicesRow.get(j)!= null &&!(selectedChoicesRow.get(j)).equals(""))
+    			{
+    				rowIndex[j] = (Integer.parseInt(selectedChoicesRow.get(j).substring(3)))-1;
 	    		}
-	    		Arrays.sort(rowIndex);
-	    		removeDuplicate(rowIndex);
-	    		for(int k = length-1; k>=0; k--)
-	    		{
-		    		for(int i = 0; i < fileArray.size(); i++)
+	    	}
+    		Arrays.sort(rowIndex);
+    		removeDuplicate(rowIndex);
+    		for(int k = length-1; k>=0; k--)
+    		{
+    			for(int i = 0; i < fileArray.size(); i++)
+    			{
+    				if(rowIndex[k]==i && rowIndex[k] != -1)
 		    		{
-		    			if(rowIndex[k]==i && rowIndex[k] != -1)
-		    			{
-		    				fileArray.remove(i);
-		    			}
+		    			fileArray.remove(i);
 		    		}
-	    		}
-	    		rowNum -= rowIndex.length;
-	    		for(int i = 0;i<fileArray.size();i++) //reset label
-	    		{
-	    			if(!fileArray.get(i).isEmpty())
-	    			{
-	    				fileArray.get(i).set(0, "row"+(i+1));
-	    			}
-	    		}
-	    		fileArrayToFileString(ADD_ROW_NUMBER_OPTION);
-    		}
-    		return error;
+		   		}
+	    	}
+	   		rowNum -= rowIndex.length;
+	   		for(int i = 0;i<fileArray.size();i++) //reset label
+	    	{
+	   			if(!fileArray.get(i).isEmpty())
+	   			{
+	   				fileArray.get(i).set(0, "row"+(i+1));
+	   			}
+	   		}
+	   		fileArrayToFileString(ADD_ROW_NUMBER_OPTION);
+    	}
+    	return error;
     }
     
-    //delete given column in the file
+    //Delete given column in the file
     public boolean deleteColumn(List<String> selectedChoicesColumn)
     {
-    		boolean error = false;
+    	boolean error = false;
 		int length = selectedChoicesColumn.size();
 		int[] columnIndex = new int[length];
 		if(!selectedChoicesColumn.isEmpty())
 		{
 			resetLabel = true;
-	    		for(int j = 0; j < length;j++)
-	    		{
-	    			if(selectedChoicesColumn.get(j)!= null &&!(selectedChoicesColumn.get(j)).equals(""))
-	    			{
-	    				columnIndex[j] = (Integer.parseInt(selectedChoicesColumn.get(j).substring(6)));
-	    			}
+	   		for(int j = 0; j < length;j++)
+	   		{
+	   			if(selectedChoicesColumn.get(j)!= null &&!(selectedChoicesColumn.get(j)).equals(""))
+	   			{
+	   				columnIndex[j] = (Integer.parseInt(selectedChoicesColumn.get(j).substring(6)));
 	    		}
-	    		Arrays.sort(columnIndex);
-	    		removeDuplicate(columnIndex);
-	    		for(int k = length-1; k>=0; k--)
-	    		{
-		    		for(int i = 0; i< fileArray.size();i++)
-		    		{
-		    			for(int p = 0; p<fileArray.get(i).size(); p++)
-		    			{
-		    				if(columnIndex[k]==p && columnIndex[k] != -1)
-			    			{
-		    					fileArray.get(i).remove(p);
-			    			}
-		    			}
+	    	}
+	   		Arrays.sort(columnIndex);
+	   		removeDuplicate(columnIndex);
+	   		for(int k = length-1; k>=0; k--)
+	   		{
+	   			for(int i = 0; i< fileArray.size();i++)
+	   			{
+	   				for(int p = 0; p<fileArray.get(i).size(); p++)
+	   				{
+	   					if(columnIndex[k]==p && columnIndex[k] != -1)
+	   					{
+	   						fileArray.get(i).remove(p);
+			    		}
 		    		}
-	    		}
-	    		columnNum -= columnIndex.length;
+		    	}
+	    	}
+	   		columnNum -= columnIndex.length;
 		}
 		return error;
     }
     
-    //remove the duplicate selected rows or columns
+    //Remove the duplicate selected rows or columns
     public int[] removeDuplicate(int[] indexArray)
     {
-    		for(int j = 0; j < indexArray.length-1; j++)
+    	for(int j = 0; j < indexArray.length-1; j++)
         {
            if(indexArray[j] == indexArray[j+1])
            {
@@ -1072,60 +1077,60 @@ public class EditFile
                }
            }
         }
-    		return indexArray;
+    	return indexArray;
     }
     
-    //delete the every second headers in the given row.
+    //Delete the every second headers in the given row.
     public boolean editHeadersFormat(int start, int end, int rowIndex)
     {
-    		boolean error = false;
-    		int[] list = new int[end];
-    		int index = 0;
-    		rowIndex--;
-    		for(int i = start+1; i<=end;i = i+2)
-    		{
-    			list[index] = i;
-    			index++;
-    		}
-    		Arrays.sort(list);
+    	boolean error = false;
+    	int[] list = new int[end];
+    	int index = 0;
+    	rowIndex--;
+    	for(int i = start+1; i<=end;i = i+2)
+    	{
+    		list[index] = i;
+    		index++;
+    	}
+    	Arrays.sort(list);
     		
-    		for(int i = list.length-1; i >= 0; i--)
+    	for(int i = list.length-1; i >= 0; i--)
+    	{
+    		if(list[i]!= 0 && list[i]<fileArray.get(rowIndex).size())
     		{
-    			if(list[i]!= 0 && list[i]<fileArray.get(rowIndex).size())
+    			if(!(fileArray.get(rowIndex).get(list[i]-1).isEmpty()))
     			{
-    				if(!(fileArray.get(rowIndex).get(list[i]-1).isEmpty()))
-    				{
-	    				fileArray.get(rowIndex).remove(list[i]);
-    				}
+    				fileArray.get(rowIndex).remove(list[i]);
     			}
     		}
-    		return error;
+    	}
+    	return error;
     }
     
-    //add the given text to the end of every cell in the given column
+    //Add the given text to the end of every cell in the given column
     public boolean addTextToColumn(int columnIndex, String text, boolean header)
     {
-    		boolean error = false;
+    	boolean error = false;
     	
-    			int start = 0;
-    			if(header)
-    			{
-    				start = 1;
-    			}
-	    		for(int i = start; i < fileArray.size(); i++)
-	    		{
-	    			if(fileArray.get(i)!= null && columnIndex<fileArray.get(i).size() && fileArray.get(i).get(columnIndex) != null)
-	    			{
-			    		String data = fileArray.get(i).get(columnIndex)+text;
-			    		fileArray.get(i).set(columnIndex,data);
-	    			}
-	    		}
-	    		keepChangedFile = true;
-	    		fileArrayToFileString(ADD_ROW_NUMBER_OPTION);
-    		return error;
+   		int start = 0;
+    	if(header)
+    	{
+    		start = 1;
+    	}
+    	for(int i = start; i < fileArray.size(); i++)
+    	{
+    		if(fileArray.get(i)!= null && columnIndex<fileArray.get(i).size() && fileArray.get(i).get(columnIndex) != null)
+    		{
+    			String data = fileArray.get(i).get(columnIndex)+text;
+    			fileArray.get(i).set(columnIndex,data);
+    		}
+    	}
+    	keepChangedFile = true;
+    	fileArrayToFileString(ADD_ROW_NUMBER_OPTION);
+    	return error;
     }
     
-  //search the given text sequences in the given row, if found, add the row number to the "selected row table"
+  //Search the given text sequences in the given row, if found, return the index
     public int addFoundRowsToTable(String text, int columnIndex, int index)
     {
     	int result = -1;
@@ -1138,32 +1143,32 @@ public class EditFile
     
     public void setCurrentFile(File currentFile)
     {
-    		this.currentFile = currentFile;
+    	this.currentFile = currentFile;
     }
     
     public String getSplitExpression()
     {
-    	 	return splitExpression;
+   	 	return splitExpression;
     }
     
     public void setMissingCh(String data)
     {
-    		missingCh = data;
+    	missingCh = data;
     }
     
     public void setReplaceCh(String data)
     {
-    		replaceCh = data;
+    	replaceCh = data;
     }
     
     public String getMissingCh()
     {
-    		return missingCh;
+    	return missingCh;
     }
     
     public String getReplaceCh()
     {
-    		return replaceCh;
+    	return replaceCh;
     }
     
     public int getColumnNum()
@@ -1183,7 +1188,7 @@ public class EditFile
     
     public String getSheetName()
     {
-    		return sheetName;
+    	return sheetName;
     }
     
     public List<List<String>> getFileArray()
@@ -1193,15 +1198,15 @@ public class EditFile
     
     public String getRename()
     {
-    		return rename;
+    	return rename;
     }
     
     public void setRename(String newName)
     {
-    		rename = newName;
+    	rename = newName;
     }
     
-    //add the label to every row (row1, row2, row3......)
+    //Add the label at first column in every row (row1, row2, row3......)
     public void addRowLabel()
     {
         for(int i = 0; i < rowNum; i++)
@@ -1211,26 +1216,26 @@ public class EditFile
         columnNum++;
     }
     
-    //get the current file extension
+    //Get the current file extension
     public String getCurrentFileExtension()
     {
-    		String extenssion = "";
-    		if(currentFile != null)
-    		{
+    	String extenssion = "";
+    	if(currentFile != null)
+    	{
 	        String fileName = currentFile.getName();
 	        int index = -1;
 	        index = fileName.lastIndexOf('.');
 	        if(index > -1)
 	        {
-	        		extenssion = fileName.substring(index + 1);
+	        	extenssion = fileName.substring(index + 1);
 	        }
-    		}
+    	}
         return extenssion;
     }
     
     public void setKeepChangedFile(boolean b)
     {
-    		keepChangedFile = b;
+    	keepChangedFile = b;
     }
 }
 
@@ -1253,150 +1258,4 @@ class TikaFileTypeDetector extends FileTypeDetector
         }
         return null;
     }
-}
-
-class FileThread implements Runnable
-{
-	private Thread thread;
-	private String fileType;
-	private FileInputStream fip;
-	private XSSFWorkbook xssfWorkbook;
-	private HSSFWorkbook hssfWorkbook;
-	private boolean error;
-	private String expression;
-	private String fileString;
-	private BufferedReader br;
-	
-	public FileThread(String fileType, FileInputStream fip)
-	{
-		this.fileType = fileType;
-		this.fip = fip;
-		xssfWorkbook = null;
-		hssfWorkbook = null;
-		error = false;
-		expression = null;
-		fileString = null;
-	}
-	
-	public FileThread(String fileType, String expression, BufferedReader br)
-	{
-		this.fileType = fileType;
-		fip = null;
-		xssfWorkbook = null;
-		hssfWorkbook = null;
-		error = false;
-		this.expression = expression;
-		fileString = null;
-		this.br = br;
-	}
-
-	@Override
-	public void run() 
-	{
-		if(fileType.equals("xlsx") )
-		{
-			try 
-			{
-				xssfWorkbook = new XSSFWorkbook(fip);
-			} 
-			catch (IOException e) 
-			{
-				e.printStackTrace();
-			}
-		}
-		else if(fileType.equals("xls"))
-		{
-			try 
-			{
-				hssfWorkbook = new HSSFWorkbook(fip);
-			} 
-			catch (IOException e) 
-			{
-				e.printStackTrace();
-			}
-		}
-		else //txt, csv and others type of file
-		{
-			String line;
-			try 
-			{
-				line = br.readLine();
-				while(line != null)
-	            {
-	                fileString+=line+"\n";
-	                line = br.readLine();
-	            }
-			} 
-			catch (IOException e) 
-			{
-				e.printStackTrace();
-			}
-			//do we need to clear the variable line?
-		}
-	}
-	
-	public void start()
-	{
-		thread = new Thread(this);
-		thread.start();
-	}
-	
-	public void join(long time)
-	{
-		try 
-		{
-			thread.join(time);
-		} 
-		catch (InterruptedException e) 
-		{
-			e.printStackTrace();
-		}
-	}
-	
-	public void join()
-	{
-		try {
-			thread.join();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
-	public void interrupt()
-	{
-		
-		thread.interrupt();
-	}
-	
-	public boolean isInterrupted()
-	{
-		//return thread.isInterrupted();
-		return Thread.interrupted();
-	}
-	
-	public XSSFWorkbook getXSSFWorkbook()
-	{
-		return xssfWorkbook;
-	}
-	
-	public HSSFWorkbook getHSSFWorkbook()
-	{
-		return hssfWorkbook;
-	}
-	
-	public void sleep(long time)
-	{
-		try {
-			thread.sleep(time);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
-	public boolean isAlive()
-	{
-		return thread.isAlive();
-	}
 }
