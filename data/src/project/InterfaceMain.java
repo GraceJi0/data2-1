@@ -416,7 +416,6 @@ public class InterfaceMain
 					public void actionPerformed(ActionEvent arg0) 
 					{
 						DeleteRowsByTextSequences();
-						//setRowComboBox();
 					}
         });
         rowTextsequencesBtnPanel.add(rowTextsequencesBtn);
@@ -908,10 +907,6 @@ public class InterfaceMain
         }
         rowCombo = new JComboBox<String>(choices2);
         rowCombo.setSelectedIndex(-1);
-        for(int i = 0; i < choices2.length; i++)
-		{
-			System.out.println(choices2[i]);
-		}
         rowCombo.addItemListener(new ItemListener() 
         {
             @Override

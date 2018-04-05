@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -38,12 +39,14 @@ public class FastConvert
 	private List<List<String>> fileArray;
 	private int markerNumInt;
 	private String fastConvertLogString;
+	private String destinationFolderPath;
 	
 	public FastConvert(File convertFile, List<List<String>> fileArray)
 	{
 		currentFile = convertFile;
 		markerNumInt = -1;
 		fastConvertLogString = "";
+		destinationFolderPath = "";
 		this.fileArray = fileArray;
 	}
 	
@@ -60,10 +63,19 @@ public class FastConvert
 		}
 		else
 		{
-			//JButton chooseDestinationFolder = new JButton("Destination Folder(Optional)");
+			JButton chooseDestinationFolder = new JButton("Destination Folder (Optional)");
+			chooseDestinationFolder.addActionListener(new ActionListener()
+			{
+				@Override
+				public void actionPerformed(ActionEvent arg0) 
+				{
+					destinationFolderPath = chooseDestinationFolder();
+					System.out.println("-----"+destinationFolderPath);
+				}
+			});
 			JTextField missingValueInput = new JTextField();
 			JTextField marksNumInput = new JTextField();
-		    Object[] message = {"Convert: "+fileName, "From STRUCTURE to GENEPOP","\nEnter the missing value(default is 0):",
+		    Object[] message = {"Convert: "+fileName, "From STRUCTURE to GENEPOP\n\n",chooseDestinationFolder,"\nEnter the missing value(default is 0):",
 		    		missingValueInput,"Enter the number of markers (loci) listed in the file:",marksNumInput,"\n\n", 
 		    		"(Fast convert will generate a spid file automatically.)\nFor more file format options, please go to the \"convert\" in File menu"};
 		    int option = JOptionPane.showConfirmDialog(null, message, "Fast convert", JOptionPane.OK_CANCEL_OPTION);
@@ -72,6 +84,22 @@ public class FastConvert
 		    		runPGDSpider(missingValueInput.getText(), marksNumInput.getText());
 		    }
 		}
+	}
+	
+	//open a file chooser to allow users select the destination folder.
+	public String chooseDestinationFolder()
+	{
+		String folderPath = "";
+	    JFileChooser chooser = new JFileChooser();
+	    chooser.setCurrentDirectory(new java.io.File("."));
+	    chooser.setDialogTitle("Choose the folder");
+	    chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+	    chooser.setAcceptAllFileFilterUsed(false);
+	    if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) 
+	    {
+	    	folderPath = chooser.getSelectedFile().getAbsolutePath();
+	    }
+	    return folderPath;
 	}
 	
 	//run PGDSpider using command line, creat spid file and output file for converting, if convert is not successful, 
