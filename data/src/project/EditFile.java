@@ -221,7 +221,7 @@ public class EditFile
         return error;
     }
     
-    //Seperate txt and csv file string and put them into an ArrayList (fileArray)
+    //Separate txt and csv file string by the given token and put them into an ArrayList (fileArray)
     public boolean separateFile(JPanel gui, String expression) throws FileNotFoundException
     {
     	boolean error = false;
@@ -526,7 +526,7 @@ public class EditFile
         }
     }
     
-    ////Open an xls file, let users to select a sheet, and read it.
+    //Open an xls file, let users to select a sheet, and read it.
     public boolean editXLSfile(JPanel gui,String theSheetName)
     {
     	Boolean error = false;
@@ -762,7 +762,7 @@ public class EditFile
     	return currentFile;
     }
     
-    //write the fileArray back to the original xlsx file
+    //Write the fileArray back to the original xlsx file
     public void fileArrayToXLSXFile(int keepRowIndex) 
     {
     	try 
@@ -835,7 +835,7 @@ public class EditFile
 		}	
     }
     
-    //write the fileArray back to the original xls file
+    //Write the fileArray back to the original xls file
     public void fileArrayToXLSFile(int keepRowIndex)
     {
 	    try 
@@ -1014,7 +1014,7 @@ public class EditFile
 		   		}
 	    	}
 	   		rowNum -= rowIndex.length;
-	   		for(int i = 0;i<fileArray.size();i++) //reset label
+	   		for(int i = 0;i<fileArray.size();i++) //reset the row labels
 	    	{
 	   			if(!fileArray.get(i).isEmpty())
 	   			{
@@ -1111,7 +1111,6 @@ public class EditFile
     public boolean addTextToColumn(int columnIndex, String text, boolean header)
     {
     	boolean error = false;
-    	
    		int start = 0;
     	if(header)
     	{

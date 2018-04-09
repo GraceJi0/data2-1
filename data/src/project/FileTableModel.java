@@ -9,7 +9,7 @@ import javax.swing.filechooser.FileSystemView;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 
-/** A TableModel to hold File[]. */
+// A TableModel to hold File[] for file table at the right side of the file browser.
 public class FileTableModel extends AbstractTableModel 
 {
     

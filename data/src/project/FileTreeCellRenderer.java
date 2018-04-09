@@ -9,6 +9,7 @@ import javax.swing.filechooser.FileSystemView;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
+//Change the file tree's style for the file tree at the left side of the file browser.
 public class FileTreeCellRenderer extends DefaultTreeCellRenderer {
     
     private FileSystemView fileSystemView;
@@ -50,7 +51,5 @@ public class FileTreeCellRenderer extends DefaultTreeCellRenderer {
 	            label.setForeground(textNonSelectionColor);
         }
         return label;
-    }
-    
-    
+    } 
 }
