@@ -729,7 +729,7 @@ public class InterfaceMain
 		editFile.setReplaceCh("");
     }
     
-    //save as the file and allow users to select the save location
+    //Save as the file and allow users to select the save location
     public void saveAsFile()
     {
         JFileChooser chooser = new JFileChooser();
@@ -745,7 +745,7 @@ public class InterfaceMain
         			if(getFileExtension(newFile).equals("") || getFileExtension(newFile).equals(getFileExtension(currentFile)))
         			{
 	        			String newPath = newFile.getAbsolutePath();
-	        			if(getFileExtension(newFile).equals("")) //if user didn't type the file extension
+	        			if(getFileExtension(newFile).equals("")) //if user didn't enter the file extension
 	        			{
 	        				 File tempFile = new File(newPath+"."+editFile.getCurrentFileExtension());
 	        				 Files.copy(currentFile, tempFile);
@@ -780,13 +780,12 @@ public class InterfaceMain
         }
     }
     
-    //******call method to edit the file and move it form ArrayList to array*******
+    //Move file content form ArrayList to Array, add column labels.
     public boolean getTableFileData(String expression, JPanel gui)
     {
         boolean error = editFile.editTheFile(expression, gui, theSheetName);
         if(error == false)
         {
-	        //gui.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 	        rowNum = editFile.getRowNum();
 	        columnNum = editFile.getColumnNum();
 	        List<List<String>> fileArray = editFile.getFileArray();
@@ -812,7 +811,7 @@ public class InterfaceMain
         return error;
     }
     
-    //******set the JTable with existing file array ********
+    //******Set the JTable with the file array ********
     public boolean setFileTable(String expression, JPanel gui)
     {
         boolean error = getTableFileData(expression, gui);
@@ -826,6 +825,8 @@ public class InterfaceMain
 	        fileTable.setPreferredScrollableViewportSize(fileTable.getPreferredSize());
 	        fileScroll = new JScrollPane(fileTable,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 	                                     JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+	        
+	        //Change the first column of every row (the row label) to looks like normal label.
 	        fileTable.getColumnModel().getColumn(0).setCellRenderer(new TableCellRenderer() 
 	        {
 	            @Override
@@ -840,7 +841,7 @@ public class InterfaceMain
         return error;
     }
     
-    //given a range of column or row index, add all index that in the range to the given table(column table or row table)
+    //Given a range of columns or rows index, add all index that in the range to the given table(select columns table or select rows table)
     public void addIndexGroup(int start, int end, List<String> selectedIndexList, JTable table, String title)
     {
     		for(int i = start; i<=end; i++)
@@ -852,7 +853,7 @@ public class InterfaceMain
     		}
     }
     
-    //********dynamically set the column combo box(select the column), when a element has been selected, add it to the table*********
+    //Set the drop down menu (select the column), when a column has been selected, add it to the table
     public void setColumnComoboBox()
     {
         choices1 = new String[columnNum-1];
@@ -893,7 +894,7 @@ public class InterfaceMain
         }); 
     }
     
-  //********dynamically set the row combo box(select the row),  when a element has been selected, add it to the table*********
+  //Set the drop down menu(select the row),  when a row has been selected, add it to the table
     public void setRowComboBox()
     {
         choices2 = new String[rowNum];
@@ -934,12 +935,12 @@ public class InterfaceMain
         });
     }
     
-    //*****refresh the GUI after make changes to the file or switch the split model.*****
+    //Refresh the GUI after made changes to the file or switch the split model.
     public void refreshGUI(String expression)
     {
-    		mainFrame.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-    		fileInformation.remove(fileNameLabel);
-    		textPanel.remove(fileInformation);
+    	mainFrame.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+    	fileInformation.remove(fileNameLabel);
+    	textPanel.remove(fileInformation);
         textPanel.remove(fileScroll); 
         columnInputAndCombo.remove(columnCombo);
         columnOperationPanel.remove(columnInputAndCombo);
@@ -981,12 +982,12 @@ public class InterfaceMain
         mainFrame.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
     }
     
-    //after save or save as, update the file's content and refresh GUI.
+    //After save or save as, perform all functions, update the file's content and refresh GUI.
     public void updateFile()
     {
-    		mainFrame.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-    		editFile.setCurrentFile(currentFile);
-    		addLogFileString();
+    	mainFrame.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+    	editFile.setCurrentFile(currentFile);
+   		addLogFileString();
 		logFile.writeToLogEditFile();
 		if(replaceCheckBox.isSelected())
 		{
@@ -1022,7 +1023,7 @@ public class InterfaceMain
 		mainFrame.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
     }
     
-    //show the replace dialog when user click the replace check box to replace the missing data with other characters
+    //Show the replace dialog when user click the replace check box to replace the missing data with other characters
     public int showReplaceDataDialog()
     {
         JTextField missingCh = new JTextField();
@@ -1044,7 +1045,7 @@ public class InterfaceMain
         return option;
     }
     
-    //check if the missing data and replace data are valid
+    //Check if the missing data and replace data are valid
     public boolean validReplaceData(String data)
     {
     	boolean valid = true;
@@ -1066,7 +1067,7 @@ public class InterfaceMain
     		return valid;
     }
     
-    //replace the spaces in a specific header
+    //Replace the spaces in a specific header
     public int showReplaceSpaceInColumnDialog()
     {
     		int option;
@@ -1104,7 +1105,7 @@ public class InterfaceMain
         return option;
     }
     
-    //move the selected column to the end of the file
+    //Move the selected column to the end of the file
     public int showMoveCloumnDialog()
     {
     		int option;
@@ -1175,7 +1176,7 @@ public class InterfaceMain
 			        				&& rowNumber <= rowNum && endColumnNumber-startColumnNumber>0)
 			        		{
 			        			editFile.editHeadersFormat(startColumnNumber, endColumnNumber, rowNumber);
-				        }
+			        		}
 			        		else
 			        		{
 			        			JOptionPane.showConfirmDialog(null,"The column number or row number is not valid!", 
@@ -1207,10 +1208,10 @@ public class InterfaceMain
         return option;
     }
     
-    //add the given string to the end of every cell in a specific column
+    //Add the given string to the end of every cell in a specific column
     public int showAddTextDialog()
     {
-    		int option;
+    	int option;
 		if(selectedChoicesColumn.isEmpty())
 		{
 			JTextField inputTextField = new JTextField();
@@ -1248,7 +1249,7 @@ public class InterfaceMain
 		return option;
     }
     
-    //add the rows to the selected table base on text sequences
+    //Add the rows to the selected table base on text sequences
     public int DeleteRowsByTextSequences()
     {
     	int option;
@@ -1291,7 +1292,7 @@ public class InterfaceMain
 		return option;
     }
     
-  //search the given text sequences in the given row, if found, add the row number to the "selected row table"
+  //Search the given text sequences in the given row, if found, add the row number to the "selected row table"
     public void addFoundRowsToTable(String text, int columnIndex)
     {
     	for(int i = 0; i < rowNum; i++)
@@ -1305,7 +1306,7 @@ public class InterfaceMain
     	}
     }
     
-    //set log file string for all kinds of functions
+    //Set log file string for all kinds of functions
     public void addLogFileString()
     {
 	    logFile.logSelectRows(selectedChoicesRow);
@@ -1332,7 +1333,7 @@ public class InterfaceMain
 		}
     }
     
-    //get the given file's extension
+    //Get the given file's extension
     public String getFileExtension(File theFile)
     {
     	String extenssion = "";
