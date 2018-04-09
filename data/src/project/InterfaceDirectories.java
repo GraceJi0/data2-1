@@ -71,11 +71,10 @@ public class InterfaceDirectories
             gui = new JPanel(new BorderLayout());
             gui.setBorder(new EmptyBorder(5,5,5,5));
             
-            
             fileSystemView = FileSystemView.getFileSystemView();
             desktop = Desktop.getDesktop();
             
-            //*******************set right side directory table *********************
+            //******************************Set file table (righ side of GUI)***************************
             JPanel tableAndFileDetails = new JPanel();
             JPanel tablePanel = new JPanel();
             tablePanel.setLayout(new GridLayout(1,1));
@@ -108,9 +107,7 @@ public class InterfaceDirectories
             tableScroll.setPreferredSize(new Dimension((int)d.getWidth(), (int)d.getHeight()/2));
             tablePanel.add(tableScroll);
             
-            
-            
-            //********************the File tree**********************
+            //***********************Set the file tree (left side of GUI)**********************
             DefaultMutableTreeNode root = new DefaultMutableTreeNode();
             treeModel = new DefaultTreeModel(root);
             
@@ -130,7 +127,7 @@ public class InterfaceDirectories
                 }
             };
             
-            //*************************show the file system roots.**************************
+            //*************************Show the file system roots.**************************
             File[] roots = fileSystemView.getRoots();
             for (File fileSystemRoot : roots) 
             {
@@ -146,7 +143,6 @@ public class InterfaceDirectories
                 }
             }
             
-            
             tree = new JTree(treeModel);
             tree.setRootVisible(false);
             tree.setShowsRootHandles(true);//////
@@ -161,7 +157,7 @@ public class InterfaceDirectories
             Dimension widePreferred = new Dimension(200, (int)preferredSize.getHeight());
             treeScroll.setPreferredSize( widePreferred );
             
-            //***********set file panel with detail components***************
+            //************************Set file panel with detail components************************
             JPanel fileMainDetails = new JPanel(new BorderLayout(2,0));
             fileMainDetails.setBorder(new EmptyBorder(0,6,0,6));
             
@@ -175,7 +171,7 @@ public class InterfaceDirectories
             fileName = new JLabel();
             fileDetailsValues.add(fileName);
             
-            //**********************set mete data and README panel********************
+            //**********************Set mete data and README panel********************
             JPanel fileMetaDataPanel = new JPanel();
             fileMetaDataPanel.setLayout(new GridLayout(1,1));
             JTabbedPane metaDataPane = new JTabbedPane();
@@ -191,11 +187,9 @@ public class InterfaceDirectories
 				{
 					if(HyperlinkEvent.EventType.ACTIVATED.equals(e.getEventType()))
 					{
-						//Desktop d = Desktop.getDesktop();
 						try
 						{
 							desktop.browse(e.getURL().toURI());
-							//d.browse(e.getURL().toURI());
 						}
 						catch(Exception e1)
 						{
@@ -224,11 +218,11 @@ public class InterfaceDirectories
             fileMetaDataPanel.add(metaDataPane);
             fileMetaDataPanel.setBorder(new EmptyBorder(10,0,0,0));
             
-            //***********************set tools panel***********************
-            JPanel toolBar = new JPanel();
-            toolBar.setLayout(new FlowLayout(FlowLayout.LEFT));
+            //*****************************Set tools panel*******************************
+            JPanel toolPanel = new JPanel();
+            toolPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 
-            //************If the "Edit" button has been clicked, open the editor window.*********
+            //If the "Edit" button has been clicked, open the editor window.
             editFile = new JButton("Editor");
             editFile.setSize(new Dimension(100, 50)); 
             editFile.addActionListener(new ActionListener()
@@ -246,10 +240,9 @@ public class InterfaceDirectories
 	            	    gui.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
                 }
             });
-            toolBar.add(editFile);
+            toolPanel.add(editFile);
             
-            
-            //***************open the current file or directory****************
+            //Open the current file or directory
             openFile = new JButton("Open");
             openFile.setSize(new Dimension(300, 100)); 
             openFile.addActionListener(new ActionListener()
@@ -270,10 +263,10 @@ public class InterfaceDirectories
                     gui.repaint();
                 }
             });
-            toolBar.add(openFile);
+            toolPanel.add(openFile);
             openFile.setEnabled(desktop.isSupported(Desktop.Action.OPEN));
             
-            //****************open the parent directory of the file**************
+            //Open the parent directory of the file
             JButton locateFile = new JButton("Locate");
             locateFile.addActionListener(new ActionListener()
                                              {
@@ -291,13 +284,13 @@ public class InterfaceDirectories
                     gui.repaint();
                 }
             });
-            toolBar.add(locateFile);
+            toolPanel.add(locateFile);
             
-            //*************extract a zip file*****************
+            //Extract a compressed file
             unzipFile = new JButton("Decompress");
             unzipFile.setSize(new Dimension(100, 50)); 
             unzipFile.addActionListener(new ActionListener()
-                                            {
+            {
                 public void actionPerformed(ActionEvent ae) 
                 {
 					gui.setCursor(new Cursor(Cursor.WAIT_CURSOR));
@@ -317,9 +310,9 @@ public class InterfaceDirectories
                     gui.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
                 }
             });
-            toolBar.add(unzipFile);
+            toolPanel.add(unzipFile);
             
-            //****************delete a file or directory******************
+            //Delete a file or directory
             deleteBtn = new JButton("Delete");
             deleteBtn.setSize(new Dimension(100, 50)); 
             deleteBtn.addActionListener(new ActionListener()
@@ -332,9 +325,9 @@ public class InterfaceDirectories
                     updateFileTreeAndTable();
                 }
             });
-            toolBar.add(deleteBtn);
+            toolPanel.add(deleteBtn);
             
-          //****************delete a file or directory******************
+          //Move a file to trash
             moveToTrashBtn = new JButton("Move to Trash");
             moveToTrashBtn.setSize(new Dimension(100, 50)); 
             moveToTrashBtn.addActionListener(new ActionListener()
@@ -347,14 +340,14 @@ public class InterfaceDirectories
                     updateFileTreeAndTable();
                 }
             });
-            toolBar.add(moveToTrashBtn);
+            toolPanel.add(moveToTrashBtn);
             
-            //***********************set up main panel*************************
+            //***********************Add all panels to main frame*************************
             JPanel details = new JPanel();
             details.setLayout(new GridLayout(2,1));
             fileMainDetails.setBorder(new EmptyBorder(0,15,0,0));
             details.add(fileMainDetails);
-            details.add(toolBar);
+            details.add(toolPanel);
             tableAndFileDetails.add(details, BorderLayout.NORTH);
             
             tableAndFileDetails.add(tablePanel, BorderLayout.CENTER);
@@ -386,9 +379,6 @@ public class InterfaceDirectories
         return gui;
     }
     
-    //*************************************************************************************************
-    //*************************************************************************************************
-    
     public void showRootFile() 
     {
         tree.setSelectionInterval(0,0);
@@ -401,7 +391,7 @@ public class InterfaceDirectories
         gui.repaint();
     }
     
-    //set file table on the right side of gui 
+    //Set file table on the right side of gui 
     private void setTableData(final File[] files) 
     {
         SwingUtilities.invokeLater(new Runnable() 
@@ -419,16 +409,14 @@ public class InterfaceDirectories
                 if (!cellSizesSet) 
                 {
                     Icon icon = fileSystemView.getSystemIcon(files[0]);
-                    
-                    // size adjustment to better account for icons
                     table.setRowHeight( icon.getIconHeight()+rowIconPadding );
-                    
                     table.getColumnModel().getColumn(0).setMaxWidth(30);;
                     table.getColumnModel().getColumn(1).setPreferredWidth(400);
                     
+                    //if the file is not editable, change the font color to gray
                     if(table.getColumnModel().getColumnCount()>0)
                     {
-                    	table.getColumnModel().getColumn(1).setCellRenderer(new TableCellRenderer()  //if the file is not editable, change the font color to light gray
+                    	table.getColumnModel().getColumn(1).setCellRenderer(new TableCellRenderer()  
                     	{
                     		@Override
                     	    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row,
@@ -444,7 +432,7 @@ public class InterfaceDirectories
         		        	        		&& !extenssion.equals("xls") && !extenssion.equals("tar")&& !extenssion.equals("zip") )
         		        	        		|| ((String)value).contains("metaData") || ((String)value).contains("README")|| ((String)value).contains("readme"))
         		        	        {
-        		            			component.setForeground(new Color(155,155,155)); // change the font color to gray if the file is not editable
+        		            			component.setForeground(new Color(155,155,155)); // change the font color to gray
         		        	        }
         		                }
         		                if (isSelected)  //if the cell is selected, change the background color to blue
@@ -462,7 +450,7 @@ public class InterfaceDirectories
         });
     }
     
-    /*Add the files that are contained within the directory of this node.(for the left side file tree)*/
+    //Add the files that are contained within the directory of this node.(for the left side file tree)
     private void showChildren(final DefaultMutableTreeNode node) 
     {
         tree.setEnabled(false);
@@ -512,7 +500,7 @@ public class InterfaceDirectories
         worker.execute();
     }
     
-    /*Update the File details view includes icon and buttons like "Edit" are able to click or not.*/
+    //Update the File details view includes icon and buttons like "Edit" are able to click or not.
     private void setFileDetails(File file) 
     {
         currentFile = file;
@@ -538,7 +526,7 @@ public class InterfaceDirectories
         gui.repaint();
     }
     
-    /*read the meta data file by line*/
+    //Read the meta data file by line
     public String readTheFile(File file) throws FileNotFoundException
     {
         String theFile = "<br><br>";
@@ -572,7 +560,7 @@ public class InterfaceDirectories
         return theFile;
     }
     
-    /*find the meta data file in the current directory*/
+    //Find the meta data file in the current directory
     public boolean findMetaData(File file)
     {
         boolean found = false;
@@ -692,16 +680,14 @@ public class InterfaceDirectories
     
     public void addMenu()
     {
-    		final JMenuBar menuBar = new JMenuBar();
-    		//**********create menus**********
+    	final JMenuBar menuBar = new JMenuBar();
+    	//**********create menus**********
         JMenu fileMenu = new JMenu("File");
         JMenu helpMenu = new JMenu("Help");
         JMenuItem logFile = new JMenuItem("Log file");
-        JMenuItem runAllFiles = new JMenuItem("Run all files"); //test how long does it take to open a file using editor.
         JMenuItem helpMenuItem = new JMenuItem("Help...");
         helpMenu.add(helpMenuItem);
         fileMenu.add(logFile);
-        //fileMenu.add(runAllFiles);
         menuBar.add(fileMenu);
         menuBar.add(helpMenu);
         mainFrame.setJMenuBar(menuBar);
@@ -721,17 +707,9 @@ public class InterfaceDirectories
 				HelpWindow help = new HelpWindow("directory");
 			}
 		});
-        runAllFiles.addActionListener(new MenuItemListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent e) 
-			{
-				RunAllFiles r = new RunAllFiles();
-			}
-		});
     }
     
-    //set dialog to select location for log files
+    //Set dialog to select location for log files
     public void setLogFile()
     {
     		String title = "Please set the locations that you want to save the log file.";
@@ -785,13 +763,13 @@ public class InterfaceDirectories
     
     public void updateFileTreeAndTable()
     {     
-    		if(!currentNode.toString().equals("/")) //if the path is empty, that means we are first time to open the program, no need to refresh gui
-    		{
+    	if(!currentNode.toString().equals("/")) //if the path is empty, that means we are first time to open the program, no need to refresh gui
+    	{
 	        currentNode.removeAllChildren();
 	        showChildren(currentNode);
 	        treeModel.reload(currentNode);
 	        gui.repaint();
-    		}
+   		}
     }
     
     public JFrame getMainFrame()
