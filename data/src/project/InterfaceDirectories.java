@@ -12,11 +12,7 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.event.*;
 import javax.swing.filechooser.FileSystemView;
 import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableColumnModel;
 import javax.swing.tree.*;
-
-import org.apache.cxf.helpers.FileUtils;
 import org.apache.log4j.chainsaw.Main;
 
 import java.util.List;
@@ -25,27 +21,23 @@ import java.awt.*;
 public class InterfaceDirectories 
 {
 	private JFrame mainFrame;
+    private Desktop desktop;
+    private FileSystemView fileSystemView;
+    private JProgressBar progressBar;
+    private JSplitPane splitPane;
+    private JPanel fileView;
+    private DefaultMutableTreeNode currentNode;
+    private JPanel gui;
+    private File currentFile; //Current file we are looking at
+    
 	private JEditorPane metaDataTextArea;
     private JEditorPane readmeTextArea;
-    private Desktop desktop;
-    
-    /** Provides nice icons and names for files. */
-    private FileSystemView fileSystemView;
-    
-    private File currentFile;
-    private JPanel gui;
-    private JTree tree;
+
+    private JTree tree; //File tree
     private DefaultTreeModel treeModel;
     private JScrollPane treeScroll;
     
-    private JSplitPane splitPane;
-    private JPanel fileView;
-    
-    /** Directory listing */
-    private JTable table;
-    private JProgressBar progressBar;
-    
-    /** Table model for File[]. */
+    private JTable table; //File table
     private FileTableModel fileTableModel;
     private ListSelectionListener listSelectionListener;
     private boolean cellSizesSet = false;
@@ -62,16 +54,14 @@ public class InterfaceDirectories
     private String logChangesFilePath;
     private String logDeleteFilePath;
     
-    private DefaultMutableTreeNode currentNode;
-    
     public InterfaceDirectories()
     {
-    		logFile= new LogFile();
-    		logDeleteFilePath = "";
+    	logFile= new LogFile();
+    	logDeleteFilePath = "";
 		logChangesFilePath = "";
-    		mainFrame = new JFrame();
-    		getGui();
-    		addMenu();
+   		mainFrame = new JFrame();
+   		getGui();
+   		addMenu();
     }
     
     public Container getGui() 
