@@ -51,6 +51,7 @@ public class InterfaceMain
     private LogFile logFile;
     private FastConvert fastConvert;
     
+    //file name and information label
     private JLabel fileNameLabel;
     private JPanel fileInformation;
     
@@ -79,7 +80,7 @@ public class InterfaceMain
     private JTable columnTable;
     private JTable fileTable;
     
-    //variable about file table
+    //file content table
     private EditFile editFile;
     private String[][] fileData;
     private String[] columnLabel;
@@ -93,7 +94,7 @@ public class InterfaceMain
     private JCheckBox editHeadersFormat;
     private JCheckBox columnCheckBox;
     
-    //variables at checkbox area
+    //checkbox functions
     private String replaceData;
     private String missingData;
     private int selectedColumnData;
@@ -107,11 +108,11 @@ public class InterfaceMain
     
     public InterfaceMain(File currentFile, JPanel gui, LogFile logFile) 
     {
-    		this.logFile = logFile;
-    		logFile.setCurrentFile(currentFile);
-    		logFile.initializelLogEditFile();
-    		theSheetName = "";
-    		editFile = new EditFile(currentFile);
+    	this.logFile = logFile;
+    	logFile.setCurrentFile(currentFile);
+   		logFile.initializelLogEditFile();
+   		theSheetName = "";
+   		editFile = new EditFile(currentFile);
         controlPanel = new JPanel();
         columnNum = 0;
         rowNum = 0;
@@ -119,35 +120,35 @@ public class InterfaceMain
         fileName = this.currentFile.getName();
         selectedChoicesColumn = new ArrayList<String>();
         selectedChoicesRow = new ArrayList<String>();
-        if(setFileTable("\t",gui)==false) //if there's no error when set the file table
+        if(setFileTable("\t",gui)==false) //if there's no error when set the file content table
         {
 	        setInterface();
 	        addMenuToFrame();
         }
         if(mainFrame != null)
         {
-        		mainFrame.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+        	mainFrame.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
         }
     }
     
     //set editor interface
     public void setInterface() 
     {
-        //**********************set main frame******************************
-    		mainFrame = new JFrame("Editor");
+        //**********************Set main frame******************************
+    	mainFrame = new JFrame("Editor");
         mainFrame.setPreferredSize(new Dimension(900, 700));
         mainFrame.setMinimumSize(new Dimension(900, 700));
         
-        //***************set components at the top contain file name and split help information
+        //***************Set components at the top that contain file's name and the split help information
         String splitInformation;
         String extenssion = editFile.getCurrentFileExtension();
         if(extenssion.equals("xlsx") || extenssion.equals("xls") || editFile.getRename().equals("xlsx")|| editFile.getRename().equals("xls"))
         {
-        		splitInformation = "Sheet: "+ editFile.getSheetName();  //if the file's type is xlsx or xls, show the sheet name instead of slipt information.
+        	splitInformation = "Sheet: "+ editFile.getSheetName();  //if the file's type is xlsx or xls, show the sheet name instead of slipt information.
         }
         else
         {
-         splitInformation = 
+        	splitInformation = 
             "\nIf the file is not well displayed, please try other ways in top menu \"split\"";
         }
         fileInformation = new JPanel();
@@ -159,12 +160,12 @@ public class InterfaceMain
         fileInformation.add(splitLabel);
         fileInformation.add(fileNameLabel);
         
-        //*******************set file panel************************
+        //*******************Set file panel************************
         textPanel = new JPanel();
         textPanel.setLayout(new BorderLayout(2,2));
         textPanel.setBorder(BorderFactory.createEmptyBorder(8, 0, 0, 8)); 
         
-        //********************set components in checkbox panel(edit file operations)*******************
+        //********************Set components in checkbox panel(edit file operations)*******************
         replaceCheckBox = new JCheckBox("Replace missing data");
         replaceSpaceInColumn = new JCheckBox("Replace spaces in column");
         moveColumn = new JCheckBox("Move column");
@@ -183,7 +184,6 @@ public class InterfaceMain
             }
         });
         
-        //addItemListener
         replaceCheckBox.addActionListener(new ActionListener()
         {
             @Override
@@ -236,7 +236,8 @@ public class InterfaceMain
             }
         });
         
-        //**************set components in columns panel******************* 
+        //**************Set components in select columns panel******************* 
+        //Select by dropdown menu
         String[] columnNames = {"Columns to remove"};
         String[][] columnData = null;
         columnTable = new JTable(new DefaultTableModel(columnData, columnNames));
@@ -248,6 +249,7 @@ public class InterfaceMain
         columnPanel.setLayout(new GridLayout(1,1));
         columnPanel.add(columnScroll);
         
+        //Select by range
         JLabel c2 = new JLabel("from",JLabel.RIGHT);
         JLabel c3 = new JLabel("to",JLabel.RIGHT);
         columnStartTextField = new JTextField("Integer");
@@ -270,6 +272,7 @@ public class InterfaceMain
         {
             public void actionPerformed(ActionEvent ae) 
             {
+            	//Add columns in the given range
             		if(!moveColumn.isSelected() && !replaceSpaceInColumn.isSelected())
             		{
 	            		int columnStart;
@@ -310,7 +313,7 @@ public class InterfaceMain
         columnInput.add(columnInputPanel,BorderLayout.CENTER);
         columnInput.add(columnAddBtnPanel,BorderLayout.EAST);
         
-        setColumnComoboBox();
+        setColumnComoboBox(); //if users select a COLUMN in dropdown menu, add it to the table and array
         
         columnInputAndCombo = new JPanel();
         columnInputAndCombo.setLayout(new BorderLayout());
@@ -339,7 +342,8 @@ public class InterfaceMain
             }
         });
         
-        //*******************set select row panel*********************
+        //*******************Set select rows panel*********************
+        //Select by dropdown menu
         String[] rowNames = {"Rows to remove"};
         String[][] rowData = null;
         rowTable = new JTable(new DefaultTableModel(rowData, rowNames));
@@ -351,6 +355,7 @@ public class InterfaceMain
         rowPanel.setLayout(new GridLayout(1,1));
         rowPanel.add(rowScroll);
         
+        //Select by range
         JLabel r2 = new JLabel("from",JLabel.RIGHT);
         JLabel r3 = new JLabel("to",JLabel.RIGHT);
         rowStartTextField = new JTextField("Integer");
@@ -373,6 +378,7 @@ public class InterfaceMain
         {
             public void actionPerformed(ActionEvent ae) 
             {
+            	//Add rows in the given range
             		if(!editHeadersFormat.isSelected())
             		{
 	            		int rowStart;
@@ -407,7 +413,7 @@ public class InterfaceMain
             }
         });
         
-        //new feature***************************
+        //Select by text sequences
         JPanel rowTextsequencesBtnPanel = new JPanel();
         JButton rowTextsequencesBtn = new JButton("Select rows by text sequences");
         rowTextsequencesBtn.addActionListener(new ActionListener()
@@ -424,9 +430,9 @@ public class InterfaceMain
         rowInput.setLayout(new BorderLayout(0,0));
         rowInput.add(rowInputPanel,BorderLayout.CENTER);
         rowInput.add(rowAddBtnPanel,BorderLayout.EAST);
-        rowInput.add(rowTextsequencesBtnPanel, BorderLayout.SOUTH);//new feature//////////////////////
+        rowInput.add(rowTextsequencesBtnPanel, BorderLayout.SOUTH);
         
-        setRowComboBox();
+        setRowComboBox(); //If users select a row in dropdown menu, add it to the table and array
         
         rowInputAndCombo = new JPanel();
         rowInputAndCombo.setLayout(new BorderLayout());
@@ -443,7 +449,7 @@ public class InterfaceMain
                                                  {
             public void actionPerformed(ActionEvent ae) 
             {
-                //delete the selected column in table.
+                //Delete the selected column in table.
                 int row = rowTable.getSelectedRow();
                 if(row > -1)
                 {
@@ -454,7 +460,7 @@ public class InterfaceMain
             }
         });
         
-        //*****************set components in bottom panel*****************
+        //*****************Set components in bottom panel(save, save as, clear, fast convert, close)*****************
         JButton saveBtn = new JButton("Save");
         saveBtn.setPreferredSize(new Dimension(160, 40));
         saveBtn.setIcon(new ImageIcon(Main.class.getResource("/Resources/save.png")));
@@ -478,12 +484,7 @@ public class InterfaceMain
             {
                 if(showConfirmBox("Do you want to save the changes?", "Save") == JOptionPane.YES_OPTION)
                 {
-                	/*for(int i = 0 ; i < selectedChoicesRow.size();i++)
-            		{
-            			System.out.println(selectedChoicesRow.get(i));
-            		}*/
                 		updateFile();
-                		
                 }
             }
         });
@@ -529,7 +530,7 @@ public class InterfaceMain
 			}
 		});
         
-        //*****************set left side panel(check box, select row, select column)*****************
+        //*****************Set left side panel(checkbox, select row, select column)*****************
         JPanel checkboxPanel = new JPanel();
         checkboxPanel.setLayout(new GridLayout(5, 1));
         checkboxPanel.setBorder(BorderFactory.createTitledBorder("Select"));
@@ -561,7 +562,7 @@ public class InterfaceMain
         leftPanel.add(checkboxPanel,BorderLayout.NORTH);
         leftPanel.add(columnRowPanel, BorderLayout.CENTER);
         
-        //*****************set bottom panel(buttons)*****************
+        //*****************Set bottom panel(buttons)*****************
         JPanel bottomPanel = new JPanel();
         bottomPanel.setLayout(new GridLayout(1,5,0,20));
         bottomPanel.setBorder(new EmptyBorder(0,0,5,0));
@@ -571,19 +572,19 @@ public class InterfaceMain
         bottomPanel.add(fastConvertBtn);
         bottomPanel.add(closeBtn);
         
-        //********************set text panel(file name,file, buttons)***************
+        //********************Set text panel(file name, file, buttons)***************
         textPanel.add(fileInformation,BorderLayout.NORTH);
         textPanel.add(fileScroll, BorderLayout.CENTER);
         textPanel.add(bottomPanel,BorderLayout.SOUTH);
         
-        //****************set control panel*****************
+        //****************Set main panel*****************
         Border blackBorder = BorderFactory.createLineBorder(Color.black);
         controlPanel.setBorder(BorderFactory.createCompoundBorder(new EmptyBorder(5,5,5,5),blackBorder));
         controlPanel.setLayout(new BorderLayout(10,10));
         controlPanel.add(leftPanel, BorderLayout.WEST);
         controlPanel.add(textPanel,BorderLayout.CENTER);
         
-        //*************add control panel to main frame***************
+        //*************Add to main frame***************
         mainFrame.add(controlPanel);
         mainFrame.setVisible(true);
     }
@@ -592,15 +593,13 @@ public class InterfaceMain
     public void addMenuToFrame() 
     {
         final JMenuBar menuBar = new JMenuBar();
-        //**********create menus**********
+        //**********Create menus**********
         JMenu fileMenu = new JMenu("File");
         JMenu splitMenu = new JMenu("Split");
         JMenu helpMenu = new JMenu("Help");
         
-        //**********create menu items**********
+        //**********Create menu items**********
         JMenuItem convertMenuItem = new JMenuItem("Convert");
-        /*JMenuItem cutMenuItem = new JMenuItem("Cut");
-         cutMenuItem.setActionCommand("Cut");*/;
         JMenuItem splitByCommaMenuItem = new JMenuItem("Comma");
         JMenuItem splitBySpaceMenuItem = new JMenuItem("Space");
         JMenuItem splitByTabMenuItem = new JMenuItem("Tab");
@@ -608,10 +607,8 @@ public class InterfaceMain
         JMenuItem splitByLineMenuItem = new JMenuItem("Line");
         JMenuItem helpMenuItem = new JMenuItem("Help...");
         
-        //**********add menu items to menus**********
+        //**********Add menu items to menus**********
         fileMenu.add(convertMenuItem);
-        // fileMenu.addSeparator();
-        //editMenu.add(cutMenuItem);
         splitMenu.add(splitByCommaMenuItem);
         splitMenu.add(splitBySpaceMenuItem);
         splitMenu.add(splitByTabMenuItem);
@@ -619,7 +616,7 @@ public class InterfaceMain
         splitMenu.add(splitByLineMenuItem);
         helpMenu.add(helpMenuItem);
         
-        //**********add menu to menu bar**********
+        //**********Add menu to menu bar**********
         menuBar.add(fileMenu);
         String extenssion = editFile.getCurrentFileExtension();
         if(!extenssion.equals("xlsx") && !extenssion.equals("xls") && !editFile.getRename().equals("xlsx") && !editFile.getRename().equals("xls"))
@@ -628,11 +625,10 @@ public class InterfaceMain
         }
         menuBar.add(helpMenu);
         
-        //**********add menu bar to the frame**********
+        //**********Add menu bar to the frame**********
         mainFrame.setJMenuBar(menuBar);
         mainFrame.setVisible(true); 
         
-        //*********set menu item listener********
         splitBySpaceMenuItem.addActionListener(new MenuItemListener()
                                                    {
             @Override
@@ -674,7 +670,7 @@ public class InterfaceMain
 			@Override
 			public void actionPerformed(ActionEvent e) 
 			{
-				refreshGUI("line"); // if the file split by line, just display the file by line
+				refreshGUI("line"); // If the file split by line, just display the file by line
 			}
 		});
         
@@ -713,7 +709,7 @@ public class InterfaceMain
         JOptionPane.showConfirmDialog(null, alertMessage, "Error", JOptionPane.CLOSED_OPTION);
     }
     
-    //*********clear all changes that will happen on the file***********
+    //*********Clear all changes that will happen on the file***********
     public void clearAllChanges()
     {
         ((DefaultTableModel)rowTable.getModel()).setRowCount(0);

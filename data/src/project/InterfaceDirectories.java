@@ -588,26 +588,26 @@ public class InterfaceDirectories
                 }
                 else if(childName.contains("README"))
                 {
-                		if(childName.contains("txt"))
-                		{
-	                		readmeFile += child.getName()+"<br>";
+                	if(childName.contains("txt"))
+                	{
+	                	readmeFile += child.getName()+"<br>";
 		                try 
 		                {
-		                		readmeFile += readTheFile(child)+
-		                        "----------------------------------------------------------------------------<br>";
+		                	readmeFile += readTheFile(child)+
+		                		"----------------------------------------------------------------------------<br>";
 		                } 
 		                catch (FileNotFoundException e) 
 		                {
 		                    e.printStackTrace();
 		                }
 		                found = true;
-                		}
-                		else
-                		{
+                	}
+                	else
+                	{
                 			readmeFile+="*****"+
                 					"The README file can't be displayed at this area, please click \"open\" or \"loacate\" to open the file."
                 					+"*****" + "<br><br>----------------------------------------------------------------------------<br><br>";
-                		}
+                	}
                 }
             }
             metaDataTextArea.setText(metaDataFile);
@@ -713,18 +713,21 @@ public class InterfaceDirectories
     public void setLogFile()
     {
     		String title = "Please set the locations that you want to save the log file.";
+    		
     		JButton logDeleteBtn = new JButton("Log file that records all the deleted file.");
     		if(!logDeleteFilePath.equals("")) //if the log file location has already been set.
     		{
     			logDeleteBtn.setIcon(new ImageIcon(Main.class.getResource("/Resources/checkmark.png")));
     			logDeleteBtn.setText("logDelete.txt");
     		}
+    		
     		JButton logChangeBtn = new JButton("Log file that records all the changes that happens on a file.");
     		if(!logChangesFilePath.equals("")) //if the log file location has already been set.
     		{
     			logChangeBtn.setIcon(new ImageIcon(Main.class.getResource("/Resources/checkmark.png")));
     			logChangeBtn.setText("logEdit.txt");
     		}
+    		
     		logDeleteBtn.addActionListener(new ActionListener()
     		{
 			@Override
@@ -740,6 +743,7 @@ public class InterfaceDirectories
 				}
 			}
     		});
+    		
     		logChangeBtn.addActionListener(new ActionListener()
     		{
 			@Override
@@ -755,12 +759,14 @@ public class InterfaceDirectories
 				}
 			}
     		});
+    		
     		Object message[] = {title, logDeleteBtn, logChangeBtn};
         	Object[] closeMessage= {"Close"};
         	JOptionPane.showOptionDialog(null,message, "Set location for log files",
                JOptionPane.CLOSED_OPTION, -1, null, closeMessage, null);
     }
     
+    //Update the file tree and table GUI after we delete some files
     public void updateFileTreeAndTable()
     {     
     	if(!currentNode.toString().equals("/")) //if the path is empty, that means we are first time to open the program, no need to refresh gui
