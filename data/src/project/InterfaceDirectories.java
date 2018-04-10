@@ -585,10 +585,10 @@ public class InterfaceDirectories
                 String childName = child.getName();
                 if (childName.contains("metaData")) 
                 {
-                		metaDataFile += child.getName()+"<br>";
+                	metaDataFile += child.getName()+"<br>";
                     try 
                     {
-                    		metaDataFile += readTheFile(child)+
+                    	metaDataFile += readTheFile(child)+
                             "----------------------------------------------------------------------------<br>";
                     }
                     catch (FileNotFoundException e) 
