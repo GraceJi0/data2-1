@@ -16,19 +16,39 @@
 		<p>* If the log file location has been setted, all the delete action will be record in the "logDelete.txt".</p>
 	</div>
 	<br>
-	<p style="font-family:Arial">Mac</p>
-	<div id="mac">
+	<p style="font-family:Arial">
+		Select the operating system you are using:
+		<button onclick="selectOperatingSystem('mac')">Mac</button>
+		<button onclick="selectOperatingSystem('windows')">Windows</button>
+	</p>
+		
+	<div id="mac" style="display: block">
 		<img src="directoryMac.jpg" alt="directory" width="970" height="750"  max-width: 100%;
 	    max-height: 100%;">
 	    <br><br><br>
 	    <img src="directory2Mac.jpg" alt="directory2" width="970" height="750"  max-width: 100%;
 	    max-height: 100%;">
-    </div><br><br><br>
+    </div>
 
-	<p style="font-family:Arial">Windows</p>
-    <div id="windows">
+    <div id="windows" style="display: none">
     	<img src="directoryWindows.JPG" alt="directory" width="970" height="750"  max-width: 100%;
 	    max-height: 100%;">
     </div>
+
+    <script type="text/javascript">
+    	function selectOperatingSystem(osName)
+    	{
+    		if (osName == "mac")
+    		{
+    			document.getElementById(osName).style.display = "block";
+    			document.getElementById("windows").style.display = "none";
+    		}
+    		else
+    		{
+    			document.getElementById(osName).style.display = "block";
+    			document.getElementById("mac").style.display = "none";
+    		}
+    	}
+    </script>
 </body>
 </html>
