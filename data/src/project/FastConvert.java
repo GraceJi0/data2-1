@@ -3,8 +3,6 @@ package project;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -271,7 +269,12 @@ public class FastConvert
 		}
 		try 
 		{
-			Runtime.getRuntime().exec(commandLine);
+			Process pros = Runtime.getRuntime().exec(commandLine);
+			/*OutputStream out = pros.getOutputStream();
+			InputStream in = pros.getInputStream();
+			InputStream err = pros.getErrorStream();
+			String result = readInputStream(in)+readInputStream(err);
+			System.out.println(result);	*/
 		} 
 		catch (IOException e) 
 		{
