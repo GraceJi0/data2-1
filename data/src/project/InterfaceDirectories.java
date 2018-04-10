@@ -319,10 +319,18 @@ public class InterfaceDirectories
                                             {
                 public void actionPerformed(ActionEvent ae) 
                 {
-                	logFile.setCurrentFile(currentFile);
-                	logFile.writeToLogDeleteFile("Delete File: ");
-                    deleteDrectoriesAndFiles(currentFile);
-                    updateFileTreeAndTable();
+                	if(currentFile!= null)
+                	{
+                		String deleteMessage = "Are you sure you want to permanently delete "+currentFile.getName()+" ?";
+                		int option = JOptionPane.showConfirmDialog(null, deleteMessage, "Delete", JOptionPane.OK_CANCEL_OPTION);
+                		if(option == 0)
+                		{
+		                	logFile.setCurrentFile(currentFile);
+		                	logFile.writeToLogDeleteFile("Delete File: ");
+		                    deleteDrectoriesAndFiles(currentFile);
+		                    updateFileTreeAndTable();
+                		}
+                	}
                 }
             });
             toolPanel.add(deleteBtn);
@@ -334,10 +342,13 @@ public class InterfaceDirectories
             {
                 public void actionPerformed(ActionEvent ae) 
                 {
-                	logFile.setCurrentFile(currentFile);
-                	logFile.writeToLogDeleteFile("Move to Trash: ");
-                	moveDrectoriesAndFilesToTrash(currentFile);
-                    updateFileTreeAndTable();
+                	if(currentFile != null)
+                	{
+	                	logFile.setCurrentFile(currentFile);
+	                	logFile.writeToLogDeleteFile("Move to Trash: ");
+	                	moveDrectoriesAndFilesToTrash(currentFile);
+	                    updateFileTreeAndTable();
+                	}
                 }
             });
             toolPanel.add(moveToTrashBtn);

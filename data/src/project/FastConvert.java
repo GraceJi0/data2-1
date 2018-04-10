@@ -244,7 +244,7 @@ public class FastConvert
 				} 
 				catch (IOException e) 
 				{
-					System.out.println(e);
+					e.printStackTrace();
 					JOptionPane.showConfirmDialog(null,"Can't open PGDSpider!", "Error", JOptionPane.CLOSED_OPTION);
 				}
 			}
@@ -275,7 +275,7 @@ public class FastConvert
 		} 
 		catch (IOException e) 
 		{
-			JOptionPane.showConfirmDialog(null,"Can't open PGDSpider!", "Error", JOptionPane.CLOSED_OPTION);
+			JOptionPane.showConfirmDialog(null,"Can't open PGDSpider!", "Error2", JOptionPane.CLOSED_OPTION);
 		}
 	}
 	
