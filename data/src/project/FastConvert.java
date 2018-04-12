@@ -243,7 +243,7 @@ public class FastConvert
 				catch (IOException e) 
 				{
 					e.printStackTrace();
-					JOptionPane.showConfirmDialog(null,"Can't open PGDSpider!", "Error", JOptionPane.CLOSED_OPTION);
+					JOptionPane.showConfirmDialog(null,"Can't open PGDSpider! Please check if the PGDSpider2-cli is in the same folder with data2-1.", "Error", JOptionPane.CLOSED_OPTION);
 				}
 			}
 		}
@@ -270,15 +270,10 @@ public class FastConvert
 		try 
 		{
 			Process pros = Runtime.getRuntime().exec(commandLine);
-			/*OutputStream out = pros.getOutputStream();
-			InputStream in = pros.getInputStream();
-			InputStream err = pros.getErrorStream();
-			String result = readInputStream(in)+readInputStream(err);
-			System.out.println(result);	*/
 		} 
 		catch (IOException e) 
 		{
-			JOptionPane.showConfirmDialog(null,"Can't open PGDSpider!", "Error2", JOptionPane.CLOSED_OPTION);
+			JOptionPane.showConfirmDialog(null,"Can't open PGDSpider! Please check if the PGDSpider2 is in the same folder with data2-1.", "Error2", JOptionPane.CLOSED_OPTION);
 		}
 	}
 	
