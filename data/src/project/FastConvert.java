@@ -74,13 +74,16 @@ public class FastConvert
 			});
 			JTextField missingValueInput = new JTextField();
 			JTextField marksNumInput = new JTextField();
-		    Object[] message = {"Convert: "+fileName, "From STRUCTURE to GENEPOP\n\n",chooseDestinationFolder,"\nEnter the missing value(default is 0):",
-		    		missingValueInput,"Enter the number of markers (loci) listed in the file:",marksNumInput,"\n\n", 
-		    		"(Fast convert will generate a spid file automatically.)\nFor more file format options, please go to the \"convert\" in File menu"};
+			JTextField repeatedMotifNumInput = new JTextField();
+		    Object[] message = {"Convert: "+fileName, "From STRUCTURE to GENEPOP\n\n",chooseDestinationFolder,
+		    		"Enter the size of the repeated motif(same for all loci: one number; different: comma separated list(e.g.:2,2,3,2):", repeatedMotifNumInput,
+		    		"Enter the missing value(default is 0):",missingValueInput,
+		    		"Enter the number of markers (loci) listed in the file:",marksNumInput,"\n\n", 
+		    		"(Fast convert will generate a spid file automatically. For details, please check help menu.)\nFor more file format options, please go to the \"convert\" in File menu"};
 		    int option = JOptionPane.showConfirmDialog(null, message, "Fast convert", JOptionPane.OK_CANCEL_OPTION);
 		    if(option == 0)
 		    {
-		    		runPGDSpider(missingValueInput.getText(), marksNumInput.getText(), destinationFolderPath);
+		    		runPGDSpider(missingValueInput.getText(), marksNumInput.getText(), repeatedMotifNumInput.getText(),destinationFolderPath);
 		    }
 		}
 	}
@@ -102,7 +105,7 @@ public class FastConvert
 	}
 	
 	//Run PGDSpider using command line, creat spid file and output file for converting, show the convert result and detail informations
-	public void runPGDSpider(String missingValue, String markerNum, String destinationFolderPath)
+	public void runPGDSpider(String missingValue, String markerNum, String repeatedMotifNum, String destinationFolderPath)
 	{
 		String commandFastConvert = "";
 		String inputPath = "";
@@ -138,7 +141,7 @@ public class FastConvert
 				currentFilePath = new File(".").getAbsolutePath();
 				PGDSpiderPath = currentFilePath.substring(0, currentFilePath.lastIndexOf("/"))+"/PGDSpider2-cli.jar";
 				
-				creatSpidFile(missingValue, markerNum,spidPath);
+				creatSpidFile(missingValue, markerNum,repeatedMotifNum, spidPath);
 				
 				//try to escape from spaces but it's not working
 				/*inputPath = inputPath.replace(" ", "\\ ");
@@ -193,7 +196,7 @@ public class FastConvert
 					PGDSpiderPath = "\""+PGDSpiderPath+"\"";
 				}
 				
-				creatSpidFile(missingValue, markerNum,spidPath);
+				creatSpidFile(missingValue, markerNum,repeatedMotifNum,spidPath);
 				
 				if(spidPath.contains(" "))//escape spaces in file path after created the spid file.
 				{
@@ -299,7 +302,7 @@ public class FastConvert
 	}
 	
 	//Create a spid file base on the missing Value that provided by users, number of loci, and spid file path 
-	public String creatSpidFile(String missingValue, String marksNum, String spidPath)
+	public String creatSpidFile(String missingValue, String marksNum, String repeatedMotifNum, String spidPath)
 	{
 		String file = "";
 		BufferedWriter bw = null;
@@ -323,7 +326,7 @@ public class FastConvert
 				"# How are Microsat alleles coded?\n" + 
 				"STRUCTURE_PARSER_MICROSAT_CODING_QUESTION=REPEATS\n"+
 				"# Enter the size of the repeated motif (same for all loci: one number; different: comma separated list (e.g.: 2,2,3,2):\n" + 
-				"STRUCTURE_PARSER_REPEAT_SIZE_QUESTION=\n" + 
+				"STRUCTURE_PARSER_REPEAT_SIZE_QUESTION="+repeatedMotifNum+"\n" + 
 				"# What is the missing value code (-9, -999, ...):\n" + 
 				"STRUCTURE_PARSER_MISSING_CODE_QUESTION="+missingValue+"\n"+
 				"# Is the \"PopData\" column (population identifier) present in the input file?\n" + 
@@ -331,7 +334,7 @@ public class FastConvert
 				"# Is the \"Phase Information\" row present?\n" + 
 				"STRUCTURE_PARSER_PHASE_ROW_QUESTION=false\n"+
 				"# Are individual names (labels) included in the input file?\n" + 
-				"STRUCTURE_PARSER_IND_NAMES_QUESTION=true\n"+
+				"STRUCTURE_PARSER_IND_NAMES_QUESTION=false\n"+
 				"# Are the \"Recessive Alleles\" row and/or the \"Inter-Marker Distance\" row present in the input file?\n" + 
 				"STRUCTURE_PARSER_ADDITIONAL_ROW_QUESTION=NONE\n\n"+
 				"# GENEPOP Writer questions\n" + 
