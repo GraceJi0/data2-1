@@ -11,8 +11,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.event.*;
 import javax.swing.filechooser.FileSystemView;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.tree.*;
-
 import org.apache.log4j.chainsaw.Main;
 
 import java.util.List;
@@ -21,27 +21,23 @@ import java.awt.*;
 public class InterfaceDirectories 
 {
 	private JFrame mainFrame;
+    private Desktop desktop;
+    private FileSystemView fileSystemView;
+    private JProgressBar progressBar;
+    private JSplitPane splitPane;
+    private JPanel fileView;
+    private DefaultMutableTreeNode currentNode;
+    private JPanel gui;
+    private File currentFile; //Current file we are looking at
+    
 	private JEditorPane metaDataTextArea;
     private JEditorPane readmeTextArea;
-    private Desktop desktop;
-    
-    /** Provides nice icons and names for files. */
-    private FileSystemView fileSystemView;
-    
-    private File currentFile;
-    private JPanel gui;
-    private JTree tree;
+
+    private JTree tree; //File tree
     private DefaultTreeModel treeModel;
     private JScrollPane treeScroll;
     
-    private JSplitPane splitPane;
-    private JPanel fileView;
-    
-    /** Directory listing */
-    private JTable table;
-    private JProgressBar progressBar;
-    
-    /** Table model for File[]. */
+    private JTable table; //File table
     private FileTableModel fileTableModel;
     private ListSelectionListener listSelectionListener;
     private boolean cellSizesSet = false;
@@ -51,22 +47,21 @@ public class InterfaceDirectories
     private JButton editFile;
     private JButton unzipFile;
     private JButton deleteBtn;
+    private JButton moveToTrashBtn;
     private JLabel fileName;
     
     private LogFile logFile;
     private String logChangesFilePath;
     private String logDeleteFilePath;
     
-    private DefaultMutableTreeNode currentNode;
-    
     public InterfaceDirectories()
     {
-    		logFile= new LogFile();
-    		logDeleteFilePath = "";
+    	logFile= new LogFile();
+    	logDeleteFilePath = "";
 		logChangesFilePath = "";
-    		mainFrame = new JFrame();
-    		getGui();
-    		addMenu();
+   		mainFrame = new JFrame();
+   		getGui();
+   		addMenu();
     }
     
     public Container getGui() 
@@ -76,11 +71,10 @@ public class InterfaceDirectories
             gui = new JPanel(new BorderLayout());
             gui.setBorder(new EmptyBorder(5,5,5,5));
             
-            
             fileSystemView = FileSystemView.getFileSystemView();
             desktop = Desktop.getDesktop();
             
-            //*******************set right side directory table *********************
+            //******************************Set file table (righ side of GUI)***************************
             JPanel tableAndFileDetails = new JPanel();
             JPanel tablePanel = new JPanel();
             tablePanel.setLayout(new GridLayout(1,1));
@@ -89,7 +83,6 @@ public class InterfaceDirectories
             table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
             table.setAutoCreateRowSorter(true);
             table.setShowVerticalLines(false);
-            
             listSelectionListener = new ListSelectionListener() 
             {
                 @Override
@@ -114,7 +107,7 @@ public class InterfaceDirectories
             tableScroll.setPreferredSize(new Dimension((int)d.getWidth(), (int)d.getHeight()/2));
             tablePanel.add(tableScroll);
             
-            //********************the File tree**********************
+            //***********************Set the file tree (left side of GUI)**********************
             DefaultMutableTreeNode root = new DefaultMutableTreeNode();
             treeModel = new DefaultTreeModel(root);
             
@@ -130,16 +123,14 @@ public class InterfaceDirectories
                     showChildren(node);
                     setFileDetails((File)node.getUserObject());
                     gui.revalidate();
-                    gui.repaint();
-                    
+                    gui.repaint(); 
                 }
             };
             
-            //*************************show the file system roots.**************************
+            //*************************Show the file system roots.**************************
             File[] roots = fileSystemView.getRoots();
             for (File fileSystemRoot : roots) 
             {
-            		
                 DefaultMutableTreeNode node = new DefaultMutableTreeNode(fileSystemRoot);
                 root.add( node );
                 File[] files = fileSystemView.getFiles(fileSystemRoot, true);
@@ -151,7 +142,6 @@ public class InterfaceDirectories
                     }
                 }
             }
-            
             
             tree = new JTree(treeModel);
             tree.setRootVisible(false);
@@ -167,7 +157,7 @@ public class InterfaceDirectories
             Dimension widePreferred = new Dimension(200, (int)preferredSize.getHeight());
             treeScroll.setPreferredSize( widePreferred );
             
-            //***********set file panel with detail components***************
+            //************************Set file panel with detail components************************
             JPanel fileMainDetails = new JPanel(new BorderLayout(2,0));
             fileMainDetails.setBorder(new EmptyBorder(0,6,0,6));
             
@@ -181,7 +171,7 @@ public class InterfaceDirectories
             fileName = new JLabel();
             fileDetailsValues.add(fileName);
             
-            //**********************set mete data and README panel********************
+            //**********************Set mete data and README panel********************
             JPanel fileMetaDataPanel = new JPanel();
             fileMetaDataPanel.setLayout(new GridLayout(1,1));
             JTabbedPane metaDataPane = new JTabbedPane();
@@ -197,11 +187,9 @@ public class InterfaceDirectories
 				{
 					if(HyperlinkEvent.EventType.ACTIVATED.equals(e.getEventType()))
 					{
-						//Desktop d = Desktop.getDesktop();
 						try
 						{
 							desktop.browse(e.getURL().toURI());
-							//d.browse(e.getURL().toURI());
 						}
 						catch(Exception e1)
 						{
@@ -230,11 +218,31 @@ public class InterfaceDirectories
             fileMetaDataPanel.add(metaDataPane);
             fileMetaDataPanel.setBorder(new EmptyBorder(10,0,0,0));
             
-            //***********************set tools panel***********************
-            JPanel toolBar = new JPanel();
-            toolBar.setLayout(new FlowLayout(FlowLayout.LEFT));
+            //*****************************Set tools panel*******************************
+            JPanel toolPanel = new JPanel();
+            toolPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+
+            //If the "Edit" button has been clicked, open the editor window.
+            editFile = new JButton("Editor");
+            editFile.setSize(new Dimension(100, 50)); 
+            editFile.addActionListener(new ActionListener()
+            {
+                public void actionPerformed(ActionEvent ae)
+                {
+	                	gui.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+
+	            	    JFrame frame = new InterfaceMain(currentFile,gui,logFile).getMainFrame();
+	            	    if(frame != null)
+	            	    {
+	            	        frame.setVisible(true);
+	            	        frame.setPreferredSize(new Dimension(900, 700));
+	            	    }
+	            	    gui.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+                }
+            });
+            toolPanel.add(editFile);
             
-            //***************open the current file or directory****************
+            //Open the current file or directory
             openFile = new JButton("Open");
             openFile.setSize(new Dimension(300, 100)); 
             openFile.addActionListener(new ActionListener()
@@ -255,10 +263,10 @@ public class InterfaceDirectories
                     gui.repaint();
                 }
             });
-            toolBar.add(openFile);
+            toolPanel.add(openFile);
             openFile.setEnabled(desktop.isSupported(Desktop.Action.OPEN));
             
-            //****************open the parent directory of the file**************
+            //Open the parent directory of the file
             JButton locateFile = new JButton("Locate");
             locateFile.addActionListener(new ActionListener()
                                              {
@@ -276,77 +284,81 @@ public class InterfaceDirectories
                     gui.repaint();
                 }
             });
-            toolBar.add(locateFile);
+            toolPanel.add(locateFile);
             
-            //************If the "Edit" button has been clicked, open the editor window.*********
-            editFile = new JButton("Editor");
-            editFile.setSize(new Dimension(100, 50)); 
-            editFile.addActionListener(new ActionListener()
-            {
-                public void actionPerformed(ActionEvent ae)
-                {
-	                	gui.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-	            	    JFrame frame = new InterfaceMain(currentFile,gui,logFile).getMainFrame();
-	            	    if(frame != null)
-	            	    {
-	            	        frame.setVisible(true);
-	            	        frame.setPreferredSize(new Dimension(900, 700));
-	            	    }
-	            	    gui.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-                }
-            });
-            toolBar.add(editFile);
-            
-            //*************extract a zip file*****************
+            //Extract a compressed file
             unzipFile = new JButton("Decompress");
             unzipFile.setSize(new Dimension(100, 50)); 
             unzipFile.addActionListener(new ActionListener()
-                                            {
+            {
                 public void actionPerformed(ActionEvent ae) 
                 {
 					gui.setCursor(new Cursor(Cursor.WAIT_CURSOR));
                 		Decompress decompress = new Decompress();
                     String zipFile = currentFile.getAbsolutePath();
                     String destinationFolder = currentFile.getParentFile().getAbsolutePath();
-                    if(getMyFileExtension().equals("zip"))
+                    String extension = getFileExtension(currentFile);
+                    if(extension.equals("zip"))
                     {
                     		decompress.unzip(destinationFolder,zipFile);
                     }
-                    else if(getMyFileExtension().equals("tar"))
+                    else if(extension.equals("tar"))
                     {
 						decompress.unTar(currentFile, destinationFolder);
-                    }
-                    else if(getMyFileExtension().equals("gz"))
-                    {
-                    		decompress.decompressGzip(currentFile,destinationFolder);
                     }
                     updateFileTreeAndTable();
                     gui.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
                 }
             });
-            toolBar.add(unzipFile);
+            toolPanel.add(unzipFile);
             
-            //****************delete a file or directory******************
+            //Delete a file or directory
             deleteBtn = new JButton("Delete");
             deleteBtn.setSize(new Dimension(100, 50)); 
             deleteBtn.addActionListener(new ActionListener()
                                             {
                 public void actionPerformed(ActionEvent ae) 
                 {
-                		logFile.setCurrentFile(currentFile);
-                		logFile.writeToLogDeleteFile();
-                    deleteDrectoriesAndFiles(currentFile);
-                    updateFileTreeAndTable();
+                	if(currentFile!= null)
+                	{
+                		String deleteMessage = "Are you sure you want to permanently delete "+currentFile.getName()+" ?";
+                		int option = JOptionPane.showConfirmDialog(null, deleteMessage, "Delete", JOptionPane.OK_CANCEL_OPTION);
+                		if(option == 0)
+                		{
+		                	logFile.setCurrentFile(currentFile);
+		                	logFile.writeToLogDeleteFile("Delete File: ");
+		                    deleteDrectoriesAndFiles(currentFile);
+		                    updateFileTreeAndTable();
+                		}
+                	}
                 }
             });
-            toolBar.add(deleteBtn);
+            toolPanel.add(deleteBtn);
             
-            //***********************set up main panel*************************
+          //Move a file to trash
+            moveToTrashBtn = new JButton("Move to Trash");
+            moveToTrashBtn.setSize(new Dimension(100, 50)); 
+            moveToTrashBtn.addActionListener(new ActionListener()
+            {
+                public void actionPerformed(ActionEvent ae) 
+                {
+                	if(currentFile != null)
+                	{
+	                	logFile.setCurrentFile(currentFile);
+	                	logFile.writeToLogDeleteFile("Move to Trash: ");
+	                	moveDrectoriesAndFilesToTrash(currentFile);
+	                    updateFileTreeAndTable();
+                	}
+                }
+            });
+            toolPanel.add(moveToTrashBtn);
+            
+            //***********************Add all panels to main frame*************************
             JPanel details = new JPanel();
             details.setLayout(new GridLayout(2,1));
             fileMainDetails.setBorder(new EmptyBorder(0,15,0,0));
             details.add(fileMainDetails);
-            details.add(toolBar);
+            details.add(toolPanel);
             tableAndFileDetails.add(details, BorderLayout.NORTH);
             
             tableAndFileDetails.add(tablePanel, BorderLayout.CENTER);
@@ -378,9 +390,6 @@ public class InterfaceDirectories
         return gui;
     }
     
-    //*************************************************************************************************
-    //*************************************************************************************************
-    
     public void showRootFile() 
     {
         tree.setSelectionInterval(0,0);
@@ -393,7 +402,7 @@ public class InterfaceDirectories
         gui.repaint();
     }
     
-    //set directory table on the right side of interface
+    //Set file table on the right side of gui 
     private void setTableData(final File[] files) 
     {
         SwingUtilities.invokeLater(new Runnable() 
@@ -411,20 +420,48 @@ public class InterfaceDirectories
                 if (!cellSizesSet) 
                 {
                     Icon icon = fileSystemView.getSystemIcon(files[0]);
-                    
-                    // size adjustment to better account for icons
                     table.setRowHeight( icon.getIconHeight()+rowIconPadding );
-                    
                     table.getColumnModel().getColumn(0).setMaxWidth(30);;
                     table.getColumnModel().getColumn(1).setPreferredWidth(400);
                     
+                    //if the file is not editable, change the font color to gray
+                    if(table.getColumnModel().getColumnCount()>0)
+                    {
+                    	table.getColumnModel().getColumn(1).setCellRenderer(new TableCellRenderer()  
+                    	{
+                    		@Override
+                    	    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row,
+                    	            int column) 
+                    	    {
+                    			Component component=null;
+        		            	String extenssion = getExtenssion((String)value);
+        		            	component = table.getTableHeader().getDefaultRenderer().getTableCellRendererComponent(table, value, false, false, -1, -2);
+        		            	component.setBackground(Color.white);
+        		            	if(!extenssion.equals(""))
+        		                {
+        		            		 if((!extenssion.equals("txt") && !extenssion.equals("csv") && !extenssion.equals("xlsx")
+        		        	        		&& !extenssion.equals("xls") && !extenssion.equals("tar")&& !extenssion.equals("zip") )
+        		        	        		|| ((String)value).contains("metaData") || ((String)value).contains("README")|| ((String)value).contains("readme"))
+        		        	        {
+        		            			component.setForeground(new Color(155,155,155)); // change the font color to gray
+        		        	        }
+        		                }
+        		                if (isSelected)  //if the cell is selected, change the background color to blue
+        		                {
+        		                	component.setBackground(new Color(0, 82, 204));
+        		                	component.setForeground(Color.white);
+        		                }
+        		                return component;
+                    	    }
+                    	});
+                    }
                     cellSizesSet = true;
                 }
             }
         });
     }
     
-    /*Add the files that are contained within the directory of this node.*/
+    //Add the files that are contained within the directory of this node.(for the left side file tree)
     private void showChildren(final DefaultMutableTreeNode node) 
     {
         tree.setEnabled(false);
@@ -474,7 +511,7 @@ public class InterfaceDirectories
         worker.execute();
     }
     
-    /*Update the File details view.*/
+    //Update the File details view includes icon and buttons like "Edit" are able to click or not.
     private void setFileDetails(File file) 
     {
         currentFile = file;
@@ -485,15 +522,14 @@ public class InterfaceDirectories
         if (f!=null) 
         {
             String fName = file.getName();
-            String extension = getMyFileExtension();
+            String extension = getFileExtension(currentFile);
             if (fName.contains("metaData") || file.isDirectory() || fName.contains("README") || 
-            		extension.equals("zip") || extension.equals("gz") || extension.equals("tar")) 
+            		extension.equals("zip") || extension.equals("tar") || extension.equals("gz")) 
             {
                 editFile.setEnabled(false);
             }
             findMetaData(file);
-            if(currentFile.isDirectory() || (extension.equals("zip")||extension.equals("tar") /*||
-            		extension.equals("gz")*/)==false)
+            if(currentFile.isDirectory() || (extension.equals("zip")||extension.equals("tar"))==false)
             {
                 unzipFile.setEnabled(false); 
             }
@@ -501,7 +537,7 @@ public class InterfaceDirectories
         gui.repaint();
     }
     
-    /*read the meta data file by line*/
+    //Read the meta data file by line
     public String readTheFile(File file) throws FileNotFoundException
     {
         String theFile = "<br><br>";
@@ -535,7 +571,7 @@ public class InterfaceDirectories
         return theFile;
     }
     
-    /*find the meta data file in the current directory*/
+    //Find the meta data file in the current directory
     public boolean findMetaData(File file)
     {
         boolean found = false;
@@ -549,10 +585,10 @@ public class InterfaceDirectories
                 String childName = child.getName();
                 if (childName.contains("metaData")) 
                 {
-                		metaDataFile += child.getName()+"<br>";
+                	metaDataFile += child.getName()+"<br>";
                     try 
                     {
-                    		metaDataFile += readTheFile(child)+
+                    	metaDataFile += readTheFile(child)+
                             "----------------------------------------------------------------------------<br>";
                     }
                     catch (FileNotFoundException e) 
@@ -563,26 +599,26 @@ public class InterfaceDirectories
                 }
                 else if(childName.contains("README"))
                 {
-                		if(childName.contains("txt"))
-                		{
-	                		readmeFile += child.getName()+"<br>";
+                	if(childName.contains("txt"))
+                	{
+	                	readmeFile += child.getName()+"<br>";
 		                try 
 		                {
-		                		readmeFile += readTheFile(child)+
-		                        "----------------------------------------------------------------------------<br>";
+		                	readmeFile += readTheFile(child)+
+		                		"----------------------------------------------------------------------------<br>";
 		                } 
 		                catch (FileNotFoundException e) 
 		                {
 		                    e.printStackTrace();
 		                }
 		                found = true;
-                		}
-                		else
-                		{
+                	}
+                	else
+                	{
                 			readmeFile+="*****"+
                 					"The README file can't be displayed at this area, please click \"open\" or \"loacate\" to open the file."
                 					+"*****" + "<br><br>----------------------------------------------------------------------------<br><br>";
-                		}
+                	}
                 }
             }
             metaDataTextArea.setText(metaDataFile);
@@ -602,32 +638,67 @@ public class InterfaceDirectories
             {
                 for (File f : contents) 
                 {
-                		deleteDrectoriesAndFiles(f);
+                	deleteDrectoriesAndFiles(f);
                 }
             }
             theFile.delete();
         }
     }
     
-    public String getMyFileExtension()
+    public void moveDrectoriesAndFilesToTrash(File theFile)
     {
-	       String fileName = currentFile.getName();
-	       int index = fileName.lastIndexOf('.');
-	       return fileName.substring(index + 1);
+        if(theFile!=null)
+        {
+            File[] contents = theFile.listFiles();
+            if (contents != null) 
+            {
+                for (File f : contents) 
+                {
+                	deleteDrectoriesAndFiles(f);
+                }
+            }
+            desktop.moveToTrash(theFile);
+        }
+    }
+    
+    public String getFileExtension(File file)
+    {
+    	String extenssion = "";
+    	if(file != null)
+    	{
+	       String fileName = file.getName();
+	       int index = -1;
+	       index = fileName.lastIndexOf('.');
+	       if(index > -1)
+	       {
+	    		extenssion = fileName.substring(index + 1);
+	       }
+    	}
+        return extenssion;
+    }
+    
+    public String getExtenssion(String value)
+    {
+    	String extenssion = "";
+    	int index = -1;
+	    index = value.lastIndexOf('.');
+	    if(index > -1)
+	    {
+	    	extenssion = value.substring(index + 1);
+	    }
+	    return extenssion;
     }
     
     public void addMenu()
     {
-    		final JMenuBar menuBar = new JMenuBar();
-    		//**********create menus**********
+    	final JMenuBar menuBar = new JMenuBar();
+    	//**********create menus**********
         JMenu fileMenu = new JMenu("File");
         JMenu helpMenu = new JMenu("Help");
         JMenuItem logFile = new JMenuItem("Log file");
-        JMenuItem runAllFiles = new JMenuItem("Run all files"); //test how long does it take to open a file using editor.
         JMenuItem helpMenuItem = new JMenuItem("Help...");
         helpMenu.add(helpMenuItem);
         fileMenu.add(logFile);
-        fileMenu.add(runAllFiles);
         menuBar.add(fileMenu);
         menuBar.add(helpMenu);
         mainFrame.setJMenuBar(menuBar);
@@ -647,22 +718,27 @@ public class InterfaceDirectories
 				HelpWindow help = new HelpWindow("directory");
 			}
 		});
-        runAllFiles.addActionListener(new MenuItemListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent e) 
-			{
-				RunAllFiles r = new RunAllFiles();
-			}
-		});
     }
     
-    //set dialog to select location for log files
+    //Set dialog to select location for log files
     public void setLogFile()
     {
     		String title = "Please set the locations that you want to save the log file.";
+    		
     		JButton logDeleteBtn = new JButton("Log file that records all the deleted file.");
+    		if(!logDeleteFilePath.equals("")) //if the log file location has already been set.
+    		{
+    			logDeleteBtn.setIcon(new ImageIcon(Main.class.getResource("/Resources/checkmark.png")));
+    			logDeleteBtn.setText("logDelete.txt");
+    		}
+    		
     		JButton logChangeBtn = new JButton("Log file that records all the changes that happens on a file.");
+    		if(!logChangesFilePath.equals("")) //if the log file location has already been set.
+    		{
+    			logChangeBtn.setIcon(new ImageIcon(Main.class.getResource("/Resources/checkmark.png")));
+    			logChangeBtn.setText("logEdit.txt");
+    		}
+    		
     		logDeleteBtn.addActionListener(new ActionListener()
     		{
 			@Override
@@ -678,6 +754,7 @@ public class InterfaceDirectories
 				}
 			}
     		});
+    		
     		logChangeBtn.addActionListener(new ActionListener()
     		{
 			@Override
@@ -693,21 +770,23 @@ public class InterfaceDirectories
 				}
 			}
     		});
+    		
     		Object message[] = {title, logDeleteBtn, logChangeBtn};
         	Object[] closeMessage= {"Close"};
         	JOptionPane.showOptionDialog(null,message, "Set location for log files",
                JOptionPane.CLOSED_OPTION, -1, null, closeMessage, null);
     }
     
+    //Update the file tree and table GUI after we delete some files
     public void updateFileTreeAndTable()
     {     
-    		if(!currentNode.toString().equals("/")) //if the path is empty, that means we are first time to open the program, no need to refresh gui
-    		{
+    	if(!currentNode.toString().equals("/")) //if the path is empty, that means we are first time to open the program, no need to refresh gui
+    	{
 	        currentNode.removeAllChildren();
 	        showChildren(currentNode);
 	        treeModel.reload(currentNode);
 	        gui.repaint();
-    		}
+   		}
     }
     
     public JFrame getMainFrame()
@@ -715,55 +794,3 @@ public class InterfaceDirectories
     		return mainFrame;
     }
 }
-
-/*class FileThread implements Runnable
-{
-	private Thread thread;
-	private File currentFile;
-	private JPanel gui;
-	private LogFile logFile;
-	
-	public FileThread(File currentFile,JPanel gui, LogFile logFile)
-	{
-		thread = new Thread();
-		this.currentFile = currentFile;
-		this.gui = gui;
-		this.logFile = logFile;
-	}
-
-	@Override
-	public void run() 
-	{
-		
-	}
-	
-	public void start()
-	{
-		if(thread!= null)
-		{
-			thread.start();
-		}
-	}
-	
-	public void join(long time)
-	{
-		try 
-		{
-			thread.join(time);
-		} 
-		catch (InterruptedException e) 
-		{
-			e.printStackTrace();
-		}
-	}
-	
-	public void interrupt()
-	{
-		thread.interrupt();
-	}
-	
-	public boolean isAlive()
-	{
-		return thread.isAlive();
-	}
-}*/

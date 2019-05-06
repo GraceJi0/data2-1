@@ -1,5 +1,6 @@
 package project;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.io.File;
 import javax.swing.JLabel;
@@ -8,6 +9,7 @@ import javax.swing.filechooser.FileSystemView;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
+//Change the file tree's style for the file tree at the left side of the file browser.
 public class FileTreeCellRenderer extends DefaultTreeCellRenderer {
     
     private FileSystemView fileSystemView;
@@ -34,6 +36,7 @@ public class FileTreeCellRenderer extends DefaultTreeCellRenderer {
         
         DefaultMutableTreeNode node = (DefaultMutableTreeNode)value;
         File file = (File)node.getUserObject();
+        
         label.setIcon(fileSystemView.getSystemIcon(file));
         label.setText(fileSystemView.getSystemDisplayName(file));
         
@@ -44,9 +47,9 @@ public class FileTreeCellRenderer extends DefaultTreeCellRenderer {
         } 
         else 
         {
-            label.setBackground(backgroundNonSelectionColor);
-            label.setForeground(textNonSelectionColor);
+	            label.setBackground(backgroundNonSelectionColor);
+	            label.setForeground(textNonSelectionColor);
         }
         return label;
-    }
+    } 
 }

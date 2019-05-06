@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -26,33 +27,35 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-
-
+/*
+ * This class is for fast convert and detail convert(open the PGDSpider gui)
+ * Includes set the fast convert gui, create spid file, run PGDSpider by commond and by opening the gui.
+ */
 public class FastConvert 
 {
 	private File currentFile;
 	private List<List<String>> fileArray;
 	private int markerNumInt;
 	private String fastConvertLogString;
+	private String destinationFolderPath;
 	
 	public FastConvert(File convertFile, List<List<String>> fileArray)
 	{
 		currentFile = convertFile;
 		markerNumInt = -1;
 		fastConvertLogString = "";
+		destinationFolderPath = "";
 		this.fileArray = fileArray;
 	}
 	
 	//set the fast convert dialog and allow users to input the missing value
 	public void fastConvertDialog() 
 	{
-		
 		String fileName =  currentFile.getName();
-		if(isMac() && fileName.contains(" ")) //when there are spaces in file path, the command line doesn't work for Mac, only works for Windows
+		if(isMac() && fileName.contains(" ")) //if there are spaces in file path, the command line won't work for Mac, only work for Windows
 		{
 			JOptionPane.showConfirmDialog(null,
 					"The current file's name has spaces in it, please use \"save as\" to rename it!",
@@ -60,22 +63,49 @@ public class FastConvert
 		}
 		else
 		{
+			JButton chooseDestinationFolder = new JButton("Destination Folder (Optional)");
+			chooseDestinationFolder.addActionListener(new ActionListener()
+			{
+				@Override
+				public void actionPerformed(ActionEvent arg0) 
+				{
+					destinationFolderPath = chooseDestinationFolder();
+				}
+			});
 			JTextField missingValueInput = new JTextField();
 			JTextField marksNumInput = new JTextField();
-		    Object[] message = {"Convert: "+fileName, "From STRUCTURE to GENEPOP","\nEnter the missing value(default is 0):",
-		    		missingValueInput,"Enter the number of markers (loci) listed in the file:",marksNumInput,"\n\n", 
-		    		"(Fast convert will generate a spid file automatically.)\nFor more file format options, please go to the \"convert\" in File menu"};
+			JTextField repeatedMotifNumInput = new JTextField();
+		    Object[] message = {"Convert: "+fileName, "From STRUCTURE to GENEPOP\n\n",chooseDestinationFolder,
+		    		"Enter the size of the repeated motif(same for all loci: one number; different: comma separated list(e.g.:2,2,3,2):", repeatedMotifNumInput,
+		    		"Enter the missing value(default is 0):",missingValueInput,
+		    		"Enter the number of markers (loci) listed in the file:",marksNumInput,"\n\n", 
+		    		"(Fast convert will generate a spid file automatically. For details, please check help menu.)\nFor more file format options, please go to the \"convert\" in File menu"};
 		    int option = JOptionPane.showConfirmDialog(null, message, "Fast convert", JOptionPane.OK_CANCEL_OPTION);
 		    if(option == 0)
-		    {	
-		    		runPGDSpider(missingValueInput.getText(), marksNumInput.getText());
+		    {
+		    		runPGDSpider(missingValueInput.getText(), marksNumInput.getText(), repeatedMotifNumInput.getText(),destinationFolderPath);
 		    }
 		}
 	}
 	
-	//run PGDSpider using command line, creat spid file and output file for converting, if convert is not successful, 
-	//delete the output file and spid file.
-	public void runPGDSpider(String missingValue, String markerNum)
+	//Open a file chooser to allow users select the destination folder.
+	public String chooseDestinationFolder()
+	{
+		String folderPath = "";
+	    JFileChooser chooser = new JFileChooser();
+	    chooser.setCurrentDirectory(new java.io.File("."));
+	    chooser.setDialogTitle("Choose the folder");
+	    chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+	    chooser.setAcceptAllFileFilterUsed(false);
+	    if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) 
+	    {
+	    	folderPath = chooser.getSelectedFile().getAbsolutePath();
+	    }
+	    return folderPath;
+	}
+	
+	//Run PGDSpider using command line, creat spid file and output file for converting, show the convert result and detail informations
+	public void runPGDSpider(String missingValue, String markerNum, String repeatedMotifNum, String destinationFolderPath)
 	{
 		String commandFastConvert = "";
 		String inputPath = "";
@@ -83,6 +113,7 @@ public class FastConvert
 		String spidPath = "";
 		String currentFilePath = "";
 		String PGDSpiderPath = "";
+		boolean noError = true;
 		
 		int option = checkFileFormat();
 		if(markerNumInt == -1)
@@ -98,14 +129,21 @@ public class FastConvert
 			if(isMac()) //if operation system is mac
 			{
 				inputPath = currentFile.getAbsolutePath();
-				outputPath = currentFile.getParentFile().getAbsolutePath()+"/GENEPOP"+currentFile.getName();
+				if(destinationFolderPath.equals(""))
+				{
+					outputPath = currentFile.getParentFile().getAbsolutePath()+"/GENEPOP"+currentFile.getName();
+				}
+				else
+				{
+					outputPath = destinationFolderPath+"/GENEPOP"+currentFile.getName();
+				}
 				spidPath = currentFile.getParentFile().getAbsolutePath()+"/PGDSpiderSpidFile.spid";
-				//String PGDSpiderPath = (Main.class.getResource("/Resources/PGDSpider2-cli.jar")).getPath();
 				currentFilePath = new File(".").getAbsolutePath();
 				PGDSpiderPath = currentFilePath.substring(0, currentFilePath.lastIndexOf("/"))+"/PGDSpider2-cli.jar";
 				
-				creatSpidFile(missingValue, markerNum,spidPath);
+				creatSpidFile(missingValue, markerNum,repeatedMotifNum, spidPath);
 				
+				//try to escape from spaces but it's not working
 				/*inputPath = inputPath.replace(" ", "\\ ");
 				outputPath = outputPath.replace(" ", "\\ ");
 				PGDSpiderPath = PGDSpiderPath.replace(" ", "\\ ");
@@ -128,23 +166,20 @@ public class FastConvert
 					PGDSpiderPath = "\""+outputPath+"\"";
 				}
 				
-				/*String[] commandFastConvertArray = {"java", "-Xmx1024m", "-Xms512m", "-jar", PGDSpiderPath, "-inputfile", inputPath, 
-						 "-inputformat","STRUCTURE","-outputfile",outputPath,"-outputformat","GENEPOP","-spid",spidPath};*/
-				
 				commandFastConvert = "java -Xmx1024m -Xms512m -jar " + PGDSpiderPath +" -inputfile "+ inputPath + 
 						" -inputformat STRUCTURE -outputfile "+ outputPath + " -outputformat GENEPOP -spid " + spidPath;
-				
-				//commandFastConvert = "java -Xmx1024m -Xms512m -jar /Users/dinghanji/Documents/data1.1/project-dataManagement/data/PGDSpider_2.1.1.3/PGDSpider2-cli.jar -inputfile /Users/dinghanji/Desktop/projectFile/saveas/00001622-Microsatellite\\ genotypes\\ Zosterops\\ hybrid\\ zone\\ Dryad.txt -inputformat STRUCTURE -outputfile /Users/dinghanji/Desktop/projectFile/saveas/GENEPOP00001622-Microsatellite\\ genotypes\\ Zosterops\\ hybrid\\ zone\\ Dryad.txt -outputformat GENEPOP -spid /Users/dinghanji/Desktop/projectFile/saveas/PGDSpiderSpidFile.spid";
-				
-				/*for(int i = 0 ; i < commandFastConvertArray.length; i++)
-				{
-					System.out.print(commandFastConvertArray[i]+" ");
-				}*/
 			}
 			else if(isWindows()) //if operation system is Windows
 			{
 				inputPath = currentFile.getAbsolutePath();
-				outputPath = currentFile.getParentFile().getAbsolutePath()+"\\GENEPOP"+currentFile.getName();
+				if(destinationFolderPath.equals(""))
+				{
+					outputPath = currentFile.getParentFile().getAbsolutePath()+"\\GENEPOP"+currentFile.getName();
+				}
+				else
+				{
+					outputPath = destinationFolderPath + "\\GENEPOP"+currentFile.getName();
+				}
 				spidPath = currentFile.getParentFile().getAbsolutePath()+"\\PGDSpiderSpidFile.spid";
 				currentFilePath = new File(".").getAbsolutePath();
 				PGDSpiderPath = currentFilePath.substring(0, currentFilePath.lastIndexOf("\\"))+"\\PGDSpider2-cli.exe";
@@ -161,35 +196,42 @@ public class FastConvert
 					PGDSpiderPath = "\""+PGDSpiderPath+"\"";
 				}
 				
-				creatSpidFile(missingValue, markerNum,spidPath);
+				creatSpidFile(missingValue, markerNum,repeatedMotifNum,spidPath);
 				
-				if(spidPath.contains(" "))   //escape spaces in file path after created the spid file.
+				if(spidPath.contains(" "))//escape spaces in file path after created the spid file.
 				{
 					spidPath = "\""+spidPath+"\"";
-	
 				}
 				commandFastConvert = PGDSpiderPath +" -inputfile "+ inputPath + 
 						" -inputformat STRUCTURE -outputfile "+ outputPath + " -outputformat GENEPOP -spid " + spidPath;
 			}
-			try 
+			else
 			{
+				JOptionPane.showConfirmDialog(null,"Can't open PGDSpider under current operating system!", "Error", JOptionPane.CLOSED_OPTION);
+				noError = false;
+			}
+			
+			if(noError == true)
+			{
+				try 
+				{
+					//run PGDSpider using command line
 					Process pros = Runtime.getRuntime().exec(commandFastConvert);
 					OutputStream out = pros.getOutputStream();
-					/*ProcessBuilder pb = new ProcessBuilder(commandFastConvertArray);
-					Process pros = pb.start();*/
 					InputStream in = pros.getInputStream();
 					InputStream err = pros.getErrorStream();
+					String result = "Output file location: "+outputPath+readInputStream(in)+readInputStream(err);
 					
-					String result = readInputStream(in)+readInputStream(err);
-					//commandFastConvert += "\n\n\n"+PGDSpiderPath;/////////////////////////
-					JFrame errorMessageFrame = showPGDSpiderErrorMessage(result,commandFastConvert);
+					//open the fast convert error message window
+					JFrame errorMessageFrame = showPGDSpiderErrorMessage(result,commandFastConvert); 
 					if(errorMessageFrame != null)
 					{
 						errorMessageFrame.setMinimumSize(new Dimension(800,600));
 						errorMessageFrame.setMaximumSize(new Dimension(1000,700));
 					}
 					
-					if(result.contains("ERROR") || result.contains("Error") /*|| result.contains("Usage: PGDSpiderCli")*/)
+					//If there're errors, delete the output file and spid file
+					if(result.contains("ERROR") || result.contains("Error") || result.contains("Usage: PGDSpiderCli"))
 					{
 						File spidFile = new File(spidPath);
 						spidFile.delete();
@@ -200,15 +242,17 @@ public class FastConvert
 					{
 						setfastConvertLog();
 					}
-			} 
-			catch (IOException e) 
-			{
-				System.out.println(e);
-				JOptionPane.showConfirmDialog(null,"Can't open PGDSpider!", "Error", JOptionPane.CLOSED_OPTION);
+				} 
+				catch (IOException e) 
+				{
+					e.printStackTrace();
+					JOptionPane.showConfirmDialog(null,"Can't open PGDSpider! Please check if the PGDSpider2-cli is in the same folder with data2-1.", "Error", JOptionPane.CLOSED_OPTION);
+				}
 			}
 		}
 	}
 	
+	//Open the PGDSpider gui (detail convert)
 	public void runDetailConvert()
 	{
 		String currentFilePath = "";
@@ -228,15 +272,15 @@ public class FastConvert
 		}
 		try 
 		{
-			Runtime.getRuntime().exec(commandLine);
+			Process pros = Runtime.getRuntime().exec(commandLine);
 		} 
 		catch (IOException e) 
 		{
-			JOptionPane.showConfirmDialog(null,"Can't open PGDSpider!", "Error", JOptionPane.CLOSED_OPTION);
+			JOptionPane.showConfirmDialog(null,"Can't open PGDSpider! Please check if the PGDSpider2 is in the same folder with data2-1.", "Error2", JOptionPane.CLOSED_OPTION);
 		}
 	}
 	
-	//read the log message after convert.
+	//Read the feedback from PGDSpider after convert.
 	public String readInputStream(InputStream stream)
 	{
 		BufferedReader text = new BufferedReader(new InputStreamReader(stream));
@@ -257,8 +301,8 @@ public class FastConvert
 		return message;
 	}
 	
-	//create a spid file.
-	public String creatSpidFile(String missingValue, String marksNum, String spidPath)
+	//Create a spid file base on the missing Value that provided by users, number of loci, and spid file path 
+	public String creatSpidFile(String missingValue, String marksNum, String repeatedMotifNum, String spidPath)
 	{
 		String file = "";
 		BufferedWriter bw = null;
@@ -282,7 +326,7 @@ public class FastConvert
 				"# How are Microsat alleles coded?\n" + 
 				"STRUCTURE_PARSER_MICROSAT_CODING_QUESTION=REPEATS\n"+
 				"# Enter the size of the repeated motif (same for all loci: one number; different: comma separated list (e.g.: 2,2,3,2):\n" + 
-				"STRUCTURE_PARSER_REPEAT_SIZE_QUESTION=\n" + 
+				"STRUCTURE_PARSER_REPEAT_SIZE_QUESTION="+repeatedMotifNum+"\n" + 
 				"# What is the missing value code (-9, -999, ...):\n" + 
 				"STRUCTURE_PARSER_MISSING_CODE_QUESTION="+missingValue+"\n"+
 				"# Is the \"PopData\" column (population identifier) present in the input file?\n" + 
@@ -290,7 +334,7 @@ public class FastConvert
 				"# Is the \"Phase Information\" row present?\n" + 
 				"STRUCTURE_PARSER_PHASE_ROW_QUESTION=false\n"+
 				"# Are individual names (labels) included in the input file?\n" + 
-				"STRUCTURE_PARSER_IND_NAMES_QUESTION=true\n"+
+				"STRUCTURE_PARSER_IND_NAMES_QUESTION=false\n"+
 				"# Are the \"Recessive Alleles\" row and/or the \"Inter-Marker Distance\" row present in the input file?\n" + 
 				"STRUCTURE_PARSER_ADDITIONAL_ROW_QUESTION=NONE\n\n"+
 				"# GENEPOP Writer questions\n" + 
@@ -313,7 +357,9 @@ public class FastConvert
 		return file;
 	}
 	
-	//check the file's format, get the number of marks of this file.
+	//Check the file's format and get the number of loci of this file at the same time.
+	//Check the file's format: go through the file, if there's a row's length is different from other rows, then the format is not correct;
+	//Get the number of loci: go through the file, suppose the file is in correct format, in each row, calculate how many digit elements, then divide the result by 2. 
 	public int checkFileFormat()
 	{
 		int count = 0;
@@ -363,6 +409,7 @@ public class FastConvert
 		return option;
 	}
 	
+	//Translate the error message base on the error message that PGDSpider returns.
 	public String showConvertMessage(String result)
 	{	
 		String message = "";
@@ -388,6 +435,7 @@ public class FastConvert
 		return message;
 	}
 	
+	//Set up the gui for showing convert details and error messages
 	public JFrame showPGDSpiderErrorMessage(String result, String commandLine)
 	{
 		String convertMessage =  showConvertMessage(result);
@@ -409,7 +457,6 @@ public class FastConvert
 		
 		JLabel convertMessageLabel = new JLabel("<html>"+convertMessage+"</html>");
 		convertMessageLabel.setBorder(new EmptyBorder(20,20,0,20));
-		//convertMessageLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
 		convertMessageLabel.setForeground(Color.red);
 		
 		JLabel detailsLabel = new JLabel("Details");
@@ -440,6 +487,7 @@ public class FastConvert
 		return errorFrame;
 	}
 	
+	//check the operating system
 	public boolean isWindows()
 	{
 		return System.getProperty("os.name").toLowerCase().indexOf("win")>=0;
@@ -456,6 +504,7 @@ public class FastConvert
 		return os.indexOf("nux")>=0 || os.indexOf("nix")>=0 ||os.indexOf("aix")>=0 ;
 	}
 	
+	//Set log messages for fast convert
 	public void setfastConvertLog()
 	{
 		fastConvertLogString += "\nFast convert: convert file from STRUCTURE to GENEPOP.";

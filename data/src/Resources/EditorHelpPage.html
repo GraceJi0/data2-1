@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
-<body>
-	<div style="position: relative;font-family:Arial;font-size: 12px;">
+<body style="font-family:Arial;">
+	<div style="position: relative;font-size: 12px;">
 		<p>1. File: the "Convert" in "File" menu will open PGDSpider for users to conver the file type.</p>
-		<p>2. Split: there are several split methods provided in "Split" menu if the file is not in proper format, the file could be split into columns by comma, space, tab, semicolon, line ( "Line" allow users to display the file by line).</p>
+		<p>2. Split: there are several split methods provided in "Split" menu if the file is not in proper format, the file could be split into columns by comma, space, tab, semicolon, line (If the file's type is xlsx or xls, the split menu is hidden).</p>
 		<p>3. General functions:</p>
 		<ul>
 			<li>Replace missing data: replace the missing data with the given data.</li>
@@ -12,13 +12,14 @@
 			<li>Delete every second headers: delete every second cell in the given row.</li>
 			<li>Add text to column: add the given text to the end of every cell in the given column.</li>
 		</ul>
-		<p>4.Remove columns/rows: the drop down boxes allow users to select one column/row each time. The two input boxes below allow users to select all columns/rows in the given range. All the selected columns/rows will show in the table ("Columns/Rows to remove"). Click "Delete" to remove the selected column/row from the table("Columns/Rows to remove").</p>
+		<p>4.Remove columns/rows: the drop down boxes allow users to select one column/row each time. The two input boxes below allow users to select all columns/rows in the given range. The button "Seect rows by text sequences" allow users to select rows by providing a column index and a text sequent. All the selected columns/rows will show in the table ("Columns/Rows to remove"). Click "Delete" to remove the selected column/row from the table("Columns/Rows to remove").</p>
+		<p style="font-family: Arial;color: red">* After doing 3 and 4, users need to click "Save" to see the changes happened on the right side data table.</p>
 		<P>5. Execute buttons</P>
 		<ul>
-			<li>Save: save the file and all the changes will be execeted.</li>
+			<li>Save: save the file and all the changes will be made in the file.</li>
 			<li>Save as: save the file with a new name and the original file will be keeped, but the file's type can't be changed.</li>
 			<li>Clear: clear all changes(at the left side of editor window) that haven't been saved yet.</li>
-			<li>Fast convert: convert the current file from STRUCTURE to GENEPOP without opening the PGDSpider graphic user interface. This function will ask users to provide the missing data as well as the number of markers(loci), if the user didn't input anything, the missing value will be 0 by default and the program will calculate the number of markers(loci) using the number of columns.</li>
+			<li>Fast convert: convert the current file from STRUCTURE to GENEPOP without opening the PGDSpider graphic user interface. This function will ask users to provide the size of the repeated motif, missing data and the number of markers(loci), if the user didn't input anything, the missing value will be 0 by default and the program will calculate the number of markers(loci) using the number of columns. The output file location would be the same as the input file location by default, users could also set the output file location by clicking "Destination Folder".(Go to the buttom of the page to see the spid file for fast convert.)</li>
 			<li>Close: close the editor window, please make sure all changes have been saved before closing.</li>
 		</ul>
 		<br>
@@ -27,8 +28,51 @@
 		<p>* To use PGDSpider, you must have Java Runtime Environment installed.</p>
 	</div>
 	<br><br>
-	<img src="editor.jpg" alt="editor" width="950" height="750"  max-width: 100%;
-    max-height: 100%;">
+	<p>Mac</p>
+	<div id="mac">
+		<img src="editorMac.jpg" alt="editor" width="950" height="750"  max-width: 100%;
+	    max-height: 100%;">
+	</div><br><br><br>
+
+	<p>Windows</p>
+	<div id="windows">
+    	<img src="editorWindows.jpg" alt="directory" width="970" height="750"  max-width: 100%;
+	    max-height: 100%;">
+    </div>
     <br><br><br>
+    <p>Fast convert spid file:</p>
+    <p># STRUCTURE Parser questions<br>
+		PARSER_FORMAT=STRUCTURE<br>
+		# What is the ploidy of the data?<br>
+		STRUCTURE_PARSER_PLOIDY_QUESTION=DIPLOID_ONE_ROW<br><br>
+		# Select the type of the data:<br>
+		STRUCTURE_PARSER_DATA_TYPE_QUESTION=MICROSAT<br><br>
+		# Enter the number of markers (loci) listed in the input file:<br>
+		STRUCTURE_PARSER_NUMBER_LOCI_QUESTION=enter by user<br><br>
+		# Are marker (locus) names included?<br>
+		STRUCTURE_PARSER_LOCI_NAMES_QUESTION=false<br><br>
+		# How are Microsat alleles coded?<br>
+		STRUCTURE_PARSER_MICROSAT_CODING_QUESTION=REPEATS<br><br>
+		# Enter the size of the repeated motif (same for all loci: one number; different: comma separated list (e.g.: 2,2,3,2):<br>
+		STRUCTURE_PARSER_REPEAT_SIZE_QUESTION=enter by user<br><br>
+		# What is the missing value code (-9, -999, ...):<br>
+		STRUCTURE_PARSER_MISSING_CODE_QUESTION=enter by user<br><br>
+		# Is the "PopData" column (population identifier) present in the input file?<br>
+		STRUCTURE_PARSER_POP_DATA_PRESENT_QUESTION=true<br><br>
+		# Is the "Phase Information" row present?<br>
+		STRUCTURE_PARSER_PHASE_ROW_QUESTION=false<br><br>
+		# Are individual names (labels) included in the input file?<br>
+		STRUCTURE_PARSER_IND_NAMES_QUESTION=false<br><br>
+		# Are the "Recessive Alleles" row and/or the "Inter-Marker Distance" row present in the input file?<br>
+		STRUCTURE_PARSER_ADDITIONAL_ROW_QUESTION=NONE<br><br>
+		# GENEPOP Writer questions<br>
+		WRITER_FORMAT=GENEPOP<br><br>
+		# Specify which data type should be included in the GENEPOP file  (GENEPOP can only analyze one data type per file):<br>
+		GENEPOP_WRITER_DATA_TYPE_QUESTION=MICROSAT<br><br>
+		# Specify the locus/locus combination you want to write to the GENEPOP file:<br>
+		GENEPOP_WRITER_LOCUS_COMBINATION_QUESTION=
+</p>
+
+
 </body>
 </html>

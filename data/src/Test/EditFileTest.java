@@ -67,10 +67,10 @@ public class EditFileTest {
 	@Test
 	public void testGetMyFileExtension()
 	{
-		assertTrue((editFile1.getMyFileExtension()).equals(""));
-		assertTrue((editFile2.getMyFileExtension()).equals("txt"));
-		assertTrue((editFile3.getMyFileExtension()).equals("txt"));
-		assertTrue((editFile4.getMyFileExtension()).equals("txt"));
+		assertTrue((editFile1.getCurrentFileExtension()).equals(""));
+		assertTrue((editFile2.getCurrentFileExtension()).equals("txt"));
+		assertTrue((editFile3.getCurrentFileExtension()).equals("txt"));
+		assertTrue((editFile4.getCurrentFileExtension()).equals("txt"));
 	}
 	
 	@After
